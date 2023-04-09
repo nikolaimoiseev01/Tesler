@@ -1,0 +1,97 @@
+<?php
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
+|
+*/
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Auth::routes();
+
+Route::get('/', [App\Http\Controllers\Portal\PortalController::class, 'index'])->name('home');
+Route::get('/login', function () { return view('auth.login');})->name('login');
+Route::get('/scope/{scope_id}', [App\Http\Controllers\Portal\PortalController::class, 'scope_page'])->name('scope_page');
+Route::get('/service/{service_id}', [App\Http\Controllers\Portal\PortalController::class, 'service_page'])->name('service_page');
+Route::get('/market/', [App\Http\Controllers\Portal\PortalController::class, 'market_page'])->name('market_page');
+Route::get('/market/{good_id}', [App\Http\Controllers\Portal\PortalController::class, 'good_page'])->name('good_page');
+Route::get('/market/good_category/{goodcategory_id}', [App\Http\Controllers\Portal\PortalController::class, 'good_category_page'])->name('good_category_page');
+Route::get('/abonements/', [App\Http\Controllers\Portal\PortalController::class, 'abonements_page'])->name('abonements_page');
+Route::get('/loyalty/', [App\Http\Controllers\Portal\PortalController::class, 'loyalty_page'])->name('loyalty_page');
+
+Route::get('/staff/{staff_yc_id}', [App\Http\Controllers\Portal\PortalController::class, 'staff_page'])->name('staff_page');
+
+Route::post('temp-uploads/{file_source}',[\App\Http\Controllers\UploadController::class, 'store']);
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index']);
+
+
+// ---------  Панель Админа --------- //
+Route::prefix('admin_panel')
+//    ->middleware(['middleware' => 'auth'])
+    ->group(function () {
+    Route::get('/promo', function () {
+        return view('admin.promo.index');
+    })->name('promo.index');
+
+    Route::get('/iterior_photo', function () {
+        return view('admin.iterior_photo.index');
+    })->name('iterior_photo.index');
+
+    Route::get('/scopes', function () {
+        return view('admin.service.scope.index');
+    })->name('scope.index');
+
+    Route::get('/categories', function () {
+        return view('admin.service.category.index');
+    })->name('category.index');
+
+    Route::get('/groups', function () {
+        return view('admin.service.group.index');
+    })->name('group.index');
+
+    Route::get('/services', function () {
+        return view('admin.service.service.index');
+    })->name('service.index');
+
+    Route::get('/goods', function () {
+        return view('admin.good.index');
+    })->name('good.index');
+
+    Route::get('/shopsets', function () {
+        return view('admin.good.shopset_index');
+    })->name('shopset.index');
+
+    Route::get('/calc_cosmetic', function () {
+        return view('admin.calc_cosmetic');
+    })->name('calc_cosmetic.index');
+
+    Route::get('/staff', function () {
+        return view('admin.staff.index');
+    })->name('staff.index');
+
+    Route::get('/good_categories', function () {
+        return view('admin.good.good_category_index');
+    })->name('good_category.index');
+
+
+    Route::get('/services/{service_id}', [App\Http\Controllers\Admin\AdminController::class, 'Service_edit'])->name('service.edit');
+    Route::get('/categories/{category_id}', [App\Http\Controllers\Admin\AdminController::class, 'Category_edit'])->name('category.edit');
+    Route::get('/shopsets/{shopset_id}', [App\Http\Controllers\Admin\AdminController::class, 'Shopset_edit'])->name('shopset.edit');
+    Route::get('/staff/{staff_id}', [App\Http\Controllers\Admin\AdminController::class, 'Staff_edit'])->name('staff.edit');
+
+    Route::get('/goods/{good_id}', [App\Http\Controllers\Admin\AdminController::class, 'Good_edit'])->name('good.edit');
+
+
+});

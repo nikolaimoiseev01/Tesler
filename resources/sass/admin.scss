@@ -1,0 +1,134 @@
+// Fonts
+@import url('https://fonts.bunny.net/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Preloader
+@import 'preloader';
+//
+//// Bootstrap
+//@import 'bootstrap/scss/bootstrap';
+
+
+
+
+
+.sm:block  {
+    display: flex;
+    align-items: center;
+}
+
+.wrapper {
+    height: fit-content !important;
+}
+
+.link:hover {
+    cursor: pointer;
+}
+
+.btn {
+    position: relative;
+}
+
+a {
+    text-decoration: none;
+}
+
+.grey_icon {
+    color: #c9c9c9;
+    transition: 0.2s all;
+
+    &:hover {
+        color: #868686;
+        transition: 0.2s all;
+    }
+}
+
+.button--loading {
+    background: #47AF98;
+
+    .button__text {
+        visibility: hidden;
+        opacity: 0;
+    }
+
+    &:after {
+        content: "";
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        top: 0;
+        left: 0;
+        color: indianred;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        border: 4px solid transparent;
+        border-top-color: #0d6efd;
+        border-radius: 50%;
+        animation: button-loading-spinner 1s ease infinite;
+    }
+}
+
+.grabbable {
+    cursor: move; /* fallback if grab cursor is unsupported */
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+}
+
+/* (Optional) Apply a "closed-hand" cursor during drag operation. */
+.grabbable:active {
+    cursor: grabbing;
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
+}
+
+
+@keyframes button-loading-spinner {
+    from {
+        transform: rotate(0turn);
+    }
+
+    to {
+        transform: rotate(1turn);
+    }
+}
+
+.interior_pics_wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+
+.interior_pic_wrap {
+    position: relative;
+    height: 240px;
+    width: fit-content;
+    margin: 15px;
+
+    &:hover .buttons {
+        opacity: 1;
+        transition: .2s all ease-in-out;
+    }
+
+    .buttons {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: #d3d3d3ba;
+        opacity: 0;
+        transition: .2s all ease-in-out;
+    }
+
+    img {
+        height: 100%;
+
+    }
+}
