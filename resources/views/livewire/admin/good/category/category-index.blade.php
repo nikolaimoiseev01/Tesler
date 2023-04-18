@@ -15,7 +15,8 @@
                             </div>
 
                             <div class="ml-0 mr-3 product-info">
-                                <a href="javascript:void(0)" class="product-title">{{$goodcategory['title']}}</a>
+                                <a onclick='Livewire.emit("openModal", "admin.good.category.category-edit", {{ json_encode(["goodcategory_id" => $goodcategory['id']]) }})'
+                                   class="product-title">{{$goodcategory['title']}}</a>
                                 <span style="white-space: inherit;"
                                       class="product-description">{{$goodcategory['desc']}}</span>
                             </div>

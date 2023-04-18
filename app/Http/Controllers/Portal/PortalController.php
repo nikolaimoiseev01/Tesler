@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Good;
 use App\Models\GoodCategory;
 use App\Models\interior_photo;
+use App\Models\Order;
 use App\Models\Promo;
 use App\Models\Scope;
 use App\Models\Service;
@@ -16,6 +17,7 @@ use App\Models\Staff;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class PortalController extends Controller
 {
@@ -251,7 +253,7 @@ class PortalController extends Controller
             ->orWhere('yc_category', 'Сертификаты Сеть Tesler')
             ->get();
 
-        $categories = GoodCategory::whereIn('id', [6,7])->get();
+        $categories = GoodCategory::whereIn('id', [6, 7])->get();
 
         $abon_page_check = true;
 
@@ -290,13 +292,16 @@ class PortalController extends Controller
     {
 
         $staff = Staff::where('yc_id', $request->staff_yc_id)->first();
-        $collegues = Staff::where('yc_specialization', $staff['yc_specialization'])->where('id', '<>', $staff['id'])->get();
         $shopsets_pre = ShopSet::where('staff_id', $staff['id'])->get();
-        $shopsets = [];
-        foreach ($shopsets_pre as $shopset) {
+
+        $selected_from_staff = null;
+
+        // Шопсет сотрудника
+        $shopset = ShopSet::where('id', $staff['selected_shopset'])->first();
+        if ($shopset ?? null && count($shopset) > 0) {
             $full_price = Good::whereJsonContains('in_shopsets', $shopset['id'])
                 ->sum('yc_price');
-            $shopsets[] = [
+            $selected_from_staff[] = [
                 'id' => $shopset['id'],
                 'title' => $shopset['title'],
                 'price' => $full_price,
@@ -307,11 +312,37 @@ class PortalController extends Controller
         }
 
 
+        // Сертификат сотрудника
+        $good = Good::where('id', $staff['selected_sert'])->first();
+        if ($good ?? null && count($good) > 0) {
+            $selected_from_staff[] = [
+                'id' => $good['id'],
+                'title' => $good['name'],
+                'price' => $good['yc_price'],
+                'img' => $shopset->getFirstMediaUrl('good_examples'),
+                'link' => route('good_page', $good['id']),
+                'category' => 'Сертификат'
+            ];
+        }
+
+        // Абонемент сотрудника
+        $good = Good::where('id', $staff['selected_abon'])->first();
+        if ($good ?? null && count($good) > 0) {
+            $selected_from_staff[] = [
+                'id' => $good['id'],
+                'title' => $good['name'],
+                'price' => $good['yc_price'],
+                'img' => $shopset->getFirstMediaUrl('good_examples'),
+                'link' => route('good_page', $good['id']),
+                'category' => 'Сертификат'
+            ];
+        }
+
+
 //        dd($shopsets);
         return view('portal.staff_page', [
             'staff' => $staff,
-            'collegues' => $collegues,
-            'shopsets' => $shopsets
+            'selected_from_staff' => $selected_from_staff ?? null
         ]);
     }
 
@@ -353,6 +384,46 @@ class PortalController extends Controller
     }
 
 
+    public function payment_callback(Request $request)
+    {
 
+        Log::info('//////////////////////////  CALBACK STARTED //////////////////////////');
+        Log::info('//  $request STARTED //');
+        Log::info($request['Status']);
+        Log::info($request);
+        Log::info($request['Status'] == 'CONFIRMED');
+        Log::info('// $request ENDED //');
+
+
+        if ($request['Status'] === 'CONFIRMED') {
+            $status = 'Подтвержден';
+        } else if ($request['Status'] === 'REJECTED') {
+            $status = 'Отклонен';
+        } else if ($request['Status'] === 'REFUNDED') {
+            $status = 'Возвращен';
+        }
+
+        Order::where('tinkoff_order_id', $request['OrderId'])->update([
+            'tinkoff_status' => $status,
+        ]);
+
+
+//    $requestBody = json_decode($source, true);
+//    Log::info('//  $requestBody STARTED //');
+//    Log::info($requestBody);
+//    Log::info('// $requestBody ENDED //');
+//
+//    $notification = $requestBody['object'];
+//    Log::info('//  $notification STARTED //');
+//    Log::info($notification);
+//    Log::info('// $notification ENDED //');
+    }
+
+    public function order_success_page($tinkoff_order_id) {
+        $order = Order::where('tinkoff_order_id', $tinkoff_order_id)->first();
+        return view('portal.order_success_page', [
+            'order' => $order,
+        ]);
+    }
 
 }

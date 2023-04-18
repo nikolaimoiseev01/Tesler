@@ -5,24 +5,17 @@
             Добавить шопсет
         </a>
         <div class="card-body p-0">
-            <ul wire:sortable="updateOrder" class="products-list product-list-in-card pl-2 pr-2">
+            <ul class="products-list product-list-in-card pl-2 pr-2">
                 @foreach($shopsets as $shopset)
                     <li x-data="{ open_{{$shopset['id']}}: false }" wire:sortable.item="{{$shopset['id']}}"
-                        wire:key="promo-{{$shopset['id']}}" class="item">
+                        class="item">
                         <div class="d-flex align-items-center">
-                            <div wire:sortable.handle style="white-space: nowrap"
-                                 class="d-flex mr-3 ml-3 align-items-center">
-                                 <span class="grabbable handle ui-sortable-handle">
-                                    <i class="fas fa-ellipsis-v"></i>
-                                    <i class="fas fa-ellipsis-v"></i>
-                                 </span>
-                            </div>
                             <div class="mr-3 product-img">
                                 <img style="width: auto;" src="{{$shopset->getFirstMediaUrl('pic_shopset')}}" alt="">
                             </div>
 
                             <div class="ml-0 mr-3 product-info">
-                                <a href="javascript:void(0)" class="product-title">{{$shopset['title']}}</a>
+                                <a href="{{route('shopset.edit', $shopset['id'])}}" class="product-title">{{$shopset['title']}}</a>
                                 <span style="white-space: inherit;"
                                       class="product-description">{{$shopset['desc']}}</span>
                             </div>

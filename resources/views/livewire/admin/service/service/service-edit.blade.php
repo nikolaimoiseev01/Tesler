@@ -27,7 +27,8 @@
             </div>
 
             <div class="align-items-center d-flex ml-auto">
-                <a target="_blank" href="{{route('service_page', $service['id'])}}" class="mr-3 link">Страница на сайте</a>
+                <a target="_blank" href="{{route('service_page', $service['id'])}}" class="mr-3 link">Страница на
+                    сайте</a>
 
                 <div class="m-0 d-inline mr-3 form-group">
                     <select wire:model="service_type" class="form-control"
@@ -174,28 +175,42 @@
 
                             <div class="d-flex flex-col justify-content-centerы col-md-3">
                                 <div>
-                                    <img style="max-width: 80%; height: fit-content;" class="col-sm-6 m-3"
-                                         src="
+                                    <label for="">Главное изображение</label>
+                                    <div class="m-3 image_editable_wrap">
+                                        <img data-crop-component="refreshPromoEdit"
+                                             data-crop-width="610"
+                                             data-crop-height="400"
+                                             style="max-width: 80%; height: fit-content;" class="col-sm-6"
+                                             src="
                                          @if($service->getMedia('pic_main')->count() == 1)
-                                         {{$service->getFirstMediaUrl('pic_main')}}
-                                         @else
-                                             /media/media_fixed/640x400_holder.png
+                                             {{$service->getFirstMediaUrl('pic_main')}}
+                                             @else
+                                                 /media/media_fixed/640x400_holder.png
 
-                                         @endif
-                                             "
-                                         alt="">
+@endif
+                                                 "
+                                             alt="">
+                                        <i class="image_edit_button fa-solid fa-pencil"></i>
+                                    </div>
                                 </div>
                                 <div>
-                                    <img style="max-width: 80%; height: fit-content;" class="m-3"
-                                         src="
+                                    <label for="">Изображение процесса</label>
+                                    <div class="m-3 image_editable_wrap">
+                                        <img data-crop-component="refreshServiceEdit"
+                                             data-crop-width="610"
+                                             data-crop-height="400"
+                                             style="max-width: 80%; height: fit-content;" class="m-3"
+                                             src="
                                          @if($service->getMedia('pic_proccess')->count() == 1)
-                                         {{$service->getFirstMediaUrl('pic_proccess')}}
-                                         @else
-                                             /media/media_fixed/640x700_holder.png
+                                             {{$service->getFirstMediaUrl('pic_proccess')}}
+                                             @else
+                                                 /media/media_fixed/640x700_holder.png
 
-                                         @endif
-                                             "
-                                         alt="">
+@endif
+                                                 "
+                                             alt="">
+                                        <i class="image_edit_button fa-solid fa-pencil"></i>
+                                    </div>
 
                                 </div>
 
@@ -221,13 +236,19 @@
                             </td>
                         </tr>
                         <tr>
-                            <td style="font-weight: bold">YC_Title</td>
+                            <td style="font-weight: bold">Название из YC</td>
                             <td>
                                 {{$service['yc_title']}}
                             </td>
                         </tr>
                         <tr>
-                            <td style="font-weight: bold">YC_Comment</td>
+                            <td style="font-weight: bold">Категория из YC</td>
+                            <td>
+                                {{$service['yc_category_name']}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold">Коммент из YC</td>
                             <td>
                                 {{$service['yc_comment']}}
                             </td>
@@ -245,7 +266,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td style="font-weight: bold">YC_Duration</td>
+                            <td style="font-weight: bold">Длительность из YC</td>
                             <td>
                                 {{$service['yc_duration']}}
                             </td>
@@ -364,7 +385,14 @@
                             </button>
 
                         </div>
-                        <img class="m-2" style="max-width: 150px;" src="{{$service_example->getFullUrl()}}" alt="">
+                        <div class="image_editable_wrap">
+                            <img data-crop-component="refreshServiceEdit"
+                                 data-crop-width="280"
+                                 data-crop-height="440"
+                                 class="m-2" style="max-width: 150px;" src="{{$service_example->getFullUrl()}}" alt="">
+                            <i class="image_edit_button fa-solid fa-pencil"></i>
+                        </div>
+
                     </div>
 
                 @endforeach
@@ -435,7 +463,7 @@
                 $('#service_examples').filepond({
                     allowMultiple: true,
                     allowImageValidateSize: true,
-                    imageValidateSizeMinWidth: 288,
+                    imageValidateSizeMinWidth: 280,
                     imageValidateSizeMinHeight: 440,
                     imageValidateSizeLabelImageSizeTooBig: 'размер изображения не верный!',
                     imageValidateSizeLabelImageSizeTooSmall: 'размер изображения не верный!',

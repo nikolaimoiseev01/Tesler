@@ -86,6 +86,21 @@
                 </div>
             @endif
 
+            @if(count($brands) > 0)
+                <div x-data="{ opened_category: false }" class="yc_category_filter_wrap">
+                    <a @click="opened_category = !opened_category" class="link coal">Бренд</a>
+                    <div x-transition x-show="opened_category" class="filter_wrap check_box_filter_wrap">
+                        @foreach($brands as $brand)
+                            <div>
+                                <input type="checkbox" id="{{$brand}}" wire:model="brand"
+                                       value="{{$brand}}">
+                                <label for="{{$brand}}"><p>{{$brand}}</p></label>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            @endif
+
             @if(!$abon_page_check)
                 <div x-data="{ opened_category: false }" class="yc_category_filter_wrap">
                     <a @click="opened_category = !opened_category" class="link coal">Шопсеты</a>
@@ -110,18 +125,20 @@
                 @foreach($goods as $good)
                     <div class="good_card_wrap">
                         <div>
-                            <img
-                                @if(is_null($good->getFirstMediaUrl('good_examples')) || $good->getFirstMediaUrl('good_examples') == '')
-                                src="/media/media_fixed/holder_225x175.png"
-                                @else src="{{$good->getFirstMediaUrl('good_examples')}}" @endif
-                                alt="">
+                            <a class="name" href="{{route('good_page', $good['id'])}}">
+                                <img
+                                    @if(is_null($good->getFirstMediaUrl('good_examples')) || $good->getFirstMediaUrl('good_examples') == '')
+                                    src="/media/media_fixed/holder_225x175.png"
+                                    @else src="{{$good->getFirstMediaUrl('good_examples')}}" @endif
+                                    alt="">
+                            </a>
                             <div class="info">
                                 <p class="category">
                                     {{\App\Models\GoodCategory::where('id', $good['good_category_id'][0])->first(['title'])->title}}
                                 </p>
                                 <a class="name" target="_blank" href="{{route('good_page', $good['id'])}}">
                                     <p>
-                                        {{Str::limit(Str::ucfirst(Str::lower($good['name'])), 40, '...')}}
+                                        {{Str::limit(Str::ucfirst(Str::lower($good['name'])), 30, '...')}}
                                     </p>
                                 </a>
                             </div>

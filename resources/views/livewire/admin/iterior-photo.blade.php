@@ -13,7 +13,8 @@
                 </span>
                 </a>
 
-                <form x-show="open" wire:key="1" x-show="open" name="add-blog-post-form" class="mt-3" id="add-blog-post-form"
+                <form x-show="open" wire:key="1" x-show="open" name="add-blog-post-form" class="mt-3"
+                      id="add-blog-post-form"
                       method="post"
                       wire:submit.prevent="createInteriorPhoto(Object.fromEntries(new FormData($event.target)))">
                     @csrf
@@ -33,7 +34,8 @@
 
             <div wire:sortable="updateOrder" class="interior_pics_wrap">
                 @foreach($interior_photos as $interior_photo)
-                    <div class="interior_pic_wrap" wire:sortable.item="{{$interior_photo['id']}}" wire:key="promo-{{$interior_photo['id']}}">
+                    <div class="interior_pic_wrap" wire:sortable.item="{{$interior_photo['id']}}"
+                         wire:key="{{$interior_photo['id']}}">
                         <div class="p-2 buttons">
                             <div wire:sortable.handle style="white-space: nowrap"
                                  class="d-flex align-items-center">
@@ -42,7 +44,8 @@
                                     <i class="fas fa-ellipsis-v"></i>
                                  </span>
                             </div>
-                            <button wire:click.prevent="delete_confirm({{$interior_photo['id']}})" class="filepond--file-action-button filepond--action-revert-item-processing"
+                            <button wire:click.prevent="delete_confirm({{$interior_photo['id']}})"
+                                    class="filepond--file-action-button filepond--action-revert-item-processing"
                                     type="button" data-align="right"
                                     style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1); opacity: 1;">
                                 <svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg">
@@ -54,13 +57,18 @@
                             </button>
 
                         </div>
-                        <img style="width: 180px; height: 260px; object-fit: cover;" src="/{{$interior_photo['pic']}}" alt="">
+                        <div class="image_editable_wrap">
+                            <img data-crop-component="refreshPromoEdit"
+                                 data-crop-width="280"
+                                 data-crop-height="440"
+                                 style="width: 180px; height: 260px; object-fit: cover;"
+                                 src="/{{$interior_photo['pic']}}" alt="">
+                            <i class="image_edit_button fa-solid fa-pencil"></i>
+                        </div>
                     </div>
 
                 @endforeach
             </div>
-
-
 
 
         </div>
@@ -78,11 +86,12 @@
             function filepond_trigger() {
 
                 function make_livewire_var() {
+                @this.set("interior_pics", '');
                     var pics_array = []
                     $("[name='interior_pic']").each(function () {
                         pics_array.push($(this).val())
                     })
-                    @this.set("interior_pics", pics_array);
+                @this.set("interior_pics", pics_array);
                 }
 
                 $('.filepond').filepond({
@@ -90,9 +99,6 @@
                     allowImageValidateSize: true,
                     imageValidateSizeMinWidth: 280,
                     imageValidateSizeMinHeight: 440,
-                    allowImageResize: true,
-                    imageResizeTargetHeight: 440,
-                    imageCropAspectRatio: 1,
                     imageValidateSizeLabelImageSizeTooBig: 'размер изображения не верный!',
                     imageValidateSizeLabelImageSizeTooSmall: 'размер изображения не верный!',
                     allowFileTypeValidation: true,

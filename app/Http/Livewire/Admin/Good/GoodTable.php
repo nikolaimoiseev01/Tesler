@@ -7,9 +7,17 @@ use App\Models\Good;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
+use PowerComponents\LivewirePowerGrid\Filters\Filter;
 use PowerComponents\LivewirePowerGrid\Rules\{Rule, RuleActions};
 use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
-use PowerComponents\LivewirePowerGrid\{Button, Column, Exportable, Footer, Header, PowerGrid, PowerGridComponent, PowerGridEloquent};
+use PowerComponents\LivewirePowerGrid\{Button,
+    Column,
+    Exportable,
+    Footer,
+    Header,
+    PowerGrid,
+    PowerGridComponent,
+    PowerGridEloquent};
 
 final class GoodTable extends PowerGridComponent
 {
@@ -33,10 +41,10 @@ final class GoodTable extends PowerGridComponent
         $this->showCheckBox();
 
         return [
-            Exportable::make('export')
-                ->striped()
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            Header::make()->showSearchInput(),
+//            Exportable::make('export')
+//                ->striped()
+//                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+            Header::make()->showSearchInput()->showToggleColumns(),
             Footer::make()
                 ->showPerPage($this->perPage, $this->perPageValues)
                 ->showRecordCount(),
@@ -52,10 +60,10 @@ final class GoodTable extends PowerGridComponent
     */
 
     /**
-    * PowerGrid datasource.
-    *
-    * @return Builder<\App\Models\Good>
-    */
+     * PowerGrid datasource.
+     *
+     * @return Builder<\App\Models\Good>
+     */
     public function datasource(): Builder
     {
         return Good::query();
@@ -95,7 +103,11 @@ final class GoodTable extends PowerGridComponent
         return PowerGrid::eloquent()
             ->addColumn('id')
             ->addColumn('yc_title')
-            ->addColumn('yc_category');
+            ->addColumn('yc_category')
+            ->addColumn('yc_price')
+            ->addColumn('brand')
+            ->addColumn('yc_actual_amount')
+        ;
     }
 
     /*
@@ -107,7 +119,7 @@ final class GoodTable extends PowerGridComponent
     |
     */
 
-     /**
+    /**
      * PowerGrid Columns.
      *
      * @return array<int, Column>
@@ -122,16 +134,24 @@ final class GoodTable extends PowerGridComponent
             Column::make('Название', 'yc_title')
                 ->searchable()
                 ->sortable(),
-            Column::make('Категория', 'yc_category')
+            Column::make('Категория из YC', 'yc_category')
                 ->searchable()
-                ->sortable()
-                ->makeInputSelect(Good::select('yc_category')->distinct()->get(), 'yc_category', 'yc_category'),
+                ->sortable(),
+            Column::make('Цена', 'yc_price')
+                ->searchable()
+                ->sortable(),
+            Column::make('Бренд', 'brand')
+                ->searchable()
+                ->sortable(),
+            Column::make('Остаток', 'yc_actual_amount')
+                ->searchable()
+                ->sortable(),
+//                ->makeInputSelect(Good::select('yc_category')->distinct()->get(), 'yc_category', 'yc_category'),
 
-
-
-        ]
-;
+        ];
     }
+
+
 
     /*
     |--------------------------------------------------------------------------
@@ -141,7 +161,7 @@ final class GoodTable extends PowerGridComponent
     |
     */
 
-     /**
+    /**
      * PowerGrid Good Action Buttons.
      *
      * @return array<int, Button>
@@ -150,10 +170,10 @@ final class GoodTable extends PowerGridComponent
 
     public function actions(): array
     {
-       return [
-           Button::make('edit', 'Подробнее')
-               ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
-               ->route('good.edit', ['good_id' => 'id']),
+        return [
+            Button::make('edit', 'Подробнее')
+                ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
+                ->route('good.edit', ['good_id' => 'id']),
 
 //           Button::make('destroy', 'Delete')
 //               ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
@@ -170,7 +190,7 @@ final class GoodTable extends PowerGridComponent
     |
     */
 
-     /**
+    /**
      * PowerGrid Good Action Rules.
      *
      * @return array<int, RuleActions>

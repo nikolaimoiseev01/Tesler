@@ -1,7 +1,7 @@
 function main_js_trigger() {
 
 // ------  PRELOADER  ------ //
-    $(window).on('load', function() {
+    $(window).on('load', function () {
         $('.page-preloader-wrap').addClass('preloaded_hiding');
         window.setTimeout(function () {
             $('.page-preloader-wrap').addClass('preloaded_loaded');
@@ -58,6 +58,19 @@ function main_js_trigger() {
     });
 
 // ------  / MODALS  ------ //
+
+    $('.image_edit_button').on('click', function () {
+        src = $(this).parent().children('img').attr('src')
+        comp_for_refresh = $(this).parent().children('img').attr('data-crop-component')
+        min_width = $(this).parent().children('img').attr('data-crop-width')
+        min_height = $(this).parent().children('img').attr('data-crop-height')
+        passing = {}
+        passing ["src"] = src;
+        passing ["comp_for_refresh"] = comp_for_refresh;
+        passing ["min_width"] = min_width;
+        passing ["min_height"] = min_height;
+        Livewire.emit("openModal", "admin.crop-image", passing)
+    })
 
 }
 

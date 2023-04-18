@@ -47,11 +47,23 @@
                 <p>{{$good['yc_category']}}</p>
                 <h2>{{$good['name']}}</h2>
                 <p>{{$good['desc_small']}}</p>
-                <div><h2 class="price">{{$good['yc_price']}} Р</h2></div>
-                @if($good['flg_active'])
-                <a onclick="Livewire.emit('good_cart_add', {{$good['id']}})"
-                   id="good_add_{{$good['id']}}"
-                   class="link-bg coal">В корзину</a>
+                <div>
+                    <span class="yellow_info">
+                         @if($good['brand'])
+                            <a href="{{route('market_page')}}?brand[0]={{$good['brand']}}#market_wrap">
+                            <p>Бренд: {{$good['brand']}}</p>
+                            </a>
+                        @endif
+                    </span>
+                    @if($good['capacity'] > 0)
+                        <span class="yellow_info"><p>{{$good['capacity']}} {{$good['capacity_type']}}</p></span>
+                    @endif
+                    <h2 class="price">{{$good['yc_price']}} Р</h2>
+                </div>
+                @if($good['flg_active'] && $good['yc_actual_amount'] > 0)
+                    <a onclick="Livewire.emit('good_cart_add', {{$good['id']}})"
+                       id="good_add_{{$good['id']}}"
+                       class="link-bg coal">В корзину</a>
                 @else
                     <p>Этот товар недоступен для покупки</p>
                 @endif
@@ -76,7 +88,6 @@
                     <a href="#description" class="cont_nav_item current link coal">ОПИСАНИЕ</a>
                     <a href="#usage" class="cont_nav_item link coal">ПРИМЕНЕНИЕ</a>
                     <a href="#consist" class="cont_nav_item link coal">СОСТАВ</a>
-                    <a href="#brand" class="cont_nav_item link coal">БРЕНД</a>
                 </div>
                 <div style="transition: .3s ease-in-out" class="list-wrap">
                     <div id="description">
@@ -100,7 +111,6 @@
                         <p style="margin-top:20px;" class="desc">{{$good['usage']}}</p>
                     </div>
                     <div id="consist" class="hide">3</div>
-                    <div id="brand" class="hide">4</div>
                 </div>
 
             </div>
@@ -115,7 +125,8 @@
                 <h2>ДОСТАВКА</h2>
 
                 <p>Доставка по Красноярску день в день! Бесплатная доставка
-                    при сумме заказа от 3 500 рублей. При сумме заказа меньше 3 500 рублей – за ваш счет по актуальному прайсу Яндекс-доставки.
+                    при сумме заказа от 3 500 рублей. При сумме заказа меньше 3 500 рублей – за ваш счет по актуальному
+                    прайсу Яндекс-доставки.
 
                     <br><br>Доставка по всей России курьерской службой СДЭК, от 6000 рублей – бесплатно.</p>
             </div>

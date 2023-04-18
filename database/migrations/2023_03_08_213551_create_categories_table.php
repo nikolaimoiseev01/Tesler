@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('desc')->nullable();
             $table->string('block_title')->nullable();
             $table->bigInteger('position')->nullable();
+            $table->json('staff')->nullable();
             $table->timestamps();
         });
     }

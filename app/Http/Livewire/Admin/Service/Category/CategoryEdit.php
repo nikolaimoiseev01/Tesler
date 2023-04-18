@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Admin\Service\Category;
 use App\Models\Category;
 use App\Models\Promo;
 use App\Models\Scope;
+use App\Models\Staff;
 use Illuminate\Support\Facades\File;
 use Livewire\Component;
 use LivewireUI\Modal\ModalComponent;
@@ -15,6 +16,8 @@ class CategoryEdit extends ModalComponent
 {
     public $category;
     public $category_examples;
+    public $staff_all;
+    public $staff_to_add;
 
     protected $listeners = ['refreshCategoryEdit' => '$refresh', 'delete_cat_example_media'];
 
@@ -31,6 +34,7 @@ class CategoryEdit extends ModalComponent
     public function mount($category_id)
     {
         $this->category = Category::where('id', $category_id)->first();
+        $this->staff_all = Staff::orderBy('yc_name')->get();
     }
 
     public function updateExamplesOrder($list)
@@ -132,6 +136,103 @@ class CategoryEdit extends ModalComponent
             $this->emit('refreshCategoryEdit');
 
         }
+    }
+
+
+    public function new_staff_to_add()
+    {
+
+
+        $has_staff = $this->category['staff'];
+
+        // --------- Ищем ошибки в заполнении  --------- //
+        $errors_array = [];
+
+        if ($has_staff !== null) {
+            $staff_add_check = array_filter($has_staff, function ($v) {
+                return $v['id'] == intval($this->staff_to_add);
+            });
+            $staff_add_check = count($staff_add_check);
+        } else {
+            $staff_add_check = 0;
+        }
+
+        if ($this->staff_to_add === null) {
+            array_push($errors_array, 'Выберите матера!');
+        }
+
+        if ($staff_add_check ?? 0 > 0) {
+            array_push($errors_array, 'Этот матер уже есть в категории!');
+        }
+
+
+        if (!empty($errors_array)) {
+            $this->dispatchBrowserEvent('swal_fire', [
+                'type' => 'error',
+                'showDenyButton' => false,
+                'showConfirmButton' => false,
+                'title' => 'Что-то пошло не так!',
+                'text' => implode("<br>", $errors_array),
+            ]);
+
+            $this->emit('refreshCalcCosmetic');
+        }
+
+        if (empty($errors_array)) {
+
+            if ($has_staff !== null) { // Если уже есть что-то в поле staff
+                $has_staff[] = [
+                    'id' => intval($this->staff_to_add),
+                    'yc_id' => Staff::where('id', intval($this->staff_to_add))->value('yc_id'),
+                    'name' => Staff::where('id', intval($this->staff_to_add))->value('yc_name'),
+                    'avatar' => Staff::where('id', intval($this->staff_to_add))->value('yc_avatar'),
+                    'specialization' => Staff::where('id', intval($this->staff_to_add))->value('yc_specialization')
+                ];
+                $this->category->update([
+                    'staff' => $has_staff,
+                ]);
+            } else {
+                $has_staff_new[] = [
+                    'id' => intval($this->staff_to_add),
+                    'yc_id' => Staff::where('id', intval($this->staff_to_add))->value('yc_id'),
+                    'name' => Staff::where('id', intval($this->staff_to_add))->value('yc_name'),
+                    'avatar' => Staff::where('id', intval($this->staff_to_add))->value('yc_avatar'),
+                    'specialization' => Staff::where('id', intval($this->staff_to_add))->value('yc_specialization')
+
+                ];
+                $this->category->update([
+                    'staff' => $has_staff_new,
+                ]);
+            }
+
+            $this->emit('refreshStaffEdit');
+
+            $this->dispatchBrowserEvent('toast_fire', [
+                'type' => 'success',
+                'title' => 'Мастер успешно добавлен!',
+            ]);
+        }
+    }
+
+
+    public function delete_staff($staff_id)
+    {
+        $has_staff = $this->category['staff'];
+
+        unset($has_staff[array_search($staff_id, $has_staff)]);
+
+        $this->category->update([
+            'staff' => array_values($has_staff),
+        ]);
+
+        $this->dispatchBrowserEvent('toast_fire', [
+            'type' => 'success',
+            'title' => 'Мастер удален!',
+        ]);
+
+        $this->emit('refreshStaffEdit');
+
+
     }
 
 

@@ -26,7 +26,8 @@
                 </div>
 
                 <div class="mt-1 mb-3 p-3 border">
-                    <label for="exampleInputEmail1">Полная стоимость сета: {{$goods_in_shopset->sum('yc_price')}} ₽; Включает в себя:</label>
+                    <label for="exampleInputEmail1">Полная стоимость сета: {{$goods_in_shopset->sum('yc_price')}} ₽;
+                        Включает в себя:</label>
                     <div class="gap-3 d-flex flex-wrap">
                         @foreach($goods_in_shopset as $good_in_shopset)
                             <span wire:key="good_{{$good_in_shopset['id']}}_in_shopset">
@@ -63,8 +64,15 @@
                     <div x-show="!open" style="width: fit-content"
                          class="position-relative">
                         <label for="">Фото шопсета</label>
-                        <img style="max-height: 400px; width: auto;" src="{{$shopset->getFirstMediaUrl('pic_shopset')}}"
-                             alt="">
+                        <div class="image_editable_wrap">
+                            <img data-crop-component="refreshPromoEdit"
+                                 data-crop-width="300"
+                                 data-crop-height="300"
+                                 style="max-height: 400px; width: auto;"
+                                 src="{{$shopset->getFirstMediaUrl('pic_shopset')}}"
+                                 alt="">
+                            <i class="image_edit_button fa-solid fa-pencil"></i>
+                        </div>
                         <a @click.prevent="open = true"
                            class="mt-3 mb-3 make_pic_main_page_block btn btn-outline-primary">заменить</a>
                     </div>
@@ -81,7 +89,6 @@
                             data-max-files="3">
                     </div>
                 </div>
-
 
 
                 <button type="submit" class="w-100 show_preloader_on_click btn btn-outline-primary">Сохранить</button>

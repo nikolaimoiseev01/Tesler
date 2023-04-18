@@ -425,6 +425,15 @@ class ServiceEdit extends Component
             ->get('https://api.yclients.com/api/v1/company/' . $YCLIENTS_SHOP_ID . '/services/'. $this->service['yc_id'])
             ->collect()['data'];
 
+        $yc_service_category = Http::withHeaders($YCLIENTS_HEADERS)
+            ->get('https://api.yclients.com/api/v1/service_category/' . $YCLIENTS_SHOP_ID . '/' . $yc_service['category_id'])
+            ->collect();
+        if ($yc_service_category['data']['title'] ?? null) {
+            $yc_service_category = $yc_service_category['data']['title'];
+        } else {
+            $yc_service_category = null;
+        }
+
         $this->service->update([
             'yc_id' => $yc_service['id'],
             'yc_title' => $yc_service['title'],
@@ -432,6 +441,7 @@ class ServiceEdit extends Component
             'yc_price_min' => $yc_service['price_min'],
             'yc_price_max' => $yc_service['price_max'],
             'yc_duration' => $yc_service['duration'],
+            'yc_category_name' => $yc_service_category,
         ]);
 
         $this->emit('refreshServiceEdit');

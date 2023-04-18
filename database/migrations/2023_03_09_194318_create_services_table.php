@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('yc_price_min');
             $table->integer('yc_price_max');
             $table->integer('yc_duration');
+            $table->string('yc_category_name');
             $table->integer('scope_id')->nullable();
             $table->integer('category_id')->nullable();
             $table->integer('group_id')->nullable();

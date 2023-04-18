@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Good;
+use App\Models\Order;
 use App\Models\Promo;
 use App\Models\Service;
 use App\Models\ShopSet;
@@ -13,6 +14,14 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
+    public function Promo_edit(Request $request)
+    {
+        $promo = Promo::where('id', $request->promo_id)->first();
+        return view('admin.promo.edit', [
+            'promo' => $promo
+        ]);
+    }
+
     public function Category_edit(Request $request)
     {
         $category = Category::where('id', $request->category_id)->first();
@@ -52,4 +61,16 @@ class AdminController extends Controller
             'staff' => $staff
         ]);
     }
+
+
+    public function Order_edit(Request $request)
+    {
+        $order = Order::where('id', $request->order_id)->first();
+        return view('admin.order.order-edit', [
+            'order' => $order
+        ]);
+    }
+
+
+
 }

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('yc_title');
             $table->string('yc_category');
             $table->float('yc_price');
+            $table->float('yc_actual_amount');
             $table->string('name');
             $table->integer('category_id')->nullable();
             $table->integer('flg_active');

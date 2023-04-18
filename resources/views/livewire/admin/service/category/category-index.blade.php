@@ -22,7 +22,7 @@
                             </div>
 
                             <div class="ml-0 mr-3 product-info">
-                                <a href="javascript:void(0)" class="product-title">{{$category['name']}}</a>
+                                <a href="{{route('category.edit', $category['id'])}}" class="product-title">{{$category['name']}}</a>
                                 <span style="white-space: inherit;"
                                       class="product-description">{{$category['desc']}}</span>
                             </div>

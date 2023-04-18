@@ -33,7 +33,7 @@
             </div>
             <img
                 @if(is_null($service->getFirstMediaUrl('pic_main')) || $service->getFirstMediaUrl('pic_main') == '')
-                src="/media/media_fixed/holder_610x400.png"
+                src="/media/media_fixed/logo_holder.png"
                 @else src="{{$service->getFirstMediaUrl('pic_main')}}"
                 @endif
                 alt="">
@@ -47,54 +47,70 @@
         </x-ui.selling-slider>
     @endif
 
-    <div class="s_desc content two_parts_block_wrap">
-        <div class="left"></div>
-        <div class="right">
-            <h2>Описание</h2>
-            <p>{{$service['desc']}}</p>
+    @if($service['desc'])
+        <div class="s_desc content two_parts_block_wrap">
+            <div class="left"></div>
+            <div class="right">
+                <h2>Описание</h2>
+                <p>{{$service['desc']}}</p>
+            </div>
         </div>
-    </div>
+    @endif
 
-    <div class="sp_examples_wrap">
-        <x-ui.gallery
-            title="ПРИМЕРЫ РАБОТ"
-            :photos="$service->getMedia('service_examples')->pluck('original_url')->all()">
-        </x-ui.gallery>
-    </div>
 
-    <div class="s_desc content two_parts_block_wrap">
-        <div class="left"></div>
-        <div class="right">
-            <h2>Процесс</h2>
-            <p style="margin-bottom: 44px;">{{$service['proccess']}}</p>
-            <a href="" class="link-bg coal">Записаться</a>
+    @if(count($service->getMedia('service_examples')->pluck('original_url')->all())>0)
+
+        <div class="sp_examples_wrap">
+            <x-ui.gallery
+                title="ПРИМЕРЫ РАБОТ"
+                :photos="$service->getMedia('service_examples')->pluck('original_url')->all()">
+            </x-ui.gallery>
         </div>
-    </div>
+    @endif
 
-    <div class="s_desc content two_parts_block_wrap">
-        <div class="left"></div>
-        <div class="right_img_wrap right">
-            <img src="{{$service->getFirstMediaUrl('pic_proccess')}}" alt="">
+
+    @if($service['process'])
+
+        <div class="s_desc content two_parts_block_wrap">
+            <div class="left"></div>
+            <div class="right">
+                <h2>Процесс</h2>
+                <p style="margin-bottom: 44px;">{{$service['proccess']}}</p>
+                <a href="" class="link-bg coal">Записаться</a>
+            </div>
         </div>
-    </div>
+    @endif
 
-    <div class="s_desc content two_parts_block_wrap">
-        <div class="left"></div>
-        <div class="right">
-            <h2>Результат</h2>
-            <p style="margin-bottom: 44px;">{{$service['result']}}</p>
+    @if($service->getFirstMediaUrl('pic_proccess'))
+        <div class="s_desc content two_parts_block_wrap only_image">
+            <div class="left"></div>
+            <div class="right_img_wrap right">
+                <img src="{{$service->getFirstMediaUrl('pic_proccess')}}" alt="">
+            </div>
         </div>
-    </div>
+    @endif
 
-    <div class="s_desc content two_parts_block_wrap">
-        <div class="left"></div>
-        <div class="right">
-            <h2>Специалисты услуги</h2>
-            <p>
-                Запишитесь на эту услугу к любому из специалистов ниже. Чтобы познакомиться с мастером, увидеть его опыт
-                и работы –нажмите на фото.
-            </p>
-            @if ($service_workers ?? null !== null)
+    @if($service['result'])
+        <div class="s_desc content two_parts_block_wrap">
+            <div class="left"></div>
+            <div class="right">
+                <h2>Результат</h2>
+                <p style="margin-bottom: 44px;">{{$service['result']}}</p>
+            </div>
+        </div>
+    @endif
+
+    @if ($service_workers ?? null !== null)
+        <div class="s_desc content two_parts_block_wrap">
+            <div class="left"></div>
+            <div class="right">
+                <h2>Специалисты услуги</h2>
+                <p>
+                    Запишитесь на эту услугу к любому из специалистов ниже. Чтобы познакомиться с мастером, увидеть его
+                    опыт
+                    и работы –нажмите на фото.
+                </p>
+
                 <div style="margin-bottom: 20px;" class="workers_wrap">
                     @foreach($service_workers as $worker)
                         <div class="worker">
@@ -106,10 +122,9 @@
                         </div>
                     @endforeach
                 </div>
-            @endif
-            <a href="" class="link-bg coal">К мастеру</a>
+            </div>
         </div>
-    </div>
+    @endif
 
     @if($abonements)
         <x-ui.previewcta

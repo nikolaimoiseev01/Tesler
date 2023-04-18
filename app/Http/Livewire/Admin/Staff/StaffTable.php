@@ -88,6 +88,7 @@ final class StaffTable extends PowerGridComponent
             ->addColumn('id')
             ->addColumn('yc_id')
             ->addColumn('yc_specialization')
+            ->addColumn('yc_name')
 
            /** Example of custom column using a closure **/
             ->addColumn('yc_avatar', function (Staff $model) {
@@ -123,6 +124,10 @@ final class StaffTable extends PowerGridComponent
                 ->sortable(),
 
             Column::make('YC ID', 'yc_id')
+                ->searchable()
+                ->sortable(),
+
+            Column::make('Имя', 'yc_name')
                 ->searchable()
                 ->sortable(),
 

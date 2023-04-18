@@ -15,11 +15,16 @@ class Category extends Model implements HasMedia
         'desc',
         'pic',
         'position',
-        'block_title'
+        'block_title',
+        'staff'
     ];
 
     use HasFactory;
     use InteractsWithMedia;
+
+    protected $casts = [
+        'staff' => 'array'
+    ];
 
     public function Group() {
         return $this->hasMany(Group::class);

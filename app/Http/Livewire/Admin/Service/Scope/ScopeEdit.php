@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\File;
 use Livewire\Component;
 use LivewireUI\Modal\ModalComponent;
 use Spatie\Image\Image;
+use Spatie\LaravelImageOptimizer\Facades\ImageOptimizer;
 
 class ScopeEdit extends ModalComponent
 {
@@ -52,22 +53,22 @@ class ScopeEdit extends ModalComponent
 
         if (empty($errors_array)) {
 
-            if (!$formData['pic_scope_main_page'] == null || !empty($formData['pic_scope_main_page'])) {
-                // pic_scope_main_page
-                $file_format = substr($formData['pic_scope_main_page'], strpos($formData['pic_scope_main_page'], "."));
-                $temp_path = public_path('media/filepond_temp/' . $formData['pic_scope_main_page']);
-                $new_path_main_page = 'media/media_files/pics_scope/pic_scope_' . $formData['scope_id'] . '_main_page' . $file_format;
-                $new_path_main_page_full = public_path('media/media_files/pics_scope/pic_scope_' . $formData['scope_id'] . '_main_page' . $file_format);
-                // Оптимизируем катинку
-                Image::load($temp_path)
-                    ->optimize()
-                    ->save($temp_path);
-                File::move($temp_path, $new_path_main_page_full);
-                Scope::where('id', $formData['scope_id'])->update([
-                    'pic_main_page' => $new_path_main_page,
-                ]);
-                File::deleteDirectory($temp_path);
-            }
+//            if (!$formData['pic_scope_main_page'] == null || !empty($formData['pic_scope_main_page'])) {
+//                // pic_scope_main_page
+//                $file_format = substr($formData['pic_scope_main_page'], strpos($formData['pic_scope_main_page'], "."));
+//                $temp_path = public_path('media/filepond_temp/' . $formData['pic_scope_main_page']);
+//                $new_path_main_page = 'media/media_files/pics_scope/pic_scope_' . $formData['scope_id'] . '_main_page' . $file_format;
+//                $new_path_main_page_full = public_path('media/media_files/pics_scope/pic_scope_' . $formData['scope_id'] . '_main_page' . $file_format);
+//                // Оптимизируем катинку
+//                Image::load($temp_path)
+//                    ->optimize()
+//                    ->save($temp_path);
+//                File::move($temp_path, $new_path_main_page_full);
+//                Scope::where('id', $formData['scope_id'])->update([
+//                    'pic_main_page' => $new_path_main_page,
+//                ]);
+//                File::deleteDirectory($temp_path);
+//            }
 
             if (!$formData['pic_scope_page'] == null || !empty($formData['pic_scope_page'])) {
                 // pic_scope_page
@@ -75,10 +76,16 @@ class ScopeEdit extends ModalComponent
                 $temp_path = public_path('media/filepond_temp/' . $formData['pic_scope_page']);
                 $new_path_scope_page = 'media/media_files/pics_scope/pic_scope_' . $formData['scope_id'] . '_page' . $file_format;
                 $new_path_scope_page_full = public_path('media/media_files/pics_scope/pic_scope_' . $formData['scope_id'] . '_page' . $file_format);
-                // Оптимизируем катинку
-                Image::load($temp_path)
-                    ->optimize()
-                    ->save($temp_path);
+//                $data = getimagesize($this->pic_main->getRealPath());
+//                $pic_width = $data[0];
+//                $pic_height = $data[1];
+
+//                // Оптимизируем катинку
+//                Image::load($temp_path)
+//                    ->optimize()
+//                    ->save($temp_path);
+//                // the image will be replaced with an optimized version which should be smaller
+                ImageOptimizer::optimize($temp_path);
                 File::move($temp_path, $new_path_scope_page_full);
                 Scope::where('id', $formData['scope_id'])->update([
                     'pic_scope_page' => $new_path_scope_page,

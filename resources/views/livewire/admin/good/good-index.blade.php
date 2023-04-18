@@ -1,13 +1,19 @@
 <div>
-    <button type="submit" wire:click.prevent="search_for_goods()"
-            class="mb-3  show_preloader_on_click btn btn-outline-primary">
+    <button  type="submit" wire:click.prevent="search_for_goods()"
+            class="mb-3 mr-2  show_preloader_on_click btn btn-outline-primary">
         Обновить товары (долгая загрузка)
     </button>
 
     <a type="submit" href="{{route('shopset.index')}}"
-            class="mb-3 show_preloader_on_click btn btn-outline-primary">
+            class="mb-3 mr-2 show_preloader_on_click btn btn-outline-primary">
         Шопсеты
     </a>
+
+    <a type="submit" wire:click.prevent="refresh_goods_yc_info()"
+       class="mb-3 show_preloader_on_click btn btn-outline-primary">
+        Обновить YClients инфо
+    </a>
+
 
     @if ($found_yc_goods)
         <style>

@@ -73,7 +73,14 @@
                                     </button>
 
                                 </div>
-                                <img class="m-2" style="max-width: 150px;" src="{{$cat_example->getFullUrl()}}" alt="">
+                                <div class="image_editable_wrap">
+                                    <img data-crop-component="refreshPromoEdit"
+                                         data-crop-width="280"
+                                         data-crop-height="440"
+                                         class="m-2" style="max-width: 150px;" src="{{$cat_example->getFullUrl()}}"
+                                         alt="">
+                                    <i class="image_edit_button fa-solid fa-pencil"></i>
+                                </div>
                             </div>
 
                         @endforeach
@@ -105,9 +112,14 @@
                 <label for="">Изображение на странице блока</label>
                 <div style=" width: fit-content" id="pic_block_{{$category['id']}}"
                      class="position-relative">
-
-                    <img style="max-width: 150px;" src="/{{$category['pic']}}"
-                         alt="">
+                    <div class="image_editable_wrap">
+                        <img data-crop-component="refreshPromoEdit"
+                             data-crop-width="610"
+                             data-crop-height="700"
+                             style="max-width: 150px;" src="/{{$category['pic']}}"
+                             alt="">
+                        <i class="image_edit_button fa-solid fa-pencil"></i>
+                    </div>
                     <a id="make_pic_block--{{$category['id']}}"
                        class="mt-3 mb-3 make_pic btn btn-outline-primary">заменить</a>
                 </div>
@@ -131,8 +143,53 @@
         </div>
     </div>
 
+    <div style="max-width: 1000px;" class="card">
+        <div class="d-flex align-items-center card-header p-2">
+            <h1 style="font-size: 22px;" class="ml-3">Мастера в категории</h1>
+        </div>
+        <div class="card-body">
+
+            @if ($category['staff'] !== null && count($category['staff']) > 0)
+                <div>
+
+                    @foreach($category['staff'] as $staff)
+                        <div wire:key="{{ $loop->index }}">
+                            <a target="_blank"
+                               href="{{route('staff.edit', $staff['id'])}}">{{$staff['name']}}
+                                ({{$staff['specialization']}})</a>
+                            <a wire:click.prevent="delete_staff({{$staff['id']}})" href="">
+                                <i class="fa-solid fa-xmark"></i>
+                            </a>
+                        </div>
+                    @endforeach
+                </div>
+            @else
+                еще нет ни одного
+            @endif
+
+            <div class="mt-3">
+                <select wire:model="staff_to_add" class=" form-control"
+                        aria-hidden="true" id="staff_to_add">
+                    @foreach($staff_all as $staff)
+                        <option
+                            value="{{$staff['id']}}">{{$staff['yc_name']}} ({{$staff['yc_specialization']}})
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <a type="submit" wire:click.prevent="new_staff_to_add()"
+               class="mt-3 show_preloader_on_click btn btn-outline-primary">
+                Добавить
+            </a>
+
+        </div>
+
+
+    </div>
+
     @push('scripts')
         <script>
+
             function filepond_trigger() {
 
                 $('#pic_category').filepond({
@@ -141,8 +198,7 @@
                     allowFileTypeValidation: true,
                     imageValidateSizeMinWidth: 610,
                     imageValidateSizeMinHeight: 700,
-                    imageValidateSizeMaxWidth: 610,
-                    imageValidateSizeMaxHeight: 700,
+                    imageCropAspectRatio: 1,
                     imageValidateSizeLabelImageSizeTooBig: 'размер изображения не верный!',
                     imageValidateSizeLabelImageSizeTooSmall: 'размер изображения не верный!',
                     acceptedFileTypes: ['image/png', 'image/jpeg'],
@@ -175,7 +231,7 @@
                 $('#category_examples').filepond({
                     allowMultiple: true,
                     allowImageValidateSize: true,
-                    imageValidateSizeMinWidth: 288,
+                    imageValidateSizeMinWidth: 280,
                     imageValidateSizeMinHeight: 440,
                     imageValidateSizeLabelImageSizeTooBig: 'размер изображения не верный!',
                     imageValidateSizeLabelImageSizeTooSmall: 'размер изображения не верный!',

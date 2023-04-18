@@ -19,9 +19,11 @@
 
                 <div class="buttons_wrap">
                     <div class="button_wrap">
-                        <a target="_blank"
-                           href="https://b253254.yclients.com/company/247576/menu?o=m{{$staff['yc_id']}}"
-                           class="link-bg coal">Записаться</a>
+                         @if($staff['yc_specialization'] !== 'Администратор')
+                            <a target="_blank"
+                               href="https://b253254.yclients.com/company/247576/menu?o=m{{$staff['yc_id']}}"
+                               class="link-bg coal">Записаться</a>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -54,39 +56,38 @@
         </div>
     @endif
 
+    @if ($staff['collegues'] ?? null && count($staff['collegues']) > 0)
+        <div class="s_desc content two_parts_block_wrap">
+            <div class="left"></div>
+            <div class="right">
+                <h2>Коллеги</h2>
+                <p>
+                    А также эту услугу предоставляет любой из специалистов ниже. Чтобы познакомиться с мастером, увидеть
+                    его
+                    опыт и работы — нажмите на фото.
+                </p>
 
-    @if(count($shopsets)>0)
-        <x-ui.preview-cta
-            title="Подборки от мастера"
-            link="{{route('market_page')}}"
-            :cards="$shopsets"></x-ui.preview-cta>
-    @endif
-
-
-
-
-    <div class="s_desc content two_parts_block_wrap">
-        <div class="left"></div>
-        <div class="right">
-            <h2>Коллеги</h2>
-            <p>
-                А также эту услугу предоставляет любой из специалистов ниже. Чтобы познакомиться с мастером, увидеть его
-                опыт и работы — нажмите на фото.
-            </p>
-            @if ($collegues ?? null !== null)
                 <div style="margin-bottom: 20px;" class="workers_wrap">
-                    @foreach($collegues as $colleague)
+                    @foreach($staff['collegues'] as $colleague)
                         <div class="worker"><a href="{{route('staff_page', $colleague['yc_id'])}}">
-                                <img src="{{$colleague['yc_avatar']}}" alt="">
-                                <p-400>{{$colleague['yc_name']}}</p-400>
+                                <img src="{{$colleague['avatar']}}" alt="">
+                                <p-400>{{$colleague['name']}}</p-400>
                                 <p>{{$colleague['specialization']}}</p>
                             </a>
                         </div>
                     @endforeach
                 </div>
-            @endif
+
+            </div>
         </div>
-    </div>
+    @endif
+
+    @if($selected_from_staff ?? null && count($selected_from_staff)>0)
+        <x-ui.preview-cta
+            title="Подборки от мастера"
+            link="{{route('market_page')}}"
+            :cards="$selected_from_staff"></x-ui.preview-cta>
+    @endif
 
     <x-ui.need-consultation/>
 

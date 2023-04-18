@@ -263,6 +263,12 @@
                                 {{$good['yc_price']}}
                             </td>
                         </tr>
+                        <tr>
+                            <td style="font-weight: bold">Остаток</td>
+                            <td>
+                                {{$good['yc_actual_amount']}}
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -370,7 +376,13 @@
                             </button>
 
                         </div>
-                        <img class="m-2" style="max-width: 150px;" src="{{$good_example->getFullUrl()}}" alt="">
+                        <div class="image_editable_wrap">
+                        <img data-crop-component="refreshPromoEdit"
+                             data-crop-width="712"
+                             data-crop-height="480"
+                             class="m-2" style="max-width: 150px;" src="{{$good_example->getFullUrl()}}" alt="">
+                        <i class="image_edit_button fa-solid fa-pencil"></i>
+                    </div>
                     </div>
 
                 @endforeach
@@ -394,7 +406,15 @@
                 Сохранить примеры
             </a>
         </div>
+
+
     </div>
+
+    <button type="button" wire:click.prevent="delete_confirm({{$good['id']}})" style="width: fit-content;" class="mt-3 btn btn-block btn-outline-danger btn-lg">Удалить товар</button>
+
+    <button type="button" wire:click.prevent="test_make_sale()" style="width: fit-content;"
+            class="mt-3 btn btn-block btn-outline-primary btn-lg">Продать товар</button>
+
     @push('scripts')
         <script>
             function filepond_trigger() {

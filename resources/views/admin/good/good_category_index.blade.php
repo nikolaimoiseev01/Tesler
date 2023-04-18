@@ -4,12 +4,6 @@
 
 @section('page-style')
 @endsection
-<style>
-    .min-h-screen  {
-        display: flex !important;
-        align-items: center !important;;
-    }
-</style>
 
 @section('content')
     <section class="content-header">

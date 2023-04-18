@@ -1,25 +1,20 @@
-<div x-data="{ opened_cart: true }">
+<div>
+
     <div class="good_cart_wrap">
-        <h2>Корзина</h2>
+
 
         @if(!$cart_goods)
             <div style="direction:ltr">
                 <p style="margin-top: 40px;">Пока пустая</p>
-                <a style="display: inline-block; margin-top: 20px;" href="{{route('market_page')}}" class="link coal">Перейти в магазин</a>
+                <a style="display: inline-block; margin-top: 20px;" href="{{route('market_page')}}" class="link coal">Перейти
+                    в магазин</a>
             </div>
         @endif
 
-        <a @click="opened_cart = false" class="close_cross">
-            <svg width="19" height="3" viewBox="0 0 19 3" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M18.5 0.679688H0.5V2.67969H18.5V0.679688Z" fill="black"/>
-            </svg>
-        </a>
 
 
-        @if($cart_goods)
+        @if($cart_goods && !$show_take_option)
             <div class="goods_wrap">
-
-
                 @foreach($cart_goods as $cart_good)
                     <div class="good_wrap">
                         <img @if(is_null($cart_good['image_url']) || $cart_good['image_url'] == '')
@@ -30,9 +25,10 @@
                             <p class="category">
                                 {{\App\Models\GoodCategory::where('id', $cart_good['good_category_id'][0])->first(['title'])->title}}
                             </p>
-                            <p class="name">{{$cart_good['name']}}</p>
+                            <a href="{{route('good_page', $cart_good['id'])}}"><p
+                                    class="name">{{$cart_good['name']}}</p></a>
                             <div class="spec_wrap">
-                                <p class="spec">{{$cart_good['yc_price']}}</p>
+                                <p class="spec">{{$cart_good['capacity']}} {{$cart_good['capacity_type']}}</p>
                                 <p class="price">{{$cart_good['yc_price']}} ₽</p>
                             </div>
 
@@ -53,11 +49,11 @@
             <div class="total_price_wrap">
                 <p>СУММА ЗАКАЗА</p>
                 <hr>
-                <p>{{$total_price}}</p>
+                <p>{{$total_price}} ₽</p>
             </div>
 
             <div class="buttons_wrap">
-                <a class="link-bg fern">ОФОРМИТЬ ЗАКАЗ</a>
+                <a wire:click.prevent="show_take_option" class="link-bg fern">ОФОРМИТЬ ЗАКАЗ</a>
             </div>
 
             <div class="delivery_wrap">
@@ -70,9 +66,100 @@
                 </p>
             </div>
 
-            <a wire:click.prevent="good_cart_remove_all()" class="remove_all link fern">Удалить все</a>
+            <a wire:click.prevent="good_cart_remove_all()" class="remove_all link fern">Удалить все товары</a>
         @endif
 
+        @if($show_take_option)
+            <div class="buyer_info_wrap">
+
+                <h2>Оформление заказа</h2>
+
+                <div class="input_wrap">
+                    <label for="name"><p>ИМЯ</p></label>
+                    <input wire:model="name" id="name" name="name"
+                           @if($errors_array)
+                               @if (in_array("name", $errors_array))
+                                    class="invalid"
+                               @endif
+                           @endif
+
+                           required type="text" placeholder="Имя">
+                </div>
+                <div class="input_wrap">
+                    <label for="surname"><p>ФАМИЛИЯ</p></label>
+                    <input
+                        @if($errors_array)
+                            @if (in_array("surname", $errors_array))
+                                class="invalid"
+                            @endif
+                        @endif
+                        wire:model="surname" id="surname" name="surname" required type="text" placeholder="Фамилия">
+                </div>
+                <div class="input_wrap">
+                    <label for=""><p>КОНТАКТНЫЙ НОМЕР</p></label>
+                    <input
+                        @if($errors_array)
+                        @if (in_array("mobile", $errors_array))
+                        class="invalid"
+                        @endif
+                        @endif
+                        wire:model="mobile" id="mobile" name="mobile" required class="mobile_input" type="text"
+                           placeholder="8 911 123 45 67">
+                </div>
+
+                <div>
+                    <input type="checkbox" id="need_delivery" wire:model="need_delivery"
+                           value="1">
+                    <label for="need_delivery"><p>Требуется доставка</p></label>
+                </div>
+
+                @if($need_delivery)
+                    <div class="input_wrap">
+                        <label for="city"><p>Город</p></label>
+                        <input
+                            @if($errors_array)
+                            @if (in_array("city", $errors_array))
+                            class="invalid"
+                            @endif
+                            @endif
+                            wire:model="city" id="city" name="city" required type="text" placeholder="Город">
+                    </div>
+                    <div class="input_wrap">
+                        <label for="address"><p>Адрес</p></label>
+                        <input
+                            @if($errors_array)
+                            @if (in_array("address", $errors_array))
+                            class="invalid"
+                            @endif
+                            @endif
+                            wire:model="address" id="address" name="address" required type="text"
+                               placeholder="Адрес">
+                    </div>
+                    <div class="input_wrap">
+                        <label for="index"><p>Индекс</p></label>
+                        <input
+                            @if($errors_array)
+                            @if (in_array("index", $errors_array))
+                            class="invalid"
+                            @endif
+                            @endif
+                            wire:model="index" id="index" name="index" required type="text" placeholder="Индекс">
+                    </div>
+
+                @endif
+
+                <div class="buttons_wrap">
+                    <a wire:click.prevent="to_checkout()" class="link-bg fern">ОПЛАТИТЬ {{$total_price}} ₽</a>
+                </div>
+            </div>
+        @endif
 
     </div>
+    @push('scripts')
+        <script>
+            document.addEventListener('trigger_mobile_input', function () {
+                $('.mobile_input').mask('0 (000) 000-00-00');
+            })
+        </script>
+    @endpush
 </div>

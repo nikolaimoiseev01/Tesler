@@ -119,15 +119,67 @@ document.addEventListener('trigger_good_add_button', event => {
         found_button.removeAttr('onclick')
         found_button.attr('onclick', "Livewire.emit('good_cart_add', " + event.detail.id + ')')
     }
-
 })
 // ------ // TRIGGER GOOD ADD BUTTON  ------ //
 
-// ------ TRIGGER GOOD CART  ------ //
-$('.good_cart_wrap').hide();
-$('#good_cart_header_button, .good_cart_wrap .close_cross').on('click', function() {
-    $('.good_cart_wrap').toggle("slide", { direction: "right" });
+// ------ TRIGGER CARTS  ------ //
+function show_good_cart() {
+    $('.good_cart_wrap').show()
+    $('#cart_good_button').addClass('active')
+
+    $('.service_cart_block_wrap').hide()
+    $('#cart_service_button').removeClass('active')
+}
+
+function show_service_cart() {
+    $('.good_cart_wrap').hide()
+    $('#cart_good_button').removeClass('active')
+    $('.service_cart_block_wrap').show()
+    $('#cart_service_button').addClass('active')
+}
+
+$('#cart_service_button').on('click', function(event) {
+    event.preventDefault();
+    show_service_cart()
 })
+
+$('#cart_good_button').on('click', function(event) {
+    event.preventDefault();
+    show_good_cart()
+})
+
+
+document.addEventListener('trigger_good_cart_open', function() {
+    $('.cart_block_wrap').show("slide", { direction: "right" });
+    show_good_cart()
+
+})
+
+document.addEventListener('trigger_good_cart_close', function() {
+    $('.cart_block_wrap').hide("slide", { direction: "right" });
+})
+
+document.addEventListener('trigger_service_cart_open', function() {
+    $('.cart_block_wrap').show("slide", { direction: "right" });
+    show_service_cart()
+
+})
+
+document.addEventListener('trigger_service_cart_close', function() {
+    $('.cart_block_wrap').hide("slide", { direction: "right" });
+})
+
+$('.cart_block_wrap').hide();
+show_good_cart()
+
+$('#good_cart_bottom_button').on('click', function(event) {
+    event.preventDefault();
+    $('.cart_block_wrap').show("slide", { direction: "right" });
+})
+$('#good_cart_header_button, .cart_wrap .close_cross').on('click', function() {
+    $('.cart_block_wrap').toggle("slide", { direction: "right" });
+})
+
 // ------ // TRIGGER GOOD CART  ------ //
 
 
@@ -145,6 +197,13 @@ $(".welcome_menu a").each(function () {
 
     }
 });
+// ------  // ACTIVE MENU ELEMENT  ------ //
+
+$(document).ready(function(){
+    $('.mobile_input').mask('0 (000) 000-00-00');
+})
+
+
 
 
 

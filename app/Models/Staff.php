@@ -16,12 +16,21 @@ class Staff extends Model implements HasMedia
         'yc_specialization',
         'yc_position',
         'desc_small',
-        'desc'
+        'desc',
+        'flg_active',
+        'collegues',
+        'selected_shopset',
+        'selected_abon',
+        'selected_sert'
     ];
     /**
      * @var mixed
      */
     use InteractsWithMedia;
+
+    protected $casts = [
+        'collegues' => 'array'
+    ];
 
     use HasFactory;
 }

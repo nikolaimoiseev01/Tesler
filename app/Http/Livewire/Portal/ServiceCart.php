@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Portal;
 
+use App\Models\Good;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use Livewire\Component;
@@ -58,6 +59,8 @@ class ServiceCart extends Component
     public function service_cart_add(Request $request, $service_id)
     {
         $service_to_add = Service::where('id', $service_id)->get()->toArray();
+        $service_img_url = Service::where('id', $service_id)->first()->getFirstMediaUrl('pic_main');
+        $service_to_add[0]['image_url'] = $service_img_url;
         $request->session()->push('cart_services', $service_to_add[0]);
         $this->cart_services = $request->session()->get('cart_services');
 
@@ -73,6 +76,8 @@ class ServiceCart extends Component
         $this->total_price = array_reduce($this->cart_services, function ($carry, $item) {
             return $carry + $item['yc_price_min'];
         });
+
+        $this->dispatchBrowserEvent('trigger_service_cart_open');
 
 
         $this->dispatchBrowserEvent('trigger_service_add_button', [
@@ -90,6 +95,10 @@ class ServiceCart extends Component
             ]);
         }
         $this->cart_services = [];
+
+        $this->dispatchBrowserEvent('trigger_service_cart_close');
+
+
         session()->put('cart_services', $this->cart_services);
     }
 

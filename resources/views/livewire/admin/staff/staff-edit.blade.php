@@ -28,23 +28,24 @@
 
             <div class="align-items-center d-flex ml-auto">
                 <div class="d-flex">
-                    <a target="_blank" class="mr-3 link" href="{{route('staff_page', $staff['yc_id'])}}">Страница на сайте</a>
-{{--                    <div class="d-flex ml-auto">--}}
+                    <a target="_blank" class="mr-3 link" href="{{route('staff_page', $staff['yc_id'])}}">Страница на
+                        сайте</a>
+                    <div class="d-flex ml-auto">
 
-{{--                        @if($staff['flg_active'] ?? 0 == 1)--}}
-{{--                            <p class="mr-2" style="color: #1ac71a">есть на сайте</p>--}}
-{{--                        @else--}}
-{{--                            <p class="mr-2" style="color: grey">неактивна</p>--}}
-{{--                        @endif--}}
-{{--                        <label class="mb-0 float-right relative inline-flex items-center cursor-pointer">--}}
+                        @if($staff['flg_active'] ?? 0 == 1)
+                            <p class="mr-2" style="color: #1ac71a">есть на сайте</p>
+                        @else
+                            <p class="mr-2" style="color: grey">неактивна</p>
+                        @endif
+                        <label class="mb-0 float-right relative inline-flex items-center cursor-pointer">
 
-{{--                            <input wire:model="flg_active" wire:change="toggleActivity" type="checkbox" value=""--}}
-{{--                                   class="sr-only peer">--}}
-{{--                            <div--}}
-{{--                                class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>--}}
+                            <input wire:model="flg_active" wire:change="toggleActivity" type="checkbox" value=""
+                                   class="sr-only peer">
+                            <div
+                                class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
 
-{{--                        </label>--}}
-{{--                    </div>--}}
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>
@@ -54,32 +55,32 @@
                 <div class="tab-pane active" id="site_info" tabindex="-1">
                     <form wire:submit.prevent="editstaff(Object.fromEntries(new FormData($event.target)))">
                         @csrf
-{{--                        <div class="row">--}}
-{{--                            <div class="col-md-10">--}}
-{{--                                <div class="form-group">--}}
-{{--                                    <label for="name">Название на сайте</label>--}}
-{{--                                    <input wire:model="name" type="text" class="form-control"--}}
-{{--                                           id="exampleInputEmail1"--}}
-{{--                                           placeholder="Имя услуги">--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                            <div class="col-md-2">--}}
-{{--                                <div class="form-group">--}}
-{{--                                    <label>Категория</label>--}}
-{{--                                    <select wire:model="category" class="form-control"--}}
-{{--                                            name="category_id" aria-hidden="true">--}}
-{{--                                        @if(!($category ?? null))--}}
-{{--                                            <option value="" hidden>Выберите категорию</option>--}}
-{{--                                        @endif--}}
-{{--                                        @foreach($categories as $category)--}}
-{{--                                            <option value="{{$category['id']}}">{{$category['name']}}--}}
-{{--                                            </option>--}}
-{{--                                        @endforeach--}}
-{{--                                    </select>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
+                        {{--                        <div class="row">--}}
+                        {{--                            <div class="col-md-10">--}}
+                        {{--                                <div class="form-group">--}}
+                        {{--                                    <label for="name">Название на сайте</label>--}}
+                        {{--                                    <input wire:model="name" type="text" class="form-control"--}}
+                        {{--                                           id="exampleInputEmail1"--}}
+                        {{--                                           placeholder="Имя услуги">--}}
+                        {{--                                </div>--}}
+                        {{--                            </div>--}}
+                        {{--                            <div class="col-md-2">--}}
+                        {{--                                <div class="form-group">--}}
+                        {{--                                    <label>Категория</label>--}}
+                        {{--                                    <select wire:model="category" class="form-control"--}}
+                        {{--                                            name="category_id" aria-hidden="true">--}}
+                        {{--                                        @if(!($category ?? null))--}}
+                        {{--                                            <option value="" hidden>Выберите категорию</option>--}}
+                        {{--                                        @endif--}}
+                        {{--                                        @foreach($categories as $category)--}}
+                        {{--                                            <option value="{{$category['id']}}">{{$category['name']}}--}}
+                        {{--                                            </option>--}}
+                        {{--                                        @endforeach--}}
+                        {{--                                    </select>--}}
+                        {{--                                </div>--}}
+                        {{--                            </div>--}}
 
-{{--                        </div>--}}
+                        {{--                        </div>--}}
 
 
                         <div class="form-group">
@@ -92,7 +93,52 @@
                             <textarea wire:model="desc" name="desc" class="form-control"></textarea>
                         </div>
 
-                        <button type="submit" class="w-100 show_preloader_on_click btn btn-outline-primary">Сохранить
+                        <div class="mt-3">
+                            <label for="desc_small">Шопсет в подборке</label>
+                            <select wire:model="selected_shopset" class="select2 form-control"
+                                    aria-hidden="true" id="selected_shopset">
+                                @if(!($selected_shopset ?? null))
+                                    <option value="" hidden>Не выбрано</option>
+                                @endif
+                                @foreach($shopsets_all as $shopset)
+                                    <option
+                                        value="{{$shopset['id']}}">{{$shopset['title']}}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="mt-3" >
+                            <label for="desc_small">Сертификат в подборке</label>
+                            <select wire:model="selected_sert"  class="select2 form-control"
+                                    aria-hidden="true" id="selected_sert">
+                                @if(!($selected_sert ?? null))
+                                    <option value="" hidden>Не выбрано</option>
+                                @endif
+                                @foreach($serts_all as $sert)
+                                    <option
+                                        value="{{$sert['id']}}">{{$sert['name']}}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="mt-3">
+                            <label for="desc_small">Абонемент в подборке</label>
+                            <select wire:model="selected_abon" class="select2 form-control"
+                                    aria-hidden="true" id="selected_abon">
+                                @if(!($selected_abon ?? null))
+                                    <option value="" hidden>Не выбрано</option>
+                                @endif
+                                @foreach($abon_all as $abon)
+                                    <option
+                                        value="{{$abon['id']}}">{{$abon['name']}}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <button type="submit" class="mt-3 w-100 show_preloader_on_click btn btn-outline-primary">Сохранить
                         </button>
                     </form>
                 </div>
@@ -135,7 +181,6 @@
         </div>
 
     </div>
-
 
 
     <div style="max-width: 1400px;" class="card">
@@ -195,8 +240,59 @@
             </a>
         </div>
     </div>
+
+
+    <div style="max-width: 1400px;"  class="card">
+        <div class="d-flex align-items-center card-header p-2">
+            <h1 style="font-size: 22px;" class="ml-3">Коллеги этого мастера</h1>
+        </div>
+        <div class="card-body">
+
+            @if ($staff['collegues'] !== null)
+                <div>
+
+                    @foreach($staff['collegues'] as $collegue)
+                        <div wire:key="{{ $loop->index }}">
+                            <a target="_blank"
+                               href="{{route('staff.edit', $collegue['id'])}}">{{$collegue['name']}}</a>
+                            <a wire:click.prevent="delete_collegue({{$collegue['id']}})" href="">
+                                <i class="fa-solid fa-xmark"></i>
+                            </a>
+                        </div>
+                    @endforeach
+                </div>
+            @else
+                еще нет ни одного
+            @endif
+
+            <div class="mt-3" wire:ignore>
+                <select wire:ignore class="select2 form-control"
+                        aria-hidden="true" id="collegue_to_add">
+                    @foreach($collegues_all as $collegue)
+                        <option
+                            value="{{$collegue['id']}}">{{$collegue['yc_name']}}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <a type="submit" wire:click.prevent="new_collegue_to_add()"
+               class="mt-3 show_preloader_on_click btn btn-outline-primary">
+                Добавить
+            </a>
+
+        </div>
+
+
+    </div>
+
+
     @push('scripts')
         <script>
+
+            $('#collegue_to_add').on('change', function () {
+            @this.set('collegue_to_add', $(this).val());
+            })
+
             function filepond_trigger() {
 
                 function make_livewire_var() {
@@ -252,7 +348,7 @@
             })
             document.addEventListener('update_filepond', function () {
                 $('.filepond--root').remove();
-                $(document).ready(function() {
+                $(document).ready(function () {
                     input = "<input type='file' wire:model='staff_examples' class='filepond' multiple name='staff_examples' id='staff_examples' data-allow-reorder='true' data-max-file-size='3MB' data-max-files='3'>"
                     $('#filepond_wrap').append(input);
                     filepond_trigger();

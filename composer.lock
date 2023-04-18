@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c0494c70c347d0f279e41285358901f2",
+    "content-hash": "cc61cb4db60a7553581b411d52f12b66",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -1508,6 +1508,54 @@
             "time": "2023-04-04T06:40:56+00:00"
         },
         {
+            "name": "kenvel/laravel-tinkoff",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kenvel/laravel-tinkoff.git",
+                "reference": "df7372fe17b256f663fee780bda3c04d8b5ed82d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kenvel/laravel-tinkoff/zipball/df7372fe17b256f663fee780bda3c04d8b5ed82d",
+                "reference": "df7372fe17b256f663fee780bda3c04d8b5ed82d",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1 || ^8.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Kenvel\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dmitry Kenvel",
+                    "email": "dimult@yahoo.com",
+                    "homepage": "https://github.com/kenvel/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Simple Tinkoff bank acquiring library.",
+            "homepage": "https://github.com/kenvel/laravel-tinkoff",
+            "keywords": [
+                "acquiring",
+                "tinkoff"
+            ],
+            "support": {
+                "issues": "https://github.com/kenvel/laravel-tinkoff/issues",
+                "source": "https://github.com/kenvel/laravel-tinkoff/tree/master"
+            },
+            "time": "2022-04-20T11:39:58+00:00"
+        },
+        {
             "name": "laravel/framework",
             "version": "v10.6.2",
             "source": {
@@ -2780,6 +2828,126 @@
             "time": "2023-01-29T18:53:47+00:00"
         },
         {
+            "name": "netflie/laravel-notification-whatsapp",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/netflie/laravel-notification-whatsapp.git",
+                "reference": "81f3f2b080bfcb4f61ce136b7e8ae4541bac882f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/netflie/laravel-notification-whatsapp/zipball/81f3f2b080bfcb4f61ce136b7e8ae4541bac882f",
+                "reference": "81f3f2b080bfcb4f61ce136b7e8ae4541bac882f",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/notifications": "~8.0 || ~9.0 || ~10.0",
+                "illuminate/support": "~8.0 || ~9.0 || ~10.0",
+                "netflie/whatsapp-cloud-api": "^2.0.0",
+                "php": ">=7.4"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.0",
+                "phpstan/phpstan": "^1.9",
+                "phpunit/phpunit": "^9.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "NotificationChannels\\WhatsApp\\WhatsAppServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "NotificationChannels\\WhatsApp\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Álex Albarca",
+                    "email": "alex@netflie.es",
+                    "homepage": "https://www.netflie.es",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Laravel notification driver for WhatsApp",
+            "homepage": "https://github.com/netflie/laravel-notification-whatsapp",
+            "keywords": [
+                "laravel",
+                "notification",
+                "whatsapp",
+                "whatsapp notification",
+                "whatsapp notifications channel"
+            ],
+            "support": {
+                "issues": "https://github.com/netflie/laravel-notification-whatsapp/issues",
+                "source": "https://github.com/netflie/laravel-notification-whatsapp/tree/v1.1.0"
+            },
+            "time": "2023-03-21T15:39:11+00:00"
+        },
+        {
+            "name": "netflie/whatsapp-cloud-api",
+            "version": "2.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/netflie/whatsapp-cloud-api.git",
+                "reference": "d94f1dc77e6afeb781f7c877b57f1074d73181ce"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/netflie/whatsapp-cloud-api/zipball/d94f1dc77e6afeb781f7c877b57f1074d73181ce",
+                "reference": "d94f1dc77e6afeb781f7c877b57f1074d73181ce",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7.0",
+                "myclabs/php-enum": "^1.8",
+                "php": "^7.4 || ^8.0 || ^8.1",
+                "vlucas/phpdotenv": "^5.4"
+            },
+            "require-dev": {
+                "fakerphp/faker": "^1.19",
+                "friendsofphp/php-cs-fixer": "^3.13",
+                "phpspec/prophecy-phpunit": "^2.0",
+                "phpstan/phpstan": "^1.9",
+                "phpunit/phpunit": "^9.0",
+                "symfony/var-dumper": "^5.0"
+            },
+            "type": "libray",
+            "autoload": {
+                "psr-4": {
+                    "Netflie\\WhatsAppCloudApi\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Álex Albarca",
+                    "email": "alex@albarca.es"
+                },
+                {
+                    "name": "Álex Albarca",
+                    "email": "alex@netflie.es"
+                }
+            ],
+            "description": "The first PHP SDK to send and receive messages using a cloud-hosted version of the WhatsApp Business Platform",
+            "support": {
+                "issues": "https://github.com/netflie/whatsapp-cloud-api/issues",
+                "source": "https://github.com/netflie/whatsapp-cloud-api/tree/2.0.3"
+            },
+            "time": "2023-03-29T16:59:21+00:00"
+        },
+        {
             "name": "nette/schema",
             "version": "v1.2.3",
             "source": {
@@ -3147,16 +3315,16 @@
         },
         {
             "name": "power-components/livewire-powergrid",
-            "version": "v4.2.0",
+            "version": "v4.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Power-Components/livewire-powergrid.git",
-                "reference": "c3ce8822f291bd3f51b92b5d2386d4f67db56136"
+                "reference": "f50f122b4cfe7e6c109dd150181395f87d1b2ae8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Power-Components/livewire-powergrid/zipball/c3ce8822f291bd3f51b92b5d2386d4f67db56136",
-                "reference": "c3ce8822f291bd3f51b92b5d2386d4f67db56136",
+                "url": "https://api.github.com/repos/Power-Components/livewire-powergrid/zipball/f50f122b4cfe7e6c109dd150181395f87d1b2ae8",
+                "reference": "f50f122b4cfe7e6c109dd150181395f87d1b2ae8",
                 "shasum": ""
             },
             "require": {
@@ -3215,7 +3383,7 @@
             "homepage": "https://github.com/power-components/livewire-powergrid",
             "support": {
                 "issues": "https://github.com/Power-Components/livewire-powergrid/issues",
-                "source": "https://github.com/Power-Components/livewire-powergrid/tree/v4.2.0"
+                "source": "https://github.com/Power-Components/livewire-powergrid/tree/v4.3.1"
             },
             "funding": [
                 {
@@ -3223,7 +3391,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-04-07T10:03:44+00:00"
+            "time": "2023-04-11T21:27:36+00:00"
         },
         {
             "name": "psr/cache",
@@ -4062,6 +4230,74 @@
                 "source": "https://github.com/spatie/image-optimizer/tree/1.6.4"
             },
             "time": "2023-03-10T08:43:19+00:00"
+        },
+        {
+            "name": "spatie/laravel-image-optimizer",
+            "version": "1.7.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-image-optimizer.git",
+                "reference": "cd8945e47b9fd01bc7b770eecd57c56f46c47422"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-image-optimizer/zipball/cd8945e47b9fd01bc7b770eecd57c56f46c47422",
+                "reference": "cd8945e47b9fd01bc7b770eecd57c56f46c47422",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^8.0|^9.0|^10.0",
+                "php": "^8.0",
+                "spatie/image-optimizer": "^1.2.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^6.23|^7.0|^8.0",
+                "phpunit/phpunit": "^9.4"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\LaravelImageOptimizer\\ImageOptimizerServiceProvider"
+                    ],
+                    "aliases": {
+                        "ImageOptimizer": "Spatie\\LaravelImageOptimizer\\Facades\\ImageOptimizer"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\LaravelImageOptimizer\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Optimize images in your Laravel app",
+            "homepage": "https://github.com/spatie/laravel-image-optimizer",
+            "keywords": [
+                "laravel-image-optimizer",
+                "spatie"
+            ],
+            "support": {
+                "source": "https://github.com/spatie/laravel-image-optimizer/tree/1.7.1"
+            },
+            "funding": [
+                {
+                    "url": "https://spatie.be/open-source/support-us",
+                    "type": "custom"
+                }
+            ],
+            "time": "2023-01-24T23:44:33+00:00"
         },
         {
             "name": "spatie/laravel-medialibrary",
@@ -9225,7 +9461,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "kenvel/laravel-tinkoff": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

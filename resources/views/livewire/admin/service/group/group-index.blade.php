@@ -19,7 +19,8 @@
                             </div>
 
                             <div class="ml-0 mr-3 product-info">
-                                <a href="javascript:void(0)" class="product-title">
+                                <a onclick='Livewire.emit("openModal", "admin.service.group.group-edit", {{ json_encode(["group_id" => $group['id']]) }})'
+                                    href="javascript:void(0)" class="product-title">
 {{$group->scope['name']}} / {{ $group->category['name'] }} / {{$group['name']}}
                                 </a>
                             </div>

@@ -25,6 +25,8 @@
     'resources/js/app.js'
     ])
 
+{{--    @vite(['resources/sass/portal.scss','public/build'])--}}
+
     @livewireStyles
 
     @yield('styles')
@@ -39,6 +41,13 @@
     </div>
 </div>
 
+
+
+<x-ui.modal id="consult_modal">
+    @livewire('portal.consult-modal')
+</x-ui.modal>
+
+
 {{--<x-ui.modal/>--}}
 <x-header/>
 <div class="content-wrapper">
@@ -46,8 +55,35 @@
 </div>
 <x-footer/>
 
-@livewire('portal.service-cart')
-@livewire('portal.good-cart')
+<div id="good_cart_bottom_button">
+    <svg  width="21" height="22" viewBox="0 0 21 22" fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M5.76953 5.00391C5.76953 2.24249 8.00811 0.00390625 10.7695 0.00390625C13.5309 0.00390625 15.7695 2.24249 15.7695 5.00391H19.7695L20.7695 21.0039H0.769531L1.76953 5.00391H5.76953ZM10.7695 2.00391C12.4264 2.00391 13.7695 3.34706 13.7695 5.00391H7.76953C7.76953 3.34706 9.11263 2.00391 10.7695 2.00391ZM7.76953 7.00391H5.76953V11.0039H7.76953V7.00391ZM13.7695 11.0039H15.7695V7.00391H13.7695V11.0039Z"
+              fill="white"/>
+    </svg>
+</div>
+
+
+<div class="cart_block_wrap">
+    <div class="cart_wrap">
+        <a class="close_cross">
+            <svg width="19" height="3" viewBox="0 0 19 3" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18.5 0.679688H0.5V2.67969H18.5V0.679688Z" fill="black"/>
+            </svg>
+        </a>
+        <h2>Корзина</h2>
+        <div class="buttons_wrap">
+            <a href="" id="cart_service_button" class="link coal">Услуги</a>
+            <a href="" id="cart_good_button" class="link coal">Товары</a>
+        </div>
+        @livewire('portal.good-cart')
+        @livewire('portal.service-cart')
+    </div>
+</div>
+
+
+
 
 <!-- include jQuery library -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
@@ -55,21 +91,13 @@
 
 @livewireScripts
 
-<script defer src="/js/portal.js"></script>
+<script src="/js/portal.js"></script>
 
-<!-- ---------- FILEPOND ---------- -->
-<!-- include FilePond library -->
-<script src="/plugins/filepond/filepond.js"></script>
-<!-- include FilePond jQuery adapter -->
-<script src="/plugins/filepond/filepond.jquery.js"></script>
-<!-- include FilePond plugins -->
-<script src="/plugins/filepond/filepond-plugin-image-preview.js"></script>
+{{--<script src="/plugins/alpinejs/alpinejs.js" defer></script>--}}
 
-<script src="/plugins/alpinejs/alpinejs.js" defer></script>
+<script src="/plugins/slick/slick.js"></script>
 
-{{--<script defer>--}}
-{{--        (function ($) {console.log('test')})(jQuery);--}}
-{{--</script>--}}
+<script src="/plugins/jquery-mask/jquery.mask.min.js"></script>
 
 
 <script>
@@ -82,31 +110,10 @@
         $status_gallery.text(i + '/' + slick.slideCount);
     });
 </script>
-<script src="/plugins/slick/slick.js"></script>
+
 
 
 @stack('scripts')
-
-<script>
-    // First register any plugins
-    FilePond.registerPlugin(
-        FilePondPluginImagePreview,
-        // FilePondPluginImageExifOrientation,
-        // FilePondPluginFileValidateSize,
-        // FilePondPluginImageEdit
-    );
-    FilePond.setOptions({
-        server: {
-            url: '/upload',
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            }
-        }
-
-    });
-</script>
-<!-- ---------- ////////  FILEPOND ---------- -->
-
 
 <script>
     // ------  GOOD INFO DETAILED CHANGE ------ //

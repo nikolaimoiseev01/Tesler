@@ -4,7 +4,7 @@
         <a style="color: {{$color}}" href="{{route('market_page')}}"> Магазин </a>
         <a style="color: {{$color}}" href="{{route('abonements_page')}}"> Абонементы и сертификаты </a>
         <a style="color: {{$color}}" href="{{route('loyalty_page')}}"> Программа лояльности </a>
-        <a style="color: {{$color}}" href="{{route('home')}}#footer"> Контакты </a>
+        <a style="color: {{$color}}" href="#footer"> Контакты </a>
     </div>
     <div>
         <span style="color: {{$color}}">09:00</span>

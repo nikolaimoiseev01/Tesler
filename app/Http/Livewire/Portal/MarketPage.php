@@ -28,16 +28,20 @@ class MarketPage extends Component
     public $hair_type = [];
     public $skin_types;
     public $skin_type = [];
+    public $brands;
+    public $brand = [];
+
 
     public $price_all_max;
 
     public $load_more_check;
 
     protected $listeners = ['refreshMarketPage' => '$refresh', 'make_sorting'];
-    protected $queryString = ['price_min', 'price_max', 'yc_category', 'search_input', 'shopset', 'hair_type', 'skin_type'];
+    protected $queryString = ['price_min', 'price_max', 'yc_category', 'search_input', 'shopset', 'hair_type', 'skin_type', 'brand'];
 
     public function render()
     {
+
 
 
         $this->goods = $this->goods_orig->where('yc_price', '>', 0)
@@ -64,6 +68,9 @@ class MarketPage extends Component
             })
             ->when($this->hair_type, function ($q) {
                 return $q->whereIn('hair_type', $this->hair_type);
+            })
+            ->when($this->brand, function ($q) {
+                return $q->whereIn('brand', $this->brand);
             })
             ->when($this->sort_type == 'price_asc', function ($q) {
                 return $q->sortBy('yc_price');
@@ -120,6 +127,7 @@ class MarketPage extends Component
         $this->shopsets = ShopSet::orderBy('title')->get();
         $this->skin_types = $this->goods_orig->where('skin_type', '<>', null)->unique('skin_type')->pluck('skin_type');
         $this->hair_types = $this->goods_orig->where('hair_type', '<>', null)->unique('hair_type')->pluck('hair_type');
+        $this->brands = $this->goods_orig->where('brand', '<>', null)->unique('brand')->pluck('brand');
 
     }
 

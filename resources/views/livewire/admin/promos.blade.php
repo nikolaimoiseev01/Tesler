@@ -18,7 +18,7 @@
                             </div>
 
                             <div class="ml-0 mr-3 product-info">
-                                <a href="javascript:void(0)" class="product-title">{{$promo['title']}}</a>
+                                <a href="{{route('promo.edit', $promo['id'])}}" class="product-title">{{$promo['title']}}</a>
                                 <span style="white-space: inherit;"
                                       class="product-description">{{$promo['desc']}}</span>
                             </div>
@@ -32,63 +32,6 @@
                                 </a>
                             </div>
                         </div>
-
-                        <form wire:ignore wire:key="edit_promo-{{$promo['id']}}"
-                              action="editPromo(Object.fromEntries(new FormData($event.target)))"
-                              x-show="open_{{$promo['id']}}"
-                              name="add-blog-post-form"
-                              class="edit_promo mt-3"
-                              id="edit-blog-post-form"
-                              method="post"
-                              wire:submit.prevent="editPromo(Object.fromEntries(new FormData($event.target)))">
-                            @csrf
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Заголовок</label>
-                                <input value="{{$promo['title']}}" name="title" type="text" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Описание</label>
-                                <textarea name="desc"
-                                          class="form-control">{{$promo['desc']}}</textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Текст ссылки</label>
-                                <input type="text" value="{{$promo['link_text']}}"
-                                       id="link_text" name="link_text" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Ссылка</label>
-                                <input type="text" value="{{$promo['link']}}"
-                                       id="link" name="link" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Тип</label>
-                                <input type="text" value="{{$promo['type']}}"
-                                       id="type" name="type" class="form-control">
-                            </div>
-                            <div >
-                                <input type="text" name="promo_id" value="{{$promo['id']}}" style="display: none">
-
-                                <div style="width: fit-content" id="pic_block_{{$promo['id']}}"
-                                     class="position-relative">
-                                    <label>Изображение акции</label>
-                                    <img style="max-width: 300px;" src="{{$promo->getFirstMediaUrl('promo_pics')}}"
-                                         alt="">
-                                    <a id="make_new_pic--{{$promo['id']}}" class="mt-3 make_new_pic btn btn-outline-primary">заменить</a>
-                                </div>
-                                <div style="display: none;" class="mt-2" id="new_pic_block_{{$promo['id']}}">
-                                    <input type="file"
-                                           class="filepond filepond_promo_edit"
-                                           name="promo_pics"
-                                           data-allow-reorder="true"
-                                           data-max-file-size="3MB"
-                                           data-max-files="3">
-
-                            </div>
-                            <button class="mt-3 show_preloader_on_click btn btn-primary">Сохранить
-                            </button>
-
-                        </form>
 
                     </li>
                 @endforeach

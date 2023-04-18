@@ -44,7 +44,7 @@ class GoodEdit extends Component
 
 //    public $specs_detailed_number = [1];
 
-    protected $listeners = ['refreshGoodEdit' => '$refresh', 'delete_good_example_media'];
+    protected $listeners = ['refreshGoodEdit' => '$refresh', 'delete_good_example_media', 'delete_good'];
 
 
     public function render()
@@ -151,10 +151,6 @@ class GoodEdit extends Component
 
         if ($this->category == null) {
             array_push($errors_array, 'Выберите категорию от услуг!');
-        }
-
-        if ($this->good_category_id == null) {
-            array_push($errors_array, 'Выберите категорию от товаров!');
         }
 
         if ($this->product_type == null) {
@@ -299,11 +295,14 @@ class GoodEdit extends Component
         $yc_good = Http::withHeaders($YCLIENTS_HEADERS)
             ->get('https://api.yclients.com/api/v1/goods/' . $YCLIENTS_SHOP_ID . '/' . $this->good['yc_id'])
             ->collect()['data'];
+        $storage_id_key = array_search(ENV('YCLIENTS_SHOP_STORAGE'), array_column($yc_good['actual_amounts'], 'storage_id'));
+        $yc_actual_amounts = $yc_good['actual_amounts'][$storage_id_key]['amount'] ?? null;
 
         $this->good->update([
             'yc_title' => $yc_good['title'],
             'yc_category' => $yc_good['category'],
             'yc_price' => $yc_good['cost'],
+            'yc_actual_amount' => $yc_actual_amounts
         ]);
 
         $this->emit('refreshGoodEdit');
@@ -482,7 +481,7 @@ class GoodEdit extends Component
             } else {
                 $good_categories_new = [intval($this->good_category_id)];
                 $this->good->update([
-                    'good_category_id' => good_categories_new,
+                    'good_category_id' => $good_categories_new,
                 ]);
             }
 
@@ -510,6 +509,70 @@ class GoodEdit extends Component
             'title' => 'Категория успешно удалена из товара!',
         ]);
 
+    }
+
+    public function delete_confirm($good_id)
+    {
+        $good = Good::where('id', $good_id)->first();
+        $this->dispatchBrowserEvent('swal_fire', [
+            'type' => 'warning',
+            'title' => 'Предупреждение!',
+            'text' => 'Вы уверены, что хотите удалить акцию "' . $good['name'] . '" ?',
+            'swal_detail_id' => $good_id,
+            'showConfirmButton' => true,
+            'showDenyButton' => true,
+            'swal_function_to_confirm' => 'delete_good'
+        ]);
+    }
+
+    public function delete_good($good_id)
+    {
+//        dd($this->good);
+
+        $this->good->delete();
+
+        $this->dispatchBrowserEvent('toast_fire', [
+            'type' => 'success',
+            'title' => 'Товар успешно удален!',
+        ]);
+        return redirect(route('good.index'));
+    }
+
+    public function test_make_sale() {
+        $YCLIENTS_SHOP_ID = ENV('YCLIENTS_SHOP_ID');
+        $YCLIENTS_HEADERS = [
+            'Accept' => 'application/vnd.yclients.v2+json',
+            'Authorization' => 'Bearer ' . ENV('YCLIENTS_BEARER') . ', User ' . ENV('YCLIENTS_ADMIN_TOKEN')
+        ];
+        dd('Bearer ' . ENV('YCLIENTS_BEARER') . ', User ' . ENV('YCLIENTS_ADMIN_TOKEN'));
+
+        $url = 'https://api.yclients.com/api/v1/storage_operations/operation/' . $YCLIENTS_SHOP_ID;
+
+        $data = [
+            'type_id' => 1,
+            'create_date' => 1493128800,
+            'storage_id' => ENV('YCLIENTS_SHOP_STORAGE'),
+            'goods_transactions' => [
+                'document_id' => 123123,
+                'good_id' => $this->good['yc_id'],
+                'amount' => 1,
+                'cost_per_unit' => 1,
+                'discount' => 0,
+                'cost' => 1,
+                'operation_unit_type' => 1,
+            ]
+        ];
+
+//        $response = Http::withHeaders($YCLIENTS_HEADERS)
+//            ->send('POST', $url, [
+//                'body' => '{' . $data . '}'
+//            ])->json();
+
+        $make_operation = Http::withHeaders($YCLIENTS_HEADERS)
+            ->post($url, $data);
+
+
+        dd($make_operation);
     }
 
 }

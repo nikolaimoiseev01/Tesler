@@ -70,7 +70,7 @@
         </div>
     </div>
 
-    <div class="calcs_wrap">
+    <div class="content calcs_wrap">
         <div class="calc_card_wrap">
             <div class="text">
                 <h2>Калькулятор окрашивания</h2>
@@ -106,20 +106,12 @@
         <h1 class="content">Выбираем работать с лучшими</h1>
         <div class="parnters_wrap">
             <div class="content">
-                <img src="/media/media_fixed/loreal.png" alt="">
-                <img src="/media/media_fixed/redken.png" alt="">
-                <img src="/media/media_fixed/loreal.png" alt="">
-                <img src="/media/media_fixed/redken.png" alt="">
-                <img src="/media/media_fixed/loreal.png" alt="">
-                <img src="/media/media_fixed/redken.png" alt="">
-                <img src="/media/media_fixed/loreal.png" alt="">
-                <img src="/media/media_fixed/loreal.png" alt="">
-                <img src="/media/media_fixed/redken.png" alt="">
-                <img src="/media/media_fixed/loreal.png" alt="">
-                <img src="/media/media_fixed/redken.png" alt="">
-                <img src="/media/media_fixed/loreal.png" alt="">
-                <img src="/media/media_fixed/redken.png" alt="">
-                <img src="/media/media_fixed/loreal.png" alt="">
+                <img src="/media/media_fixed/logo_academie.png" alt="">
+                <img src="/media/media_fixed/logo_hydra.jpg" alt="">
+                <img src="/media/media_fixed/logo_lebel.jpg" alt="">
+                <img src="/media/media_fixed/logo_luxio.jpg" alt="">
+                <img src="/media/media_fixed/logo_tokio.jpg" alt="">
+                <img src="/media/media_fixed/logo_zeilinski.jpg" alt="">
             </div>
         </div>
 

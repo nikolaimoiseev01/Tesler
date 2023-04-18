@@ -20,6 +20,11 @@ return new class extends Migration
             $table->string('yc_position');
             $table->string('desc')->nullable();
             $table->string('desc_small')->nullable();
+            $table->integer('flg_active')->default(0);
+            $table->json('collegues')->nullable();
+            $table->integer('selected_shopset')->nullable();
+            $table->integer('selected_sert')->nullable();
+            $table->integer('selected_abon')->nullable();
             $table->timestamps();
         });
     }

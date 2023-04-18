@@ -14,32 +14,46 @@
             <textarea name="desc" class="form-control">{{$scope['desc']}}</textarea>
         </div>
 
-        <div style="width: fit-content" id="pic_main_page_block_{{$scope['id']}}"
-             class="position-relative">
-            <label for="">Фото на главной странице</label>
-            <img style="max-width: 100px;" src="/{{$scope['pic_main_page']}}"
-                 alt="">
-            <a id="make_pic_main_page_block--{{$scope['id']}}" class="mt-3 mb-3 make_pic_main_page_block btn btn-outline-primary">заменить</a>
-        </div>
+{{--        <div style="width: fit-content" id="pic_main_page_block_{{$scope['id']}}"--}}
+{{--             class="position-relative">--}}
+{{--            <label for="">Фото на главной странице</label>--}}
+{{--            <div class="image_editable_wrap">--}}
+{{--                <img data-crop-component="refreshPromoEdit"--}}
+{{--                     data-crop-width="460"--}}
+{{--                     data-crop-height="280"--}}
+{{--                     style="max-width: 100px;" src="/{{$scope['pic_main_page']}}"--}}
+{{--                     alt="">--}}
+{{--                <i class="image_edit_button fa-solid fa-pencil"></i>--}}
+{{--            </div>--}}
+{{--            <a id="make_pic_main_page_block--{{$scope['id']}}"--}}
+{{--               class="mt-3 mb-3 make_pic_main_page_block btn btn-outline-primary">заменить</a>--}}
+{{--        </div>--}}
 
-        <div style="display: none;" class="mt-2" id="new_pic_main_page_block_{{$scope['id']}}">
-            <input type="file"
-                   wire:model="pic_scope_main_page"
-                   class="filepond"
-                   name="pic_scope_main_page"
-                   id="pic_scope_main_page"
-                   data-allow-reorder="true"
-                   data-max-file-size="3MB"
-                   data-max-files="3">
+{{--        <div style="display: none;" class="mt-2" id="new_pic_main_page_block_{{$scope['id']}}">--}}
+{{--            <input type="file"--}}
+{{--                   wire:model="pic_scope_main_page"--}}
+{{--                   class="filepond"--}}
+{{--                   name="pic_scope_main_page"--}}
+{{--                   id="pic_scope_main_page"--}}
+{{--                   data-allow-reorder="true"--}}
+{{--                   data-max-file-size="3MB"--}}
+{{--                   data-max-files="3">--}}
 
-        </div>
+{{--        </div>--}}
 
         <div style="width: fit-content" id="pic_scope_page_block_{{$scope['id']}}"
              class="position-relative">
             <label for="">Фото на странице сферы</label>
-            <img style="max-width: 300px;" src="/{{$scope['pic_scope_page']}}"
-                 alt="">
-            <a id="make_pic_scope_page_block--{{$scope['id']}}" class="mt-3 mb-3 make_pic_scope_page_block btn btn-outline-primary">заменить</a>
+            <div class="image_editable_wrap">
+                <img data-crop-component="refreshScopeIndex"
+                     data-crop-width="1920"
+                     data-crop-height="1080"
+                     style="max-width: 300px;" src="/{{$scope['pic_scope_page']}}"
+                     alt="">
+                <i class="image_edit_button fa-solid fa-pencil"></i>
+            </div>
+            <a id="make_pic_scope_page_block--{{$scope['id']}}"
+               class="mt-3 mb-3 make_pic_scope_page_block btn btn-outline-primary">заменить</a>
         </div>
         <div style="display: none;" class="mt-2" id="new_pic_scope_page_block_{{$scope['id']}}">
             <input type="file"
@@ -48,10 +62,9 @@
                    name="pic_scope_page"
                    id="pic_scope_page"
                    data-allow-reorder="true"
-                   data-max-file-size="3MB"
+                   data-max-file-size="20MB"
                    data-max-files="3">
         </div>
-
 
 
         <button type="submit" class="w-100 show_preloader_on_click btn btn-outline-primary">Сохранить</button>
@@ -86,8 +99,12 @@
 
             $('#pic_scope_page').filepond({
                 allowMultiple: false,
-                allowImageValidateSize: true,
                 allowFileTypeValidation: true,
+                allowImageValidateSize: true,
+                imageValidateSizeMinWidth: 1080,
+                imageValidateSizeMinHeight: 700,
+                imageResizeTargetWidth: 1920,
+                // imageResizeMode: 'contain',
                 acceptedFileTypes: ['image/png', 'image/jpeg'],
 
                 server: {
@@ -96,9 +113,9 @@
                         'X-CSRF-TOKEN': '{{csrf_token()}}'
                     }
                 },
-                labelIdle: 'Изображение сферы (страница сферы) | png/jpg',
-                maxFileSize: '10MB',
-                maxTotalFileSize: '20MB',
+                labelIdle: 'Изображение сферы (страница сферы)| (min: 1920:1080) | png/jpg',
+                maxFileSize: '15MB',
+                maxTotalFileSize: '30MB',
                 labelMaxFileSizeExceeded: 'Размер превышен!',
                 labelMaxFileSize: 'Максимальный: {filesize}',
                 labelMaxTotalFileSizeExceeded: 'Сумма размеров превышена!',

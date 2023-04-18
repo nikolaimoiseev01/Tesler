@@ -6,17 +6,17 @@ use App\Models\Service;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
-use PowerComponents\LivewirePowerGrid\Rules\{Rule, RuleActions};
+use PowerComponents\LivewirePowerGrid\Rules\Rule;
+use PowerComponents\LivewirePowerGrid\Rules\RuleActions;
 use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
-use PowerComponents\LivewirePowerGrid\{Button,
-    Column,
-    Exportable,
-    Footer,
-    Header,
-    PowerGrid,
-    PowerGridComponent,
-    PowerGridEloquent
-};
+use PowerComponents\LivewirePowerGrid\Button;
+use PowerComponents\LivewirePowerGrid\Column;
+use PowerComponents\LivewirePowerGrid\Exportable;
+use PowerComponents\LivewirePowerGrid\Footer;
+use PowerComponents\LivewirePowerGrid\Header;
+use PowerComponents\LivewirePowerGrid\PowerGrid;
+use PowerComponents\LivewirePowerGrid\PowerGridComponent;
+use PowerComponents\LivewirePowerGrid\PowerGridEloquent;
 
 final class ServiceTable extends PowerGridComponent
 {
@@ -35,9 +35,9 @@ final class ServiceTable extends PowerGridComponent
         $this->showCheckBox();
 
         return [
-            Exportable::make('export')
-                ->striped()
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+//            Exportable::make('export')
+//                ->striped()
+//                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             Header::make()->showSearchInput()->showToggleColumns(),
             Footer::make()
                 ->showPerPage()
@@ -107,6 +107,7 @@ final class ServiceTable extends PowerGridComponent
             ->addColumn('yc_id')
             ->addColumn('name')
             ->addColumn('scope_name')
+            ->addColumn('yc_category_name')
             ->addColumn('category_name')
             ->addColumn('group_name')
             ->addColumn('flg_active')
@@ -139,6 +140,10 @@ final class ServiceTable extends PowerGridComponent
                 ->sortable(),
 
             Column::make('Название', 'name')
+                ->searchable()
+                ->sortable(),
+
+            Column::make('Категория из YC', 'yc_category_name')
                 ->searchable()
                 ->sortable(),
 

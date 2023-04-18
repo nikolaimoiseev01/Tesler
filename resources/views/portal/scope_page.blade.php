@@ -42,31 +42,34 @@
             </x-ui.gallery>
         </div>
 
-        <div class="content two_parts_block_wrap">
-            <div class="left"></div>
-            <div class="right">
-                <h2>Люди, которые любят свою работу</h2>
-                <p>
-                    Запишитесь на эту услугу к любому из специалистов ниже. Чтобы познакомиться с мастером, увидеть его
-                    опыт и работы – нажмите на фото.
-                </p>
-                <div class="workers_wrap">
-                    @foreach($category_staff as $staff_member)
-                        @if($staff_member['category_id'] == $category['id'])
+        @if ($category['staff'] ?? null && count($category['staff']) > 0)
+            <div class="content two_parts_block_wrap">
+                <div class="left"></div>
+                <div class="right">
+                    <h2>Люди, которые любят свою работу</h2>
+                    <p>
+                        Запишитесь на эту услугу к любому из специалистов ниже. Чтобы познакомиться с мастером, увидеть
+                        его
+                        опыт и работы – нажмите на фото.
+                    </p>
+                    <div class="workers_wrap">
+                        @foreach($category['staff'] as $staff_member)
                             <div class="worker">
-                                <img src="{{$staff_member['image_url']}}" alt="">
-                                <p-400>{{$staff_member['name']}}</p-400>
-                                {{--                                <p>{{$admin['specialization']}}</p>--}}
+                                <a href="{{route('staff_page', $staff_member['yc_id'])}}">
+                                    <img src="{{$staff_member['avatar']}}" alt="">
+                                    <p-400>{{$staff_member['name']}}</p-400>
+                                    <p>{{$staff_member['specialization']}}</p>
+                                </a>
                             </div>
-                        @endif
-                    @endforeach
+                        @endforeach
+                    </div>
                 </div>
             </div>
-        </div>
+        @endif
 
         <div class="sp_services_block">
             <h2>{{$category['name']}}</h2>
-            @foreach($category->group as $group)
+            @foreach(\App\Models\Group::where('scope_id', $scope['id'])->where('category_id', $category['id'])->get() as $group)
                 <div class="group_wrap">
                     <div data-group-title="{{$group['id']}}" class="group_title_wrap">
                         <h2>{{$group['name']}}</h2>
@@ -78,11 +81,12 @@
                     </div>
 
                     <div id="services_in_group_{{$group['id']}}" class="sp_group_services_wrap">
-                        @foreach($group->service as $service)
+                        @foreach(\App\Models\Service::where('scope_id', $scope['id'])->where('category_id', $category['id'])->where('group_id', $group['id'])->get() as $service)
                             <div class="service_wrap">
                                 <div class="info">
                                     <a href="{{route('service_page', $service['id'])}}">
-                                        <p class="duration" style="flex: none; width: 80px;">{{$service['yc_duration'] / 60}} мин</p>
+                                        <p class="duration"
+                                           style="flex: none; width: 80px;">{{$service['yc_duration'] / 60}} мин</p>
                                     </a>
                                     <a href="{{route('service_page', $service['id'])}}">
                                         <p style="flex: none; width:70px;">{{$service['yc_price_min']}} ₽</p>
@@ -124,8 +128,6 @@
                 } else {
                     $(this).children('svg').css('transform', 'scale(1, -1)')
                 }
-
-
                 block.slideToggle()
             })
         </script>

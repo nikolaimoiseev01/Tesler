@@ -25,7 +25,8 @@ class Service extends Model implements HasMedia
         'desc',
         'proccess',
         'result',
-        'service_type_id'
+        'service_type_id',
+        'yc_category_name'
     ];
 
 

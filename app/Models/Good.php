@@ -14,6 +14,7 @@ class Good extends Model implements HasMedia
         'yc_title',
         'yc_price',
         'yc_category',
+        'yc_actual_amount',
         'flg_active',
         'category_id',
         'name',

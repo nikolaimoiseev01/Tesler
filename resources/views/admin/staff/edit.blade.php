@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title')Сотрудник: {{$staff['yc_name']}}@endsection
+@section('title'){{$staff['yc_name']}}@endsection
 
 @section('page-style')
 @endsection
