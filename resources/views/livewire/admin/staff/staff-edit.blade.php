@@ -20,7 +20,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#yc_info" data-toggle="tab">
-                            Получено от YC_Clients2
+                            Получено от YC_Clients
                         </a>
                     </li>
                 </ul>
