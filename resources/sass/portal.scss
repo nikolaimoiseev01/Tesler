@@ -713,6 +713,8 @@
         padding: 30px 50px;
         width:85%;
         max-width: 800px;
+        max-height: 90%;
+        overflow: auto;
 
         h2 {
             color: $color-stone-100;
@@ -724,6 +726,10 @@
             color: $color-stone-100;
             margin-bottom: 20px;
             letter-spacing: 0.02em;
+
+            @media(max-height: 820px) {
+                display: none;
+            }
         }
 
         .inputs_wrap {
