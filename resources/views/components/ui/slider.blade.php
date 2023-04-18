@@ -64,14 +64,17 @@
                     breakpoint: 768,
                     settings: {
                         slidesToShow: 5,
+                        infinite: true,
                     }
                 },
-                {
-                    breakpoint: 480,
-                    settings: {
-                        slidesToShow: 6,
-                    }
-                }],
+                // {
+                //     breakpoint: 480,
+                //     settings: {
+                //         slidesToShow: 6,
+                //         infinite: true,
+                //     }
+                // }
+                ],
             // centerMode: true,
             slidesToScroll: 1,
             arrows: true,
