@@ -67,11 +67,11 @@
         </div>
 
 
-        <x-ui.previewcta
+        <x-ui.preview-cta
             title="абонементы"
             link="{{route('abonements_page')}}?yc_category[0]=Абонементы+Сеть+Tesler"
             :cards="$abonements">
-        </x-ui.previewcta>
+        </x-ui.preview-cta>
 
         <x-ui.need-consultation/>
     </div>
