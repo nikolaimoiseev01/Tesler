@@ -32,8 +32,8 @@ return new class extends Migration
 //            $table->integer('flg_on_road')->nullable()->default(0);;
 //            $table->integer('flg_gift_set')->nullable()->default(0);;
 //            $table->integer('flg_discount')->nullable()->default(0);;
-            $table->string('skin_type')->nullable();
-            $table->string('hair_type')->nullable();
+            $table->json('skin_type')->nullable();
+            $table->json('hair_type')->nullable();
             $table->string('product_type')->nullable();
             $table->string('brand')->nullable();
 
