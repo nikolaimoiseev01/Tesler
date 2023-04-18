@@ -131,10 +131,32 @@
             display: flex !important;
             flex-direction: column;
 
+            @media(max-width: $media-tablets-768) {
+                width: 368px !important;
+                height: 340px;
+            }
+
+            @media(max-width: $media-mobiles-480) {
+                width: 295px !important;
+                height: 288px;
+            }
+
             .image {
                 position: relative;
                 width: 460px;
                 height: 280px;
+
+                @media(max-width: $media-tablets-768) {
+                    width: 368px !important;
+                    height: 224px;
+                }
+
+                @media(max-width: $media-mobiles-480) {
+                    width: 295px !important;
+                    height: 180px;
+                }
+
+
 
                 img {
                     width: 100%;
@@ -689,6 +711,7 @@
 #consult_modal {
     .modal_content {
         padding: 30px 50px;
+        width:85%;
         max-width: 800px;
 
         h2 {
@@ -712,6 +735,7 @@
             .row_1_wrap {
                 display: flex;
                 gap: 20px;
+                flex-wrap: wrap;
             }
 
             .input_wrap {

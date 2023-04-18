@@ -7,7 +7,7 @@
                 вам
             </p>
         </div>
-        <a href="" class="link-bg fern">Бесплатная консультация</a>
+        <a modal-id="consult_modal" class="modal-link link-bg fern">Бесплатная консультация</a>
     </div>
     <div class="image_blackout">
         <img src="/media/media_fixed/need_consultation.png" alt="">
