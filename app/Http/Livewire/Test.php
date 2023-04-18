@@ -1,26 +1,17 @@
 <?php
 
-namespace App\Http\Livewire\Admin\Order;
+namespace App\Http\Livewire;
 
 use App\Models\Order;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\DB;
 use PowerComponents\LivewirePowerGrid\Rules\{Rule, RuleActions};
 use PowerComponents\LivewirePowerGrid\Filters\Filter;
 use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
-use PowerComponents\LivewirePowerGrid\{Button,
-    Column,
-    Exportable,
-    Footer,
-    Header,
-    PowerGrid,
-    PowerGridComponent,
-    PowerGridEloquent
-};
+use PowerComponents\LivewirePowerGrid\{Button, Column, Exportable, Footer, Header, PowerGrid, PowerGridComponent, PowerGridEloquent};
 
-final class OrderTable extends PowerGridComponent
+final class Test extends PowerGridComponent
 {
     use ActionButton;
 
@@ -36,7 +27,10 @@ final class OrderTable extends PowerGridComponent
         $this->showCheckBox();
 
         return [
-            Header::make()->showToggleColumns()->showSearchInput(),
+            Exportable::make('export')
+                ->striped()
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+            Header::make()->showSearchInput(),
             Footer::make()
                 ->showPerPage()
                 ->showRecordCount(),
@@ -58,10 +52,7 @@ final class OrderTable extends PowerGridComponent
      */
     public function datasource(): Builder
     {
-        return Order::query()->leftjoin('good_deli_statuses', 'good_deli_statuses.id', '=', 'orders.good_deli_status_id')
-            ->select('orders.*',
-                DB::raw('ifnull(good_deli_statuses.title, "") as deli_status')
-            );
+        return Order::query();
     }
 
     /*
@@ -97,13 +88,10 @@ final class OrderTable extends PowerGridComponent
     {
         return PowerGrid::eloquent()
             ->addColumn('id')
-            ->addColumn('tinkoff_status')
-            ->addColumn('goods', fn(Order $model) => count($model->goods))
-            ->addColumn('price', fn(Order $model) => str($model->price / 100) . ' ₽')
-            ->addColumn('need_delivery', fn(Order $model) => ($model->need_delivery == 1) ? 'Самостоятельно' : 'Нужна доставка')
-            ->addColumn('deli_status')
-            ->addColumn('created_at_formatted', fn (Order $model) => str(Carbon::parse($model->created_at)->format('d/m H:i')))
-            ->addColumn('updated_at_formatted', fn (Order $model) => str(Carbon::parse($model->updated_at)->format('d/m H:i')));
+            ->addColumn('name')
+            ->addColumn('name_lower', fn (Order $model) => strtolower(e($model->name)))
+            ->addColumn('created_at')
+            ->addColumn('created_at_formatted', fn (Order $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
     }
 
     /*
@@ -127,28 +115,15 @@ final class OrderTable extends PowerGridComponent
                 ->searchable()
                 ->sortable(),
 
-            Column::make('Статус Tinkoff', 'tinkoff_status')
-                ->searchable()
-                ->sortable(),
-            Column::make('Кол-во товаров', 'goods')
-                ->searchable()
-                ->sortable(),
-            Column::make('Стоимость', 'price')
+            Column::make('Name', 'name')
                 ->searchable()
                 ->sortable(),
 
-            Column::make('Нужна доставка?', 'need_delivery')
+            Column::make('Created at', 'created_at')
+                ->hidden(),
+
+            Column::make('Created at', 'created_at_formatted', 'created_at')
                 ->searchable()
-                ->sortable(),
-            Column::make('Статус доставки', 'deli_status')
-                ->searchable()
-                ->sortable(),
-            Column::make('Создан', 'created_at_formatted')
-                ->searchable()
-                ->sortable(),
-            Column::make('Обновлен', 'updated_at_formatted')
-                ->searchable()
-                ->sortable(),
         ];
     }
 
@@ -161,7 +136,7 @@ final class OrderTable extends PowerGridComponent
     {
         return [
             Filter::inputText('name'),
-//            Filter::datepicker('created_at_formatted', 'created_at'),
+            Filter::datepicker('created_at_formatted', 'created_at'),
         ];
     }
 
@@ -179,21 +154,21 @@ final class OrderTable extends PowerGridComponent
      * @return array<int, Button>
      */
 
-
+    /*
     public function actions(): array
     {
-        return [
-            Button::make('edit', 'Подробнее')
-                ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
-                ->route('order.edit', ['order_id' => 'id']),
+       return [
+           Button::make('edit', 'Edit')
+               ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
+               ->route('order.edit', ['order' => 'id']),
 
-//           Button::make('destroy', 'Delete')
-//               ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
-//               ->route('order.destroy', ['order' => 'id'])
-//               ->method('delete')
+           Button::make('destroy', 'Delete')
+               ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
+               ->route('order.destroy', ['order' => 'id'])
+               ->method('delete')
         ];
     }
-
+    */
 
     /*
     |--------------------------------------------------------------------------

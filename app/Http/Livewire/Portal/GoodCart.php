@@ -203,8 +203,8 @@ class GoodCart extends Component
 
 
             $api = new TinkoffMerchantAPI(
-                '1681367079536DEMO',  //Ваш Terminal_Key
-                'v0r4ej87zx5dhinh'   //Ваш Secret_Key
+                ENV('TINKOFF_TERMINAL_ID'),  //Ваш Terminal_Key
+                ENV('TINKOFF_TERMINAL_SECRET')   //Ваш Secret_Key
             );
 
 
