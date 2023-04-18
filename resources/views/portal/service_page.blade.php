@@ -127,11 +127,11 @@
     @endif
 
     @if($abonements)
-        <x-ui.previewcta
+        <x-ui.preview-cta
             title="абонементы на {{$service->group['name']}}"
             link="{{route('abonements_page')}}"
             :cards="$abonements">
-        </x-ui.previewcta>
+        </x-ui.preview-cta>
     @endif
 
     <x-ui.need-consultation/>
