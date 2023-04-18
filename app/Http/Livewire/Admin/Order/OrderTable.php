@@ -100,7 +100,7 @@ final class OrderTable extends PowerGridComponent
             ->addColumn('tinkoff_status')
             ->addColumn('goods', fn(Order $model) => count($model->goods))
             ->addColumn('price', fn(Order $model) => str($model->price / 100) . ' ₽')
-            ->addColumn('need_delivery', fn(Order $model) => ($model->need_delivery == 1) ? 'Самостоятельно' : 'Нужна доставка')
+            ->addColumn('need_delivery', fn(Order $model) => ($model->need_delivery == 1) ? 'Нужна доставка' : 'Самостоятельно')
             ->addColumn('deli_status')
             ->addColumn('created_at_formatted', fn (Order $model) => str(Carbon::parse($model->created_at)->format('d/m H:i')))
             ->addColumn('updated_at_formatted', fn (Order $model) => str(Carbon::parse($model->updated_at)->format('d/m H:i')));
