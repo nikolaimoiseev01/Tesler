@@ -28,6 +28,9 @@
 
             <div class="align-items-center d-flex ml-auto">
                 <div class="d-flex">
+
+                    <a target="_blank" class="mr-3 link" href="https://yclients.com/goods/list/247576/?goodNameOrArticleOrBarcode={{preg_replace('/\s+/', '+', $good['yc_title'])}}">Страница на
+                        YClients</a>
                     <a target="_blank" class="mr-3 link" href="{{route('good_page', $good['id'])}}">Страница на
                         сайте</a>
                     <div class="d-flex ml-auto">
@@ -84,7 +87,20 @@
 
 
                         <div class="row">
-                            <div class="col-md-8">
+                                <div class="col-md-4 form-group">
+                                    <label>Тип продукта</label>
+                                    <select wire:model="product_type" class="form-control"
+                                            name="product_type" aria-hidden="true">
+                                        @if(!($good_types ?? null))
+                                            <option value="" hidden>Выберите тип</option>
+                                        @endif
+                                        @foreach($good_types as $good_type)
+                                            <option value="{{$good_type['id']}}">{{$good_type['title']}}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="brand">Бренд</label>
                                     <input wire:model="brand" type="text" class="form-control"
@@ -111,45 +127,8 @@
                             </div>
                         </div>
 
-
-                        <div class="align-items-center row pl-2">
-                            <div class="pr-3 col-md-6">
-                                <div class="row">
-                                    <div class="w-100 form-group">
-                                        <label for="skin_type">Тип кожи</label>
-                                        <input wire:model="skin_type" type="text" class="form-control"
-                                               id="skin_type"
-                                               placeholder="Тип кожи">
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="w-100 form-group">
-                                        <label for="hair_type">Тип волос</label>
-                                        <input wire:model="hair_type" type="text" class="form-control"
-                                               id="hair_type"
-                                               placeholder="Тип волос">
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="w-100 form-group">
-                                        <label>Тип продукта</label>
-                                        <select wire:model="product_type" class="form-control"
-                                                name="product_type" aria-hidden="true">
-                                            @if(!($good_types ?? null))
-                                                <option value="" hidden>Выберите тип</option>
-                                            @endif
-                                            @foreach($good_types as $good_type)
-                                                <option value="{{$good_type['id']}}">{{$good_type['title']}}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-4">
                                 <div class="mt-3 mb-3 p-3 border form-group">
                                     <label for="">Категории у товара:</label>
                                     @if ($good['good_category_id'] !== null)
@@ -179,6 +158,78 @@
                                         @endforeach
                                     </select>
                                     <a type="submit" wire:click.prevent="new_good_category()"
+                                       class="mt-3 show_preloader_on_click btn btn-outline-primary">
+                                        Добавить
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="mt-3 mb-3 p-3 border form-group">
+                                    <label for="">Типы кожи:</label>
+                                    @if ($good['skin_type'] !== null && !(empty($good['skin_type'])))
+                                        <div class="flex-wrap d-flex gap-3 mb-3">
+                                            @foreach($good['skin_type'] as $good_skin_type)
+                                                <div class="d-flex gap-1 align-items-center"
+                                                     wire:key="{{ $loop->index }}">
+                                                    {{\App\Models\Good_skin_type::where('id', $good_skin_type)->first(['title'])->title}}
+                                                    <a wire:click.prevent="delete_good_skin_type({{$good_skin_type}})"
+                                                       href="">
+                                                        <i class="fa-solid fa-xmark"></i>
+                                                    </a>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    @else
+                                        еще нет ни одной
+                                    @endif
+
+
+                                    <select wire:model="good_skin_type_id" class=" form-control"
+                                            aria-hidden="true" id="service_to_add">
+                                        @foreach($good_skin_types as $good_skin_type)
+                                            <option
+                                                value="{{$good_skin_type['id']}}">{{$good_skin_type['title']}}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <a type="submit" wire:click.prevent="new_good_skin_type()"
+                                       class="mt-3 show_preloader_on_click btn btn-outline-primary">
+                                        Добавить
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="mt-3 mb-3 p-3 border form-group">
+                                    <label for="">Типы волос:</label>
+                                    @if ($good['hair_type'] !== null && !(empty($good['hair_type'])))
+                                        <div class="flex-wrap d-flex gap-3 mb-3">
+                                            @foreach($good['hair_type'] as $good_hair_type)
+                                                <div class="d-flex gap-1 align-items-center"
+                                                     wire:key="{{ $loop->index }}">
+                                                    {{\App\Models\Good_hair_type::where('id', $good_hair_type)->first(['title'])->title}}
+                                                    <a wire:click.prevent="delete_good_hair_type({{$good_hair_type}})"
+                                                       href="">
+                                                        <i class="fa-solid fa-xmark"></i>
+                                                    </a>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    @else
+                                        еще нет ни одной
+                                    @endif
+
+
+                                    <select wire:model="good_hair_type_id" class=" form-control"
+                                            aria-hidden="true" id="service_to_add">
+                                        @foreach($good_hair_types as $good_hair_type)
+                                            <option
+                                                value="{{$good_hair_type['id']}}">{{$good_hair_type['title']}}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <a type="submit" wire:click.prevent="new_good_hair_type()"
                                        class="mt-3 show_preloader_on_click btn btn-outline-primary">
                                         Добавить
                                     </a>
@@ -377,12 +428,12 @@
 
                         </div>
                         <div class="image_editable_wrap">
-                        <img data-crop-component="refreshPromoEdit"
-                             data-crop-width="712"
-                             data-crop-height="480"
-                             class="m-2" style="max-width: 150px;" src="{{$good_example->getFullUrl()}}" alt="">
-                        <i class="image_edit_button fa-solid fa-pencil"></i>
-                    </div>
+                            <img data-crop-component="refreshPromoEdit"
+                                 data-crop-width="712"
+                                 data-crop-height="480"
+                                 class="m-2" style="max-width: 150px;" src="{{$good_example->getFullUrl()}}" alt="">
+                            <i class="image_edit_button fa-solid fa-pencil"></i>
+                        </div>
                     </div>
 
                 @endforeach
@@ -410,10 +461,13 @@
 
     </div>
 
-    <button type="button" wire:click.prevent="delete_confirm({{$good['id']}})" style="width: fit-content;" class="mt-3 btn btn-block btn-outline-danger btn-lg">Удалить товар</button>
+    <button type="button" wire:click.prevent="delete_confirm({{$good['id']}})" style="width: fit-content;"
+            class="mt-3 btn btn-block btn-outline-danger btn-lg">Удалить товар
+    </button>
 
     <button type="button" wire:click.prevent="test_make_sale()" style="width: fit-content;"
-            class="mt-3 btn btn-block btn-outline-primary btn-lg">Продать товар</button>
+            class="mt-3 btn btn-block btn-outline-primary btn-lg">Продать товар
+    </button>
 
     @push('scripts')
         <script>

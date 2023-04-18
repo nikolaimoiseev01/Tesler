@@ -62,9 +62,9 @@
                     <div x-transition x-show="opened_category" class="filter_wrap check_box_filter_wrap">
                         @foreach($hair_types as $hair_type)
                             <div>
-                                <input type="checkbox" id="{{$hair_type}}" wire:model="hair_type"
-                                       value="{{$hair_type}}">
-                                <label for="{{$hair_type}}"><p>{{$hair_type}}</p></label>
+                                <input type="checkbox" id="hair_type_{{$hair_type['id']}}" wire:model="hair_type"
+                                       value="{{$hair_type['id']}}">
+                                <label for="hair_type_{{$hair_type['id']}}"><p>{{$hair_type['title']}}</p></label>
                             </div>
                         @endforeach
                     </div>
@@ -77,9 +77,9 @@
                     <div x-transition x-show="opened_category" class="filter_wrap check_box_filter_wrap">
                         @foreach($skin_types as $skin_type)
                             <div>
-                                <input type="checkbox" id="{{$skin_type}}" wire:model="skin_type"
-                                       value="{{$skin_type}}">
-                                <label for="{{$skin_type}}"><p>{{$skin_type}}</p></label>
+                                <input type="checkbox" id="skin_type{{$skin_type['id']}}" wire:model="skin_type"
+                                       value="{{$skin_type['id']}}">
+                                <label for="skin_type{{$skin_type['id']}}"><p>{{$skin_type['title']}}</p></label>
                             </div>
                         @endforeach
                     </div>

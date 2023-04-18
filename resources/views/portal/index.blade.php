@@ -7,7 +7,7 @@
         @livewire('portal.calc-cosmetic')
     </x-ui.modal>
 
-    <x-homepage.welcome-block/>
+    <x-home-page.welcome-block/>
 
     {{--    <div class="content">--}}
 

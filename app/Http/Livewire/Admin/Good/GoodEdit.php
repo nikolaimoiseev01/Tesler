@@ -4,6 +4,8 @@ namespace App\Http\Livewire\Admin\Good;
 
 use App\Models\Category;
 use App\Models\Good;
+use App\Models\Good_hair_type;
+use App\Models\Good_skin_type;
 use App\Models\GoodCategory;
 use App\Models\GoodType;
 use Illuminate\Support\Arr;
@@ -29,6 +31,15 @@ class GoodEdit extends Component
     public $category;
     public $good_categories;
     public $good_has_categories;
+
+    public $good_skin_types;
+    public $good_skin_type_id;
+    public $good_has_skin_types;
+
+    public $good_hair_types;
+    public $good_hair_type_id;
+    public $good_has_hair_type;
+
     public $good_types;
 
     public $capacity;
@@ -75,6 +86,8 @@ class GoodEdit extends Component
 
         $this->categories = Category::orderBy('name')->get();
         $this->good_categories = GoodCategory::orderBy('title')->get();
+        $this->good_skin_types = Good_skin_type::orderBy('title')->get();
+        $this->good_hair_types = Good_hair_type::orderBy('title')->get();
         $this->good_types = GoodType::orderBy('title')->get();
     }
 
@@ -507,6 +520,168 @@ class GoodEdit extends Component
         $this->dispatchBrowserEvent('toast_fire', [
             'type' => 'success',
             'title' => 'Категория успешно удалена из товара!',
+        ]);
+
+    }
+
+    public function new_good_skin_type()
+    {
+
+        // --------- Ищем ошибки в заполнении  --------- //
+        $errors_array = [];
+
+
+        $good_skin_types = $this->good['skin_type'];
+
+        if ($this->good['skin_type'] !== null) {
+            $good_skin_type_check = array_filter($good_skin_types, function ($v) {
+                return $v == intval($this->good_skin_type_id);
+            });
+            $good_skin_type_check = count($good_skin_type_check);
+        } else {
+            $good_skin_type_check = 0;
+        }
+
+
+        if ($this->good_skin_type_id === null) {
+            array_push($errors_array, 'Выберите категорию!');
+        }
+
+        if ($good_skin_type_check ?? 0 > 0) {
+            array_push($errors_array, 'Эта категория уже есть у товара!');
+        }
+
+
+        if (!empty($errors_array)) {
+            $this->dispatchBrowserEvent('swal_fire', [
+                'type' => 'error',
+                'showDenyButton' => false,
+                'showConfirmButton' => false,
+                'title' => 'Что-то пошло не так!',
+                'text' => implode("<br>", $errors_array),
+            ]);
+
+            $this->emit('refreshGoodEdit');
+        }
+
+        if (empty($errors_array)) {
+
+
+            if ($good_skin_types !== null) {
+                array_push($good_skin_types, intval($this->good_skin_type_id));
+                $this->good->update([
+                    'skin_type' => $good_skin_types,
+                ]);
+            } else {
+                $good_skin_types_new = [intval($this->good_skin_type_id)];
+                $this->good->update([
+                    'skin_type' => $good_skin_types_new,
+                ]);
+            }
+
+            $this->dispatchBrowserEvent('toast_fire', [
+                'type' => 'success',
+                'title' => 'Тип кожи успешно применилась к товару!',
+            ]);
+
+            $this->emit('refreshGoodEdit');
+
+        }
+    }
+
+    public function delete_good_skin_type($good_skin_type_id)
+    {
+        $good_skin_types = $this->good['skin_type'];
+        unset($good_skin_types[array_search($good_skin_type_id, $good_skin_types)]);
+
+        $this->good->update([
+            'skin_type' => array_values($good_skin_types),
+        ]);
+
+        $this->dispatchBrowserEvent('toast_fire', [
+            'type' => 'success',
+            'title' => 'Тип кожи успешно удалена из товара!',
+        ]);
+
+    }
+
+    public function new_good_hair_type()
+    {
+
+        // --------- Ищем ошибки в заполнении  --------- //
+        $errors_array = [];
+
+
+        $good_hair_types = $this->good['hair_type'];
+
+        if ($this->good['hair_type'] !== null) {
+            $good_hair_type_check = array_filter($good_hair_types, function ($v) {
+                return $v == intval($this->good_hair_type_id);
+            });
+            $good_hair_type_check = count($good_hair_type_check);
+        } else {
+            $good_hair_type_check = 0;
+        }
+
+
+        if ($this->good_hair_type_id === null) {
+            array_push($errors_array, 'Выберите категорию!');
+        }
+
+        if ($good_hair_type_check ?? 0 > 0) {
+            array_push($errors_array, 'Эта категория уже есть у товара!');
+        }
+
+
+        if (!empty($errors_array)) {
+            $this->dispatchBrowserEvent('swal_fire', [
+                'type' => 'error',
+                'showDenyButton' => false,
+                'showConfirmButton' => false,
+                'title' => 'Что-то пошло не так!',
+                'text' => implode("<br>", $errors_array),
+            ]);
+
+            $this->emit('refreshGoodEdit');
+        }
+
+        if (empty($errors_array)) {
+
+
+            if ($good_hair_types !== null) {
+                array_push($good_hair_types, intval($this->good_hair_type_id));
+                $this->good->update([
+                    'hair_type' => $good_hair_types,
+                ]);
+            } else {
+                $good_hair_types_new = [intval($this->good_hair_type_id)];
+                $this->good->update([
+                    'hair_type' => $good_hair_types_new,
+                ]);
+            }
+
+            $this->dispatchBrowserEvent('toast_fire', [
+                'type' => 'success',
+                'title' => 'Тип кожи успешно применилась к товару!',
+            ]);
+
+            $this->emit('refreshGoodEdit');
+
+        }
+    }
+
+    public function delete_good_hair_type($good_hair_type_id)
+    {
+        $good_hair_types = $this->good['hair_type'];
+        unset($good_hair_types[array_search($good_hair_type_id, $good_hair_types)]);
+
+        $this->good->update([
+            'hair_type' => array_values($good_hair_types),
+        ]);
+
+        $this->dispatchBrowserEvent('toast_fire', [
+            'type' => 'success',
+            'title' => 'Тип кожи успешно удалена из товара!',
         ]);
 
     }

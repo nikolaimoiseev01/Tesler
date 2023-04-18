@@ -3,6 +3,8 @@
 namespace App\Http\Livewire\Portal;
 
 use App\Models\Good;
+use App\Models\Good_hair_type;
+use App\Models\Good_skin_type;
 use App\Models\GoodCategory;
 use App\Models\ShopSet;
 use Illuminate\Support\Facades\DB;
@@ -63,11 +65,31 @@ class MarketPage extends Component
                     }
                 });
             })
-            ->when($this->skin_type, function ($q) {
-                return $q->whereIn('skin_type', $this->skin_type);
+            ->when($this->skin_type,function ($item) {
+                return $item->filter(function($q) {
+
+                    if ($q['skin_type']) {
+                        foreach ($this->skin_type as $skin_type) {
+                            if(array_search($skin_type, $q['skin_type']) !== null & array_search($skin_type, $q['skin_type']) !== false) {
+                                return $q;
+                            }
+                        }
+
+                    }
+                });
             })
-            ->when($this->hair_type, function ($q) {
-                return $q->whereIn('hair_type', $this->hair_type);
+            ->when($this->hair_type,function ($item) {
+                return $item->filter(function($q) {
+
+                    if ($q['hair_type']) {
+                        foreach ($this->hair_type as $hair_type) {
+                            if(array_search($hair_type, $q['hair_type']) !== null & array_search($hair_type, $q['hair_type']) !== false) {
+                                return $q;
+                            }
+                        }
+
+                    }
+                });
             })
             ->when($this->brand, function ($q) {
                 return $q->whereIn('brand', $this->brand);
@@ -125,8 +147,8 @@ class MarketPage extends Component
         $this->price_all_max = $goods->max('yc_price');
         $this->goods = $this->goods_orig->take($this->goods_amt);
         $this->shopsets = ShopSet::orderBy('title')->get();
-        $this->skin_types = $this->goods_orig->where('skin_type', '<>', null)->unique('skin_type')->pluck('skin_type');
-        $this->hair_types = $this->goods_orig->where('hair_type', '<>', null)->unique('hair_type')->pluck('hair_type');
+        $this->skin_types = Good_skin_type::orderBy('title')->get();
+        $this->hair_types = Good_hair_type::orderBy('title')->get();
         $this->brands = $this->goods_orig->where('brand', '<>', null)->unique('brand')->pluck('brand');
 
     }

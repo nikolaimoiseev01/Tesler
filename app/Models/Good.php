@@ -38,7 +38,10 @@ class Good extends Model implements HasMedia
 
     protected $casts = [
         'in_shopsets' => 'array',
-        'good_category_id' => 'array'
+        'good_category_id' => 'array',
+        'skin_type' => 'array',
+        'hair_type' => 'array',
+
     ];
 
     use InteractsWithMedia;

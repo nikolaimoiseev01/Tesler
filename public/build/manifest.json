@@ -1,0 +1,29 @@
+{
+  "resources/js/app.css": {
+    "file": "assets/app-ea1aab35.css",
+    "src": "resources/js/app.css"
+  },
+  "resources/js/app.js": {
+    "css": [
+      "assets/app-ea1aab35.css"
+    ],
+    "file": "assets/app-f339d8da.js",
+    "isEntry": true,
+    "src": "resources/js/app.js"
+  },
+  "resources/sass/admin.scss": {
+    "file": "assets/admin-f2e9cbff.css",
+    "isEntry": true,
+    "src": "resources/sass/admin.scss"
+  },
+  "resources/sass/app.scss": {
+    "file": "assets/app-e3afce1c.css",
+    "isEntry": true,
+    "src": "resources/sass/app.scss"
+  },
+  "resources/sass/portal.scss": {
+    "file": "assets/portal-d974914b.css",
+    "isEntry": true,
+    "src": "resources/sass/portal.scss"
+  }
+}
