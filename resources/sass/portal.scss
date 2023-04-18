@@ -1705,6 +1705,10 @@
         gap: 60px;
         margin-top: 96px;
 
+        @media(max-width: 866px) {
+            justify-content: center;
+        }
+
         .category_filter_wrap {
             //width: 260px; // Мое предложение
             //height: 220px; // Мое предложение
