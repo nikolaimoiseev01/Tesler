@@ -35,12 +35,14 @@
                 @else src="/{{$category['pic']}}" @endif alt="">
         </div>
 
-        <div class="sp_examples_wrap">
-            <x-ui.gallery
-                title="ПРИМЕРЫ РАБОТ"
-                :photos="$category->getMedia('category_examples')->pluck('original_url')->all()">
-            </x-ui.gallery>
-        </div>
+        @if(count($category->getMedia('category_examples')->pluck('original_url')->all()) > 0)
+            <div class="sp_examples_wrap">
+                <x-ui.gallery
+                    title="ПРИМЕРЫ РАБОТ"
+                    :photos="$category->getMedia('category_examples')->pluck('original_url')->all()">
+                </x-ui.gallery>
+            </div>
+        @endif
 
         @if ($category['staff'] ?? null && count($category['staff']) > 0)
             <div class="content two_parts_block_wrap">
