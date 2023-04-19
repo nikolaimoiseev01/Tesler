@@ -719,13 +719,13 @@ class GoodEdit extends Component
             'Accept' => 'application/vnd.yclients.v2+json',
             'Authorization' => 'Bearer ' . ENV('YCLIENTS_BEARER') . ', User ' . ENV('YCLIENTS_ADMIN_TOKEN')
         ];
-        dd('Bearer ' . ENV('YCLIENTS_BEARER') . ', User ' . ENV('YCLIENTS_ADMIN_TOKEN'));
+//        dd('Bearer ' . ENV('YCLIENTS_BEARER') . ', User ' . ENV('YCLIENTS_ADMIN_TOKEN'));
 
         $url = 'https://api.yclients.com/api/v1/storage_operations/operation/' . $YCLIENTS_SHOP_ID;
 
         $data = [
             'type_id' => 1,
-            'create_date' => 1493128800,
+            'create_date' => '2017-04-25 19:00:00',
             'storage_id' => ENV('YCLIENTS_SHOP_STORAGE'),
             'goods_transactions' => [
                 'document_id' => 123123,

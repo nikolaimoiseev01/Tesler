@@ -40,6 +40,16 @@ return [
             'driver' => 'local',
             'root'   => public_path('media/media_models'),
             'url'    => env('APP_URL').'/media/media_models',
+            'permissions' => [
+                'file' => [
+                    'public' => 0775,
+                    'private' => 0775,
+                ],
+                'dir' => [
+                    'public' => 0775,
+                    'private' => 0775,
+                ],
+            ],
         ],
 
         'public' => [
