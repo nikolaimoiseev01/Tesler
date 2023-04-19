@@ -96,7 +96,7 @@ class PromoEdit extends Component
     }
 
     public function update_img_pre($media) {
-        $files = $this->service->getMedia($media);
+        $files = $this->promo->getMedia($media);
         $files->each(function ($file) use ($media) {
             $file_name  = Str::random(5) . '.' . $file->file_name;
             $this->promo->addMedia($file->getPath())->usingName($file_name)->usingFileName($file_name)->toMediaCollection($media);
