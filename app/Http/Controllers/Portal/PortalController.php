@@ -347,7 +347,7 @@ class PortalController extends Controller
                 'price' => $good['yc_price'],
                 'img' => $shopset->getFirstMediaUrl('good_examples'),
                 'link' => route('good_page', $good['id']),
-                'category' => 'Сертификат'
+                'category' => 'Абонемент'
             ];
         }
 
