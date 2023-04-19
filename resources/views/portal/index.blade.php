@@ -107,8 +107,8 @@
 
     <div class="partners_block">
 
-        <h1 class="content">Выбираем работать с лучшими</h1>
         <div class="parnters_wrap">
+            <h1 class="content">Выбираем работать с лучшими</h1>
             <div class="content">
                 <img src="/media/media_fixed/logo_academie.png" alt="">
                 <img src="/media/media_fixed/logo_tokio.jpg" alt="">

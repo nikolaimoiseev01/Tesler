@@ -1114,6 +1114,7 @@
 .partners_block {
     margin-top: 100px;
 
+
     h1 {
         margin: 0 auto 20px auto;
         max-width: 624px;
@@ -1122,6 +1123,7 @@
 
     .parnters_wrap {
         background: #FFFFFF;
+        padding-top:20px;
 
         > div {
             max-width: 1140px;
@@ -1130,7 +1132,7 @@
             column-gap: 40px;
             flex-wrap: wrap;
             justify-content: center;
-            padding: 100px 0 50px 0;
+            padding: 0 0 50px 0;
             align-items: center;
 
             img {
