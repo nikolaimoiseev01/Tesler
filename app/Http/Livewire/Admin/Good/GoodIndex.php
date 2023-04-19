@@ -74,7 +74,7 @@ class GoodIndex extends Component
                 break;
             }
         }
-
+dd($yc_goods);
 
         $this->found_yc_goods = null;
 
@@ -105,11 +105,14 @@ class GoodIndex extends Component
 
             // Берем только уникальные
             $unique_array = [];
-            foreach($this->found_yc_goods as $element) {
-                $hash = $element['yc_id'];
-                $unique_array[$hash] = $element;
+            if($this->found_yc_goods ?? null) {
+                foreach($this->found_yc_goods as $element) {
+                    $hash = $element['yc_id'];
+                    $unique_array[$hash] = $element;
+                }
+                $this->found_yc_goods = array_values($unique_array);
             }
-            $this->found_yc_goods = array_values($unique_array);
+
 
 
 
