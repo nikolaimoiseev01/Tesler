@@ -198,7 +198,7 @@
                                                  data-crop-width="610"
                                                  data-crop-height="400"
                                                  style="max-width: 80%; height: fit-content;" class="m-3"
-                                                 src="{{$service->getFirstMediaUrl('pic_proccess')}}"
+                                                 src="{{$src_proccess}}"
                                                  alt="">
                                             <i class="image_edit_button fa-solid fa-pencil"></i>
                                         </div>

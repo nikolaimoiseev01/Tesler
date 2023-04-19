@@ -99,7 +99,7 @@ class PromoEdit extends Component
         $files = $this->service->getMedia($media);
         $files->each(function ($file) use ($media) {
             $file_name  = Str::random(5) . '.' . $file->file_name;
-            $this->service->addMedia($file->getPath())->usingName($file_name)->usingFileName($file_name)->toMediaCollection($media);
+            $this->promo->addMedia($file->getPath())->usingName($file_name)->usingFileName($file_name)->toMediaCollection($media);
             $file->delete();
         });
         $this->src_main = $this->service->getMedia($media);
