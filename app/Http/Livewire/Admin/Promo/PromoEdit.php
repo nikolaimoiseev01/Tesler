@@ -102,6 +102,6 @@ class PromoEdit extends Component
             $this->promo->addMedia($file->getPath())->usingName($file_name)->usingFileName($file_name)->toMediaCollection($media);
             $file->delete();
         });
-        $this->src_main = $this->service->getMedia($media);
+//        $this->src_main = $this->promo->getMedia($media);
     }
 }
