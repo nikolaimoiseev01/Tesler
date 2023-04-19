@@ -174,45 +174,35 @@
 
 
                             <div class="d-flex flex-col justify-content-centerы col-md-3">
-                                <div>
-                                    <label for="">Главное изображение</label>
-                                    <div class="m-3 image_editable_wrap">
-                                        <img data-crop-component="refreshPromoEdit"
-                                             data-crop-width="610"
-                                             data-crop-height="400"
-                                             style="max-width: 80%; height: fit-content;" class="col-sm-6"
-                                             src="
-                                         @if($service->getMedia('pic_main')->count() == 1)
-                                             {{$service->getFirstMediaUrl('pic_main')}}
-                                             @else
-                                                 /media/media_fixed/640x400_holder.png
-
-@endif
-                                                 "
-                                             alt="">
-                                        <i class="image_edit_button fa-solid fa-pencil"></i>
+                                @if($service->getMedia('pic_main')->count() == 1)
+                                    <div>
+                                        <label for="">Главное изображение</label>
+                                        <div class="m-3 image_editable_wrap">
+                                            <img data-crop-component="refreshPromoEdit"
+                                                 data-crop-width="610"
+                                                 data-crop-height="400"
+                                                 style="max-width: 80%; height: fit-content;" class="col-sm-6"
+                                                 src="{{$src_main}}"
+                                                 alt="">
+                                            <i class="image_edit_button fa-solid fa-pencil"></i>
+                                        </div>
                                     </div>
-                                </div>
-                                <div>
-                                    <label for="">Изображение процесса</label>
-                                    <div class="m-3 image_editable_wrap">
-                                        <img data-crop-component="refreshServiceEdit"
-                                             data-crop-width="610"
-                                             data-crop-height="400"
-                                             style="max-width: 80%; height: fit-content;" class="m-3"
-                                             src="
-                                         @if($service->getMedia('pic_proccess')->count() == 1)
-                                             {{$service->getFirstMediaUrl('pic_proccess')}}
-                                             @else
-                                                 /media/media_fixed/640x700_holder.png
+                                @endif
+                                @if($service->getMedia('pic_proccess')->count() == 1)
+                                    <div>
+                                        <label for="">Изображение процесса</label>
+                                        <div class="m-3 image_editable_wrap">
+                                            <img data-crop-component="refreshServiceEdit"
+                                                 data-crop-width="610"
+                                                 data-crop-height="400"
+                                                 style="max-width: 80%; height: fit-content;" class="m-3"
+                                                 src="{{$service->getFirstMediaUrl('pic_proccess')}}"
+                                                 alt="">
+                                            <i class="image_edit_button fa-solid fa-pencil"></i>
+                                        </div>
 
-@endif
-                                                 "
-                                             alt="">
-                                        <i class="image_edit_button fa-solid fa-pencil"></i>
                                     </div>
-
-                                </div>
+                                @endif
 
 
                             </div>

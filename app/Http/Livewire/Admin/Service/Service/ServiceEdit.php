@@ -52,12 +52,14 @@ class ServiceEdit extends Component
     public function render()
     {
         $service_types = Service_type::orderBy('name')->get();
+        $src_main = $this->service->getFirstMediaUrl('pic_main');
         return view('livewire.admin.service.service.service-edit', [
             'service' => $this->service,
             'scopes' => $this->scopes,
             'categories' => $this->categories,
             'service_types' => $service_types,
-            'all_service_adds' => $this->all_service_adds
+            'all_service_adds' => $this->all_service_adds,
+            'src_main' => $src_main
         ]);
     }
 
