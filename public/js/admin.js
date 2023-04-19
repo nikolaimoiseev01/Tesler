@@ -64,11 +64,13 @@ function main_js_trigger() {
         comp_for_refresh = $(this).parent().children('img').attr('data-crop-component')
         min_width = $(this).parent().children('img').attr('data-crop-width')
         min_height = $(this).parent().children('img').attr('data-crop-height')
+        data_crop_media = $(this).parent().children('img').attr('data-crop-media')
         passing = {}
         passing ["src"] = src;
         passing ["comp_for_refresh"] = comp_for_refresh;
         passing ["min_width"] = min_width;
         passing ["min_height"] = min_height;
+        passing ["data_crop_media"] = data_crop_media;
         Livewire.emit("openModal", "admin.crop-image", passing)
     })
 

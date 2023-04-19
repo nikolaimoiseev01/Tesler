@@ -8,11 +8,16 @@ use App\Models\Scope;
 use App\Models\Service;
 use App\Models\Service_type;
 use App\Models\ServiceAdds;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Spatie\Image\Image;
+use Spatie\MediaLibrary\MediaCollections\FileAdder;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ServiceEdit extends Component
@@ -39,6 +44,9 @@ class ServiceEdit extends Component
     public $all_service_adds;
     public $service_to_add;
 
+    public $src_main;
+    public $src_proccess;
+
     public $service_added_to;
     public $all_service_added_to;
     public $service_add_to;
@@ -46,27 +54,31 @@ class ServiceEdit extends Component
     public $service_examples;
 
 
-    protected $listeners = ['refreshServiceEdit' => '$refresh', 'delete_service_example_media'];
+    protected $listeners = ['refreshServiceEdit' => '$refresh', 'update_img_pre', 'update_img', 'delete_service_example_media'];
 
 
     public function render()
     {
         $service_types = Service_type::orderBy('name')->get();
-        $src_main = $this->service->getFirstMediaUrl('pic_main');
+        $this->src_main = $this->service->getFirstMediaUrl('pic_main');
+        $this->src_proccess = $this->service->getFirstMediaUrl('pic_proccess');
         return view('livewire.admin.service.service.service-edit', [
             'service' => $this->service,
             'scopes' => $this->scopes,
             'categories' => $this->categories,
             'service_types' => $service_types,
             'all_service_adds' => $this->all_service_adds,
-            'src_main' => $src_main
+            'src_main' => $this->src_main
         ]);
     }
 
     public function mount($service_id)
     {
 
+
+
         $this->service = Service::where('id', $service_id)->first();
+
         $this->flg_active = $this->service['flg_active'];
         $this->scopes = Scope::orderBy('name')->get();
         $this->categories = Category::orderBy('name')->get();
@@ -532,6 +544,16 @@ class ServiceEdit extends Component
             'title' => 'Фото примера успешно удалено!',
         ]);
         $this->emit('refreshServiceEdit');
+    }
+
+    public function update_img_pre($media) {
+        $files = $this->service->getMedia($media);
+        $files->each(function ($file) use ($media) {
+            $file_name  = Str::random(5) . '.' . $file->file_name;
+            $this->service->addMedia($file->getPath())->usingName($file_name)->usingFileName($file_name)->toMediaCollection($media);
+            $file->delete();
+        });
+        $this->src_main = $this->service->getMedia($media);
     }
 
 

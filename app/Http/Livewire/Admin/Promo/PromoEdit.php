@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Admin\Promo;
 
 use App\Models\Promo;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Spatie\Image\Image;
 
@@ -11,7 +12,7 @@ class PromoEdit extends Component
 {
     public $promo;
 
-    protected $listeners = ['refreshPromoEdit' => '$refresh'];
+    protected $listeners = ['refreshPromoEdit' => '$refresh', 'update_img_pre'];
 
     public function render()
     {
@@ -92,5 +93,15 @@ class PromoEdit extends Component
         $this->emit('refreshPromoEdit');
 
 
+    }
+
+    public function update_img_pre($media) {
+        $files = $this->service->getMedia($media);
+        $files->each(function ($file) use ($media) {
+            $file_name  = Str::random(5) . '.' . $file->file_name;
+            $this->service->addMedia($file->getPath())->usingName($file_name)->usingFileName($file_name)->toMediaCollection($media);
+            $file->delete();
+        });
+        $this->src_main = $this->service->getMedia($media);
     }
 }

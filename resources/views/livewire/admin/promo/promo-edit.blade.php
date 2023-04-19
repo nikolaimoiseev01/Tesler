@@ -42,6 +42,7 @@
                         <label>Изображение акции</label>
                         <div class="image_editable_wrap">
                             <img data-crop-component="refreshPromoEdit"
+                                 data-crop-media="promo_pics"
                                  data-crop-width="460"
                                  data-crop-height="280"
                                  style="max-width: 300px;"

@@ -14,7 +14,7 @@ class CropImage extends ModalComponent
     public $min_width;
     public $min_height;
     public $cropped_img;
-
+    public $data_crop_media;
     protected $listeners = ['save_crop'];
 
     public function render()
@@ -23,12 +23,13 @@ class CropImage extends ModalComponent
         return view('livewire.admin.crop-image');
     }
 
-    public function mount($src, $comp_for_refresh, $min_width, $min_height)
+    public function mount($src, $comp_for_refresh, $min_width, $min_height, $data_crop_media)
     {
         $this->src = $src;
         $this->comp_for_refresh = $comp_for_refresh;
         $this->min_width = $min_width;
         $this->min_height = $min_height;
+        $this->data_crop_media = $data_crop_media;
     }
 
     public function save_crop()
@@ -72,14 +73,10 @@ class CropImage extends ModalComponent
                 'title' => 'Обрезание прошло успешно, обновите страницу!',
             ]);
 
-            $this->emit('refreshServiceEdit');
-            $this->forgetComputed();
-            header('Cache-Control: no-cache');
-            header('Pragma: no-cache');
+            $this->emit('update_img_pre', $this->data_crop_media);
             $this->forceClose()->closeModal();
-            Cache::flush();
-            cache()->flush();
-            return redirect(request()->header('Referer'));
+
+//            return redirect(request()->header('Referer'));
         }
     }
 

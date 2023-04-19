@@ -179,10 +179,11 @@
                                         <label for="">Главное изображение</label>
                                         <div class="m-3 image_editable_wrap">
                                             <img data-crop-component="refreshPromoEdit"
+                                                 data-crop-media="pic_main"
                                                  data-crop-width="610"
                                                  data-crop-height="400"
                                                  style="max-width: 80%; height: fit-content;" class="col-sm-6"
-                                                 src="{{$src_main}}"
+                                                 src="{{$service->getFirstMediaUrl('pic_main')}}"
                                                  alt="">
                                             <i class="image_edit_button fa-solid fa-pencil"></i>
                                         </div>
@@ -193,6 +194,7 @@
                                         <label for="">Изображение процесса</label>
                                         <div class="m-3 image_editable_wrap">
                                             <img data-crop-component="refreshServiceEdit"
+                                                 data-crop-media="pic_proccess"
                                                  data-crop-width="610"
                                                  data-crop-height="400"
                                                  style="max-width: 80%; height: fit-content;" class="m-3"
