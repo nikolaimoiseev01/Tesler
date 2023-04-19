@@ -162,6 +162,7 @@ class PortalController extends Controller
             ->get('https://api.yclients.com/api/v1/company/' . $YCLIENTS_SHOP_ID . '/staff/')
             ->collect()['data'];
 
+
         $workers = array_values(Arr::where($workers, function ($value, $key) {
             return $value['fired'] == 0;
         })); // Только неуволенных сотрудников
@@ -172,8 +173,9 @@ class PortalController extends Controller
 
         foreach ($yc_service as $arr) {
             $options[] = current($arr);  // COnverted to 1-d array
-            /* Result:  Array ( [0] => B00CEEZ57S [1] => B002QJZADK [2] => B001EHL2UK [3] => B003FSTNB6 )*/
         }
+
+
 
         /* Filter $array2 and obtain those results for which ['ASIN'] value matches with one of the values contained in $options */
         if ($options ?? null !== null) {
@@ -182,6 +184,7 @@ class PortalController extends Controller
             });
             $service_workers = array_slice($service_workers, 0, 4);
         }
+
 
 
         $abonements_pre = Good::where('yc_category', 'Абонементы Сеть Tesler')->where('category_id', $service['category_id'])->take(3)->get();
@@ -198,7 +201,7 @@ class PortalController extends Controller
         }
 
         $abonements = isset($abonements) ? $abonements : null;
-
+//        dd($service_workers);
         return view('portal.service_page', [
             'service' => $service,
             'service_add' => $service_add,

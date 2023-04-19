@@ -30,13 +30,20 @@
     <div class="slider">
         @foreach($cards as $card)
             <div class="card">
-                <div class="image">
-                    <img src="{{$card->getFirstMediaUrl('pic_main')}}" alt="">
-                    <p>{{$card['type']}}</p>
-                </div>
+                <a href="{{route('service_page', $card['id'])}}">
+                    <div class="image">
+                        <img
+                             @if(is_null($card->getFirstMediaUrl('pic_main')) || $card->getFirstMediaUrl('pic_main') == '')
+                             src="/media/media_fixed/logo_holder.png"
+                             @else src="{{$card->getFirstMediaUrl('pic_main')}}"
+                             @endif
+                             alt="">
+                        {{--                    <p>{{$card['type']}}2</p>--}}
+                    </div>
+                </a>
                 <div class="text">
                     <div>
-                        <p class="category">{{$card->category['name']}}</p>
+                        <p class="category">{{$card->category['name'] ?? "Доп. услуга"}}</p>
                         <p>{{$card['name']}}</p>
                     </div>
                     <div class="buttons_wrap">
