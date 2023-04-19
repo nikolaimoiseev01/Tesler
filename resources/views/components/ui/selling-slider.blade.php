@@ -33,18 +33,20 @@
                 <a href="{{route('service_page', $card['id'])}}">
                     <div class="image">
                         <img
-                             @if(is_null($card->getFirstMediaUrl('pic_main')) || $card->getFirstMediaUrl('pic_main') == '')
-                             src="/media/media_fixed/logo_holder.png"
-                             @else src="{{$card->getFirstMediaUrl('pic_main')}}"
-                             @endif
-                             alt="">
+                            @if(is_null($card->getFirstMediaUrl('pic_main')) || $card->getFirstMediaUrl('pic_main') == '')
+                            src="/media/media_fixed/logo_holder.png"
+                            @else src="{{$card->getFirstMediaUrl('pic_main')}}"
+                            @endif
+                            alt="">
                         {{--                    <p>{{$card['type']}}2</p>--}}
                     </div>
                 </a>
                 <div class="text">
                     <div>
-                        <p class="category">{{$card->category['name'] ?? "Доп. услуга"}}</p>
-                        <p>{{$card['name']}}</p>
+                        <a href="{{route('service_page', $card['id'])}}">
+                            <p class="category">{{$card->category['name'] ?? "Доп. услуга"}}</p>
+                            <p>{{$card['name']}}</p>
+                        </a>
                     </div>
                     <div class="buttons_wrap">
                         <a class="link fern"

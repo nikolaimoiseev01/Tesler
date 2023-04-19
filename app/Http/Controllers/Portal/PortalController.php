@@ -169,7 +169,15 @@ class PortalController extends Controller
 
         $yc_service = Http::withHeaders($YCLIENTS_HEADERS)
             ->get('https://api.yclients.com/api/v1/company/' . $YCLIENTS_SHOP_ID . '/services/' . $service['yc_id'])
+            ->collect()['data'];
+//        dd($service['yc_id']);
+
+        $yc_service = Http::withHeaders($YCLIENTS_HEADERS)
+            ->get('https://api.yclients.com/api/v1/company/' . $YCLIENTS_SHOP_ID . '/services/' . $service['yc_id'])
             ->collect()['data']['staff'];
+//        dd($yc_service);
+
+
 
         foreach ($yc_service as $arr) {
             $options[] = current($arr);  // COnverted to 1-d array
