@@ -73,6 +73,8 @@ class CropImage extends ModalComponent
 
             $this->emit('refreshServiceEdit');
             $this->forgetComputed();
+            header('Cache-Control: no-cache');
+            header('Pragma: no-cache');
             $this->forceClose()->closeModal();
             return redirect(request()->header('Referer'));
         }
