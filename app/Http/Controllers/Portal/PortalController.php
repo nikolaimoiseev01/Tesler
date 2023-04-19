@@ -149,8 +149,10 @@ class PortalController extends Controller
             'Authorization' => 'Bearer ' . ENV('YCLIENTS_BEARER') . ', User ' . ENV('YCLIENTS_ADMIN_TOKEN')
         ];
 
+//        dd($request->service_id);
 
-        $service = Service::where('id', $request->service_id)->with('scope')->with('category')->with('group')->first();
+        $service = Service::where('id', intval($request->service_id))->first();
+//        dd($service);
         $service_id = $service['id'];
         $service_add = Service::whereIn('id', function ($query) use ($service_id) {
             $query->select('service_add')

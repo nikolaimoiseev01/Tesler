@@ -174,7 +174,8 @@ class GoodIndex extends Component
         for ($page = 0; $page <= 20; $page++) {
 
             // Подгружаем товары на продажу
-            $link = 'https://api.yclients.com/api/v1/goods/' . $YCLIENTS_SHOP_ID . '?count=100&changed_after=' . $changed_after . '&page=' . $page . '&category_id=481179';
+//            $link = 'https://api.yclients.com/api/v1/goods/' . $YCLIENTS_SHOP_ID . '?count=100&changed_after=' . $changed_after . '&page=' . $page . '&category_id=481179';
+            $link = 'https://api.yclients.com/api/v1/goods/' . $YCLIENTS_SHOP_ID . '?count=100&changed_after=' . $changed_after . '&page=' . $page;
             $request = Http::withHeaders($YCLIENTS_HEADERS)
                 ->get($link)
                 ->collect();
@@ -185,29 +186,29 @@ class GoodIndex extends Component
                 break;
             }
 
-            // Подгружаем сертификаты
-            $link = 'https://api.yclients.com/api/v1/goods/' . $YCLIENTS_SHOP_ID . '?count=100&changed_after=' . $changed_after . '&page=' . $page . '&category_id=445497';
-            $request = Http::withHeaders($YCLIENTS_HEADERS)
-                ->get($link)
-                ->collect();
-//            dd($request);
-            if ($request['data'] ?? null) {
-                $yc_goods = array_merge($yc_goods, $request['data']);
-            } else {
-                break;
-            }
-
-            // Подгружаем абонементы
-            $link = 'https://api.yclients.com/api/v1/goods/' . $YCLIENTS_SHOP_ID . '?count=100&changed_after=' . $changed_after . '&page=' . $page . '&category_id=479138';
-            $request = Http::withHeaders($YCLIENTS_HEADERS)
-                ->get($link)
-                ->collect();
-//            dd($request);
-            if ($request['data'] ?? null) {
-                $yc_goods = array_merge($yc_goods, $request['data']);
-            } else {
-                break;
-            }
+//            // Подгружаем сертификаты
+//            $link = 'https://api.yclients.com/api/v1/goods/' . $YCLIENTS_SHOP_ID . '?count=100&changed_after=' . $changed_after . '&page=' . $page . '&category_id=445497';
+//            $request = Http::withHeaders($YCLIENTS_HEADERS)
+//                ->get($link)
+//                ->collect();
+////            dd($request);
+//            if ($request['data'] ?? null) {
+//                $yc_goods = array_merge($yc_goods, $request['data']);
+//            } else {
+//                break;
+//            }
+//
+//            // Подгружаем абонементы
+//            $link = 'https://api.yclients.com/api/v1/goods/' . $YCLIENTS_SHOP_ID . '?count=100&changed_after=' . $changed_after . '&page=' . $page . '&category_id=479138';
+//            $request = Http::withHeaders($YCLIENTS_HEADERS)
+//                ->get($link)
+//                ->collect();
+////            dd($request);
+//            if ($request['data'] ?? null) {
+//                $yc_goods = array_merge($yc_goods, $request['data']);
+//            } else {
+//                break;
+//            }
         }
 
 
@@ -218,6 +219,7 @@ class GoodIndex extends Component
             if ($good_found ?? null) { // Если есть такой товар
                 $storage_id_key = array_search(ENV('YCLIENTS_SHOP_STORAGE'), array_column($yc_good['actual_amounts'], 'storage_id'));
                 $yc_actual_amounts = $yc_good['actual_amounts'][$storage_id_key]['amount'] ?? null;
+
 
                 if ($good_found['yc_title'] <> $yc_good['title'] || $good_found['yc_price'] <> $yc_good['cost'] || $good_found['yc_category'] <> $yc_good['category'] || $good_found['yc_actual_amount'] <> $yc_actual_amounts) {
 

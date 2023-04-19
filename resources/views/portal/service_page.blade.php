@@ -8,10 +8,13 @@
         <x-ui.menu color="#111010"></x-ui.menu>
         <div class="content s_welcome_wrap">
             <div class="left">
-                <div class="bread_wrap">
-                    <a href="{{route('scope_page', $service['scope_id'])}}"
-                       class="link coal">{{$service->scope['name']}}</a> / <p>{{$service->group['name'] ?? "Доп. услуга"}}</p>
-                </div>
+                @if($service['scope_id'] ?? null)
+                    <div class="bread_wrap">
+                        <a href="{{route('scope_page', $service['scope_id'])}}"
+                           class="link coal">{{$service->scope['name']}}</a> /
+                        <p>{{$service->group['name'] ?? "Доп. услуга"}}</p>
+                    </div>
+                @endif
 
                 <h2>{{$service['name']}}</h2>
 
@@ -100,7 +103,7 @@
         </div>
     @endif
 
-{{--    {{$service_workers}}--}}
+    {{--    {{$service_workers}}--}}
     @if ($service_workers ?? null !== null)
         <div class="s_desc content two_parts_block_wrap">
             <div class="left"></div>

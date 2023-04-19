@@ -310,7 +310,7 @@ class GoodEdit extends Component
             ->collect()['data'];
         $storage_id_key = array_search(ENV('YCLIENTS_SHOP_STORAGE'), array_column($yc_good['actual_amounts'], 'storage_id'));
         $yc_actual_amounts = $yc_good['actual_amounts'][$storage_id_key]['amount'] ?? null;
-
+dd($yc_good);
         $this->good->update([
             'yc_title' => $yc_good['title'],
             'yc_category' => $yc_good['category'],
@@ -723,7 +723,7 @@ class GoodEdit extends Component
 
         $url = 'https://api.yclients.com/api/v1/storage_operations/operation/' . $YCLIENTS_SHOP_ID;
 
-        $data = [
+        $data = json_encode([
             'type_id' => 1,
             'create_date' => '2017-04-25 19:00:00',
             'storage_id' => ENV('YCLIENTS_SHOP_STORAGE'),
@@ -734,9 +734,11 @@ class GoodEdit extends Component
                 'cost_per_unit' => 1,
                 'discount' => 0,
                 'cost' => 1,
-                'operation_unit_type' => 1,
+                'operation_unit_type' => 1
             ]
-        ];
+        ]);
+//        dd($data);
+
 
 //        $response = Http::withHeaders($YCLIENTS_HEADERS)
 //            ->send('POST', $url, [
@@ -744,7 +746,8 @@ class GoodEdit extends Component
 //            ])->json();
 
         $make_operation = Http::withHeaders($YCLIENTS_HEADERS)
-            ->post($url, $data);
+            ->withBody($data)
+            ->post($url);
 
 
         dd($make_operation);
