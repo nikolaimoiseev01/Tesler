@@ -25,8 +25,8 @@
                             multiple
                             name="interior_pic"
                             data-allow-reorder="true"
-                            data-max-file-size="3MB"
-                            data-max-files="3">
+                            data-max-file-size="30MB"
+                            data-max-files="10">
                     </div>
                     <button type="submit" class="show_preloader_on_click btn btn-outline-primary">Сохранить</button>
                 </form>
