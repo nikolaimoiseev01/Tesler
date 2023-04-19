@@ -65,6 +65,10 @@ function main_js_trigger() {
         min_width = $(this).parent().children('img').attr('data-crop-width')
         min_height = $(this).parent().children('img').attr('data-crop-height')
         data_crop_media = $(this).parent().children('img').attr('data-crop-media')
+        if (typeof data_crop_media === "undefined") {
+            data_crop_media = 0;
+        }
+
         passing = {}
         passing ["src"] = src;
         passing ["comp_for_refresh"] = comp_for_refresh;

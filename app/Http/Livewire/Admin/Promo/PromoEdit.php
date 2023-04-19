@@ -11,11 +11,13 @@ use Spatie\Image\Image;
 class PromoEdit extends Component
 {
     public $promo;
+    public $src;
 
-    protected $listeners = ['refreshPromoEdit' => '$refresh', 'update_img_pre'];
+    protected $listeners = ['refreshPromoEdit' => '$refresh', 'update_img_pre', 'update_img'];
 
     public function render()
     {
+        $this->src = $this->promo->getFirstMediaUrl('promo_pics');
         return view('livewire.admin.promo.promo-edit');
     }
 
@@ -102,6 +104,11 @@ class PromoEdit extends Component
             $this->promo->addMedia($file->getPath())->usingName($file_name)->usingFileName($file_name)->toMediaCollection($media);
             $file->delete();
         });
-//        $this->src_main = $this->promo->getMedia($media);
+        $this->src = $this->promo->getMedia($media);
+        $this->emit('update_img');
+    }
+
+    public function update_img() {
+        $this->src = $this->promo->getFirstMediaUrl('promo_pics');
     }
 }

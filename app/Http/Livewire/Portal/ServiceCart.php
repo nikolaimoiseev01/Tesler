@@ -13,17 +13,33 @@ class ServiceCart extends Component
     public $yc_link;
     public $link_services;
     public $total_price;
+    public $cart_total;
+    public $cart_services_count;
+    public $cart_goods_count;
 
-    protected $listeners = ['service_cart_add', 'update_service_buttons'];
+    protected $listeners = ['service_cart_add', 'update_service_buttons', 'show_red_cart_s'];
 
     public function render()
     {
         return view('livewire.portal.service-cart');
     }
 
+    public function show_red_cart_s() {
+        $this->dispatchBrowserEvent('update_red_cart', [
+            'cart_total' => $this->cart_total,
+            'cart_services_count' => $this->cart_services_count,
+            'cart_goods_count' => $this->cart_goods_count
+        ]);
+    }
+
     public function mount(Request $request)
     {
         $this->cart_services = $request->session()->get('cart_services');
+        $this->cart_total = $request->session()->get('cart_total');
+        $this->cart_services_count = $request->session()->get('cart_services_count');
+        $this->cart_goods_count = $request->session()->get('cart_goods_count');
+
+
 
         if ($this->cart_services) {
             $this->link_services = '';
@@ -79,15 +95,31 @@ class ServiceCart extends Component
 
         $this->dispatchBrowserEvent('trigger_service_cart_open');
 
+        $this->cart_total += 1;
+        $this->cart_services_count += 1;
+
+        $request->session()->put('cart_total', $this->cart_total);
+        $request->session()->put('cart_services_count', $this->cart_services_count);
+
+        $this->dispatchBrowserEvent('update_red_cart', [
+            'cart_total' => $this->cart_total,
+            'cart_services_count' => $this->cart_services_count,
+            'cart_goods_count' => $this->cart_goods_count
+        ]);
+
 
         $this->dispatchBrowserEvent('trigger_service_add_button', [
             'type' => 'add',
             'id' => $service_id,
         ]);
 
+        $this->dispatchBrowserEvent('show_red_cart');
+
     }
 
-    public function service_cart_remove_all() {
+    public function service_cart_remove_all(Request $request) {
+        $services_before_remove = count($this->cart_services);
+
         foreach ($this->cart_services as $cart_service) {
             $this->dispatchBrowserEvent('trigger_service_add_button', [
                 'type' => 'remove',
@@ -97,6 +129,18 @@ class ServiceCart extends Component
         $this->cart_services = [];
 
         $this->dispatchBrowserEvent('trigger_service_cart_close');
+
+        $this->cart_total -= $services_before_remove;
+        $this->cart_services_count -= $services_before_remove;
+
+        $request->session()->put('cart_total', $this->cart_total);
+        $request->session()->put('cart_services_count', $this->cart_services_count);
+
+        $this->dispatchBrowserEvent('update_red_cart', [
+            'cart_total' => $this->cart_total,
+            'cart_services_count' => $this->cart_services_count,
+            'cart_goods_count' => $this->cart_goods_count
+        ]);
 
 
         session()->put('cart_services', $this->cart_services);
@@ -129,6 +173,17 @@ class ServiceCart extends Component
         });
 
 //
+        $this->cart_total -= 1;
+        $this->cart_services_count -= 1;
+
+        $request->session()->put('cart_total', $this->cart_total);
+        $request->session()->put('cart_services_count', $this->cart_services_count);
+
+        $this->dispatchBrowserEvent('update_red_cart', [
+            'cart_total' => $this->cart_total,
+            'cart_services_count' => $this->cart_services_count,
+            'cart_goods_count' => $this->cart_goods_count
+        ]);
 
         $this->dispatchBrowserEvent('trigger_service_add_button', [
             'type' => 'remove',

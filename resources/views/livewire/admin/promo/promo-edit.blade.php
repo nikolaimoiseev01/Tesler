@@ -46,7 +46,7 @@
                                  data-crop-width="460"
                                  data-crop-height="280"
                                  style="max-width: 300px;"
-                                 src="{{$promo->getFirstMediaUrl('promo_pics')}}"
+                                 src="{{$src}}"
                                  alt="">
                             <i class="image_edit_button fa-solid fa-pencil"></i>
                         </div>

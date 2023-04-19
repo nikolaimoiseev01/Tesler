@@ -26,6 +26,11 @@ class GoodCart extends Component
     public $address;
     public $index;
 
+    public $cart_goods_count;
+    public $cart_services_count;
+
+    public $cart_total;
+
     public $errors_array;
 
     protected $listeners = ['good_cart_add', 'update_good_buttons'];
@@ -44,7 +49,9 @@ class GoodCart extends Component
         $this->cart_goods = $request->session()->get('cart_goods');
 
         $this->cart_items = $request->session()->get('cart_items');
-
+        $this->cart_total = $request->session()->get('cart_total');
+        $this->cart_goods_count = $request->session()->get('cart_goods_count');
+        $this->cart_services_count = $request->session()->get('cart_services_count');
 
 
         if ($this->cart_goods) {
@@ -98,6 +105,17 @@ class GoodCart extends Component
             'items' => $this->cart_items + 1
         ]);
 
+        $this->cart_total += 1;
+        $this->cart_goods_count += 1;
+        $request->session()->put('cart_total', $this->cart_total);
+        $request->session()->put('cart_goods_count', $this->cart_goods_count);
+
+        $this->dispatchBrowserEvent('update_red_cart', [
+            'cart_total' => $this->cart_total,
+            'cart_services_count' => $this->cart_services_count,
+            'cart_goods_count' => $this->cart_goods_count
+        ]);
+
 //        dd($request->session());
 
     }
@@ -118,6 +136,17 @@ class GoodCart extends Component
             return $carry + $item['yc_price'];
         });
 
+        $this->cart_total -= 1;
+        $this->cart_goods_count -= 1;
+        $request->session()->put('cart_total', $this->cart_total);
+        $request->session()->put('cart_goods_count', $this->cart_goods_count);
+
+        $this->dispatchBrowserEvent('update_red_cart', [
+            'cart_total' => $this->cart_total,
+            'cart_services_count' => $this->cart_services_count,
+            'cart_goods_count' => $this->cart_goods_count
+        ]);
+
 //
 
         $this->dispatchBrowserEvent('trigger_good_add_button', [
@@ -128,8 +157,9 @@ class GoodCart extends Component
 
     }
 
-    public function good_cart_remove_all() {
+    public function good_cart_remove_all(Request $request) {
 
+        $goods_before_remove = count($this->cart_goods);
         foreach ($this->cart_goods as $cart_good) {
             $this->dispatchBrowserEvent('trigger_good_add_button', [
                 'type' => 'remove',
@@ -138,6 +168,17 @@ class GoodCart extends Component
         }
         $this->cart_goods = [];
         $this->dispatchBrowserEvent('trigger_good_cart_close');
+
+        $this->cart_total -= $goods_before_remove;
+        $this->cart_goods_count -= $goods_before_remove;
+        $request->session()->put('cart_total', $this->cart_total);
+        $request->session()->put('cart_goods_count', $this->cart_goods_count);
+
+        $this->dispatchBrowserEvent('update_red_cart', [
+            'cart_total' => $this->cart_total,
+            'cart_services_count' => $this->cart_services_count,
+            'cart_goods_count' => $this->cart_goods_count
+        ]);
 
         session()->put('cart_goods', $this->cart_goods);
     }

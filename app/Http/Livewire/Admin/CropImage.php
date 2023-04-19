@@ -73,7 +73,10 @@ class CropImage extends ModalComponent
                 'title' => 'Обрезание прошло успешно, обновите страницу!',
             ]);
 
-            $this->emit('update_img_pre', $this->data_crop_media);
+            if($this->data_crop_media <> 0) {
+                $this->emit('update_img_pre', $this->data_crop_media);
+            }
+
             $this->forceClose()->closeModal();
 
 //            return redirect(request()->header('Referer'));

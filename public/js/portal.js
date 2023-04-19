@@ -102,8 +102,41 @@ document.addEventListener('trigger_service_add_button', event => {
 // ------  TRIGGER GOOD ADD BUTTON  ------ //
 $(document).ready(function() {
     Livewire.emit('update_good_buttons')
+    Livewire.emit('show_red_cart_s')
 })
 
+document.addEventListener('update_red_cart', event => {
+    cart_total = event.detail.cart_total
+    cart_services_count = event.detail.cart_services_count
+    cart_goods_count = event.detail.cart_goods_count
+
+    console.log
+
+    if((cart_services_count == null && cart_goods_count == null) || (cart_services_count + cart_goods_count) === 0) {
+        $('.red_cart').hide()
+    } else {
+        $('.red_cart').show()
+        $('.red_cart p').text((cart_services_count + cart_goods_count))
+    }
+console.log('serv:' + cart_services_count);
+    if(cart_services_count == null || cart_services_count === 0) {
+        $('#cart_service_button span').hide()
+        $('#cart_service_button').html('Услуги (<span>0</span>)')
+    } else {
+        $('#cart_service_button span').show()
+        $('#cart_service_button span').text(cart_services_count)
+    }
+
+    console.log('goods:' + cart_goods_count);
+    if(cart_goods_count == null || cart_goods_count === 0) {
+        $('#cart_good_button span').hide()
+        $('#cart_good_button').html('Товары (<span>0</span>)')
+    } else {
+        $('#cart_good_button span').show()
+        $('#cart_good_button span').text(cart_goods_count)
+    }
+
+})
 
 document.addEventListener('trigger_good_add_button', event => {
     found_button =  $('#good_add_' + event.detail.id)
