@@ -26,7 +26,7 @@
                             name="interior_pic"
                             data-allow-reorder="true"
                             data-max-file-size="30MB"
-                            data-max-files="100">
+                            data-max-files="10">
                     </div>
                     <button type="submit" class="show_preloader_on_click btn btn-outline-primary">Сохранить</button>
                 </form>
@@ -122,8 +122,8 @@
                     },
 
                     labelIdle: 'Можно несколько изображений | (min: 280x440) | png/jpg',
-                    maxFileSize: '10MB',
-                    maxTotalFileSize: '20MB',
+                    maxFileSize: '30MB',
+                    maxTotalFileSize: '100MB',
                     labelMaxFileSizeExceeded: 'Размер превышен!',
                     labelMaxFileSize: 'Максимальный: {filesize}',
                     labelMaxTotalFileSizeExceeded: 'Сумма размеров превышена!',
