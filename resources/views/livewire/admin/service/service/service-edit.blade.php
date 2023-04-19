@@ -405,8 +405,8 @@
                        name="service_examples"
                        id="service_examples"
                        data-allow-reorder="true"
-                       data-max-file-size="3MB"
-                       data-max-files="3">
+                       data-max-file-size="30MB"
+                       data-max-files="30">
 
             </div>
             <a type="submit" wire:click.prevent="new_service_examples"
@@ -486,8 +486,8 @@
                         make_livewire_var()
                     },
                     labelIdle: 'Добавить примеры услуги | (min: 288x440) | png/jpg',
-                    maxFileSize: '10MB',
-                    maxTotalFileSize: '20MB',
+                    maxFileSize: '30MB',
+                    maxTotalFileSize: '100MB',
                     labelMaxFileSizeExceeded: 'Размер превышен!',
                     labelMaxFileSize: 'Максимальный: {filesize}',
                     labelMaxTotalFileSizeExceeded: 'Сумма размеров превышена!',

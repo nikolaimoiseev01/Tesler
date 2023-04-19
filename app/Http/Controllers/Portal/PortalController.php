@@ -198,7 +198,7 @@ class PortalController extends Controller
 
 
         $abonements_pre = Good::where('yc_category', 'Абонементы Сеть Tesler')->where('category_id', $service['category_id'])->take(3)->get();
-
+dd($abonements_pre);
         foreach ($abonements_pre as $abonement) {
             $abonements[] = [
                 'id' => $abonement['id'],
