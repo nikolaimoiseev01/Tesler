@@ -128,7 +128,7 @@
                             <a class="name" href="{{route('good_page', $good['id'])}}">
                                 <img
                                     @if(is_null($good->getFirstMediaUrl('good_examples')) || $good->getFirstMediaUrl('good_examples') == '')
-                                    src="/media/media_fixed/holder_225x175.png"
+                                    src="/media/media_fixed/logo_holder.png"
                                     @else src="{{$good->getFirstMediaUrl('good_examples')}}" @endif
                                     alt="">
                             </a>

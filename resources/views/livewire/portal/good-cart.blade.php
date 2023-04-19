@@ -18,7 +18,7 @@
                 @foreach($cart_goods as $cart_good)
                     <div class="good_wrap">
                         <img @if(is_null($cart_good['image_url']) || $cart_good['image_url'] == '')
-                             src="/media/media_fixed/holder_225x175.png"
+                             src="/media/media_fixed/logo_holder.png"
                              @else src="{{$cart_good['image_url']}}" @endif
                              alt="">
                         <div class="info">
