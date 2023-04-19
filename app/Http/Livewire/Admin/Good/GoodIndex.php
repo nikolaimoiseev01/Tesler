@@ -81,12 +81,15 @@ class GoodIndex extends Component
         foreach ($yc_goods as $yc_good) { // Идем по всем услугам YCLIENTS
             if (Good::where('yc_id', $yc_good['good_id'])->exists()) {
             } else {
+                $storage_id_key = array_search(ENV('YCLIENTS_SHOP_STORAGE'), array_column($yc_good['actual_amounts'], 'storage_id'));
+                $yc_actual_amounts = $yc_good['actual_amounts'][$storage_id_key]['amount'] ?? null;
 
                 $this->found_yc_goods[] = [
                     'yc_id' => $yc_good['good_id'],
                     'yc_title' => $yc_good['title'],
                     'yc_price' => $yc_good['cost'],
                     'yc_category' => $yc_good['category'],
+                    'yc_actual_amount' => $yc_actual_amounts,
                     'last_change_date' => substr($yc_good['last_change_date'], 0, 10),
                     'yc_active' => 0
                 ];
@@ -144,6 +147,7 @@ class GoodIndex extends Component
                 'yc_title' => $found_yc_good['yc_title'],
                 'yc_price' => $found_yc_good['yc_price'],
                 'yc_category' => $found_yc_good['yc_category'],
+                'yc_actual_amount' => $found_yc_good['yc_actual_amount'],
                 'flg_active' => 0,
                 'name' => $found_yc_good['yc_title'],
             ]);
