@@ -554,6 +554,12 @@ class ServiceEdit extends Component
             $file->delete();
         });
         $this->src_main = $this->service->getMedia($media);
+        $this->emit('update_img');
+    }
+
+    public function update_img() {
+        $this->src_main = $this->service->getFirstMediaUrl('pic_main');
+        $this->src_proccess = $this->service->getFirstMediaUrl('pic_proccess');
     }
 
 
