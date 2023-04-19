@@ -228,7 +228,7 @@ class GoodCart extends Component
                 ],
             ];
             $api->init($params);
-dd($api);
+
 
             if ($api->error == '') {
                 Order::create([
