@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Expires" content="Tue, 14 Aug 2017 12:12:12 GMT">
+    <meta http-equiv="Pragma" content="no-cache">
     <title>Tesler | Админ | @yield('title')</title>
 
     <link rel="stylesheet"

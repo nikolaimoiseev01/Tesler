@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin;
 
+use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 use LivewireUI\Modal\ModalComponent;
 use Spatie\Image\Image;
@@ -76,6 +77,8 @@ class CropImage extends ModalComponent
             header('Cache-Control: no-cache');
             header('Pragma: no-cache');
             $this->forceClose()->closeModal();
+            Cache::flush();
+            cache()->flush();
             return redirect(request()->header('Referer'));
         }
     }
