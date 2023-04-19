@@ -74,7 +74,7 @@ class GoodIndex extends Component
                 break;
             }
         }
-dd($yc_goods);
+//dd($yc_goods);
 
         $this->found_yc_goods = null;
 
