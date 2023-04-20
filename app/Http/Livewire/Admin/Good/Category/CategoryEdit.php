@@ -19,13 +19,13 @@ class CategoryEdit extends ModalComponent
         return view('livewire.admin.good.category.category-edit');
     }
 
-    public function mount($GoodCategory_id)
+    public function mount($goodcategory_id)
     {
-        $this->GoodCategory = GoodCategory::where('id', $GoodCategory_id)->first();
-        $this->title = $this->GoodCategory['title'];
+        $this->goodcategory = GoodCategory::where('id', $goodcategory_id)->first();
+        $this->title = $this->goodcategory['title'];
     }
 
-    public function editGoodCategory($formData)
+    public function editgoodcategory($formData)
     {
 
         // --------- Ищем ошибки в заполнении  --------- //
@@ -36,7 +36,7 @@ class CategoryEdit extends ModalComponent
         }
 
 
-        if ($this->GoodCategory->getMedia('pic_GoodCategory')->count() == 0 && !$formData['pic_GoodCategory']) {
+        if ($this->goodcategory->getMedia('pic_goodcategory')->count() == 0 && !$formData['pic_goodcategory']) {
             array_push($errors_array, 'Основное изображение не загружено!');
         }
 
@@ -49,37 +49,37 @@ class CategoryEdit extends ModalComponent
                 'text' => implode("<br>", $errors_array),
             ]);
 
-            $this->emit('refreshGoodCategoryCreate');
-            $this->emit('refreshGoodCategoryIndex');
+            $this->emit('refreshgoodcategoryCreate');
+            $this->emit('refreshgoodcategoryIndex');
         }
 
         if (empty($errors_array)) {
 
-            $this->GoodCategory->update([
+            $this->goodcategory->update([
                 'title' => $formData['title']
             ]);
 
-            if ($formData['pic_GoodCategory']) {
-                $pic_main_path = public_path('media/filepond_temp/' . $formData['pic_GoodCategory']);
+            if ($formData['pic_goodcategory']) {
+                $pic_main_path = public_path('media/filepond_temp/' . $formData['pic_goodcategory']);
                 Image::load($pic_main_path)
                     ->optimize()
                     ->save($pic_main_path);
-                if ($this->GoodCategory->getMedia('pic_GoodCategory')->count() != 0) {
-                    $this->GoodCategory->getFirstMedia('pic_GoodCategory')->delete();
+                if ($this->goodcategory->getMedia('pic_goodcategory')->count() != 0) {
+                    $this->goodcategory->getFirstMedia('pic_goodcategory')->delete();
                 }
-                $this->GoodCategory->addMedia($pic_main_path)->toMediaCollection('pic_GoodCategory');
+                $this->goodcategory->addMedia($pic_main_path)->toMediaCollection('pic_goodcategory');
                 File::deleteDirectory($pic_main_path);
             }
 
-            if ($formData['pic_GoodCategory_small']) {
-                $pic_main_path = public_path('media/filepond_temp/' . $formData['pic_GoodCategory_small']);
+            if ($formData['pic_goodcategory_small']) {
+                $pic_main_path = public_path('media/filepond_temp/' . $formData['pic_goodcategory_small']);
                 Image::load($pic_main_path)
                     ->optimize()
                     ->save($pic_main_path);
-                if ($this->GoodCategory->getMedia('pic_GoodCategory_small')->count() != 0) {
-                    $this->GoodCategory->getFirstMedia('pic_GoodCategory_small')->delete();
+                if ($this->goodcategory->getMedia('pic_goodcategory_small')->count() != 0) {
+                    $this->goodcategory->getFirstMedia('pic_goodcategory_small')->delete();
                 }
-                $this->GoodCategory->addMedia($pic_main_path)->toMediaCollection('pic_GoodCategory_small');
+                $this->goodcategory->addMedia($pic_main_path)->toMediaCollection('pic_goodcategory_small');
                 File::deleteDirectory($pic_main_path);
             }
 
