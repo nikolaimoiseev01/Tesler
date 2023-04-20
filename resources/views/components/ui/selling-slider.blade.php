@@ -75,6 +75,30 @@
         $slickElement_slider.slick({
             infinite: true,
             slidesToShow: 4,
+            responsive: [
+                {
+                    breakpoint: 1300,
+                    settings: {
+                        slidesToShow: 3,
+                        infinite: true,
+                    }
+                },
+                {
+                    breakpoint: 960,
+                    settings: {
+                        slidesToShow: 2,
+                        infinite: true,
+                    }
+                },
+                {
+                    breakpoint: 650,
+                    settings: {
+                        slidesToShow: 1,
+                        infinite: true,
+                    }
+                },
+
+            ],
             // centerMode: true,
             slidesToScroll: 1,
             arrows: true,

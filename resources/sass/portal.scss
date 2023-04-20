@@ -244,6 +244,14 @@
             align-items: center;
             margin-right: 100px;
 
+            @media(max-width: 1300px) {
+                margin-right: 50px;
+            }
+
+            @media(max-width: 960px) {
+                margin-right: 10px;
+            }
+
             button {
                 display: inline-block;
                 padding: 0;
