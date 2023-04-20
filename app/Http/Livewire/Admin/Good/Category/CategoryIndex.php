@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Admin\Good\Category;
 
-use App\Models\Goodcategory;
+use App\Models\GoodCategory;
 use Livewire\Component;
 
 class CategoryIndex extends Component
