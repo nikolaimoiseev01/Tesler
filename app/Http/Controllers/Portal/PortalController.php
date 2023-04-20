@@ -405,13 +405,7 @@ class PortalController extends Controller
         Log::info('// $request ENDED //');
 
 
-        if ($request['Status'] === 'CONFIRMED') {
-            $status = 'Подтвержден';
-        } else if ($request['Status'] === 'REJECTED') {
-            $status = 'Отклонен';
-        } else if ($request['Status'] === 'REFUNDED') {
-            $status = 'Возвращен';
-        }
+
 
         $order = Order::where('tinkoff_order_id', $request['OrderId'])->first();
 
@@ -420,27 +414,27 @@ class PortalController extends Controller
         Log::info($request['Status']);
         Log::info('//  $request_Status ENDED //');
 
-        $order->update([
-            'tinkoff_status' => $status,
-        ]);
-
 
         if ($request['Status'] === 'CONFIRMED') { // ЕСЛИ УСПЕШНО ОПЛАЧЕНО, СОЗДАЕМ ОПЕРАЦИИ СПИСАНИЯ в YCLIENTS
 
-            $YCLIENTS_SHOP_ID = ENV('YCLIENTS_SHOP_ID');
-            $YCLIENTS_HEADERS = [
-                'Accept' => 'application/vnd.yclients.v2+json',
-                'Authorization' => 'Bearer ' . ENV('YCLIENTS_BEARER') . ', User ' . ENV('YCLIENTS_ADMIN_TOKEN')
-            ];
-//        dd('Bearer ' . ENV('YCLIENTS_BEARER') . ', User ' . ENV('YCLIENTS_ADMIN_TOKEN'));
-
-            $url = 'https://api.yclients.com/api/v1/storage_operations/operation/' . $YCLIENTS_SHOP_ID;
-
             $order = Order::where('tinkoff_order_id', $request['OrderId'])->first();
 
-            foreach (json_decode($order['goods']) as $transaction) { // ИДЕМ ПО ВСЕМ ТОВАРАМ В ЗАКАЗЕ
+            if ($order['tinkoff_status'] <> 'Подтвержден') { // Чтобы несколько раз не выполнялся
 
-                $data = "{
+
+                $YCLIENTS_SHOP_ID = ENV('YCLIENTS_SHOP_ID');
+                $YCLIENTS_HEADERS = [
+                    'Accept' => 'application/vnd.yclients.v2+json',
+                    'Authorization' => 'Bearer ' . ENV('YCLIENTS_BEARER') . ', User ' . ENV('YCLIENTS_ADMIN_TOKEN')
+                ];
+//        dd('Bearer ' . ENV('YCLIENTS_BEARER') . ', User ' . ENV('YCLIENTS_ADMIN_TOKEN'));
+
+                $url = 'https://api.yclients.com/api/v1/storage_operations/operation/' . $YCLIENTS_SHOP_ID;
+
+
+                foreach (json_decode($order['goods']) as $transaction) { // ИДЕМ ПО ВСЕМ ТОВАРАМ В ЗАКАЗЕ
+
+                    $data = "{
               \"type_id\": 1,
               \"create_date\": \"" . date('Y-m-d H:i:s') . "\",
               \"storage_id\": " . ENV('YCLIENTS_SHOP_STORAGE') . ",
@@ -459,24 +453,37 @@ class PortalController extends Controller
               ]
         }";
 
-                $make_operation = Http::withHeaders($YCLIENTS_HEADERS)
-                    ->withBody($data)
-                    ->post($url)
-                    ->collect();
+                    $make_operation = Http::withHeaders($YCLIENTS_HEADERS)
+                        ->withBody($data)
+                        ->post($url)
+                        ->collect();
 
-                $good = Good::where('id', $transaction->good_id)->first();
+                    $good = Good::where('id', $transaction->good_id)->first();
 
-                $good->update([
-                    'yc_actual_amount' => $good['yc_actual_amount'] - $transaction->amount
-                ]);
+                    $good->update([
+                        'yc_actual_amount' => $good['yc_actual_amount'] - $transaction->amount
+                    ]);
+
+                    if ($request['Status'] === 'CONFIRMED') {
+                        $status = 'Подтвержден';
+                    } else if ($request['Status'] === 'REJECTED') {
+                        $status = 'Отклонен';
+                    } else if ($request['Status'] === 'REFUNDED') {
+                        $status = 'Возвращен';
+                    }
+
+                    $order->update([
+                        'tinkoff_status' => $status,
+                    ]);
+
+                    $order->save();
+                    $good->save();
 
 
-                $good->save();
-
-
-                Log::info('//  $make_operation STARTED //');
-                Log::info($make_operation);
-                Log::info('//  $make_operation ENDED //');
+                    Log::info('//  $make_operation STARTED //');
+                    Log::info($make_operation);
+                    Log::info('//  $make_operation ENDED //');
+                }
             }
         }
 

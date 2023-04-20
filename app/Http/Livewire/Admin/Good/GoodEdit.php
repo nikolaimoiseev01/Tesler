@@ -759,10 +759,9 @@ class GoodEdit extends Component
             'yc_actual_amount' => $this->good['yc_actual_amount'] + (($type_id === 1) ? -1 : 1)
         ]);
 
-
         $this->dispatchBrowserEvent('toast_fire', [
             'type' => 'success',
-            'title' => '1 единица товара была успешно ' . ($type_id = 1) ? 'продана' : 'добавлена',
+            'title' => '1 единица товара была успешно ' . (($type_id === 1) ? 'продана' : 'добавлена'),
         ]);
 
         $this->emit('refreshGoodEdit');
