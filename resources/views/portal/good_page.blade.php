@@ -63,7 +63,13 @@
                 @if(($good['flg_active'] && $good['yc_actual_amount'] > 0) || $good['good_category_id'][0] === 6 || $good['good_category_id'][0] === 7)
                     <a onclick="Livewire.emit('good_cart_add', {{$good['id']}})"
                        id="good_add_{{$good['id']}}"
-                       class="link-bg coal">В корзину</a>
+                       class="link-bg coal">
+                        @if($good['good_category_id'][0] === 6 || $good['good_category_id'][0] === 7)
+                            Купить
+                        @else
+                            В корзину
+                        @endif
+                    </a>
                 @else
                     <p>Этот товар недоступен для покупки</p>
                 @endif
