@@ -16,7 +16,7 @@ class Good extends Model implements HasMedia
         'yc_category',
         'yc_actual_amount',
         'flg_active',
-        'category_id',
+        'scope_id',
         'name',
         'desc_small',
         'desc',
@@ -48,8 +48,8 @@ class Good extends Model implements HasMedia
 
     use HasFactory;
 
-    public function Category() {
-        return $this->belongsTo(Category::class);
+    public function Scope() {
+        return $this->belongsTo(Scope::class);
     }
 
     public function GoodCategory() {

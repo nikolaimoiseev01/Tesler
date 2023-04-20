@@ -5,9 +5,14 @@ namespace App\Http\Livewire\Portal;
 use App\Models\Good;
 use App\Models\Order;
 use Illuminate\Http\Request;
+
 //use Kenvel\Tinkoff;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Http;
 use Livewire\Component;
-use App\TinkoffMerchantAPI; // import using namespace
+use App\TinkoffMerchantAPI;
+
+// import using namespace
 
 class GoodCart extends Component
 {
@@ -57,7 +62,7 @@ class GoodCart extends Component
         if ($this->cart_goods) {
 
             $this->total_price = array_reduce($this->cart_goods, function ($carry, $item) {
-                return $carry + $item['yc_price'];
+                return $carry + ($item['yc_price'] * ($item['sell_amount'] ?? 1));
             });
 
         }
@@ -65,58 +70,92 @@ class GoodCart extends Component
 
     }
 
-    public function good_cart_add(Request $request, $good_id)
+    public function update_counter(Request $request, $counter_good_id, $dir)
     {
 
+
+        foreach ($this->cart_goods as $cart_good) { // Идем по всем товарам в корзине
+            if ($cart_good['id'] === $counter_good_id) { // Чтобы понять, какой товар изменять
+                $index = array_search($cart_good, $this->cart_goods); // Чтобы понять, какой товар изменять
+                $sell_amount = $cart_good['sell_amount'] ?? 1;
+                if (($sell_amount == 1 && $dir == 1) || $sell_amount > 1) { // Чтобы не уходить в минус
+                    if ($dir == -1 || ($cart_good['sell_amount'] < $cart_good['yc_actual_amount'])) // Чтобы не брать больше, чем в наличии
+                        $this->cart_goods[$index]['sell_amount'] = $sell_amount + $dir;
+                }
+            }
+        }
+
+        $this->total_price = array_reduce($this->cart_goods, function ($carry, $item) {
+            return $carry + ($item['yc_price'] * ($item['sell_amount'] ?? 1));
+        });
+
+        $request->session()->put('cart_goods', $this->cart_goods);
+
+
+    }
+
+    public function good_cart_add(Request $request, $good_id)
+    {
+        $YCLIENTS_SHOP_ID = ENV('YCLIENTS_SHOP_ID');
+        $YCLIENTS_HEADERS = [
+            'Accept' => 'application/vnd.yclients.v2+json',
+            'Authorization' => 'Bearer ' . ENV('YCLIENTS_BEARER') . ', User ' . ENV('YCLIENTS_ADMIN_TOKEN')
+        ];
 
         $good_to_add = Good::where('id', $good_id)->get()->toArray();
         $good_img_url = Good::where('id', $good_id)->first()->getFirstMediaUrl('good_examples');
         $good_to_add[0]['image_url'] = $good_img_url;
-        $request->session()->push('cart_goods', $good_to_add[0]);
-        $this->cart_goods = $request->session()->get('cart_goods');
+        $good_to_add[0]['sell_amount'] = 1;
+
+        $yc_good = Http::withHeaders($YCLIENTS_HEADERS)
+            ->get('https://api.yclients.com/api/v1/goods/' . $YCLIENTS_SHOP_ID . '/' . $good_to_add[0]['yc_id'])
+            ->collect()['data'];
+
+        if ($yc_good['loyalty_certificate_type_id'] !== 0) { // Если это сертификат
+            $url = 'https://o3194.yclients.com/loyalty/certificate/' . $yc_good['loyalty_certificate_type_id'];
+            $this->dispatchBrowserEvent('open_url_new_tab', [
+                'url' => $url
+            ]);
+        }
+
+        if ($yc_good['loyalty_abonement_type_id'] !== 0) { // Если это абонемент
+            return redirect('https://o3194.yclients.com/loyalty/subscription/' . $yc_good['loyalty_abonement_type_id']);
+        }
+
+        if ($yc_good['loyalty_abonement_type_id'] === 0 && $yc_good['loyalty_certificate_type_id'] == 0) {
+
+            $request->session()->push('cart_goods', $good_to_add[0]);
+            $this->cart_goods = $request->session()->get('cart_goods');
+
+            $request->session()->put('cart_items', $this->cart_items + 1);
+
+            $this->total_price = array_reduce($this->cart_goods, function ($carry, $item) {
+                return $carry + ($item['yc_price'] * ($item['sell_amount'] ?? 1));
+            });
 
 
-//        if ($this->cart_goods) {
-//            $this->link_goods = '';
-//            foreach ($this->cart_goods as $cart_good) {
-//                $this->link_goods  = $this->link_goods . $cart_good['yc_id'] . ',';
-//            }
-//        }
-//        $this->link_goods  = rtrim($this->link_goods , ",");
-//
-//        $this->yc_link = 'https://b253254.yclients.com/company/247576/menu?o=s' . $this->link_goods;
+            $this->dispatchBrowserEvent('trigger_good_add_button', [
+                'type' => 'add',
+                'id' => $good_id,
+            ]);
 
+            $this->dispatchBrowserEvent('trigger_good_cart_open');
 
-        $request->session()->put('cart_items', $this->cart_items + 1);
+            $this->dispatchBrowserEvent('refresh_cart_items', [
+                'items' => $this->cart_items + 1
+            ]);
 
-        $this->total_price = array_reduce($this->cart_goods, function ($carry, $item) {
-            return $carry + $item['yc_price'];
-        });
+            $this->cart_total += 1;
+            $this->cart_goods_count += 1;
+            $request->session()->put('cart_total', $this->cart_total);
+            $request->session()->put('cart_goods_count', $this->cart_goods_count);
 
-
-        $this->dispatchBrowserEvent('trigger_good_add_button', [
-            'type' => 'add',
-            'id' => $good_id,
-        ]);
-
-        $this->dispatchBrowserEvent('trigger_good_cart_open');
-
-        $this->dispatchBrowserEvent('refresh_cart_items', [
-            'items' => $this->cart_items + 1
-        ]);
-
-        $this->cart_total += 1;
-        $this->cart_goods_count += 1;
-        $request->session()->put('cart_total', $this->cart_total);
-        $request->session()->put('cart_goods_count', $this->cart_goods_count);
-
-        $this->dispatchBrowserEvent('update_red_cart', [
-            'cart_total' => $this->cart_total,
-            'cart_services_count' => $this->cart_services_count,
-            'cart_goods_count' => $this->cart_goods_count
-        ]);
-
-//        dd($request->session());
+            $this->dispatchBrowserEvent('update_red_cart', [
+                'cart_total' => $this->cart_total,
+                'cart_services_count' => $this->cart_services_count,
+                'cart_goods_count' => $this->cart_goods_count
+            ]);
+        }
 
     }
 
@@ -133,7 +172,7 @@ class GoodCart extends Component
         session()->put('cart_goods', $this->cart_goods);
 
         $this->total_price = array_reduce($this->cart_goods, function ($carry, $item) {
-            return $carry + $item['yc_price'];
+            return $carry + ($item['yc_price'] * ($item['sell_amount'] ?? 1));
         });
 
         $this->cart_total -= 1;
@@ -157,7 +196,8 @@ class GoodCart extends Component
 
     }
 
-    public function good_cart_remove_all(Request $request) {
+    public function good_cart_remove_all(Request $request)
+    {
 
         $goods_before_remove = count($this->cart_goods);
         foreach ($this->cart_goods as $cart_good) {
@@ -195,13 +235,14 @@ class GoodCart extends Component
         }
     }
 
-    public function show_take_option() {
-        $this->show_take_option = true;
-
+    public function show_take_option()
+    {
+        $this->show_take_option = !$this->show_take_option;
         $this->dispatchBrowserEvent('trigger_mobile_input');
     }
 
-    public function to_checkout() {
+    public function to_checkout()
+    {
 
         // --------- Ищем ошибки в заполнении  --------- //
         $this->errors_array = [];
@@ -249,16 +290,25 @@ class GoodCart extends Component
             );
 
 
+            $tink_order_id = 'SITE_SELE_' . substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 1, 16);
 
-            $tink_order_id = 'SITE_SELE_' . substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'),1,16);
+            foreach ($this->cart_goods as $cart_good) {
+                $tinkoff_good[] = [
+                    'good_id' => $cart_good['id'],
+                    'good_yc_id' => $cart_good['yc_id'],
+                    'good_price' => $cart_good['yc_price'],
+                    'amount' => $cart_good['sell_amount']
+                ];
+            }
+
 
             $params = [
                 'OrderId' => $tink_order_id,
                 'Amount' => $this->total_price * 100,
                 'SuccessURL' => route('order_success_page', $tink_order_id),
                 'FailURL' => route('home'),
-                'DATA'    => [
-                    'goods' => collect($this->cart_goods)->pluck('id')->toJson(),
+                'DATA' => [
+                    'goods' => json_encode($tinkoff_good),
                     'name' => $this->name,
                     'surname' => $this->surname,
                     'mobile' => $this->mobile,
@@ -276,7 +326,7 @@ class GoodCart extends Component
                     'tinkoff_order_id' => $tink_order_id,
                     'tinkoff_status' => 'Платежная форма открыта',
                     'price' => $this->total_price * 100,
-                    'goods' => collect($this->cart_goods)->pluck('id')->toArray(),
+                    'goods' => json_encode($tinkoff_good),
                     'name' => $this->name,
                     'surname' => $this->surname,
                     'mobile' => $this->mobile,

@@ -17,6 +17,11 @@
             <div class="goods_wrap">
                 @foreach($cart_goods as $cart_good)
                     <div class="good_wrap">
+                        <div class="counter_wrap">
+                            <button wire:click="update_counter({{$cart_good['id']}}, -1)">-</button>
+                            <p>{{$cart_good['sell_amount'] ?? 1}}</p>
+                            <button wire:click="update_counter({{$cart_good['id']}}, 1)">+</button>
+                        </div>
                         <img @if(is_null($cart_good['image_url']) || $cart_good['image_url'] == '')
                              src="/media/media_fixed/logo_holder.png"
                              @else src="{{$cart_good['image_url']}}" @endif
@@ -28,8 +33,9 @@
                             <a href="{{route('good_page', $cart_good['id'])}}"><p
                                     class="name">{{$cart_good['name']}}</p></a>
                             <div class="spec_wrap">
-                                <p class="spec">{{$cart_good['capacity']}} {{$cart_good['capacity_type']}}</p>
-                                <p class="price">{{$cart_good['yc_price']}} ₽</p>
+{{--                                <p class="spec">{{$cart_good['capacity']}} {{$cart_good['capacity_type']}}</p>--}}
+                                <p class="spec">{{$cart_good['yc_actual_amount']}} в наличии</p>
+                                <p class="price">{{$cart_good['yc_price']}} ₽/шт.</p>
                             </div>
 
                         </div>
@@ -151,6 +157,8 @@
                 <div class="buttons_wrap">
                     <a wire:click.prevent="to_checkout()" class="link-bg fern">ОПЛАТИТЬ {{$total_price}} ₽</a>
                 </div>
+
+                <a wire:click.prevent="show_take_option" class="link">Назад</a>
             </div>
         @endif
 
@@ -160,6 +168,10 @@
             document.addEventListener('trigger_mobile_input', function () {
                 $('.mobile_input').mask('0 (000) 000-00-00');
             })
+            document.addEventListener('open_url_new_tab', function (event) {
+                window.open(event.detail.url, '_blank')
+            })
+
         </script>
     @endpush
 </div>

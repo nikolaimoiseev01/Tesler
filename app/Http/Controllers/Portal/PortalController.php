@@ -180,11 +180,9 @@ class PortalController extends Controller
 //        dd($yc_service);
 
 
-
         foreach ($yc_service as $arr) {
             $options[] = current($arr);  // COnverted to 1-d array
         }
-
 
 
         /* Filter $array2 and obtain those results for which ['ASIN'] value matches with one of the values contained in $options */
@@ -196,8 +194,7 @@ class PortalController extends Controller
         }
 
 
-
-        $abonements_pre = Good::where('yc_category', 'Абонементы Сеть Tesler')->where('category_id', $service['category_id'])->take(3)->get();
+        $abonements_pre = Good::where('yc_category', 'Абонементы Сеть Tesler')->where('scope_id', $service['scope_id'])->take(3)->get();
 //dd($abonements_pre);
         foreach ($abonements_pre as $abonement) {
             $abonements[] = [
@@ -416,23 +413,81 @@ class PortalController extends Controller
             $status = 'Возвращен';
         }
 
-        Order::where('tinkoff_order_id', $request['OrderId'])->update([
+        $order = Order::where('tinkoff_order_id', $request['OrderId'])->first();
+
+
+        Log::info('//  $request_Status STARTED //');
+        Log::info($request['Status']);
+        Log::info('//  $request_Status ENDED //');
+
+        $order->update([
             'tinkoff_status' => $status,
         ]);
 
 
-//    $requestBody = json_decode($source, true);
-//    Log::info('//  $requestBody STARTED //');
-//    Log::info($requestBody);
-//    Log::info('// $requestBody ENDED //');
-//
-//    $notification = $requestBody['object'];
-//    Log::info('//  $notification STARTED //');
-//    Log::info($notification);
-//    Log::info('// $notification ENDED //');
+        if ($request['Status'] === 'CONFIRMED') { // ЕСЛИ УСПЕШНО ОПЛАЧЕНО, СОЗДАЕМ ОПЕРАЦИИ СПИСАНИЯ в YCLIENTS
+
+            $YCLIENTS_SHOP_ID = ENV('YCLIENTS_SHOP_ID');
+            $YCLIENTS_HEADERS = [
+                'Accept' => 'application/vnd.yclients.v2+json',
+                'Authorization' => 'Bearer ' . ENV('YCLIENTS_BEARER') . ', User ' . ENV('YCLIENTS_ADMIN_TOKEN')
+            ];
+//        dd('Bearer ' . ENV('YCLIENTS_BEARER') . ', User ' . ENV('YCLIENTS_ADMIN_TOKEN'));
+
+            $url = 'https://api.yclients.com/api/v1/storage_operations/operation/' . $YCLIENTS_SHOP_ID;
+
+            $order = Order::where('tinkoff_order_id', $request['OrderId'])->first();
+
+            foreach (json_decode($order['goods']) as $transaction) { // ИДЕМ ПО ВСЕМ ТОВАРАМ В ЗАКАЗЕ
+
+                $data = "{
+              \"type_id\": 1,
+              \"create_date\": \"" . date('Y-m-d H:i:s') . "\",
+              \"storage_id\": " . ENV('YCLIENTS_SHOP_STORAGE') . ",
+              \"master_id\" : 724514,
+              \"goods_transactions\": [
+                  {
+                    \"document_id\": 123456,
+                    \"good_id\": " . $transaction->good_yc_id . ",
+                    \"amount\": " . $transaction->amount . ",
+                    \"cost_per_unit\": " . $transaction->good_price . ",
+                    \"discount\": 0,
+                    \"cost\": 1,
+                    \"operation_unit_type\": 1,
+                    \"master_id\" : 724514
+                  }
+              ]
+        }";
+
+                $make_operation = Http::withHeaders($YCLIENTS_HEADERS)
+                    ->withBody($data)
+                    ->post($url)
+                    ->collect();
+
+                $good = Good::where('id', $transaction->good_id)->first();
+
+                $good->update([
+                    'yc_actual_amount' => $good['yc_actual_amount'] - $transaction->amount
+                ]);
+
+
+                $good->save();
+
+
+                Log::info('//  $make_operation STARTED //');
+                Log::info($make_operation);
+                Log::info('//  $make_operation ENDED //');
+            }
+        }
+
     }
 
-    public function order_success_page($tinkoff_order_id) {
+    public function order_success_page(Request $request, $tinkoff_order_id)
+    {
+        $request->session()->put('cart_goods', null);
+        $request->session()->put('cart_total', null);
+        $request->session()->put('cart_goods_count', null);
+
         $order = Order::where('tinkoff_order_id', $tinkoff_order_id)->first();
         return view('portal.order_success_page', [
             'order' => $order,

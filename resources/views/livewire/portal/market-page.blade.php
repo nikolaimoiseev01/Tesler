@@ -55,53 +55,53 @@
                     @endforeach
                 </div>
             </div>
-
-            @if(count($hair_types) > 0)
-                <div x-data="{ opened_category: false }" class="yc_category_filter_wrap">
-                    <a @click="opened_category = !opened_category" class="link coal">Тип волос</a>
-                    <div x-transition x-show="opened_category" class="filter_wrap check_box_filter_wrap">
-                        @foreach($hair_types as $hair_type)
-                            <div>
-                                <input type="checkbox" id="hair_type_{{$hair_type['id']}}" wire:model="hair_type"
-                                       value="{{$hair_type['id']}}">
-                                <label for="hair_type_{{$hair_type['id']}}"><p>{{$hair_type['title']}}</p></label>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            @endif
-
-            @if(count($skin_types) > 0)
-                <div x-data="{ opened_category: false }" class="yc_category_filter_wrap">
-                    <a @click="opened_category = !opened_category" class="link coal">Тип кожи</a>
-                    <div x-transition x-show="opened_category" class="filter_wrap check_box_filter_wrap">
-                        @foreach($skin_types as $skin_type)
-                            <div>
-                                <input type="checkbox" id="skin_type{{$skin_type['id']}}" wire:model="skin_type"
-                                       value="{{$skin_type['id']}}">
-                                <label for="skin_type{{$skin_type['id']}}"><p>{{$skin_type['title']}}</p></label>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            @endif
-
-            @if(count($brands) > 0)
-                <div x-data="{ opened_category: false }" class="yc_category_filter_wrap">
-                    <a @click="opened_category = !opened_category" class="link coal">Бренд</a>
-                    <div x-transition x-show="opened_category" class="filter_wrap check_box_filter_wrap">
-                        @foreach($brands as $brand)
-                            <div>
-                                <input type="checkbox" id="{{$brand}}" wire:model="brand"
-                                       value="{{$brand}}">
-                                <label for="{{$brand}}"><p>{{$brand}}</p></label>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            @endif
-
             @if(!$abon_page_check)
+                @if(count($hair_types) > 0)
+                    <div x-data="{ opened_category: false }" class="yc_category_filter_wrap">
+                        <a @click="opened_category = !opened_category" class="link coal">Тип волос</a>
+                        <div x-transition x-show="opened_category" class="filter_wrap check_box_filter_wrap">
+                            @foreach($hair_types as $hair_type)
+                                <div>
+                                    <input type="checkbox" id="hair_type_{{$hair_type['id']}}" wire:model="hair_type"
+                                           value="{{$hair_type['id']}}">
+                                    <label for="hair_type_{{$hair_type['id']}}"><p>{{$hair_type['title']}}</p></label>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+
+                @if(count($skin_types) > 0)
+                    <div x-data="{ opened_category: false }" class="yc_category_filter_wrap">
+                        <a @click="opened_category = !opened_category" class="link coal">Тип кожи</a>
+                        <div x-transition x-show="opened_category" class="filter_wrap check_box_filter_wrap">
+                            @foreach($skin_types as $skin_type)
+                                <div>
+                                    <input type="checkbox" id="skin_type{{$skin_type['id']}}" wire:model="skin_type"
+                                           value="{{$skin_type['id']}}">
+                                    <label for="skin_type{{$skin_type['id']}}"><p>{{$skin_type['title']}}</p></label>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+
+                @if(count($brands) > 0)
+                    <div x-data="{ opened_category: false }" class="yc_category_filter_wrap">
+                        <a @click="opened_category = !opened_category" class="link coal">Бренд</a>
+                        <div x-transition x-show="opened_category" class="filter_wrap check_box_filter_wrap">
+                            @foreach($brands as $brand)
+                                <div>
+                                    <input type="checkbox" id="{{$brand}}" wire:model="brand"
+                                           value="{{$brand}}">
+                                    <label for="{{$brand}}"><p>{{$brand}}</p></label>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+
+
                 <div x-data="{ opened_category: false }" class="yc_category_filter_wrap">
                     <a @click="opened_category = !opened_category" class="link coal">Шопсеты</a>
                     <div x-transition x-show="opened_category" class="filter_wrap check_box_filter_wrap">
@@ -144,9 +144,13 @@
                             </div>
                         </div>
                         <div class="buttons_wrap">
-                            <a onclick="Livewire.emit('good_cart_add', {{$good['id']}})"
-                               id="good_add_{{$good['id']}}"
-                               class="link fern">В корзину</a>
+                            @if($good['flg_active'] && $good['yc_actual_amount'] > 0 || $good['good_category_id'][0] === 6 || $good['good_category_id'][0] === 7)
+                                <a onclick="Livewire.emit('good_cart_add', {{$good['id']}})"
+                                   id="good_add_{{$good['id']}}"
+                                   class="link fern">В корзину</a>
+                            @else
+                                <p>Товар закончился</p>
+                            @endif
                             <p class="price">{{$good['yc_price']}} ₽</p>
                         </div>
                     </div>

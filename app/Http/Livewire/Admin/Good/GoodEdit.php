@@ -8,6 +8,8 @@ use App\Models\Good_hair_type;
 use App\Models\Good_skin_type;
 use App\Models\GoodCategory;
 use App\Models\GoodType;
+use App\Models\Scope;
+use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Livewire\Component;
@@ -27,8 +29,8 @@ class GoodEdit extends Component
     public $specs_detailed;
     public $specs_title;
     public $specs_value;
-    public $categories;
-    public $category;
+    public $scopes;
+    public $scope;
     public $good_categories;
     public $good_has_categories;
 
@@ -69,22 +71,19 @@ class GoodEdit extends Component
         $this->flg_active = $this->good['flg_active'];
 
         $this->name = $this->good['name'];
-        $this->category = $this->good['category_id'];
+        $this->scope = $this->good['scope_id'];
         $this->desc_small = $this->good['desc_small'];
         $this->desc = $this->good['desc'];
         $this->usage = $this->good['usage'];
         $this->capacity = $this->good['capacity'];
         $this->capacity_type = $this->good['capacity_type'];
-        $this->good_category_id = $this->good['good_category_id'];
         $this->flg_on_road = $this->good['flg_on_road'];
         $this->flg_gift_set = $this->good['flg_gift_set'];
         $this->flg_discount = $this->good['flg_discount'];
-        $this->skin_type = $this->good['skin_type'];
-        $this->hair_type = $this->good['hair_type'];
         $this->product_type = $this->good['product_type'];
         $this->brand = $this->good['brand'];
 
-        $this->categories = Category::orderBy('name')->get();
+        $this->scopes = Scope::orderBy('name')->get();
         $this->good_categories = GoodCategory::orderBy('title')->get();
         $this->good_skin_types = Good_skin_type::orderBy('title')->get();
         $this->good_hair_types = Good_hair_type::orderBy('title')->get();
@@ -111,8 +110,8 @@ class GoodEdit extends Component
             array_push($errors_array, 'Применение не заполнено!');
         }
 
-        if ($this->category == null) {
-            array_push($errors_array, 'Выберите категорию!');
+        if ($this->scope == null) {
+            array_push($errors_array, 'Выберите сферу от услуг!');
         }
 
 
@@ -143,9 +142,12 @@ class GoodEdit extends Component
 
     public function editGood($formData)
     {
-
         // --------- Ищем ошибки в заполнении  --------- //
         $errors_array = [];
+
+        if (empty($this->good['good_category_id']) || ($this->good['good_category_id'] ?? null) === null) {
+            array_push($errors_array, 'У товара должна быть хотя бы одна категория!');
+        }
 
         if ($this->name == null) {
             array_push($errors_array, 'Название не заполнено!');
@@ -162,14 +164,14 @@ class GoodEdit extends Component
             array_push($errors_array, 'Применение не заполнено!');
         }
 
-        if ($this->category == null) {
-            array_push($errors_array, 'Выберите категорию от услуг!');
+        if ($this->scope == null) {
+            array_push($errors_array, 'Выберите сферу от услуг!');
         }
 
-        if ($this->product_type == null) {
+        if ($this->good['yc_category'] <> 'Сертификаты Сеть Tesler' && $this->good['yc_category'] <> 'Абонементы Сеть Tesler' && $this->product_type == null) {
             array_push($errors_array, 'Выберите тип товара!');
         }
-        if ($this->brand == null) {
+        if ($this->good['yc_category'] <> 'Сертификаты Сеть Tesler' && $this->good['yc_category'] <> 'Абонементы Сеть Tesler' && $this->brand == null) {
             array_push($errors_array, 'Выберите бренд!');
         }
 
@@ -190,14 +192,12 @@ class GoodEdit extends Component
 
             $this->good->update([
                 'name' => $this->name,
-                'category_id' => $this->category,
+                'scope_id' => $this->scope,
                 'desc_small' => $this->desc_small,
                 'desc' => $this->desc,
                 'usage' => $this->usage,
-
                 'capacity' => $this->capacity,
                 'capacity_type' => $this->capacity_type,
-                'good_category_id' => $this->good_category_id,
                 'flg_on_road' => $this->flg_on_road,
                 'flg_gift_set' => $this->flg_gift_set,
                 'flg_discount' => $this->flg_discount,
@@ -308,9 +308,10 @@ class GoodEdit extends Component
         $yc_good = Http::withHeaders($YCLIENTS_HEADERS)
             ->get('https://api.yclients.com/api/v1/goods/' . $YCLIENTS_SHOP_ID . '/' . $this->good['yc_id'])
             ->collect()['data'];
+
         $storage_id_key = array_search(ENV('YCLIENTS_SHOP_STORAGE'), array_column($yc_good['actual_amounts'], 'storage_id'));
         $yc_actual_amounts = $yc_good['actual_amounts'][$storage_id_key]['amount'] ?? null;
-dd($yc_good);
+//dd($yc_good);
         $this->good->update([
             'yc_title' => $yc_good['title'],
             'yc_category' => $yc_good['category'],
@@ -713,7 +714,8 @@ dd($yc_good);
         return redirect(route('good.index'));
     }
 
-    public function test_make_sale() {
+    public function test_make_sale($type_id) {
+
         $YCLIENTS_SHOP_ID = ENV('YCLIENTS_SHOP_ID');
         $YCLIENTS_HEADERS = [
             'Accept' => 'application/vnd.yclients.v2+json',
@@ -723,34 +725,48 @@ dd($yc_good);
 
         $url = 'https://api.yclients.com/api/v1/storage_operations/operation/' . $YCLIENTS_SHOP_ID;
 
-        $data = json_encode([
-            'type_id' => 1,
-            'create_date' => '2017-04-25 19:00:00',
-            'storage_id' => ENV('YCLIENTS_SHOP_STORAGE'),
-            'goods_transactions' => [
-                'document_id' => 123123,
-                'good_id' => $this->good['yc_id'],
-                'amount' => 1,
-                'cost_per_unit' => 1,
-                'discount' => 0,
-                'cost' => 1,
-                'operation_unit_type' => 1
-            ]
-        ]);
-//        dd($data);
 
 
-//        $response = Http::withHeaders($YCLIENTS_HEADERS)
-//            ->send('POST', $url, [
-//                'body' => '{' . $data . '}'
-//            ])->json();
+
+        $data = "{
+              \"type_id\": ". $type_id . ",
+              \"create_date\": \"" . date('Y-m-d H:i:s') . "\",
+              \"storage_id\": ". ENV('YCLIENTS_SHOP_STORAGE') . ",
+              \"master_id\" : 724514,
+              \"goods_transactions\": [
+                  {
+                    \"document_id\": 123456,
+                    \"good_id\": ". $this->good['yc_id'] . ",
+                    \"amount\": 1,
+                    \"cost_per_unit\": " . $this->good['yc_price'] . ",
+                    \"discount\": 0,
+                    \"cost\": 1,
+                    \"operation_unit_type\": 1,
+                    \"master_id\" : 724514
+                  }
+              ]
+        }";
+
+
+
 
         $make_operation = Http::withHeaders($YCLIENTS_HEADERS)
             ->withBody($data)
-            ->post($url);
+            ->post($url)
+        ->collect();
+
+        $this->good->update([
+            'yc_actual_amount' => $this->good['yc_actual_amount'] + (($type_id === 1) ? -1 : 1)
+        ]);
 
 
-        dd($make_operation);
+        $this->dispatchBrowserEvent('toast_fire', [
+            'type' => 'success',
+            'title' => '1 единица товара была успешно ' . ($type_id = 1) ? 'продана' : 'добавлена',
+        ]);
+
+        $this->emit('refreshGoodEdit');
     }
+
 
 }

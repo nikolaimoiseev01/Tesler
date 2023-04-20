@@ -69,14 +69,14 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label>Категория от услуг</label>
-                                    <select wire:model="category" class="form-control"
+                                    <label>Сфера от услуг</label>
+                                    <select wire:model="scope" class="form-control"
                                             name="category_id" aria-hidden="true">
-                                        @if(!($category ?? null))
+                                        @if(!($scope ?? null))
                                             <option value="" hidden>Выберите категорию</option>
                                         @endif
-                                        @foreach($categories as $category)
-                                            <option value="{{$category['id']}}">{{$category['name']}}
+                                        @foreach($scopes as $scope)
+                                            <option value="{{$scope['id']}}">{{$scope['name']}}
                                             </option>
                                         @endforeach
                                     </select>
@@ -151,6 +151,7 @@
 
                                     <select wire:model="good_category_id" class=" form-control"
                                             aria-hidden="true" id="service_to_add">
+                                            <option value="">Выберите категорию</option>
                                         @foreach($good_categories as $good_category)
                                             <option
                                                 value="{{$good_category['id']}}">{{$good_category['title']}}
@@ -187,6 +188,7 @@
 
                                     <select wire:model="good_skin_type_id" class=" form-control"
                                             aria-hidden="true" id="service_to_add">
+                                        <option value="">Выберите тип</option>
                                         @foreach($good_skin_types as $good_skin_type)
                                             <option
                                                 value="{{$good_skin_type['id']}}">{{$good_skin_type['title']}}
@@ -223,6 +225,7 @@
 
                                     <select wire:model="good_hair_type_id" class=" form-control"
                                             aria-hidden="true" id="service_to_add">
+                                        <option value="">Выберите тип</option>
                                         @foreach($good_hair_types as $good_hair_type)
                                             <option
                                                 value="{{$good_hair_type['id']}}">{{$good_hair_type['title']}}
@@ -465,8 +468,12 @@
             class="mt-3 btn btn-block btn-outline-danger btn-lg">Удалить товар
     </button>
 
-    <button type="button" wire:click.prevent="test_make_sale()" style="width: fit-content;"
+    <button type="button" wire:click.prevent="test_make_sale(1)" style="width: fit-content;"
             class="mt-3 btn btn-block btn-outline-primary btn-lg">Продать товар
+    </button>
+
+    <button type="button" wire:click.prevent="test_make_sale(3)" style="width: fit-content;"
+            class="mt-3 btn btn-block btn-outline-primary btn-lg">Приход товара
     </button>
 
     @push('scripts')

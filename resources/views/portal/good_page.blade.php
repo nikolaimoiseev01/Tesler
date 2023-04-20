@@ -18,7 +18,7 @@
             <div class="examples_wrap">
                 <img id="main_example"
                      @if(is_null($good->getFirstMediaUrl('good_examples')) || $good->getFirstMediaUrl('good_examples') == '')
-                     src="/media/media_fixed/holder_480x712.png"
+                     src="/media/media_fixed/logo_holder.png"
                      @else src="{{$good->getFirstMediaUrl('good_examples')}}"
                      @endif
                      alt="">
@@ -44,7 +44,7 @@
             @endpush
 
             <div class="info">
-                <p>{{$good['yc_category']}}</p>
+                <p>{{\App\Models\GoodCategory::where('id', $good['good_category_id'][0])->first(['title'])->title}}</p>
                 <h2>{{$good['name']}}</h2>
                 <p>{{$good['desc_small']}}</p>
                 <div>
@@ -60,7 +60,7 @@
                     @endif
                     <h2 class="price">{{$good['yc_price']}} Р</h2>
                 </div>
-                @if($good['flg_active'] && $good['yc_actual_amount'] > 0)
+                @if(($good['flg_active'] && $good['yc_actual_amount'] > 0) || $good['good_category_id'][0] === 6 || $good['good_category_id'][0] === 7)
                     <a onclick="Livewire.emit('good_cart_add', {{$good['id']}})"
                        id="good_add_{{$good['id']}}"
                        class="link-bg coal">В корзину</a>

@@ -98,7 +98,7 @@ final class OrderTable extends PowerGridComponent
         return PowerGrid::eloquent()
             ->addColumn('id')
             ->addColumn('tinkoff_status')
-            ->addColumn('goods', fn(Order $model) => count($model->goods))
+            ->addColumn('goods', fn(Order $model) => count((array)json_decode($model->goods)))
             ->addColumn('price', fn(Order $model) => str($model->price / 100) . ' ₽')
             ->addColumn('need_delivery', fn(Order $model) => ($model->need_delivery == 1) ? 'Нужна доставка' : 'Самостоятельно')
             ->addColumn('deli_status')

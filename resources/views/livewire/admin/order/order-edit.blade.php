@@ -81,6 +81,9 @@
             </div>
         </div>
 
+
+        <a wire:click.prevent="make_selling()">Сделать складские операции</a>
+
         <div class="col-md-6">
             <div style="max-width: 1000px;" class="card">
                 <div class="d-flex align-items-center card-header p-2">
@@ -88,10 +91,11 @@
                 </div>
                 <div class="card-body">
                     <div class="d-flex flex-column gap-2">
-                        @foreach($order['goods'] as $key=>$order)
+                        @foreach(json_decode($order['goods']) as $key=>$order)
                             <div>
                                 {{$key + 1}}) <a target="_blank"
-                                                 href="{{route('good.edit', $order)}}">{{\App\Models\Good::where('id', $order)->value('name')}}</a>
+                                                 href="{{route('good.edit', $order->good_id)}}">{{\App\Models\Good::where('id', $order->good_id)->value('name')}}</a>
+                                <b>Кол-во: {{$order->amount}}</b>
                             </div>
                         @endforeach
                     </div>

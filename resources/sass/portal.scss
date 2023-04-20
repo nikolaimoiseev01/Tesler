@@ -2474,6 +2474,33 @@
             position: relative;
             direction: ltr;
             padding-right: 40px;
+            align-items: center;
+
+            .counter_wrap {
+                display: flex;
+                gap: 5px;
+                align-items: center;
+                flex-direction: column;
+
+                button {
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    background: $color-coal-100;
+                    transition: .1s all ease-in-out;
+                    color: white;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border: none;
+                    outline: none;
+
+                    &:hover {
+                        background: $color-fern-100;
+                        transition: .1s all ease-in-out;
+                    }
+                }
+            }
 
 
             img {
@@ -2546,6 +2573,10 @@
         align-items: flex-end;
         margin-top: 50px;
         direction: ltr;
+
+        p {
+            font-size: 25px;
+        }
 
         hr {
             border: none;
