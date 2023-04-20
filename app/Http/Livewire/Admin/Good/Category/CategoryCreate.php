@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Admin\Good\Category;
 
-use App\Models\goodcategory;
+use App\Models\GoodCategory;
 use Illuminate\Support\Facades\File;
 use Livewire\Component;
 use LivewireUI\Modal\ModalComponent;
@@ -17,7 +17,7 @@ class CategoryCreate extends ModalComponent
         return view('livewire.admin.good.category.category-create');
     }
 
-    public function creategoodcategory($formData) {
+    public function createGoodCategory($formData) {
 
         // --------- Ищем ошибки в заполнении  --------- //
         $errors_array = [];
@@ -26,11 +26,11 @@ class CategoryCreate extends ModalComponent
             array_push($errors_array, 'Название не заполнено.');
         }
 
-        if ($formData['pic_goodcategory'] == '' || $formData['pic_goodcategory'] === null) {
+        if ($formData['pic_GoodCategory'] == '' || $formData['pic_GoodCategory'] === null) {
             array_push($errors_array, 'Загрузите основное изображение!');
         }
 
-        if ($formData['pic_goodcategory_small'] == '' || $formData['pic_goodcategory_small'] === null) {
+        if ($formData['pic_GoodCategory_small'] == '' || $formData['pic_GoodCategory_small'] === null) {
             array_push($errors_array, 'Загрузите маленькое изображение!');
         }
 
@@ -44,32 +44,32 @@ class CategoryCreate extends ModalComponent
                 'text' => implode("<br>", $errors_array),
             ]);
 
-            $this->emit('refreshgoodcategoryCreate');
-            $this->emit('refreshgoodcategoryIndex');
+            $this->emit('refreshGoodCategoryCreate');
+            $this->emit('refreshGoodCategoryIndex');
         }
 
         if (empty($errors_array)) {
 
-            $goodcategory = goodcategory::create([
+            $GoodCategory = GoodCategory::create([
                 'title' => $formData['title']
             ]);
 
             // БОЛЬШАЯ КАРТИНКА
-            $temp_file_path = public_path('media/filepond_temp/' . $formData['pic_goodcategory']);
+            $temp_file_path = public_path('media/filepond_temp/' . $formData['pic_GoodCategory']);
             // Оптимизируем катинку
             Image::load($temp_file_path)
                 ->optimize()
                 ->save($temp_file_path);
-            $goodcategory->addMedia($temp_file_path)->toMediaCollection('pic_goodcategory');
+            $GoodCategory->addMedia($temp_file_path)->toMediaCollection('pic_GoodCategory');
             File::deleteDirectory($temp_file_path);
 
             // МАЛЕНЬКАЯ КАРТИНКА
-            $temp_file_path = public_path('media/filepond_temp/' . $formData['pic_goodcategory_small']);
+            $temp_file_path = public_path('media/filepond_temp/' . $formData['pic_GoodCategory_small']);
             // Оптимизируем катинку
             Image::load($temp_file_path)
                 ->optimize()
                 ->save($temp_file_path);
-            $goodcategory->addMedia($temp_file_path)->toMediaCollection('pic_goodcategory_small');
+            $GoodCategory->addMedia($temp_file_path)->toMediaCollection('pic_GoodCategory_small');
             File::deleteDirectory($temp_file_path);
 
             $this->dispatchBrowserEvent('toast_fire', [

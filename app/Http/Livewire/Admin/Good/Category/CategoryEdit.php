@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Admin\Good\Category;
 
 use App\Models\Good;
-use App\Models\goodcategory;
+use App\Models\GoodCategory;
 use App\Models\Staff;
 use Illuminate\Support\Facades\File;
 use Livewire\Component;
@@ -19,13 +19,13 @@ class CategoryEdit extends ModalComponent
         return view('livewire.admin.good.category.category-edit');
     }
 
-    public function mount($goodcategory_id)
+    public function mount($GoodCategory_id)
     {
-        $this->goodcategory = goodcategory::where('id', $goodcategory_id)->first();
-        $this->title = $this->goodcategory['title'];
+        $this->GoodCategory = GoodCategory::where('id', $GoodCategory_id)->first();
+        $this->title = $this->GoodCategory['title'];
     }
 
-    public function editgoodcategory($formData)
+    public function editGoodCategory($formData)
     {
 
         // --------- Ищем ошибки в заполнении  --------- //
@@ -36,7 +36,7 @@ class CategoryEdit extends ModalComponent
         }
 
 
-        if ($this->goodcategory->getMedia('pic_goodcategory')->count() == 0 && !$formData['pic_goodcategory']) {
+        if ($this->GoodCategory->getMedia('pic_GoodCategory')->count() == 0 && !$formData['pic_GoodCategory']) {
             array_push($errors_array, 'Основное изображение не загружено!');
         }
 
@@ -49,37 +49,37 @@ class CategoryEdit extends ModalComponent
                 'text' => implode("<br>", $errors_array),
             ]);
 
-            $this->emit('refreshgoodcategoryCreate');
-            $this->emit('refreshgoodcategoryIndex');
+            $this->emit('refreshGoodCategoryCreate');
+            $this->emit('refreshGoodCategoryIndex');
         }
 
         if (empty($errors_array)) {
 
-            $this->goodcategory->update([
+            $this->GoodCategory->update([
                 'title' => $formData['title']
             ]);
 
-            if ($formData['pic_goodcategory']) {
-                $pic_main_path = public_path('media/filepond_temp/' . $formData['pic_goodcategory']);
+            if ($formData['pic_GoodCategory']) {
+                $pic_main_path = public_path('media/filepond_temp/' . $formData['pic_GoodCategory']);
                 Image::load($pic_main_path)
                     ->optimize()
                     ->save($pic_main_path);
-                if ($this->goodcategory->getMedia('pic_goodcategory')->count() != 0) {
-                    $this->goodcategory->getFirstMedia('pic_goodcategory')->delete();
+                if ($this->GoodCategory->getMedia('pic_GoodCategory')->count() != 0) {
+                    $this->GoodCategory->getFirstMedia('pic_GoodCategory')->delete();
                 }
-                $this->goodcategory->addMedia($pic_main_path)->toMediaCollection('pic_goodcategory');
+                $this->GoodCategory->addMedia($pic_main_path)->toMediaCollection('pic_GoodCategory');
                 File::deleteDirectory($pic_main_path);
             }
 
-            if ($formData['pic_goodcategory_small']) {
-                $pic_main_path = public_path('media/filepond_temp/' . $formData['pic_goodcategory_small']);
+            if ($formData['pic_GoodCategory_small']) {
+                $pic_main_path = public_path('media/filepond_temp/' . $formData['pic_GoodCategory_small']);
                 Image::load($pic_main_path)
                     ->optimize()
                     ->save($pic_main_path);
-                if ($this->goodcategory->getMedia('pic_goodcategory_small')->count() != 0) {
-                    $this->goodcategory->getFirstMedia('pic_goodcategory_small')->delete();
+                if ($this->GoodCategory->getMedia('pic_GoodCategory_small')->count() != 0) {
+                    $this->GoodCategory->getFirstMedia('pic_GoodCategory_small')->delete();
                 }
-                $this->goodcategory->addMedia($pic_main_path)->toMediaCollection('pic_goodcategory_small');
+                $this->GoodCategory->addMedia($pic_main_path)->toMediaCollection('pic_GoodCategory_small');
                 File::deleteDirectory($pic_main_path);
             }
 
