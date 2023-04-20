@@ -1,7 +1,7 @@
 <div>
     <button  type="submit" wire:click.prevent="search_for_goods()"
             class="mb-3 mr-2  show_preloader_on_click btn btn-outline-primary">
-        Обновить товары (долгая загрузка)
+        Обновить товары
     </button>
 
     <a type="submit" href="{{route('shopset.index')}}"
@@ -11,7 +11,7 @@
 
     <a type="submit" wire:click.prevent="refresh_goods_yc_info()"
        class="mb-3 show_preloader_on_click btn btn-outline-primary">
-        Обновить YClients инфо
+        Обновить YClients инфо (долгая загрузка)
     </a>
 
 

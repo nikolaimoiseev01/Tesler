@@ -259,8 +259,11 @@ class PortalController extends Controller
     public function abonements_page()
     {
         $goods = Good::where('yc_price', '>', 0)
-            ->where('yc_category', 'Абонементы Сеть Tesler')
-            ->orWhere('yc_category', 'Сертификаты Сеть Tesler')
+            ->where('flg_active', 1)
+            ->where(function ($query) {
+                $query->where('yc_category', 'Абонементы Сеть Tesler')
+                    ->orWhere('yc_category', 'Сертификаты Сеть Tesler');
+            })
             ->get();
 
         $categories = GoodCategory::whereIn('id', [6, 7])->get();
@@ -403,8 +406,6 @@ class PortalController extends Controller
         Log::info($request);
         Log::info($request['Status'] == 'CONFIRMED');
         Log::info('// $request ENDED //');
-
-
 
 
         $order = Order::where('tinkoff_order_id', $request['OrderId'])->first();
