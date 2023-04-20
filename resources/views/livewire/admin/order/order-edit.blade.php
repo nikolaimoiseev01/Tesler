@@ -82,7 +82,7 @@
         </div>
 
 
-        <a wire:click.prevent="make_selling()">Сделать складские операции</a>
+{{--        <a wire:click.prevent="make_selling()">Сделать складские операции</a>--}}
 
         <div class="col-md-6">
             <div style="max-width: 1000px;" class="card">
