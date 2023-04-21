@@ -1681,6 +1681,21 @@
     gap: 20px;
     flex-wrap: wrap;
 
+    .filter_block_wrap.has_filter {
+        position: relative;
+
+        &:after {
+            width: 7px;
+            height: 7px;
+            top: 0;
+            right: -8px;
+            background: red;
+            border-radius: 50%;
+            position: absolute;
+            content: "";
+        }
+    }
+
     .search-bar-wrap {
         margin: 0;
     }
@@ -1707,6 +1722,7 @@
         display: flex;
         flex-direction: column;
         gap: 10px;
+        width: max-content;
         //top: 200%;  /* position the top  edge of the element at the middle of the parent */
         //left: 50%; /* position the left edge of the element at the middle of the parent */
         //transform: translate(-50%, -50%); /* This is a shorthand of

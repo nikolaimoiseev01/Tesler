@@ -18,7 +18,7 @@
             </div>
         </div>
         <div @click.outside="opend_filter = 'none'" x-data="{ opend_filter: 'none' }"  class="filters_wrap">
-            <div class="yc_category_filter_wrap">
+            <div class="filter_block_wrap yc_category_filter_wrap">
                 <a @click="opend_filter = 'sort'" class="link coal">Сотрировать</a>
                 <div x-transition x-show="opend_filter === 'sort'" class="filter_wrap select_filter_wrap">
                     <div>
@@ -28,7 +28,7 @@
                 </div>
             </div>
 
-            <div class="price_filter_wrap">
+            <div class="filter_block_wrap @if($price_min || $price_max) has_filter @endif price_filter_wrap">
                 <a @click="opend_filter = 'price'" class="link coal">Цена</a>
                 <div x-transition x-show="opend_filter === 'price'" class="filter_wrap">
                     <p>От</p>
@@ -38,7 +38,7 @@
                 </div>
             </div>
 
-            <div class="yc_category_filter_wrap">
+            <div class="filter_block_wrap @if($yc_category) has_filter @endif yc_category_filter_wrap">
                 <a @click="opend_filter = 'category'" class="link coal">Категория</a>
                 <div x-transition x-show="opend_filter === 'category'" class="filter_wrap check_box_filter_wrap">
                     @foreach($categories as $category)
@@ -57,7 +57,7 @@
             </div>
             @if(!$abon_page_check)
                 @if(count($hair_types) > 0)
-                    <div class="yc_category_filter_wrap">
+                    <div class="filter_block_wrap @if($hair_type) has_filter @endif yc_category_filter_wrap">
                         <a @click="opend_filter = 'hair_type'" class="link coal">Тип волос</a>
                         <div x-transition x-show="opend_filter === 'hair_type'" class="filter_wrap check_box_filter_wrap">
                             @foreach($hair_types as $hair_type)
@@ -72,7 +72,7 @@
                 @endif
 
                 @if(count($skin_types) > 0)
-                    <div class="yc_category_filter_wrap">
+                    <div class="filter_block_wrap @if($skin_type) has_filter @endif yc_category_filter_wrap">
                         <a @click="opend_filter = 'skin_type'" class="link coal">Тип кожи</a>
                         <div x-transition x-show="opend_filter === 'skin_type'" class="filter_wrap check_box_filter_wrap">
                             @foreach($skin_types as $skin_type)
@@ -87,7 +87,7 @@
                 @endif
 
                 @if(count($brands) > 0)
-                    <div class="yc_category_filter_wrap">
+                    <div class="filter_block_wrap @if($brand) has_filter @endif yc_category_filter_wrap">
                         <a @click="opend_filter = 'brand'" class="link coal">Бренд</a>
                         <div x-transition x-show="opend_filter === 'brand'" class="filter_wrap check_box_filter_wrap">
                             @foreach($brands as $brand)
@@ -102,7 +102,7 @@
                 @endif
 
 
-                <div class="yc_category_filter_wrap">
+                <div class="filter_block_wrap @if($shopset) has_filter @endif yc_category_filter_wrap">
                     <a @click="opend_filter = 'shopsets'" class="link coal">Шопсеты</a>
                     <div x-transition x-show="opend_filter === 'shopsets'" class="filter_wrap check_box_filter_wrap">
                         @foreach($shopsets as $shopset)
