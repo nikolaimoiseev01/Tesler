@@ -18,7 +18,7 @@
                                  </span>
                             </div>
                             <div class="mr-3 product-img">
-                                <img style="width: auto;" src="/{{$category['pic']}}" alt="">
+                                <img style="    width: 120px !important;    height: 90px;    object-fit: cover;" src="/{{$category['pic']}}" alt="">
                             </div>
 
                             <div class="ml-0 mr-3 product-info">
