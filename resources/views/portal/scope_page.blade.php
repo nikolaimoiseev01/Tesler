@@ -31,7 +31,7 @@
             </div>
             <img
                 @if(is_null($category['pic']) || $category['pic'] == '')
-                src="/media/media_fixed/holder_610x700.png"
+                src="/media/media_fixed/logo_holder.png"
                 @else src="/{{$category['pic']}}" @endif alt="">
         </div>
 
