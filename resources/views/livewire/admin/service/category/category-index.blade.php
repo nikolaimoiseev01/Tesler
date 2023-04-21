@@ -18,7 +18,11 @@
                                  </span>
                             </div>
                             <div class="mr-3 product-img">
-                                <img style="width: 70px !important; height: 85px; max-width: inherit; object-fit: cover;" src="/{{$category['pic']}}" alt="">
+                                <img style="width: 70px !important; height: 85px; max-width: inherit; object-fit: cover;"
+                                     @if(is_null($category['pic']) ||$category['pic'] == '')
+                                     src="/media/media_fixed/logo_holder.png"
+                                     @else src="/{{$category['pic']}}"
+                                     alt="">
                             </div>
 
                             <div class="ml-0 mr-3 product-info">
