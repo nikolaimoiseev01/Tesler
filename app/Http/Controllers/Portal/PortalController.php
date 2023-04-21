@@ -64,7 +64,7 @@ class PortalController extends Controller
                 'title' => $shopset['title'],
                 'price' => $full_price,
                 'img' => $shopset->getFirstMediaUrl('pic_shopset'),
-                'link' => route('market_page') . '?shopset[0]=' . $shopset['id'],
+                'link' => route('market_page') . '?shopset[0]=' . $shopset['id'] . '#market_wrap',
                 'category' => 'SHOP-СЕТ'
             ];
         }
