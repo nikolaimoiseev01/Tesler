@@ -26,7 +26,7 @@
                                 <a @click.prevent="open_{{$promo['id']}} = !open_{{$promo['id']}}" class="mr-3">
                                     <i style="font-size: 18px;" class="fa-solid grey_icon fa-pen-to-square"></i>
                                 </a>
-                                <a href="">
+                                <a href="{{route('promo.edit', $promo['id'])}}">
                                     <i style="font-size: 18px;" wire:click.prevent="delete_confirm({{$promo['id']}})"
                                        class="fas grey_icon fa-trash-alt"></i>
                                 </a>
