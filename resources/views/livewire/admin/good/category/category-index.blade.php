@@ -11,7 +11,7 @@
                         wire:key="promo-{{$goodcategory['id']}}" class="item">
                         <div class="d-flex align-items-center">
                             <div class="mr-3 product-img">
-                                <img style="width: 70px !important; height: 85px; max-width: inherit; object-fit: cover;" src="{{$goodcategory->getFirstMediaUrl('pic_goodcategory')}}" alt="">
+                                <img style="width: 90px !important; height: 65px; max-width: inherit; object-fit: cover;" src="{{$goodcategory->getFirstMediaUrl('pic_goodcategory')}}" alt="">
                             </div>
 
                             <div class="ml-0 mr-3 product-info">
