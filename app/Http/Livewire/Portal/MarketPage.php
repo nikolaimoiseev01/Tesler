@@ -6,6 +6,7 @@ use App\Models\Good;
 use App\Models\Good_hair_type;
 use App\Models\Good_skin_type;
 use App\Models\GoodCategory;
+use App\Models\GoodType;
 use App\Models\ShopSet;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -30,6 +31,8 @@ class MarketPage extends Component
     public $hair_type = [];
     public $skin_types;
     public $skin_type = [];
+    public $good_types;
+    public $good_type = [];
     public $brands;
     public $brand = [];
 
@@ -39,7 +42,7 @@ class MarketPage extends Component
     public $load_more_check;
 
     protected $listeners = ['refreshMarketPage' => '$refresh', 'make_sorting'];
-    protected $queryString = ['price_min', 'price_max', 'yc_category', 'search_input', 'shopset', 'hair_type', 'skin_type', 'brand'];
+    protected $queryString = ['price_min', 'price_max', 'yc_category', 'search_input', 'shopset', 'hair_type', 'skin_type', 'brand', 'good_type'];
 
     public function render()
     {
@@ -93,6 +96,9 @@ class MarketPage extends Component
             })
             ->when($this->brand, function ($q) {
                 return $q->whereIn('brand', $this->brand);
+            })
+            ->when($this->good_type, function ($q) {
+                return $q->whereIn('product_type', $this->good_type);
             })
             ->when($this->sort_type == 'price_asc', function ($q) {
                 return $q->sortBy('yc_price');
@@ -149,6 +155,7 @@ class MarketPage extends Component
         $this->shopsets = ShopSet::orderBy('title')->get();
         $this->skin_types = Good_skin_type::orderBy('title')->get();
         $this->hair_types = Good_hair_type::orderBy('title')->get();
+        $this->good_types = GoodType::orderBy('title')->get();
         $this->brands = $this->goods_orig->where('brand', '<>', null)->unique('brand')->pluck('brand');
 
     }

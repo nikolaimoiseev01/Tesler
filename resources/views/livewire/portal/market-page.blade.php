@@ -71,13 +71,28 @@
                     </div>
                 @endif
 
+                    @if(count($good_types) > 0)
+                        <div class="filter_block_wrap @if($good_type) has_filter @endif yc_category_filter_wrap">
+                            <a @click="opend_filter = 'good_type'" class="link coal">Тип продукта</a>
+                            <div x-transition x-show="opend_filter === 'good_type'" class="filter_wrap check_box_filter_wrap">
+                                @foreach($good_types as $good_type)
+                                    <div>
+                                        <input type="checkbox" id="product_type_{{$good_type['id']}}" wire:model="good_type"
+                                               value="{{$good_type['title']}}">
+                                        <label for="product_type_{{$good_type['id']}}"><p>{{$good_type['title']}}</p></label>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
+
                 @if(count($skin_types) > 0)
                     <div class="filter_block_wrap @if($skin_type) has_filter @endif yc_category_filter_wrap">
                         <a @click="opend_filter = 'skin_type'" class="link coal">Тип кожи</a>
                         <div x-transition x-show="opend_filter === 'skin_type'" class="filter_wrap check_box_filter_wrap">
                             @foreach($skin_types as $skin_type)
                                 <div>
-                                    <input type="checkbox" id="skin_type{{$skin_type['id']}}" wire:model="skin_type"
+                                    <input type="checkbox" id="product_type_{{$skin_type['id']}}" wire:model="skin_type"
                                            value="{{$skin_type['id']}}">
                                     <label for="skin_type{{$skin_type['id']}}"><p>{{$skin_type['title']}}</p></label>
                                 </div>
