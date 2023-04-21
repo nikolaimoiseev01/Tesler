@@ -82,16 +82,14 @@ class CategoryEdit extends ModalComponent
 
         if (empty($errors_array)) {
 
-            $max_position = category::max('position') ?? 1;
-
             // Если есть смена категории
             if (isset($formData['pic_category'])) {
                 if (!$formData['pic_category'] == null || !empty($formData['pic_category'])) {
                     // pic_category
                     $file_format = substr($formData['pic_category'], strpos($formData['pic_category'], "."));
                     $temp_path = public_path('media/filepond_temp/' . $formData['pic_category']);
-                    $new_path_main_page = 'media/media_files/pics_category/pic_category_' . $max_position . '_main_page' . $file_format;
-                    $new_path_main_page_full = public_path('media/media_files/pics_category/pic_category_' . $max_position . '_main_page' . $file_format);
+                    $new_path_main_page = 'media/media_files/pics_category/pic_category_' . $this->category['id'] . '_main_page' . $file_format;
+                    $new_path_main_page_full = public_path('media/media_files/pics_category/pic_category_' . $this->category['id'] . '_main_page' . $file_format);
                     // Оптимизируем катинку
                     Image::load($temp_path)
                         ->optimize()
