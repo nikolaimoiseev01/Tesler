@@ -27,7 +27,7 @@ class ConsultModal extends Component
            'user_name' => $formData['name'],
             'user_mobile' => $formData['mobile'],
             'user_comment' => $formData['comment'],
-            'status' => 1
+            'consult_status_id' => 1
         ]);
         $user = User::where('id', 1)->first();
         $user->notify(new MailNotification(
