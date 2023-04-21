@@ -170,11 +170,19 @@
                                 <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
+
+
                         <ul class="nav nav-treeview" style="padding-left:30px; display: none;">
                             <li class=" nav-item">
                                 <a href="{{route('good_category.index')}}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Категории товаров</p>
+                                </a>
+                            </li>
+                            <li class=" nav-item">
+                                <a href="{{route('shopset.index')}}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Шопсеты</p>
                                 </a>
                             </li>
                             <li class="nav-item">

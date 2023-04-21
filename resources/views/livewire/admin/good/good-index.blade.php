@@ -4,11 +4,6 @@
         Обновить товары
     </button>
 
-    <a type="submit" href="{{route('shopset.index')}}"
-            class="mb-3 mr-2 show_preloader_on_click btn btn-outline-primary">
-        Шопсеты
-    </a>
-
     <a type="submit" wire:click.prevent="refresh_goods_yc_info()"
        class="mb-3 show_preloader_on_click btn btn-outline-primary">
         Обновить YClients инфо (долгая загрузка)
