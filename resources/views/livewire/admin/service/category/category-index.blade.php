@@ -1,6 +1,7 @@
 <div>
     <div style="max-width: 1000px;" class="card">
-        <a wire:click="$emit('openModal', 'admin.service.category.category-create')" class="m-3 btn btn-outline-secondary">
+        <a wire:click="$emit('openModal', 'admin.service.category.category-create')"
+           class="m-3 btn btn-outline-secondary">
             <i class="mr-2 fa fa-plus"></i>
             Добавить категорию
         </a>
@@ -18,21 +19,24 @@
                                  </span>
                             </div>
                             <div class="mr-3 product-img">
-                                <img style="width: 70px !important; height: 85px; max-width: inherit; object-fit: cover;"
-                                     @if(is_null($category['pic']) ||$category['pic'] == '')
-                                     src="/media/media_fixed/logo_holder.png"
-                                     @else src="/{{$category['pic']}}"
-                                     alt="">
+                                <img
+                                    style="width: 70px !important; height: 85px; max-width: inherit; object-fit: cover;"
+                                    @if(is_null($category['pic']) ||$category['pic'] == '')
+                                    src="/media/media_fixed/logo_holder.png"
+                                    @else src="/{{$category['pic']}}"
+                                    @endif
+                                    alt="">
                             </div>
 
                             <div class="ml-0 mr-3 product-info">
-                                <a href="{{route('category.edit', $category['id'])}}" class="product-title">{{$category['name']}}</a>
+                                <a href="{{route('category.edit', $category['id'])}}"
+                                   class="product-title">{{$category['name']}}</a>
                                 <span style="white-space: inherit;"
                                       class="product-description">{{$category['desc']}}</span>
                             </div>
                             <div class="ml-auto mr-3">
-                               <a
-                                   {{-- onclick='Livewire.emit("openModal", "admin.service.category.category-edit", {{ json_encode(["category_id" => $category['id']]) }})'--}}
+                                <a
+                                    {{-- onclick='Livewire.emit("openModal", "admin.service.category.category-edit", {{ json_encode(["category_id" => $category['id']]) }})'--}}
                                     href="{{route('category.edit', $category['id'])}}"
                                     class="mr-3">
                                     <i style="font-size: 18px;" class="fa-solid grey_icon fa-pen-to-square"></i>
