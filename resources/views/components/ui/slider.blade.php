@@ -63,7 +63,7 @@
         });
 
         $slickElement_slider.slick({
-            infinite: false,
+            infinite: true,
             slidesToShow: 4,
             responsive: [
                 {
