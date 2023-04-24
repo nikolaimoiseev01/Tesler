@@ -32,7 +32,7 @@
             </div>
         </div>
 
-{{--        <x-ui.yandex-map/>--}}
+        <x-ui.yandex-map/>
 
     </div>
     <div class="bottom_block">

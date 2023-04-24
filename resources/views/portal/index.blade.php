@@ -49,7 +49,7 @@
     <div class="content two_parts_block_wrap">
         <div class="left"></div>
         <div class="right">
-            <h2>Мы можем всё, о чем вы мечтаете</h2>
+            <h2>Можем всё, о чем вы мечтаете</h2>
             <p>
                 Для нас важно, чтобы каждый гость почувствовал себя желанным. Мы позаботились о парковке, температуре
                 воздуха
@@ -125,40 +125,55 @@
 
         <img src="/media/media_fixed/review_back.png" alt="">
         <div class="content">
-            <h1>уже 100+ гостеи оценили свои visit и оставили отзыв</h1>
+            <h1>уже 100+ гостей </br> оценили свои визиты </br> и оставили отзыв</h1>
             <div class="reviews_wrap">
                 <div class="review_wrap">
-                    <img src="/media/media_fixed/logo_insta.png" alt="">
-                    <p>КАРТЫ 2 GIS</p>
-                    <p>4,8
-                        <svg width="17" height="22" viewBox="0 0 17 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M16.75 12.7539C16.75 17.3103 13.0563 21.0039 8.5 21.0039C3.94365 21.0039 0.25 17.3103 0.25 12.7539C0.25 5.00391 8.5 0.00390625 8.5 0.00390625V6.75391C8.5 7.72041 9.2835 8.50391 10.25 8.50391C11.2165 8.50391 12 7.72041 12 6.75391V5.28097C14.8065 6.59768 16.75 9.44883 16.75 12.7539Z"
-                                fill="black"/>
-                        </svg>
-                    </p>
+                    <div class="insta img_wrap">
+                        <img src="/media/media_fixed/logo_insta.png" alt="">
+                    </div>
+                    <div style="text-align: center;">
+                        <p>Instagram</p>
+                        <p>4,8
+                            <svg width="17" height="22" viewBox="0 0 17 22" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M16.75 12.7539C16.75 17.3103 13.0563 21.0039 8.5 21.0039C3.94365 21.0039 0.25 17.3103 0.25 12.7539C0.25 5.00391 8.5 0.00390625 8.5 0.00390625V6.75391C8.5 7.72041 9.2835 8.50391 10.25 8.50391C11.2165 8.50391 12 7.72041 12 6.75391V5.28097C14.8065 6.59768 16.75 9.44883 16.75 12.7539Z"
+                                    fill="black"/>
+                            </svg>
+                        </p>
+                    </div>
                 </div>
                 <div class="review_wrap">
-                    <img src="/media/media_fixed/logo_2gis.png" alt="">
-                    <p>КАРТЫ 2 GIS</p>
-                    <p>4,8
-                        <svg width="17" height="22" viewBox="0 0 17 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M16.75 12.7539C16.75 17.3103 13.0563 21.0039 8.5 21.0039C3.94365 21.0039 0.25 17.3103 0.25 12.7539C0.25 5.00391 8.5 0.00390625 8.5 0.00390625V6.75391C8.5 7.72041 9.2835 8.50391 10.25 8.50391C11.2165 8.50391 12 7.72041 12 6.75391V5.28097C14.8065 6.59768 16.75 9.44883 16.75 12.7539Z"
-                                fill="black"/>
-                        </svg>
-                    </p>
+                    <div class="2gis img_wrap">
+                        <img src="/media/media_fixed/logo_2gis.png" alt="">
+                    </div>
+                    <div style="text-align: center;">
+                        <p>КАРТЫ 2 GIS</p>
+                        <p>4,8
+                            <svg width="17" height="22" viewBox="0 0 17 22" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M16.75 12.7539C16.75 17.3103 13.0563 21.0039 8.5 21.0039C3.94365 21.0039 0.25 17.3103 0.25 12.7539C0.25 5.00391 8.5 0.00390625 8.5 0.00390625V6.75391C8.5 7.72041 9.2835 8.50391 10.25 8.50391C11.2165 8.50391 12 7.72041 12 6.75391V5.28097C14.8065 6.59768 16.75 9.44883 16.75 12.7539Z"
+                                    fill="black"/>
+                            </svg>
+                        </p>
+                    </div>
                 </div>
                 <div class="review_wrap">
-                    <img src="/media/media_fixed/logo_yandex.png" alt="">
-                    <p>КАРТЫ 2 GIS</p>
-                    <p>4,8
-                        <svg width="17" height="22" viewBox="0 0 17 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M16.75 12.7539C16.75 17.3103 13.0563 21.0039 8.5 21.0039C3.94365 21.0039 0.25 17.3103 0.25 12.7539C0.25 5.00391 8.5 0.00390625 8.5 0.00390625V6.75391C8.5 7.72041 9.2835 8.50391 10.25 8.50391C11.2165 8.50391 12 7.72041 12 6.75391V5.28097C14.8065 6.59768 16.75 9.44883 16.75 12.7539Z"
-                                fill="black"/>
-                        </svg>
-                    </p>
+                    <div class="ya img_wrap">
+                        <img src="/media/media_fixed/logo_yandex.png" alt="">
+                    </div>
+                    <div style="text-align: center;">
+                        <p>Yandex Maps</p>
+                        <p>4,8
+                            <svg width="17" height="22" viewBox="0 0 17 22" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M16.75 12.7539C16.75 17.3103 13.0563 21.0039 8.5 21.0039C3.94365 21.0039 0.25 17.3103 0.25 12.7539C0.25 5.00391 8.5 0.00390625 8.5 0.00390625V6.75391C8.5 7.72041 9.2835 8.50391 10.25 8.50391C11.2165 8.50391 12 7.72041 12 6.75391V5.28097C14.8065 6.59768 16.75 9.44883 16.75 12.7539Z"
+                                    fill="black"/>
+                            </svg>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>

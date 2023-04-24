@@ -1,6 +1,12 @@
 @section('styles')
     <link rel="stylesheet" href="/plugins/slick/slick.css">
     {{--    <link rel="stylesheet" href="/plugins/slick/slick-theme.css">--}}
+    <style>
+        .slick-disabled {
+            opacity: 0.5;
+            pointer-events:none;
+        }
+    </style>
 @endsection
 
     <div class="slider_wrap">
@@ -57,7 +63,7 @@
         });
 
         $slickElement_slider.slick({
-            infinite: true,
+            infinite: false,
             slidesToShow: 4,
             responsive: [
                 {

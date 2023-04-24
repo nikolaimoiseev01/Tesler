@@ -155,7 +155,7 @@ header {
     position: absolute;
     top: 0;
     width: 100%;
-    height: 70px;
+    height: $header-height;
     z-index: 2;
 
     .header_wrap {
@@ -175,6 +175,7 @@ header {
     .link {
         color: white !important;
         border-bottom: 1px solid white !important;
+        font-size: 14px;
     }
 
     svg {
@@ -197,9 +198,9 @@ header {
 
 footer {
 
-    margin-top: auto;
+    margin-top: 160px;
     background: $color-coal-100;
-    padding: 60px 120px;
+    padding: 60px 120px 144px 120px;
 
     @media(max-width: $media-laptops-1024) {
         padding: 20px 40px;
@@ -273,6 +274,8 @@ footer {
         justify-content: space-between;
         max-width: 1400px;
         flex-wrap: wrap;
+        border-top: 1px solid rgba(221, 221, 213, 0.3);
+        padding-top: 32px;
 
         .official_info {
             display: flex;

@@ -2,7 +2,10 @@
 /node_modules
 /public/hot
 /public/storage
-/public/media
+/public/media/filepond_temp
+/public/media/media_files
+/public/media/media_models
+/public/media/media_seeders
 /storage/*.key
 /vendor
 .env

@@ -22,7 +22,7 @@
             @endforeach
 
         </div>
-        <a href="{{$link}}" target="_blank" class="link coal">Смотреть все</a>
+        <a href="{{$link}}" target="_blank" class="go_to_all link coal">Смотреть все</a>
     </div>
 
 </div>

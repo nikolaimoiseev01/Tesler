@@ -36,33 +36,48 @@
     position: relative;
 
     .desc {
-        display: flex;
-        justify-content: space-around;
+        //display: flex;
+        justify-content: space-between;
         margin-top: 16px;
 
-        .navigation {
-            //position: absolute;
-            top: 30px;
-            right: 50px;
-            display: flex;
-            align-items: center;
+        p-400 {
+            float: left;
+            margin-right: 40px;
+        }
 
-            .pagingInfo_gallery {
-                margin: 0 20px;
-                font-size: 20px;
-            }
+        .navigation_wrap {
 
-            button {
-                display: inline-block;
-                padding: 0;
-                gap: 10px;
-                position: relative;
-                background: none;
-                border: none;
-                transition: 0.2s all;
-                height: 18px;
+
+            .navigation {
+                //position: absolute;
+                top: 30px;
+                right: 50px;
+                display: flex;
+                align-items: center;
+                max-width: 520px;
+                margin-left: auto;
+                justify-content: flex-start;
+
+
+                .pagingInfo_gallery {
+                    margin: 0 20px;
+                    font-size: 20px;
+                }
+
+                button {
+                    display: inline-block;
+                    padding: 0;
+                    gap: 10px;
+                    position: relative;
+                    background: none;
+                    border: none;
+                    transition: 0.2s all;
+                    height: 18px;
+                }
             }
         }
+
+
     }
 
     img {
@@ -117,13 +132,13 @@
     }
 
     .pagingInfo_slider {
-        margin: 0 20px;
+        margin: 0 25px;
         font-size: 20px;
     }
 
 
     .slider {
-        min-width: 2100px;
+        min-width: 1900px;
         background: white;
 
         //@media(max-width: $media-tablets-768) {
@@ -368,8 +383,16 @@
 
 .content {
     width: 90% !important;
-    max-width: 1500px;
+    max-width: 1280px;
     margin: auto;
+
+    //@media (max-width: 1400px) {
+    //    max-width: 780px;
+    //}
+    //
+    //@media (max-width: 375px) {
+    //    max-width: 355px;
+    //}
 }
 
 .image_blackout {
@@ -460,10 +483,11 @@
 
     .welcome_menu {
         position: absolute;
-        top: 70px;
+        top: $header-height;
         width: 95%;
         left: 50%;
         transform: translatex(-50%);
+        font-size: 12px;
     }
 
     .welcome_cta_wrap {
@@ -951,6 +975,7 @@
 .interior_pics {
     margin-top: 100px;
     margin-bottom: 100px;
+    overflow: hidden;
 }
 
 .workers_wrap {
@@ -977,7 +1002,7 @@
         }
 
         p {
-            font-size: 12px;
+            font-size: 10px;
         }
     }
 }
@@ -987,7 +1012,7 @@
     justify-content: center;
     margin-top: 100px;
     flex-wrap: wrap;
-    gap: 40px;
+    gap: 16px;
 
     .calc_card_wrap {
         max-width: 592px;
@@ -1026,7 +1051,7 @@
 }
 
 .scopes_block {
-    margin-top: 100px;
+    margin-top: 120px;
 
     h1 {
         margin: 0 auto 80px auto;
@@ -1044,7 +1069,8 @@
         column-count: 3;
         -moz-column-gap: 10px;
         -webkit-column-gap: 10px;
-        column-gap: 28px;
+        column-gap: 8px;
+        text-align: center;
 
         @media (max-width: 1350px) {
             display: flex;
@@ -1090,6 +1116,7 @@
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
+                text-align: start;
 
                 h2 {
                     color: $color-stone-100;
@@ -1112,6 +1139,8 @@
                     p {
                         color: $color-stone-100;
                         text-transform: uppercase;
+                        font-size: 14px;
+                        font-weight: 500;
                     }
                 }
             }
@@ -1121,7 +1150,7 @@
 }
 
 .partners_block {
-    margin-top: 100px;
+    margin-top: 160px;
 
 
     h1 {
@@ -1132,7 +1161,7 @@
 
     .parnters_wrap {
         background: #FFFFFF;
-        padding-top:20px;
+        padding-top: 20px;
 
         > div {
             max-width: 1140px;
@@ -1141,11 +1170,11 @@
             column-gap: 40px;
             flex-wrap: wrap;
             justify-content: center;
-            padding: 0 0 50px 0;
+            padding: 0 0 60px 0;
             align-items: center;
 
             img {
-                max-width: 200px;
+                max-width: 135px;
             }
         }
 
@@ -1171,6 +1200,7 @@
         margin: auto;
         max-width: 1100px;
         text-align: center;
+        margin-bottom: 80px;
     }
 
     .reviews_wrap {
@@ -1184,9 +1214,32 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            width: 230px;
+            height: 240px;
+            justify-content: space-between;
 
-            img {
-                max-width: 220px;
+            .img_wrap {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 240px;
+                height: 156px;
+
+                &.insta img {
+                    width: 132px;
+                    height: 132px;
+                }
+
+                &.ya img {
+                    width: 157px;
+                    padding: 0 19px;
+                }
+
+                img {
+                    max-width: 220px;
+                }
+
+
             }
 
             p {
@@ -1195,7 +1248,11 @@
                 display: flex;
                 align-items: center;
                 gap: 10px;
+                justify-content: center;
+                text-align: center;
+                color: $color-coal-100;
             }
+
 
         }
 
@@ -1208,7 +1265,7 @@
 
     .welcome_menu {
         position: absolute;
-        top: 70px;
+        top: $header-height;
         z-index: 10;
         width: 95%;
         left: 50%;
@@ -1446,7 +1503,7 @@
 }
 
 .s_welcome_block {
-    padding-top: 70px;
+    padding-top: $header-height;
     background: white;
     padding-bottom: 60px;
 
@@ -1454,7 +1511,7 @@
         display: flex;
         gap: 20px;
         justify-content: space-between;
-        margin-top: 70px;
+        margin-top: $header-height;
         flex-wrap: wrap;
 
         img {
@@ -1758,7 +1815,7 @@
 }
 
 .market_page_wrap {
-    margin-top: 70px;
+    margin-top: $header-height;
     //padding-top: 20px;
 
     .categories_filter_wrap {
@@ -1904,7 +1961,6 @@
     align-items: center;
 
 
-
     .left {
         width: 50%;
         order: 1;
@@ -2048,7 +2104,7 @@
 }
 
 .g_page_wrap {
-    margin-top: 70px;
+    margin-top: $header-height;
 
     .g_bread_wrap {
         display: flex;
@@ -2147,7 +2203,7 @@
 
 .gc_page_wrap {
     .welcome_menu {
-        top: 70px;
+        top: $header-height;
         position: absolute;
         z-index: 10;
         width: 95%;
@@ -2181,7 +2237,7 @@
 
 .abon_page_wrap, .loyalty_page_wrap {
     .welcome_menu {
-        top: 70px;
+        top: $header-height;
         position: absolute;
         z-index: 10;
         width: 95%;
@@ -2247,10 +2303,15 @@
     .left {
         display: flex;
         align-items: center;
+        justify-content: center;
 
         img {
-            max-width: 713px;
-            width: 100%;
+            //max-width: 713px;
+            //width: 100%;
+
+            @media (max-width: 900px) {
+                max-width: 90%;
+            }
         }
     }
 
@@ -2277,11 +2338,11 @@
             margin-top: 24px;
             display: flex;
             flex-direction: column;
-            gap: 30px;
+            gap: 16px;
 
             .card_wrap {
                 display: flex;
-                gap: 30px;
+                gap: 16px;
                 align-items: center;
 
                 @media (max-width: $media-tablets-768) {
@@ -2337,7 +2398,9 @@
             }
         }
 
-
+        .go_to_all {
+            text-transform: uppercase;
+        }
     }
 
 
@@ -2736,6 +2799,3 @@
     }
 }
 
-
-// Preloader
-@import 'portal_media';
