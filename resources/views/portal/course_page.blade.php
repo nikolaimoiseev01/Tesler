@@ -194,7 +194,7 @@
         </x-ui.selling-slider>
 
 
-        <x-ui.need_consultation/>
+        <x-ui.need-consultation/>
 
     </div>
 @endsection
