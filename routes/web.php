@@ -32,6 +32,9 @@ Route::get('/loyalty/', [App\Http\Controllers\Portal\PortalController::class, 'l
 
 Route::get('/staff/{staff_yc_id}', [App\Http\Controllers\Portal\PortalController::class, 'staff_page'])->name('staff_page');
 
+Route::get('/courses/{course_id}', [App\Http\Controllers\Portal\PortalController::class, 'course_page'])->name('course_page');
+
+
 Route::post('temp-uploads/{file_source}', [\App\Http\Controllers\UploadController::class, 'store']);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index']);
@@ -93,10 +96,16 @@ Route::prefix('admin_panel')
             return view('admin.consultation');
         })->name('consultationy.index');
 
+        Route::get('/course_apps', function () {
+            return view('admin.course_apps');
+        })->name('course_apps.index');
+
         Route::get('/orders', function () {
             return view('admin.order.order-index');
         })->name('order.index');
 
+        Route::get('/courses', [App\Http\Controllers\Admin\AdminController::class, 'Course_index'])->name('course.index');
+        Route::get('/courses/{course_id}', [App\Http\Controllers\Admin\AdminController::class, 'Course_edit'])->name('course.edit');
 
         Route::get('/services/{service_id}', [App\Http\Controllers\Admin\AdminController::class, 'Service_edit'])->name('service.edit');
         Route::get('/categories/{category_id}', [App\Http\Controllers\Admin\AdminController::class, 'Category_edit'])->name('category.edit');

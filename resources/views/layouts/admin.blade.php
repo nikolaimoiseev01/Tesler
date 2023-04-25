@@ -55,6 +55,8 @@
         }
     </style>
 
+
+
     <style>
         .min-h-screen  {
             display: flex !important;
@@ -195,6 +197,32 @@
                     </li>
 
                     <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-sitemap"></i>
+                            <p>
+                                Курсы
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+
+
+                        <ul class="nav nav-treeview" style="padding-left:30px; display: none;">
+                            <li class=" nav-item">
+                                <a href="{{route('course_apps.index')}}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Заявки</p>
+                                </a>
+                            </li>
+                            <li class=" nav-item">
+                                <a href="{{route('course.index')}}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Курсы</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
                         <a href="{{route('order.index')}}" class="nav-link">
                             <i class="nav-icon fas fa-percent"></i>
                             <p>
@@ -202,6 +230,11 @@
                             </p>
                         </a>
                     </li>
+
+
+
+
+
 
 
                     <li class="nav-item">

@@ -714,7 +714,8 @@ class GoodEdit extends Component
         return redirect(route('good.index'));
     }
 
-    public function test_make_sale($type_id) {
+    public function test_make_sale($type_id)
+    {
 
         $YCLIENTS_SHOP_ID = ENV('YCLIENTS_SHOP_ID');
         $YCLIENTS_HEADERS = [
@@ -726,17 +727,15 @@ class GoodEdit extends Component
         $url = 'https://api.yclients.com/api/v1/storage_operations/operation/' . $YCLIENTS_SHOP_ID;
 
 
-
-
         $data = "{
-              \"type_id\": ". $type_id . ",
+              \"type_id\": " . $type_id . ",
               \"create_date\": \"" . date('Y-m-d H:i:s') . "\",
-              \"storage_id\": ". ENV('YCLIENTS_SHOP_STORAGE') . ",
+              \"storage_id\": " . ENV('YCLIENTS_SHOP_STORAGE') . ",
               \"master_id\" : 724514,
               \"goods_transactions\": [
                   {
                     \"document_id\": 123456,
-                    \"good_id\": ". $this->good['yc_id'] . ",
+                    \"good_id\": " . $this->good['yc_id'] . ",
                     \"amount\": 1,
                     \"cost_per_unit\": " . $this->good['yc_price'] . ",
                     \"discount\": 0,
@@ -748,12 +747,34 @@ class GoodEdit extends Component
         }";
 
 
-
-
         $make_operation = Http::withHeaders($YCLIENTS_HEADERS)
             ->withBody($data)
             ->post($url)
-        ->collect();
+            ->collect();
+
+//        // Создаем продажу по операции
+//
+//        $document_id = $make_operation['data']['document_id'];
+//        $total_price = 1;
+//        $url_selling = 'https://api.yclients.com/api/v1/company/' . $YCLIENTS_SHOP_ID . '/sale/' . $document_id . '/payment';
+//
+//        $data_selling = "{
+//            \"payment\": {
+//                \"method\": {
+//                    \"slug\": \"account\",
+//                    \"account_id\": 472965
+//                },
+//            \"amount\": " . $total_price . "
+//            }
+//            }";
+//
+//        $make_selling = Http::withHeaders($YCLIENTS_HEADERS)
+//            ->withBody($data_selling)
+//            ->post($url_selling)
+//            ->collect();
+//
+//        dd($make_selling);
+
 
         $this->good->update([
             'yc_actual_amount' => $this->good['yc_actual_amount'] + (($type_id === 1) ? -1 : 1)

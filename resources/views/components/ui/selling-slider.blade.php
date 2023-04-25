@@ -30,12 +30,14 @@
     <div class="slider">
         @foreach($cards as $card)
             <div class="card">
-                <a href="{{route('service_page', $card['id'])}}">
+                <a href="{{$card['link']}}">
                     <div class="image">
                         <img
-                            @if(is_null($card->getFirstMediaUrl('pic_main')) || $card->getFirstMediaUrl('pic_main') == '')
+                            @if($card['img'] ?? null <> null && $card['img'] <> "")
+                            src="{{$card['img']}}"
+
+                            @else
                             src="/media/media_fixed/logo_holder.png"
-                            @else src="{{$card->getFirstMediaUrl('pic_main')}}"
                             @endif
                             alt="">
                         {{--                    <p>{{$card['type']}}2</p>--}}
@@ -43,16 +45,16 @@
                 </a>
                 <div class="text">
                     <div>
-                        <a href="{{route('service_page', $card['id'])}}">
-                            <p class="category">{{$card->category['name'] ?? "Доп. услуга"}}</p>
-                            <p>{{$card['name']}}</p>
+                        <a href="{{$card['title']}}">
+                            <p class="category">{{$card['category']}}</p>
+                            <p>{{$card['title']}}</p>
                         </a>
                     </div>
                     <div class="buttons_wrap">
                         <a class="link fern"
-                           onclick="Livewire.emit('service_cart_add', {{$card['id']}})"
-                           id="service_add_bg_{{$card['id']}}">Добавить</a>
-                        <p class="price">{{$card['yc_price_min']}} ₽</p>
+                           href="{{$card['link']}}"
+                           id="service_add_bg_{{$card['id']}}">Подробнее</a>
+                        <p class="price">{{$card['price']}} ₽</p>
                     </div>
                 </div>
 

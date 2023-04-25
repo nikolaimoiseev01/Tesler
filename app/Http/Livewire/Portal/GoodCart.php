@@ -38,7 +38,7 @@ class GoodCart extends Component
 
     public $errors_array;
 
-    protected $listeners = ['good_cart_add', 'update_good_buttons'];
+    protected $listeners = ['good_cart_add', 'update_good_buttons', 'show_red_cart_g'];
 
     public function render()
     {
@@ -49,14 +49,11 @@ class GoodCart extends Component
 
     public function mount(Request $request)
     {
-//        dd('test');
-//        dd($request->session()->get('cart_goods'));
-        $this->cart_goods = $request->session()->get('cart_goods');
-
         $this->cart_items = $request->session()->get('cart_items');
         $this->cart_total = $request->session()->get('cart_total');
         $this->cart_goods_count = $request->session()->get('cart_goods_count');
         $this->cart_services_count = $request->session()->get('cart_services_count');
+        $this->cart_goods = $request->session()->get('cart_goods');
 
 
         if ($this->cart_goods) {
@@ -69,6 +66,7 @@ class GoodCart extends Component
 
 
     }
+
 
     public function update_counter(Request $request, $counter_good_id, $dir)
     {
@@ -237,11 +235,25 @@ class GoodCart extends Component
 
     public function show_take_option()
     {
-        $this->show_take_option = !$this->show_take_option;
-        $this->dispatchBrowserEvent('trigger_mobile_input');
+        $this->errors_array = [];
+
+        foreach ($this->cart_goods as $key => $cart_good) { // Обновляем кол-во оставшегося товара
+            $original_good = Good::where('id', $cart_good['id'])->first();
+
+            if($original_good['yc_actual_amount'] == 0 || $original_good['yc_actual_amount'] < $cart_good['yc_actual_amount']) { // Если остаток не такой, уведомляем!
+                $this->cart_goods[$key]['yc_actual_amount'] = $original_good['yc_actual_amount'];
+                array_push($this->errors_array, 'update_goods_amounts');
+            }
+
+        }
+
+        if (empty($this->errors_array)) {
+            $this->show_take_option = !$this->show_take_option;
+            $this->dispatchBrowserEvent('trigger_mobile_input');
+        }
     }
 
-    public function to_checkout()
+    public function to_checkout(Request $request)
     {
 
         // --------- Ищем ошибки в заполнении  --------- //
@@ -270,16 +282,15 @@ class GoodCart extends Component
             array_push($this->errors_array, 'index');
         }
 
+            foreach ($this->cart_goods as $key => $cart_good) { // Обновляем кол-во оставшегося товара
+                $original_good = Good::where('id', $cart_good['id'])->first();
 
-        if (!empty($this->errors_array)) {
-            $this->dispatchBrowserEvent('swal_fire', [
-                'type' => 'error',
-                'showDenyButton' => false,
-                'showConfirmButton' => false,
-                'title' => 'Что-то пошло не так!',
-                'text' => implode("<br>", $this->errors_array),
-            ]);
-        }
+                if($original_good['yc_actual_amount'] <> $cart_good['yc_actual_amount']) { // Если остаток не такой, уведомляем!
+                    $this->cart_goods[$key]['yc_actual_amount'] = $original_good['yc_actual_amount'];
+                    array_push($this->errors_array, 'update_goods_amounts');
+                }
+
+            }
 
         if (empty($this->errors_array)) {
 

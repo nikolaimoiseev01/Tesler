@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Course;
 use App\Models\Good;
 use App\Models\Order;
 use App\Models\Promo;
@@ -71,6 +72,21 @@ class AdminController extends Controller
         ]);
     }
 
+    public function Course_index()
+    {
+        $courses = Course::orderBy('title')->get();
+        return view('admin.course.course-index', [
+            'courses' => $courses
+        ]);
+    }
+
+    public function Course_edit(Request $request)
+    {
+        $course = Course::where('id', $request->course_id)->first();
+        return view('admin.course.course-edit', [
+            'course' => $course
+        ]);
+    }
 
 
 }

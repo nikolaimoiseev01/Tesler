@@ -384,7 +384,7 @@
 
 .content {
     width: 90% !important;
-    max-width: 1280px;
+    max-width: 1500px;
     margin: auto;
 
     //@media (max-width: 1400px) {
@@ -423,6 +423,7 @@
 
         @media(max-width: $media-tablets-768) {
             max-width: inherit;
+            margin: auto;
         }
 
 
@@ -469,6 +470,7 @@
                 @media(max-width: $media-tablets-768) {
                     width: 90%;
                     height: auto;
+                    max-width:90%;
                 }
             }
         }
@@ -746,7 +748,7 @@
 
 }
 
-#consult_modal {
+#consult_modal, #course_app_modal {
     .modal_content {
         padding: 30px 50px;
         width: 85%;
@@ -972,6 +974,54 @@
     }
 
 }
+
+.courses_wrap {
+    .buttons_wrap {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        max-width: initial !important;
+        margin-top: 24px;
+
+        .button {
+            background: $color-fern-100;
+            padding: 16px 12px;
+            text-align: start;
+            width: 288px;
+            height: 86px;
+            position: relative;
+            transition: .1s all ease-in-out;
+
+            &:hover {
+                cursor: pointer;
+                transition: .1s all ease-in-out;
+                background: $color-fern-120;
+            }
+
+            svg {
+                position: absolute;
+                top: 16px;
+                right: 12px;
+            }
+
+
+            h2 {
+                font-size: 24px;
+                color: $color-stone-100;
+                margin: 0 0 8px 0;
+            }
+
+            p {
+                font-size: 12px;
+                font-weight: 500;
+                text-transform: uppercase;
+                color: $color-stone-100;
+                margin: 0;
+            }
+        }
+    }
+}
+
 
 .interior_pics {
     margin-top: 100px;
@@ -1830,6 +1880,14 @@
             justify-content: center;
         }
 
+        @media(max-width: 1400px) {
+            gap: 40px;
+        }
+
+        @media(max-width: $media-tablets-768) {
+            gap: 20px;
+        }
+
         .category_filter_wrap {
             //width: 260px; // Мое предложение
             //height: 220px; // Мое предложение
@@ -1841,6 +1899,17 @@
             justify-content: space-around;
             background: rgba(221, 221, 213, 0.5);
             cursor: pointer;
+
+            @media(max-width: 1400px) {
+                width: 220px;
+                height: 220px;
+            }
+
+            @media(max-width: $media-tablets-768) {
+                width: 161px;
+                height: 170px;
+            }
+
 
             &:hover img {
                 height: 80%;
@@ -1857,6 +1926,14 @@
                 color: $color-coal-100;
                 text-align: center;
                 text-transform: uppercase;
+
+                @media(max-width: 1400px) {
+                    font-size: 16px;
+                }
+
+                @media(max-width: $media-tablets-768) {
+                    font-size: 14px;
+                }
             }
 
             img {
@@ -2007,6 +2084,7 @@
 
         @media(max-width: 866px) {
             order: 1;
+            margin: auto;
         }
 
         .header_links_wrap {
@@ -2690,6 +2768,12 @@
         }
     }
 
+    .amount_error {
+        direction: ltr;
+        color: red;
+        margin-top: 10px;
+    }
+
     .buttons_wrap {
         margin-top: 50px;
         direction: ltr;
@@ -2799,4 +2883,111 @@
 
     }
 }
+
+.course_page_wrap {
+    .course_welcome_block {
+        background: white;
+        padding-bottom: 60px;
+
+        .g_welcome_wrap {
+            gap: 30px;
+        }
+
+        img {
+            width: 612px !important;
+            height: 400px !important;
+            max-width: 100% !important;
+            object-fit: cover;
+        }
+
+        .info {
+            padding: 0 !important;
+            justify-content: flex-end !important;
+
+            p {
+                font-weight: 400;
+                font-size: 16px;
+                text-transform: inherit !important;
+
+                &:first-letter {
+                    text-transform: uppercase;
+                }
+            }
+        }
+    }
+
+    .right {
+        width: inherit !important;
+        max-width: 532px !important;
+        margin-left: auto;
+    }
+
+    .g_info_wrap {
+
+
+        #description {
+            h2 {
+                font-size: 32px;
+            }
+
+            p {
+                font-weight: 400;
+            }
+        }
+    }
+
+    .only_image {
+        img {
+            margin-top: 60px;
+            width: inherit !important;
+            height: inherit !important;
+        }
+
+    }
+
+    .s_desc {
+        margin-top: 40px !important;
+    }
+
+    .faq_block_wrap {
+        margin-top: 80px !important;
+
+        .faq_wrap {
+            margin-top: 80px;
+
+            .title {
+                font-weight: 700;
+                font-size: 20px;
+                margin-bottom: 36px;
+            }
+
+            .question_wrap {
+                margin-bottom: 16px;
+
+                .question {
+                    font-weight: 500;
+                    font-size: 16px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    cursor: pointer;
+
+                    svg {
+                        transition: .2s all ease-in-out;
+                    }
+
+                }
+
+                .answer {
+                    margin-top: 8px;
+                }
+            }
+
+        }
+    }
+
+}
+
+
+
 

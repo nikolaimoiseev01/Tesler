@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Portal;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Course;
 use App\Models\Good;
 use App\Models\GoodCategory;
 use App\Models\interior_photo;
@@ -14,6 +15,7 @@ use App\Models\Service;
 use App\Models\ServiceAdds;
 use App\Models\ShopSet;
 use App\Models\Staff;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
@@ -55,6 +57,8 @@ class PortalController extends Controller
 
         $shopsets_pre = ShopSet::orderBy('title')->take(3)->get();
 
+        $courses = Course::orderBy('id')->get();
+
 
         foreach ($shopsets_pre as $shopset) {
             $full_price = Good::whereJsonContains('in_shopsets', $shopset['id'])
@@ -75,7 +79,8 @@ class PortalController extends Controller
             'interior_pics' => $interior_pics,
             'admins' => $admins,
             'scopes' => $scopes,
-            'shopsets' => $shopsets
+            'shopsets' => $shopsets,
+            'courses' => $courses
         ]);
 
     }
@@ -154,11 +159,23 @@ class PortalController extends Controller
         $service = Service::where('id', intval($request->service_id))->first();
 //        dd($service);
         $service_id = $service['id'];
-        $service_add = Service::whereIn('id', function ($query) use ($service_id) {
+        $service_add_pre = Service::whereIn('id', function ($query) use ($service_id) {
             $query->select('service_add')
                 ->from(with(new ServiceAdds)->getTable())
                 ->whereIn('to_service', [$service_id]);
         })->get();
+        $service_add[] = [];
+        foreach ($service_add_pre as $service_add) {
+            $service_adds[] = [
+                'id' => $service_add['id'],
+                'title' => $service_add['name'],
+                'price' => $service_add['yc_price_min'],
+                'img' => $service_add->getFirstMediaUrl('pic_main'),
+                'link' => route('service_page', $service_add['id']),
+                'category' => $service_add->category['name'] ?? "Доп. услуга"
+            ];
+        }
+
 
         $workers = Http::withHeaders($YCLIENTS_HEADERS)
             ->get('https://api.yclients.com/api/v1/company/' . $YCLIENTS_SHOP_ID . '/staff/')
@@ -211,7 +228,7 @@ class PortalController extends Controller
 //        dd($service_workers);
         return view('portal.service_page', [
             'service' => $service,
-            'service_add' => $service_add,
+            'service_adds' => $service_adds,
             'service_workers' => $service_workers ?? null,
             'abonements' => $abonements
         ]);
@@ -253,6 +270,34 @@ class PortalController extends Controller
 
         return view('portal.good_page', [
             'good' => $good,
+        ]);
+    }
+
+    public function course_page($course_id)
+    {
+        $course = Course::where('id', $course_id)->first();
+        $sim_courses_pre = Course::where('id', '<>', $course_id)->get();
+        foreach ($sim_courses_pre as $sim_course) {
+            if($sim_course['pic'] ?? null <> null && $sim_course['pic'] <> "") {
+                $img = "/" . $sim_course['pic'];
+            } else {
+                $img = '/media/media_fixed/logo_holder.png';
+            }
+            $sim_courses[] = [
+                'id' => $sim_course['id'],
+                'title' => $sim_course['title'],
+                'price' => $sim_course['price'],
+                'img' =>  $img,
+                'link' => route('course_page', $sim_course['id']),
+                'category' => $sim_course['type'],
+            ];
+        }
+
+
+
+        return view('portal.course_page', [
+            'course' => $course,
+            'sim_courses' => $sim_courses,
         ]);
     }
 
@@ -396,7 +441,6 @@ class PortalController extends Controller
 
     }
 
-
     public function payment_callback(Request $request)
     {
 
@@ -435,6 +479,8 @@ class PortalController extends Controller
 
                 foreach (json_decode($order['goods']) as $transaction) { // ИДЕМ ПО ВСЕМ ТОВАРАМ В ЗАКАЗЕ
 
+                    $total_price = $transaction->good_price * $transaction->amount;
+
                     $data = "{
               \"type_id\": 1,
               \"create_date\": \"" . date('Y-m-d H:i:s') . "\",
@@ -447,7 +493,7 @@ class PortalController extends Controller
                     \"amount\": " . $transaction->amount . ",
                     \"cost_per_unit\": " . $transaction->good_price . ",
                     \"discount\": 0,
-                    \"cost\": 1,
+                    \"cost\": " . $total_price .  ",
                     \"operation_unit_type\": 1,
                     \"master_id\" : 724514
                   }
@@ -457,6 +503,27 @@ class PortalController extends Controller
                     $make_operation = Http::withHeaders($YCLIENTS_HEADERS)
                         ->withBody($data)
                         ->post($url)
+                        ->collect();
+
+
+                    // Создаем продажу по операции
+
+                    $document_id = $make_operation['data']['document_id'];
+                    $url_selling = 'https://api.yclients.com/api/v1/company/' . $YCLIENTS_SHOP_ID . '/sale/' . $document_id . '/payment';
+
+                    $data_selling = "{
+                                    \"payment\": {
+                                        \"method\": {
+                                            \"slug\": \"account\",
+                                            \"account_id\": 472965
+                                        },
+                                    \"amount\": " . $total_price . "
+                                    }
+                                    }";
+
+                    $make_selling = Http::withHeaders($YCLIENTS_HEADERS)
+                        ->withBody($data_selling)
+                        ->post($url_selling)
                         ->collect();
 
                     $good = Good::where('id', $transaction->good_id)->first();

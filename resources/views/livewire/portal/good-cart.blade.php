@@ -33,7 +33,7 @@
                             <a href="{{route('good_page', $cart_good['id'])}}"><p
                                     class="name">{{$cart_good['name']}}</p></a>
                             <div class="spec_wrap">
-{{--                                <p class="spec">{{$cart_good['capacity']}} {{$cart_good['capacity_type']}}</p>--}}
+                                {{--                                <p class="spec">{{$cart_good['capacity']}} {{$cart_good['capacity_type']}}</p>--}}
                                 <p class="spec">{{$cart_good['yc_actual_amount']}} в наличии</p>
                                 <p class="price">{{$cart_good['yc_price']}} ₽/шт.</p>
                             </div>
@@ -57,6 +57,16 @@
                 <hr>
                 <p>{{$total_price}} ₽</p>
             </div>
+
+            <p class="amount_error">
+                @if($errors_array)
+                    @if (in_array("update_goods_amounts", $errors_array))
+                        Количество товаров на складе обновилось!
+                        Измените количество в соответствие с новыми данными!
+                    @endif
+                @endif
+
+            </p>
 
             <div class="buttons_wrap">
                 <a wire:click.prevent="show_take_option" class="link-bg fern">ОФОРМИТЬ ЗАКАЗ</a>
@@ -84,9 +94,9 @@
                     <label for="name"><p>ИМЯ</p></label>
                     <input wire:model="name" id="name" name="name"
                            @if($errors_array)
-                               @if (in_array("name", $errors_array))
-                                    class="invalid"
-                               @endif
+                           @if (in_array("name", $errors_array))
+                           class="invalid"
+                           @endif
                            @endif
 
                            required type="text" placeholder="Имя">
@@ -95,9 +105,9 @@
                     <label for="surname"><p>ФАМИЛИЯ</p></label>
                     <input
                         @if($errors_array)
-                            @if (in_array("surname", $errors_array))
-                                class="invalid"
-                            @endif
+                        @if (in_array("surname", $errors_array))
+                        class="invalid"
+                        @endif
                         @endif
                         wire:model="surname" id="surname" name="surname" required type="text" placeholder="Фамилия">
                 </div>
@@ -110,7 +120,7 @@
                         @endif
                         @endif
                         wire:model="mobile" id="mobile" name="mobile" required class="mobile_input" type="text"
-                           placeholder="8 911 123 45 67">
+                        placeholder="8 911 123 45 67">
                 </div>
 
                 <div>
@@ -139,7 +149,7 @@
                             @endif
                             @endif
                             wire:model="address" id="address" name="address" required type="text"
-                               placeholder="Адрес">
+                            placeholder="Адрес">
                     </div>
                     <div class="input_wrap">
                         <label for="index"><p>Индекс</p></label>

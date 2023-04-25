@@ -25,6 +25,7 @@ class ServiceCart extends Component
     }
 
     public function show_red_cart_s() {
+
         $this->dispatchBrowserEvent('update_red_cart', [
             'cart_total' => $this->cart_total,
             'cart_services_count' => $this->cart_services_count,

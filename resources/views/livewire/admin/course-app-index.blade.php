@@ -1,10 +1,19 @@
 <div>
+    <style>
+        table a {
+            color: #007bff !important;
+            text-decoration: none;
+            background-color: transparent;
+        }
+    </style>
+
     <table class="table table-bordered">
         <thead>
         <tr>
             <th style="width: 10px">ID</th>
             <th>Имя</th>
             <th>Телефон</th>
+            <th>Курс</th>
             <th>Комментарий</th>
             <th>Создан</th>
             <th>Обновлен</th>
@@ -12,20 +21,21 @@
         </tr>
         </thead>
         <tbody>
-        @foreach($consultations as $consultation)
+        @foreach($CourseApps as $CourseApp)
             <tr>
-                <td>{{$consultation['id']}}</td>
-                <td>{{$consultation['user_name']}}</td>
-                <td>{{$consultation['user_mobile']}}</td>
-                <td>{{$consultation['user_comment']}}</td>
-                <td>{{date('d-m-Y H:i', strtotime($consultation['created_at']))}}</td>
-                <td>{{date('d-m-Y H:i', strtotime($consultation['updated_at']))}}</td>
+                <td>{{$CourseApp['id']}}</td>
+                <td>{{$CourseApp['user_name']}}</td>
+                <td>{{$CourseApp['user_mobile']}}</td>
+                <td><a href="{{route('course.edit', $CourseApp->course['id'])}}">{{$CourseApp->course['title']}}</a></td>
+                <td>{{$CourseApp['user_comment']}}</td>
+                <td>{{date('d-m-Y H:i', strtotime($CourseApp['created_at']))}}</td>
+                <td>{{date('d-m-Y H:i', strtotime($CourseApp['updated_at']))}}</td>
                 <td>
                     <div class="form-group">
-                        <select id="{{$consultation['id']}}" class="form-control">
+                        <select id="{{$CourseApp['id']}}" class="form-control">
                             @foreach($consult_statuses as $consult_status)
                                 <option
-                                    @if($consultation['consult_status_id'] == $consult_status['id']) selected
+                                    @if($CourseApp['consult_status_id'] == $consult_status['id']) selected
                                     @endif value="{{$consult_status['id']}}">{{$consult_status['title']}}</option>
                             @endforeach
                         </select>
@@ -40,7 +50,7 @@
         <script>
             $('select').on('change', function () {
                 console.log($(this).attr('id'), $(this).val())
-            @this.emit('update_consultation', $(this).attr('id'), $(this).val());
+            @this.emit('update_CourseApp', $(this).attr('id'), $(this).val());
 
             })
         </script>

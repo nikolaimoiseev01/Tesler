@@ -43,10 +43,10 @@
         </div>
     </div>
 
-    @if(count($service_add) > 0)
+    @if(count($service_adds) > 0)
         <x-ui.selling-slider
             title="дополните процедуру и получите ещё больше удовольствия"
-            :cards="$service_add">
+            :cards="$service_adds">
         </x-ui.selling-slider>
     @endif
 
