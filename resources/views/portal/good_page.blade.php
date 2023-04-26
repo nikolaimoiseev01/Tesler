@@ -48,13 +48,15 @@
                 <h2>{{$good['name']}}</h2>
                 <p>{{$good['desc_small']}}</p>
                 <div>
-                    <span class="yellow_info">
-                         @if($good['brand'])
+                    @if($good['brand'])
+                        <span class="yellow_info">
+
                             <a href="{{route('market_page')}}?brand[0]={{$good['brand']}}#market_wrap">
                             <p>Бренд: {{$good['brand']}}</p>
                             </a>
-                        @endif
+
                     </span>
+                    @endif
                     @if($good['capacity'] > 0)
                         <span class="yellow_info"><p>{{$good['capacity']}} {{$good['capacity_type']}}</p></span>
                     @endif
