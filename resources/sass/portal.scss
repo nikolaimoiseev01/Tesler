@@ -3078,6 +3078,34 @@
 
 }
 
+.go_to_head_wrap {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    height:33px;
+    width: 33px;
+    background: black;
+    opacity: .7;
+    padding: 8px;
+    display: flex;
+    cursor: pointer;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    transition: .2s all ease-in-out;
+    z-index: 10;
+
+    &:hover {
+        opacity: 1;
+    }
+
+    svg {
+        path {
+            fill: white;
+        }
+
+    }
+}
 
 
 

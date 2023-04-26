@@ -47,6 +47,13 @@
     @livewire('portal.consult-modal')
 </x-ui.modal>
 
+<a href="#header" class="go_to_head_wrap">
+    <svg width="19" height="11" viewBox="0 0 19 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16.7546 10.8414L9.5068 3.59357L2.25894 10.8414L0.844727 9.42715L9.5068 0.765137L18.1688 9.42715L16.7546 10.8414Z" fill="black"/>
+    </svg>
+
+</a>
+
 
 {{--<x-ui.modal/>--}}
 <x-header/>

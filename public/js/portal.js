@@ -1,6 +1,6 @@
 // ------  MODALS  ------ //
 var modal_on = 0
-$('.modal-link').on('click', function(event) {
+$('.modal-link').on('click', function (event) {
     event.preventDefault()
     modal = $(this).attr('modal-id');
     $('#' + modal).fadeToggle(200);
@@ -24,7 +24,7 @@ $(document).on("click", function (event) {
 
 
 // ------  PRELOADER  ------ //
-$(window).on('load', function() {
+$(window).on('load', function () {
     $('.page-preloader-wrap').addClass('preloaded_hiding');
     window.setTimeout(function () {
         $('.page-preloader-wrap').addClass('preloaded_loaded');
@@ -73,23 +73,33 @@ $('a[href*="#"]')
             }
         }
     });
+
+function show_hide_scroll() {
+    if (window.pageYOffset < 500) {
+        $('.go_to_head_wrap').hide()
+    } else {
+        $('.go_to_head_wrap').show()
+    }
+}
+
+window.addEventListener("scroll", show_hide_scroll, false);
+window.addEventListener("load", show_hide_scroll, false);
 // ------ // SMOOTH SCROLLING  ------ //
 
 // ------  TRIGGER SEVERVICE ADD BUTTON  ------ //
-$(document).ready(function() {
+$(document).ready(function () {
     Livewire.emit('update_service_buttons')
 })
 
 
 document.addEventListener('trigger_service_add_button', event => {
-    found_button =  $('#service_add_bg_' + event.detail.id)
-    if(event.detail.type === 'add') {
+    found_button = $('#service_add_bg_' + event.detail.id)
+    if (event.detail.type === 'add') {
         found_button.addClass('service_added')
         found_button.attr('data-old-text', found_button.text())
         found_button.text('в корзине')
         found_button.removeAttr('onclick')
-    }
-    else if(event.detail.type === 'remove') {
+    } else if (event.detail.type === 'remove') {
         found_button.removeClass('service_added')
         found_button.text(found_button.attr('data-old-text'))
         found_button.removeAttr('onclick')
@@ -101,7 +111,7 @@ document.addEventListener('trigger_service_add_button', event => {
 
 
 // ------  TRIGGER GOOD ADD BUTTON  ------ //
-$(document).ready(function() {
+$(document).ready(function () {
     Livewire.emit('update_good_buttons')
     Livewire.emit('show_red_cart_s')
 })
@@ -111,16 +121,13 @@ document.addEventListener('update_red_cart', event => {
     cart_services_count = event.detail.cart_services_count
     cart_goods_count = event.detail.cart_goods_count
 
-    console.log
-
-    if((cart_services_count == null && cart_goods_count == null) || (cart_services_count + cart_goods_count) === 0) {
+    if ((cart_services_count == null && cart_goods_count == null) || (cart_services_count + cart_goods_count) === 0) {
         $('.red_cart').hide()
     } else {
         $('.red_cart').show()
         $('.red_cart p').text((cart_services_count + cart_goods_count))
     }
-console.log('serv:' + cart_services_count);
-    if(cart_services_count == null || cart_services_count === 0) {
+    if (cart_services_count == null || cart_services_count === 0) {
         $('#cart_service_button span').hide()
         $('#cart_service_button').html('Услуги (<span>0</span>)')
     } else {
@@ -128,8 +135,7 @@ console.log('serv:' + cart_services_count);
         $('#cart_service_button span').text(cart_services_count)
     }
 
-    console.log('goods:' + cart_goods_count);
-    if(cart_goods_count == null || cart_goods_count === 0) {
+    if (cart_goods_count == null || cart_goods_count === 0) {
         $('#cart_good_button span').hide()
         $('#cart_good_button').html('Товары (<span>0</span>)')
     } else {
@@ -140,14 +146,13 @@ console.log('serv:' + cart_services_count);
 })
 
 document.addEventListener('trigger_good_add_button', event => {
-    found_button =  $('#good_add_' + event.detail.id)
-    if(event.detail.type === 'add') {
+    found_button = $('#good_add_' + event.detail.id)
+    if (event.detail.type === 'add') {
         found_button.addClass('good_added')
         found_button.attr('data-old-text', found_button.text())
         found_button.text('в корзине')
         found_button.removeAttr('onclick')
-    }
-    else if(event.detail.type === 'remove') {
+    } else if (event.detail.type === 'remove') {
         found_button.removeClass('good_added')
         found_button.text(found_button.attr('data-old-text'))
         found_button.removeAttr('onclick')
@@ -172,46 +177,46 @@ function show_service_cart() {
     $('#cart_service_button').addClass('active')
 }
 
-$('#cart_service_button').on('click', function(event) {
+$('#cart_service_button').on('click', function (event) {
     event.preventDefault();
     show_service_cart()
 })
 
-$('#cart_good_button').on('click', function(event) {
+$('#cart_good_button').on('click', function (event) {
     event.preventDefault();
     show_good_cart()
 })
 
 
-document.addEventListener('trigger_good_cart_open', function() {
-    $('.cart_block_wrap').show("slide", { direction: "right" });
+document.addEventListener('trigger_good_cart_open', function () {
+    $('.cart_block_wrap').show("slide", {direction: "right"});
     show_good_cart()
 
 })
 
-document.addEventListener('trigger_good_cart_close', function() {
-    $('.cart_block_wrap').hide("slide", { direction: "right" });
+document.addEventListener('trigger_good_cart_close', function () {
+    $('.cart_block_wrap').hide("slide", {direction: "right"});
 })
 
-document.addEventListener('trigger_service_cart_open', function() {
-    $('.cart_block_wrap').show("slide", { direction: "right" });
+document.addEventListener('trigger_service_cart_open', function () {
+    $('.cart_block_wrap').show("slide", {direction: "right"});
     show_service_cart()
 
 })
 
-document.addEventListener('trigger_service_cart_close', function() {
-    $('.cart_block_wrap').hide("slide", { direction: "right" });
+document.addEventListener('trigger_service_cart_close', function () {
+    $('.cart_block_wrap').hide("slide", {direction: "right"});
 })
 
 $('.cart_block_wrap').hide();
 show_good_cart()
 
-$('#good_cart_bottom_button').on('click', function(event) {
+$('#good_cart_bottom_button').on('click', function (event) {
     event.preventDefault();
-    $('.cart_block_wrap').show("slide", { direction: "right" });
+    $('.cart_block_wrap').show("slide", {direction: "right"});
 })
-$('#good_cart_header_button, .cart_wrap .close_cross').on('click', function() {
-    $('.cart_block_wrap').toggle("slide", { direction: "right" });
+$('#good_cart_header_button, .cart_wrap .close_cross').on('click', function () {
+    $('.cart_block_wrap').toggle("slide", {direction: "right"});
 })
 
 // ------ // TRIGGER GOOD CART  ------ //
@@ -233,7 +238,7 @@ $(".welcome_menu a").each(function () {
 });
 // ------  // ACTIVE MENU ELEMENT  ------ //
 
-$(document).ready(function(){
+$(document).ready(function () {
     $('.mobile_input').mask('0 (000) 000-00-00');
 })
 
