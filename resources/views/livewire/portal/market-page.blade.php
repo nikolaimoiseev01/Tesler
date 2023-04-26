@@ -17,7 +17,7 @@
                 </a>
             </div>
         </div>
-        <div @click.outside="opend_filter = 'none'" x-data="{ opend_filter: 'none' }"  class="filters_wrap">
+        <div @click.outside="opend_filter = 'none'" x-data="{ opend_filter: 'none' }" class="filters_wrap">
             <div class="filter_block_wrap yc_category_filter_wrap">
                 <a @click="opend_filter = 'sort'" class="link coal">Сотрировать</a>
                 <div x-transition x-show="opend_filter === 'sort'" class="filter_wrap select_filter_wrap">
@@ -41,15 +41,15 @@
             <div class="filter_block_wrap @if($yc_category) has_filter @endif yc_category_filter_wrap">
                 <a @click="opend_filter = 'category'" class="link coal">Категория</a>
                 <div x-transition x-show="opend_filter === 'category'" class="filter_wrap check_box_filter_wrap">
-                    @foreach($categories as $category)
+                    @foreach($categories as $category_item)
                         @if(!$abon_page_check)
-                            <a href="{{route('good_category_page', $category['id'])}}"
-                               class="link fern">{{$category['title']}}</a>
+                            <a href="{{route('good_category_page', $category_item['id'])}}"
+                               class="link fern">{{$category_item['title']}}</a>
                         @else
                             <div>
-                                <input type="checkbox" id="{{$category['id']}}" wire:model="yc_category"
-                                       value="{{$category['id']}}">
-                                <label for="{{$category['id']}}"><p>{{$category['title']}}</p></label>
+                                <input type="checkbox" id="{{$category_item['id']}}" wire:model="yc_category"
+                                       value="{{$category_item['id']}}">
+                                <label for="{{$category_item['id']}}"><p>{{$category_item['title']}}</p></label>
                             </div>
                         @endif
                     @endforeach
@@ -59,57 +59,71 @@
                 @if(count($hair_types) > 0)
                     <div class="filter_block_wrap @if($hair_type) has_filter @endif yc_category_filter_wrap">
                         <a @click="opend_filter = 'hair_type'" class="link coal">Тип волос</a>
-                        <div x-transition x-show="opend_filter === 'hair_type'" class="filter_wrap check_box_filter_wrap">
-                            @foreach($hair_types as $hair_type)
+                        <div x-transition x-show="opend_filter === 'hair_type'"
+                             class="filter_wrap check_box_filter_wrap">
+                            @foreach($hair_types as $hair_type_item)
                                 <div>
-                                    <input type="checkbox" id="hair_type_{{$hair_type['id']}}" wire:model="hair_type"
-                                           value="{{$hair_type['id']}}">
-                                    <label for="hair_type_{{$hair_type['id']}}"><p>{{$hair_type['title']}}</p></label>
+                                    <input type="checkbox" id="hair_type_{{$hair_type_item['id']}}"
+                                           wire:model="hair_type"
+                                           value="{{$hair_type_item['id']}}">
+                                    <label for="hair_type_{{$hair_type_item['id']}}"><p>{{$hair_type_item['title']}}</p>
+                                    </label>
                                 </div>
                             @endforeach
                         </div>
                     </div>
                 @endif
 
-                    @if(count($good_types) > 0)
-                        <div class="filter_block_wrap @if($good_type) has_filter @endif yc_category_filter_wrap">
-                            <a @click="opend_filter = 'good_type'" class="link coal">Тип продукта</a>
-                            <div x-transition x-show="opend_filter === 'good_type'" class="filter_wrap check_box_filter_wrap">
-                                @foreach($good_types as $good_type)
-                                    <div>
-                                        <input type="checkbox" id="product_type_{{$good_type['id']}}" wire:model="good_type"
-                                               value="{{$good_type['title']}}">
-                                        <label for="product_type_{{$good_type['id']}}"><p>{{$good_type['title']}}</p></label>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-                    @endif
 
                 @if(count($skin_types) > 0)
                     <div class="filter_block_wrap @if($skin_type) has_filter @endif yc_category_filter_wrap">
                         <a @click="opend_filter = 'skin_type'" class="link coal">Тип кожи</a>
-                        <div x-transition x-show="opend_filter === 'skin_type'" class="filter_wrap check_box_filter_wrap">
-                            @foreach($skin_types as $skin_type)
+                        <div x-transition x-show="opend_filter === 'skin_type'"
+                             class="filter_wrap check_box_filter_wrap">
+                            @foreach($skin_types as $skin_type_item)
                                 <div>
-                                    <input type="checkbox" id="product_type_{{$skin_type['id']}}" wire:model="skin_type"
-                                           value="{{$skin_type['id']}}">
-                                    <label for="skin_type{{$skin_type['id']}}"><p>{{$skin_type['title']}}</p></label>
+                                    <input type="checkbox" id="skin_type_{{$skin_type_item['id']}}"
+                                           wire:model="skin_type"
+                                           value="{{$skin_type_item['id']}}">
+                                    <label for="skin_type_{{$skin_type_item['id']}}"><p>{{$skin_type_item['title']}}</p>
+                                    </label>
                                 </div>
                             @endforeach
                         </div>
                     </div>
                 @endif
+
+
+                @if(count($good_types) > 0)
+                    <div class="filter_block_wrap @if($good_type) has_filter @endif yc_category_filter_wrap">
+                        <a @click="opend_filter = 'good_type'" class="link coal">Тип продукта</a>
+                        <div x-transition x-show="opend_filter === 'good_type'"
+                             class="filter_wrap check_box_filter_wrap">
+                            @foreach($good_types as $good_type_item)
+                                <div>
+                                    <input type="checkbox" id="product_type_{{$good_type_item['id']}}"
+                                           wire:model="good_type"
+                                           value="{{$good_type_item['title']}}">
+                                    <label for="product_type_{{$good_type_item['id']}}">
+                                        <p>{{$good_type_item['title']}}</p>
+                                    </label>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+
+
 
                 @if(count($brands) > 0)
                     <div class="filter_block_wrap @if($brand) has_filter @endif yc_category_filter_wrap">
                         <a @click="opend_filter = 'brand'" class="link coal">Бренд</a>
                         <div x-transition x-show="opend_filter === 'brand'" class="filter_wrap check_box_filter_wrap">
-                            @foreach($brands as $brand)
+                            @foreach($brands as $brand_item)
                                 <div>
-                                    <input type="checkbox" id="{{$brand}}" wire:model="brand"
-                                           value="{{$brand}}">
-                                    <label for="{{$brand}}"><p>{{$brand}}</p></label>
+                                    <input type="checkbox" id="{{$brand_item}}" wire:model="brand"
+                                           value="{{$brand_item}}">
+                                    <label for="{{$brand_item}}"><p>{{$brand_item}}</p></label>
                                 </div>
                             @endforeach
                         </div>
@@ -120,15 +134,19 @@
                 <div class="filter_block_wrap @if($shopset) has_filter @endif yc_category_filter_wrap">
                     <a @click="opend_filter = 'shopsets'" class="link coal">Шопсеты</a>
                     <div x-transition x-show="opend_filter === 'shopsets'" class="filter_wrap check_box_filter_wrap">
-                        @foreach($shopsets as $shopset)
+                        @foreach($shopsets as $shopset_item)
                             <div>
-                                <input type="checkbox" id="shop_set_{{$shopset['id']}}" wire:model="shopset"
-                                       value="{{$shopset['id']}}">
-                                <label for="shop_set_{{$shopset['id']}}"><p>{{$shopset['title']}}</p></label>
+                                <input type="checkbox" id="shop_set_{{$shopset_item['id']}}" wire:model="shopset"
+                                       value="{{$shopset_item['id']}}">
+                                <label for="shop_set_{{$shopset_item['id']}}"><p>{{$shopset_item['title']}}</p></label>
                             </div>
                         @endforeach
                     </div>
                 </div>
+
+                @if($shopset || $brand || $skin_type || $good_type || $hair_type || $yc_category || $price_min || $price_max)
+                    <a wire:click.prevent="clear_filters" class="clear_filters coal link">Сбросить фильтры</a>
+                @endif
             @endif
 
         </div>

@@ -48,19 +48,18 @@ class MarketPage extends Component
     {
 
 
-
         $this->goods = $this->goods_orig->where('yc_price', '>', 0)
             ->where('yc_price', '>', intval($this->price_min ?? 0))
             ->where('yc_price', '<', intval($this->price_max ?? 999999999))
 //            ->when($this->yc_category, function ($q) {
 //                return $q->whereIn('yc_category', $this->yc_category);
 //            })
-            ->when($this->yc_category,function ($item) {
-                return $item->filter(function($q) {
+            ->when($this->yc_category, function ($item) {
+                return $item->filter(function ($q) {
 
                     if ($q['good_category_id']) {
                         foreach ($this->yc_category as $yc_category) {
-                            if(array_search($yc_category, $q['good_category_id']) !== null & array_search($yc_category, $q['good_category_id']) !== false) {
+                            if (array_search($yc_category, $q['good_category_id']) !== null & array_search($yc_category, $q['good_category_id']) !== false) {
                                 return $q;
                             }
                         }
@@ -68,12 +67,12 @@ class MarketPage extends Component
                     }
                 });
             })
-            ->when($this->skin_type,function ($item) {
-                return $item->filter(function($q) {
+            ->when($this->skin_type, function ($item) {
+                return $item->filter(function ($q) {
 
                     if ($q['skin_type']) {
                         foreach ($this->skin_type as $skin_type) {
-                            if(array_search($skin_type, $q['skin_type']) !== null & array_search($skin_type, $q['skin_type']) !== false) {
+                            if (array_search($skin_type, $q['skin_type']) !== null & array_search($skin_type, $q['skin_type']) !== false) {
                                 return $q;
                             }
                         }
@@ -81,12 +80,12 @@ class MarketPage extends Component
                     }
                 });
             })
-            ->when($this->hair_type,function ($item) {
-                return $item->filter(function($q) {
+            ->when($this->hair_type, function ($item) {
+                return $item->filter(function ($q) {
 
                     if ($q['hair_type']) {
                         foreach ($this->hair_type as $hair_type) {
-                            if(array_search($hair_type, $q['hair_type']) !== null & array_search($hair_type, $q['hair_type']) !== false) {
+                            if (array_search($hair_type, $q['hair_type']) !== null & array_search($hair_type, $q['hair_type']) !== false) {
                                 return $q;
                             }
                         }
@@ -108,14 +107,14 @@ class MarketPage extends Component
             })
             ->filter(function ($item) {
                 $search = mb_strtolower($this->search_input);
-                return preg_match("/$search/",mb_strtolower($item['name']));
+                return preg_match("/$search/", mb_strtolower($item['name']));
             })
-            ->when($this->shopset,function ($item) {
-                return $item->filter(function($q) {
+            ->when($this->shopset, function ($item) {
+                return $item->filter(function ($q) {
 
                     if ($q['in_shopsets']) {
                         foreach ($this->shopset as $shopset) {
-                            if(array_search($shopset, $q['in_shopsets']) !== null & array_search($shopset, $q['in_shopsets']) !== false) {
+                            if (array_search($shopset, $q['in_shopsets']) !== null & array_search($shopset, $q['in_shopsets']) !== false) {
                                 return $q;
                             }
                         }
@@ -130,7 +129,7 @@ class MarketPage extends Component
 
         $goods_count_after_take = count($this->goods);
 
-        if($goods_count_before_take > $goods_count_after_take) {
+        if ($goods_count_before_take > $goods_count_after_take) {
             $this->load_more_check = true;
         } else {
             $this->load_more_check = false;
@@ -149,13 +148,40 @@ class MarketPage extends Component
         $this->abon_page_check = $abon_page_check;
 
         $this->goods_orig = $goods;
+//        dd($goods->unique('product_type')->pluck('hair_type')->toArray());
+//        foreach ($goods->unique('product_type')->pluck('hair_type')->toArray() as $hair_type) {
+//
+//        }
+
+        // Смотрим уникальные значения ТИП ВОЛОС
+        $hair_types_merged = [];
+        $hair_types_pre = $goods->unique('product_type')->pluck('hair_type')->toArray();
+        foreach ($hair_types_pre as $p) {
+            if ($p) {
+                $hair_types_merged = array_unique(array_merge($hair_types_merged, $p));
+            }
+        }
+
+        // Смотрим уникальные значения ТИП КОЖИ
+        $skin_types_merged = [];
+        $skin_types_pre = $goods->unique('product_type')->pluck('skin_type')->toArray();
+        foreach ($skin_types_pre as $p) {
+            if ($p) {
+                $skin_types_merged = array_unique(array_merge($skin_types_merged, $p));
+            }
+        }
+
+
         $this->categories = $categories;
         $this->price_all_max = $goods->max('yc_price');
         $this->goods = $this->goods_orig->take($this->goods_amt);
         $this->shopsets = ShopSet::orderBy('title')->get();
-        $this->skin_types = Good_skin_type::orderBy('title')->get();
-        $this->hair_types = Good_hair_type::orderBy('title')->get();
-        $this->good_types = GoodType::orderBy('title')->get();
+        $this->skin_types = Good_skin_type::orderBy('title')->whereIn('id', $skin_types_merged)->get();
+        $this->hair_types = Good_hair_type::orderBy('title')->whereIn('id', $hair_types_merged)->get();
+
+        $product_types_pre = $goods->unique('product_type')->pluck('product_type')->toArray();
+        $this->good_types = GoodType::orderBy('title')->whereIn('title', $product_types_pre)->get();
+
         $this->brands = $this->goods_orig->where('brand', '<>', null)->unique('brand')->pluck('brand');
 
     }
@@ -169,5 +195,17 @@ class MarketPage extends Component
     {
         $this->goods_amt += 10;
         $this->emit('refreshMarketPage');
+    }
+
+    public function clear_filters()
+    {
+        $this->price_min = null;
+        $this->price_max = null;
+        $this->search_input = null;
+        $this->shopset = [];
+        $this->hair_type = [];
+        $this->skin_type = [];
+        $this->good_type = [];
+        $this->brand = [];
     }
 }

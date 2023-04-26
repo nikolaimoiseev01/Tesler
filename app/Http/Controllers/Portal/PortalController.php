@@ -228,7 +228,7 @@ class PortalController extends Controller
 //        dd($service_workers);
         return view('portal.service_page', [
             'service' => $service,
-            'service_adds' => $service_adds,
+            'service_adds' => $service_adds ?? null,
             'service_workers' => $service_workers ?? null,
             'abonements' => $abonements
         ]);

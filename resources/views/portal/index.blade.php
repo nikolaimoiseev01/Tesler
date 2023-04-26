@@ -184,7 +184,7 @@
         link="{{route('market_page')}}"
         :cards="$shopsets"></x-ui.preview-cta>
 
-    <div class="content courses_wrap about_wrap">
+    <div id="courses_main_page" class="content courses_wrap about_wrap">
         <div class="text">
             <p>бьюти-обучение</p>
             <h2> Получи новые знания в салоне Tesler </h2>

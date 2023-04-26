@@ -4,6 +4,7 @@ $('.modal-link').on('click', function(event) {
     event.preventDefault()
     modal = $(this).attr('modal-id');
     $('#' + modal).fadeToggle(200);
+    $('body').css('overflow-y', 'hidden')
     setTimeout(function () {
         modal_on = 1
     }, 1000)
@@ -13,9 +14,9 @@ $(document).on("click", function (event) {
     if (!$(event.target).closest(".modal_content").length) {
         if (modal_on === 1) {
             $('.modal').fadeOut(200);
+            $('body').css('overflow-y', 'auto')
             modal_on = 0
         }
-
     }
 });
 

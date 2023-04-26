@@ -57,6 +57,12 @@
             <div>
                 <a href="{{route('loyalty_page')}}" class="link"> Программа лояльности </a>
             </div>
+
+            <div>
+                <a href="{{route('home')}}#courses_main_page" class="link"> Курсы </a>
+            </div>
+
+
             <div>
                 <a href="#footer" class="link"> Контакты </a>
             </div>
