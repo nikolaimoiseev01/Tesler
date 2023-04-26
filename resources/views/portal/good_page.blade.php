@@ -46,6 +46,9 @@
             <div class="info">
                 <p>{{\App\Models\GoodCategory::where('id', $good['good_category_id'][0])->first(['title'])->title}}</p>
                 <h2>{{$good['name']}}</h2>
+                @if(Auth::check())
+                    <a href="{{route('good.edit', $good['id'])}}" class="link coal">Страница в Админке</a>
+                @endif
                 <p>{{$good['desc_small']}}</p>
                 <div>
                     @if($good['brand'])

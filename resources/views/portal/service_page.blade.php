@@ -13,10 +13,14 @@
                         <a href="{{route('scope_page', $service['scope_id'])}}"
                            class="link coal">{{$service->scope['name']}}</a> /
                         <p>{{$service->group['name'] ?? "Доп. услуга"}}</p>
+
                     </div>
                 @endif
 
                 <h2>{{$service['name']}}</h2>
+                    @if(Auth::check())
+                        <a href="{{route('service.edit', $service['id'])}}" class="link coal">Страница в Админке</a>
+                    @endif
 
                 <p>{{$service['desc_small']}}</p>
 
