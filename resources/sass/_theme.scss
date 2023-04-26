@@ -158,6 +158,11 @@ header {
     height: $header-height;
     z-index: 2;
 
+    @media(max-width: 800px) {
+        position: fixed;
+        height: $header-height_media_800;
+    }
+
     .header_wrap {
         width: 100%;
         display: flex;

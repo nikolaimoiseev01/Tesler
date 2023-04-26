@@ -491,6 +491,10 @@
         left: 50%;
         transform: translatex(-50%);
         font-size: 12px;
+        @media(max-width: 800px) {
+            top: $header-height_media_800;
+        }
+
     }
 
     .welcome_cta_wrap {
@@ -1329,6 +1333,10 @@
         width: 95%;
         left: 50%;
         transform: translatex(-50%);
+        @media(max-width: 800px) {
+            top: $header-height_media_800;
+        }
+
     }
 
     .image_blackout {
@@ -1576,12 +1584,20 @@
     background: white;
     padding-bottom: 60px;
 
+    @media(max-width: 800px) {
+        padding-top: $header-height_media_800;
+    }
+
     .s_welcome_wrap {
         display: flex;
         gap: 20px;
         justify-content: space-between;
         margin-top: $header-height;
         flex-wrap: wrap;
+
+        @media(max-width: 800px) {
+            margin-top: $header-height_media_800;
+        }
 
         img {
             max-width: 610px;
@@ -1893,6 +1909,10 @@
 .market_page_wrap {
     margin-top: $header-height;
     //padding-top: 20px;
+    @media(max-width: 800px) {
+        margin-top: $header-height_media_800;
+    }
+
 
     .categories_filter_wrap {
         display: flex;
@@ -2210,6 +2230,11 @@
 .g_page_wrap {
     margin-top: $header-height;
 
+    @media(max-width: 800px) {
+        margin-top: $header-height_media_800;
+    }
+
+
     .g_bread_wrap {
         display: flex;
         align-items: center;
@@ -2313,6 +2338,10 @@
         width: 95%;
         left: 50%;
         transform: translatex(-50%);
+        @media(max-width: 800px) {
+            top: $header-height_media_800;
+        }
+
     }
 
     .g_bread_wrap {
@@ -2347,6 +2376,10 @@
         width: 95%;
         left: 50%;
         transform: translatex(-50%);
+        @media(max-width: 800px) {
+            top: $header-height_media_800;
+        }
+
     }
 }
 
