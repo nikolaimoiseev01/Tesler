@@ -169,6 +169,8 @@ class GoodIndex extends Component
         ];
 
 
+
+
         $yc_goods = [];
         $changed_after = '2023-01-05T12:00:00';
         for ($page = 0; $page <= 20; $page++) {
@@ -179,7 +181,7 @@ class GoodIndex extends Component
             $request = Http::withHeaders($YCLIENTS_HEADERS)
                 ->get($link)
                 ->collect();
-//            dd($request);
+
             if ($request['data'] ?? null) {
                 $yc_goods = array_merge($yc_goods, $request['data']);
             } else {
