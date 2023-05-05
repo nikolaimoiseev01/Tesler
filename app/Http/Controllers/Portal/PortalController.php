@@ -267,9 +267,15 @@ class PortalController extends Controller
     public function good_page($good_id)
     {
         $good = Good::where('id', $good_id)->first();
+        if(array_search(6, $good['good_category_id']) === 0 || array_search(7, $good['good_category_id']) === 0) {
+            $abon_check = true;
+        } else {
+            $abon_check = false;
+        }
 
         return view('portal.good_page', [
             'good' => $good,
+            'abon_check' => $abon_check
         ]);
     }
 

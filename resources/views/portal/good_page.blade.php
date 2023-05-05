@@ -91,14 +91,17 @@
                         подходящий именно вам
                     </p>
                 </div>
-                <a href="" class="link-bg fern">Подобрать уход</a>
+                <a modal-id="consult_modal" class="modal-link link-bg fern">Подобрать уход</a>
             </div>
 
             <div class="right">
                 <div class="header_links_wrap">
                     <a href="#description" class="cont_nav_item current link coal">ОПИСАНИЕ</a>
-                    <a href="#usage" class="cont_nav_item link coal">ПРИМЕНЕНИЕ</a>
-                    <a href="#consist" class="cont_nav_item link coal">СОСТАВ</a>
+
+                    @if(!$abon_check)
+                        <a href="#usage" class="cont_nav_item link coal">ПРИМЕНЕНИЕ</a>
+                        <a href="#consist" class="cont_nav_item link coal">СОСТАВ</a>
+                    @endif
                 </div>
                 <div style="transition: .3s ease-in-out" class="list-wrap">
                     <div id="description">
@@ -116,12 +119,13 @@
                                 @endforeach
                             </div>
                         @endif
-
                     </div>
-                    <div id="usage" class="hide">
-                        <p style="margin-top:20px;" class="desc">{{$good['usage']}}</p>
-                    </div>
-                    <div id="consist" class="hide">3</div>
+                    @if(!$abon_check)
+                        <div id="usage" class="hide">
+                            <p style="margin-top:20px;" class="desc">{{$good['usage']}}</p>
+                        </div>
+                        <div id="consist" class="hide">3</div>
+                    @endif
                 </div>
 
             </div>
