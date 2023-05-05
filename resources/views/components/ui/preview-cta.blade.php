@@ -9,13 +9,16 @@
             @foreach($cards as $card)
                 <div class="card_wrap">
                     <div class="img_wrap">
-                        <img src="{{($card['img'] !== '') ? $card['img'] : '/media/media_fixed/logo_holder.png'}}" alt="">
+                        <img src="{{($card['img'] !== '') ? $card['img'] : '/media/media_fixed/logo_holder.png'}}"
+                             alt="">
                     </div>
 
                     <div class="info">
                         <p class="category">{{$card['category']}}</p>
                         <a target="_blank" href="{{$card['link']}}"><p class="name">{{$card['title']}}</p></a>
-                        <p class="price">{{$card['price']}} ₽</p>
+                        @if($card['category'] <> 'SHOP-СЕТ')
+                            <p class="price">{{$card['price']}} ₽</p>
+                        @endif
                         <a href="{{$card['link']}}" class="to_cart link-bg coal">Подробнее</a>
                     </div>
                 </div>
