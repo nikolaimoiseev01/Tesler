@@ -52,7 +52,7 @@
                 <a href="{{route('market_page')}}" class="link"> Магазин </a>
             </div>
             <div>
-                <a href="{{route('abonements_page')}}" class="link"> Абонементы и сертификаты </a>
+                <a href="{{route('abonements_page')}}" class="link"> Сертификаты и Абонементы </a>
             </div>
             <div>
                 <a href="{{route('loyalty_page')}}" class="link"> Программа лояльности </a>
