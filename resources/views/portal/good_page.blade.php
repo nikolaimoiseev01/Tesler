@@ -65,7 +65,7 @@
                     @endif
                     <h2 class="price">{{$good['yc_price']}} Р</h2>
                 </div>
-                @if(($good['flg_active'] && $good['yc_actual_amount'] > 0) || $good['good_category_id'][0] === 6 || $good['good_category_id'][0] === 7)
+                @if(($good['flg_active'] && $good['yc_actual_amount'] > 0) || ($good['flg_active'] && $good['good_category_id'][0] === 6) || ($good['flg_active'] && $good['good_category_id'][0] === 7))
                     <a onclick="Livewire.emit('good_cart_add', {{$good['id']}})"
                        id="good_add_{{$good['id']}}"
                        class="link-bg coal">
