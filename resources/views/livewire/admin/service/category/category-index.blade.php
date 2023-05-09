@@ -1,6 +1,6 @@
 <div>
     <div style="max-width: 1000px;" class="card">
-        <a wire:click="$emit('openModal', 'admin.service.category.category-create')"
+        <a href="{{route('category.create')}}"
            class="m-3 btn btn-outline-secondary">
             <i class="mr-2 fa fa-plus"></i>
             Добавить категорию

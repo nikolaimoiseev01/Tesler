@@ -9,6 +9,11 @@
         Обновить YClients инфо (долгая загрузка)
     </a>
 
+{{--    <a type="submit" wire:click.prevent="refresh_from_loyalty()"--}}
+{{--       class="mb-3 show_preloader_on_click btn btn-outline-primary">--}}
+{{--        Обновить YClients из лояльности--}}
+{{--    </a>--}}
+
 
     @if ($found_yc_goods)
         <style>

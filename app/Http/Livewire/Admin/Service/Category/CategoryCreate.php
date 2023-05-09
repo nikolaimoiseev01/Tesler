@@ -26,7 +26,6 @@ class CategoryCreate extends ModalComponent
     public function createCategory($formData)
     {
 
-
         // --------- Ищем ошибки в заполнении  --------- //
         $errors_array = [];
 
@@ -35,7 +34,7 @@ class CategoryCreate extends ModalComponent
         }
 
         if ($formData['scope_id'] == '') {
-            array_push($errors_array, 'cфера не выбрана.');
+            array_push($errors_array, 'Сфера не выбрана.');
         }
 
         if ($formData['name'] == '') {
@@ -48,6 +47,8 @@ class CategoryCreate extends ModalComponent
         if ($formData['block_title'] == '') {
             array_push($errors_array, 'Заголовок не заполнено.');
         }
+
+
 
         if (!empty($errors_array)) {
             $this->dispatchBrowserEvent('swal_fire', [
@@ -95,8 +96,7 @@ class CategoryCreate extends ModalComponent
             ]);
 
             $this->dispatchBrowserEvent('filepond_trigger');
-            $this->emit('refreshCategoryIndex');
-            $this->forceClose()->closeModal();
+            return $this->redirect(route('category.index'));
 
         }
     }

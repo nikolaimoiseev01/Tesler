@@ -18,6 +18,47 @@ class GoodIndex extends Component
         return view('livewire.admin.good.good-index');
     }
 
+    public function refresh_from_loyalty()
+    {
+        $YCLIENTS_SHOP_ID = ENV('YCLIENTS_SHOP_ID');
+        $YCLIENTS_HEADERS = [
+            'Accept' => 'application/vnd.yclients.v2+json',
+            'Authorization' => 'Bearer ' . ENV('YCLIENTS_BEARER') . ', User ' . ENV('YCLIENTS_ADMIN_TOKEN')
+        ];
+
+        $goods = Good::where('yc_price', '>', 0)
+            ->where('flg_active', 1)
+            ->where(function ($query) {
+                $query->where('yc_category', 'Абонементы Сеть Tesler')
+                    ->orWhere('yc_category', 'Сертификаты Сеть Tesler');
+            })
+            ->get();
+
+        foreach ($goods as $good) {
+            $yc_good = Http::withHeaders($YCLIENTS_HEADERS)
+                ->get('https://api.yclients.com/api/v1/goods/' . $YCLIENTS_SHOP_ID . '/' . $good['yc_id'])
+                ->collect()['data'];
+
+            if ($yc_good['loyalty_certificate_type_id'] !== 0) { // Если это сертификат
+                $url = 'https://api.yclients.com/api/v1/company/' . $YCLIENTS_SHOP_ID . '/loyalty/certificate_types/fetch?&ids[]={' . $yc_good['loyalty_certificate_type_id'] . '}';
+                $request = Http::withHeaders($YCLIENTS_HEADERS)
+                    ->get($url)
+                    ->collect();
+                dd($request);
+                if(!empty($request['data'])) {
+                    dd('test');
+                }
+//                dd($request);
+            }
+
+//            if ($yc_good['loyalty_abonement_type_id'] !== 0) { // Если это абонемент
+//                $url = 'https://api.yclients.com/api/v1/company/' . $YCLIENTS_SHOP_ID . '/loyalty/abonement_types/fetch?' . $yc_good['loyalty_abonement_type_id']);
+//            }
+        }
+
+
+    }
+
     public function search_for_goods()
     {
 
@@ -95,7 +136,6 @@ class GoodIndex extends Component
                 ];
 
 
-
 //                $this->found_yc_goods = Arr::where($this->found_yc_goods, function ($value, $key) {
 //                    if ($value['category'] ?? null) {
 //                        return $value['category'];
@@ -108,15 +148,13 @@ class GoodIndex extends Component
 
             // Берем только уникальные
             $unique_array = [];
-            if($this->found_yc_goods ?? null) {
-                foreach($this->found_yc_goods as $element) {
+            if ($this->found_yc_goods ?? null) {
+                foreach ($this->found_yc_goods as $element) {
                     $hash = $element['yc_id'];
                     $unique_array[$hash] = $element;
                 }
                 $this->found_yc_goods = array_values($unique_array);
             }
-
-
 
 
             if (empty($this->found_yc_goods)) {
@@ -167,8 +205,6 @@ class GoodIndex extends Component
             'Accept' => 'application/vnd.yclients.v2+json',
             'Authorization' => 'Bearer ' . ENV('YCLIENTS_BEARER') . ', User ' . ENV('YCLIENTS_ADMIN_TOKEN')
         ];
-
-
 
 
         $yc_goods = [];

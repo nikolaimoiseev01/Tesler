@@ -92,7 +92,7 @@
                     </p>
                 </div>
                 <a modal-id="consult_modal" class="modal-link link-bg fern">
-                    Подобрать уход
+                    Получить консультацию
                 </a>
             </div>
 

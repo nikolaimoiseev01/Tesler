@@ -63,6 +63,11 @@ Route::prefix('admin_panel')
             return view('admin.service.category.index');
         })->name('category.index');
 
+
+        Route::get('/categories/create', function () {
+            return view('admin.service.category.create');
+        })->name('category.create');
+
         Route::get('/groups', function () {
             return view('admin.service.group.index');
         })->name('group.index');
@@ -90,7 +95,6 @@ Route::prefix('admin_panel')
         Route::get('/good_categories', function () {
             return view('admin.good.good_category_index');
         })->name('good_category.index');
-
 
         Route::get('/consultations', function () {
             return view('admin.consultation');
