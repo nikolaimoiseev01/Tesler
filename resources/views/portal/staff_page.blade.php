@@ -70,7 +70,7 @@
                 <div style="margin-bottom: 20px;" class="workers_wrap">
                     @foreach($staff['collegues'] as $colleague)
                         <div class="worker"><a href="{{route('staff_page', $colleague['yc_id'])}}">
-                                <img src="{{$colleague['yc_avatar']}}" alt="">
+                                <img src="{{$colleague['avatar']}}" alt="">
                                 <p-400>{{$colleague['name']}}</p-400>
                                 <p>{{$colleague['specialization']}}</p>
                             </a>
