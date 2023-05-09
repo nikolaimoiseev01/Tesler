@@ -137,7 +137,6 @@ class StaffEdit extends Component
 
     }
 
-
     public function new_collegue_to_add()
     {
 
@@ -232,7 +231,6 @@ class StaffEdit extends Component
 
 
     }
-
 
     public function new_staff_examples()
     {
