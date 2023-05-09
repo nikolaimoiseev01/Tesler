@@ -14,7 +14,9 @@
                     <p class="specialization">{{$staff['yc_specialization']}}</p>
                 </div>
                 <h2>{{$staff['yc_name']}}</h2>
-
+                @if(Auth::check())
+                    <a href="{{route('staff.edit', $staff['id'])}}" class="link coal">Страница в Админке</a>
+                @endif
                 <p>{{$staff['desc_small']}}</p>
 
                 <div class="buttons_wrap">
