@@ -68,7 +68,7 @@
 {{--                            </p>--}}
                             <a href="{{route('service_page', $cart_service['id'])}}"><p class="name">{{$cart_service['name']}}</p></a>
                             <div class="spec_wrap">
-                                <p class="spec">{{\App\Models\Category::where('id', $cart_service['category_id'])->first(['name'])->name}}</p>
+                                <p class="spec">{{$cart_service['yc_category_name']}}</p>
                                 <p class="price">{{$cart_service['yc_price_min']}} ₽</p>
                             </div>
 
