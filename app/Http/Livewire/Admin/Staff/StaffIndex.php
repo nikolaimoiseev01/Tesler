@@ -36,7 +36,6 @@ class StaffIndex extends Component
         })); // Только неуволенных сотрудников
 
 
-
         $this->found_yc_staffs = null;
 
         foreach ($yc_staffs as $yc_staff) { // Идем по всем услугам YCLIENTS
@@ -75,7 +74,7 @@ class StaffIndex extends Component
 
     public function add_found_staffs()
     {
-        foreach($this->found_yc_staffs as $found_yc_staff) {
+        foreach ($this->found_yc_staffs as $found_yc_staff) {
             staff::create([
                 'yc_id' => $found_yc_staff['yc_id'],
                 'yc_name' => $found_yc_staff['yc_name'],
@@ -91,5 +90,50 @@ class StaffIndex extends Component
             'title' => 'Новые сотрудники добавлены!',
         ]);
 
+    }
+
+    public function refresh_staff_yc_info()
+    {
+        $YCLIENTS_SHOP_ID = ENV('YCLIENTS_SHOP_ID');
+        $YCLIENTS_HEADERS = [
+            'Accept' => 'application/vnd.yclients.v2+json',
+            'Authorization' => 'Bearer ' . ENV('YCLIENTS_BEARER') . ', User ' . ENV('YCLIENTS_ADMIN_TOKEN')
+        ];
+
+        $yc_staffs = Http::withHeaders($YCLIENTS_HEADERS)
+            ->get('https://api.yclients.com/api/v1/company/' . $YCLIENTS_SHOP_ID . '/staff/')
+            ->collect()['data'];
+
+        $yc_staffs = array_values(Arr::where($yc_staffs, function ($value, $key) {
+            return $value['fired'] == 0;
+        })); // Только неуволенных сотрудников
+
+        foreach ($yc_staffs as $yc_staff) { // Идем по всем стаффам YCLIENTS
+            $staff_found = Staff::where('yc_id', $yc_staff['id'])->first();
+
+
+            if ($staff_found ?? null) { // Если есть такой сотрудник
+
+                $staff_found->update([
+                    'yc_id' => $yc_staff['id'],
+                    'yc_name' => $yc_staff['name'],
+                    'yc_avatar' => $yc_staff['avatar_big'],
+                    'yc_position' => $yc_staff['position']['title'],
+                    'yc_specialization' => $yc_staff['specialization'],
+                ]);
+
+            }
+
+            $this->dispatchBrowserEvent('swal_fire', [
+                'type' => 'success',
+                'showDenyButton' => false,
+                'showConfirmButton' => false,
+                'title' => 'Надены новые товары!',
+                'text' => 'Информация о всех сотрудниках успешно обновлена',
+            ]);
+
+            $this->emit('pg:eventRefresh-default');
+
+        }
     }
 }

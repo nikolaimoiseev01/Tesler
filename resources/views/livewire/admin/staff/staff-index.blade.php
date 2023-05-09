@@ -4,6 +4,13 @@
         Обновить сотрудников
     </button>
 
+    <button type="submit" wire:click.prevent="refresh_staff_yc_info()"
+            class="mb-3  show_preloader_on_click btn btn-outline-primary">
+        Обновить YC инфо
+    </button>
+
+
+
     @if ($found_yc_staffs)
         <style>
             td {
