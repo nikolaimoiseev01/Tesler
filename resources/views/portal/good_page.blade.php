@@ -50,7 +50,7 @@
                 @if(Auth::check())
                     <a href="{{route('good.edit', $good['id'])}}" class="link coal">Страница в Админке</a>
                 @endif
-                <p>{{$good['desc_small']}}</p>
+{{--                <p>{{$good['desc_small']}}</p>--}}
                 <div>
                     @if($good['brand'])
                         <span class="yellow_info">
