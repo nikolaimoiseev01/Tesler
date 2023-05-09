@@ -128,7 +128,7 @@ class StaffIndex extends Component
                 'type' => 'success',
                 'showDenyButton' => false,
                 'showConfirmButton' => false,
-                'title' => 'Надены новые товары!',
+                'title' => 'Успешно!',
                 'text' => 'Информация о всех сотрудниках успешно обновлена',
             ]);
 

@@ -75,8 +75,6 @@ class ServiceEdit extends Component
     public function mount($service_id)
     {
 
-
-
         $this->service = Service::where('id', $service_id)->first();
 
         $this->flg_active = $this->service['flg_active'];

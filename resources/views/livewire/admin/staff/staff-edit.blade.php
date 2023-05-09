@@ -230,8 +230,8 @@
                        name="staff_examples"
                        id="staff_examples"
                        data-allow-reorder="true"
-                       data-max-file-size="3MB"
-                       data-max-files="3">
+                       data-max-file-size="30MB"
+                       data-max-files="30">
 
             </div>
             <a type="submit" wire:click.prevent="new_staff_examples"
@@ -250,7 +250,6 @@
 
             @if ($staff['collegues'] !== null)
                 <div>
-
                     @foreach($staff['collegues'] as $collegue)
                         <div wire:key="{{ $loop->index }}">
                             <a target="_blank"

@@ -28,7 +28,7 @@ class StaffEdit extends Component
     public $abon_all;
 
 
-    protected $listeners = ['refreshStaffEdit' => '$refresh', 'delete_good_example_media'];
+    protected $listeners = ['refreshStaffEdit' => '$refresh', 'delete_staff_example_media'];
 
     public function render()
     {
@@ -293,14 +293,12 @@ class StaffEdit extends Component
         ]);
     }
 
-
-
     public function delete_example_confirm($media_id)
     {
         $this->dispatchBrowserEvent('swal_fire', [
             'type' => 'warning',
             'title' => 'Предупреждение!',
-            'text' => 'Вы уверены, что хотите это фото примера?',
+            'text' => 'Вы уверены, что хотите удалить это фото примера?',
             'swal_detail_id' => $media_id,
             'showConfirmButton' => true,
             'showDenyButton' => true,
@@ -316,7 +314,7 @@ class StaffEdit extends Component
             'type' => 'success',
             'title' => 'Фото примера успешно удалено!',
         ]);
-        $this->emit('refreshstaffEdit');
+        $this->emit('refreshStaffEdit');
     }
 
 
