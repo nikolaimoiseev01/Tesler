@@ -147,9 +147,9 @@ class ServiceEdit extends Component
         if ($this->service->getMedia('pic_main')->count() == 0 && !$this->pic_main) {
             array_push($errors_array, 'Основное изображение не загружено!');
         }
-        if ($this->service->getMedia('pic_proccess')->count() == 0 && !$this->pic_proccess) {
-            array_push($errors_array, 'Изображение процесса не загружено!');
-        }
+//        if ($this->service->getMedia('pic_proccess')->count() == 0 && !$this->pic_proccess) {
+//            array_push($errors_array, 'Изображение процесса не загружено!');
+//        }
         if ($this->desc_small == null) {
             array_push($errors_array, 'Маленькое описание не заполнено!');
         }
@@ -232,9 +232,9 @@ class ServiceEdit extends Component
         if ($this->service->getMedia('pic_main')->count() == 0 && !$this->pic_main) {
             array_push($errors_array, 'Основное изображение не загружено!');
         }
-        if ($this->service->getMedia('pic_proccess')->count() == 0 && !$this->pic_proccess) {
-            array_push($errors_array, 'Изображение процесса не загружено!');
-        }
+//        if ($this->service->getMedia('pic_proccess')->count() == 0 && !$this->pic_proccess) {
+//            array_push($errors_array, 'Изображение процесса не загружено!');
+//        }
         if ($this->desc_small == null) {
             array_push($errors_array, 'Маленькое описание не заполнено!');
         }

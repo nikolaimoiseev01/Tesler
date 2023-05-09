@@ -91,7 +91,9 @@
                         подходящий именно вам
                     </p>
                 </div>
-                <a modal-id="consult_modal" class="modal-link link-bg fern">Подобрать уход</a>
+                <a modal-id="consult_modal" class="modal-link link-bg fern">
+                    Подобрать уход
+                </a>
             </div>
 
             <div class="right">
