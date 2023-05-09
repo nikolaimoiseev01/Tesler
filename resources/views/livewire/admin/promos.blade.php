@@ -14,7 +14,7 @@
                                  </span>
                             </div>
                             <div class="mr-3 product-img">
-                                <img style="width: auto;" src="{{$promo->getFirstMediaUrl('promo_pics')}}" alt="">
+                                <img style="    height: 50px;    width: 70px;    min-width: 70px;    object-fit: cover;" src="{{$promo->getFirstMediaUrl('promo_pics')}}" alt="">
                             </div>
 
                             <div class="ml-0 mr-3 product-info">
