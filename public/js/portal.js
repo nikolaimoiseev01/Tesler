@@ -243,6 +243,19 @@ $(document).ready(function () {
 })
 
 
+// ------ SHOW FULL IMG ------ //
+
+$('.show_full_img').on('click', function(e) {
+    url = $(this).attr('src')
+
+    $('#img_full').attr('src', url)
+    $('#img_full_modal').fadeToggle(200);
+    $('body').css('overflow-y', 'hidden')
+    setTimeout(function () {
+        modal_on = 1
+    }, 500)
+})
+
 
 
 

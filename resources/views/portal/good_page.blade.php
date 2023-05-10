@@ -16,7 +16,7 @@
         <div class="g_welcome_wrap">
 
             <div class="examples_wrap">
-                <img id="main_example"
+                <img class="show_full_img" id="main_example"
                      @if(is_null($good->getFirstMediaUrl('good_examples')) || $good->getFirstMediaUrl('good_examples') == '')
                      src="/media/media_fixed/logo_holder.png"
                      @else src="{{$good->getFirstMediaUrl('good_examples')}}"
