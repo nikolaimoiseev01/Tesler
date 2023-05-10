@@ -24,6 +24,7 @@ class GoodEdit extends Component
     public $desc_small;
     public $desc;
     public $usage;
+    public $compound;
     public $good_examples;
 
     public $specs_detailed;
@@ -75,6 +76,7 @@ class GoodEdit extends Component
         $this->desc_small = $this->good['desc_small'];
         $this->desc = $this->good['desc'];
         $this->usage = $this->good['usage'];
+        $this->compound = $this->good['compound'];
         $this->capacity = $this->good['capacity'];
         $this->capacity_type = $this->good['capacity_type'];
         $this->flg_on_road = $this->good['flg_on_road'];

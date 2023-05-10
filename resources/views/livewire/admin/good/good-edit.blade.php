@@ -256,6 +256,11 @@
                             <textarea wire:model="usage" name="usage" class="form-control"></textarea>
                         </div>
 
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Состав</label>
+                            <textarea wire:model="compound" name="compound" class="form-control"></textarea>
+                        </div>
+
                         {{--                        <div class="row p-3 ml-1 mb-3 border">--}}
                         {{--                            <div class="col-md-4">--}}
                         {{--                                <div class="form-check">--}}

@@ -1,7 +1,7 @@
 <div>
     <button  type="submit" wire:click.prevent="search_for_goods()"
             class="mb-3 mr-2  show_preloader_on_click btn btn-outline-primary">
-        Обновить товары
+        Подгрузить товары YClients
     </button>
 
     <a type="submit" wire:click.prevent="refresh_goods_yc_info()"

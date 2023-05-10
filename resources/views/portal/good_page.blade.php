@@ -103,7 +103,7 @@
 
                     @if(!$abon_check)
                         <a href="#usage" class="cont_nav_item link coal">ПРИМЕНЕНИЕ</a>
-                        <a href="#consist" class="cont_nav_item link coal">СОСТАВ</a>
+                        <a href="#compound" class="cont_nav_item link coal">СОСТАВ</a>
                     @endif
                 </div>
                 <div style="transition: .3s ease-in-out" class="list-wrap">
@@ -111,7 +111,7 @@
                         <p class="desc">{{$good['desc']}}</p>
                         @if(json_decode($good['specs_detailed']) != null)
                             <p class="title">Подробныые характеристики</p>
-
+q
                             <div class="specs_detailed_wrap">
                                 @foreach(json_decode($good['specs_detailed']) as $spec)
                                     <div class="spec_detailed_wrap">
@@ -127,7 +127,9 @@
                         <div id="usage" class="hide">
                             <p style="margin-top:20px;" class="desc">{{$good['usage']}}</p>
                         </div>
-                        <div id="consist" class="hide">3</div>
+                        <div id="compound" class="hide">
+                            <p style="margin-top:20px;" class="desc">{{$good['compound']}}</p>
+                        </div>
                     @endif
                 </div>
 
