@@ -22,7 +22,7 @@
     "src": "resources/sass/app.scss"
   },
   "resources/sass/portal.scss": {
-    "file": "assets/portal-871c04ba.css",
+    "file": "assets/portal-e2fcc126.css",
     "isEntry": true,
     "src": "resources/sass/portal.scss"
   }
