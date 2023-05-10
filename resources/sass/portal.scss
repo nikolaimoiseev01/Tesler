@@ -37,6 +37,11 @@
     cursor: zoom-in;
 }
 
+#img_full {
+    max-width: 50vw;
+    max-height: 80vh;
+}
+
 .gallery_wrap {
     position: relative;
     overflow: hidden;
