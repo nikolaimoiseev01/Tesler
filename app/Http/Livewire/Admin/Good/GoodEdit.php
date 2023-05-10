@@ -278,7 +278,7 @@ class GoodEdit extends Component
         $this->dispatchBrowserEvent('swal_fire', [
             'type' => 'warning',
             'title' => 'Предупреждение!',
-            'text' => 'Вы уверены, что хотите это фото примера?',
+            'text' => 'Вы уверены, что хотите удалить это фото примера?',
             'swal_detail_id' => $media_id,
             'showConfirmButton' => true,
             'showDenyButton' => true,
