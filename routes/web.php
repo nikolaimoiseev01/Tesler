@@ -88,6 +88,10 @@ Route::prefix('admin_panel')
             return view('admin.calc_cosmetic');
         })->name('calc_cosmetic.index');
 
+        Route::get('/calc_hair', function () {
+            return view('admin.calc_hair');
+        })->name('calc_hair.index');
+
         Route::get('/staff', function () {
             return view('admin.staff.index');
         })->name('staff.index');

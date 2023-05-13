@@ -107,6 +107,14 @@ final class GoodTable extends PowerGridComponent
             ->addColumn('yc_price')
             ->addColumn('brand')
             ->addColumn('yc_actual_amount')
+            ->addColumn('Есть фото?', function (Good $model) {
+                if($model->getFirstMediaUrl('good_examples')) {
+                    return "Есть";
+                } else {
+                    return "Нет";
+                };
+//                return $model->getFirstMedia('good_examples');
+            })
         ;
     }
 
@@ -135,6 +143,9 @@ final class GoodTable extends PowerGridComponent
                 ->searchable()
                 ->sortable(),
             Column::make('Категория из YC', 'yc_category')
+                ->searchable()
+                ->sortable(),
+            Column::make('Есть фото?', 'Есть фото?')
                 ->searchable()
                 ->sortable(),
             Column::make('Цена', 'yc_price')

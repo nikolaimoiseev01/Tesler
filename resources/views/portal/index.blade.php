@@ -7,6 +7,11 @@
         @livewire('portal.calc-cosmetic')
     </x-ui.modal>
 
+    <x-ui.modal id="calc_hair">
+        @livewire('portal.calc-hair')
+    </x-ui.modal>
+
+
     <x-home-page.welcome-block/>
 
     {{--    <div class="content">--}}
@@ -83,7 +88,7 @@
             </div>
             <div class="image">
                 <img src="/media/media_fixed/calc_coloring.png" alt="">
-                <x-ui.link modal-id="calc_ccoloring" class="link-bg coal modal-link">Рассчитать окрашивание</x-ui.link>
+                <x-ui.link modal-id="calc_hair" class="link-bg coal modal-link">Рассчитать окрашивание</x-ui.link>
             </div>
 
         </div>

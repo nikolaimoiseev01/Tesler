@@ -101,9 +101,9 @@ class GoodEdit extends Component
             array_push($errors_array, 'Название не заполнено!');
         }
 
-        if ($this->desc_small == null) {
-            array_push($errors_array, 'Маленькое описание не заполнено!');
-        }
+//        if ($this->desc_small == null) {
+//            array_push($errors_array, 'Маленькое описание не заполнено!');
+//        }
 
         if ($this->desc == null) {
             array_push($errors_array, 'Описание не заполнено!');
@@ -155,9 +155,9 @@ class GoodEdit extends Component
             array_push($errors_array, 'Название не заполнено!');
         }
 
-        if ($this->desc_small == null) {
-            array_push($errors_array, 'Маленькое описание не заполнено!');
-        }
+//        if ($this->desc_small == null) {
+//            array_push($errors_array, 'Маленькое описание не заполнено!');
+//        }
 
         if ($this->desc == null) {
             array_push($errors_array, 'Описание не заполнено!');
@@ -258,6 +258,8 @@ class GoodEdit extends Component
                 'type' => 'success',
                 'title' => 'Пример успешно добавлены!',
             ]);
+
+            return redirect(request()->header('Referer'));
         }
     }
 

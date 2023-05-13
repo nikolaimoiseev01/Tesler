@@ -9,7 +9,7 @@
         <x-ui.menu color="#111010"></x-ui.menu>
 
         <div class="content g_bread_wrap">
-            <a href="{{route('market_page')}}" class="link coal">Магазин</a> / <p>{{$good['name']}}</p>
+            <a href="{{route('market_page')}}" class="link coal">Магазин</a> / <a href="{{route('good_category_page', $good['good_category_id'][0])}}" class="link coal">{{\App\Models\GoodCategory::where('id', $good['good_category_id'][0])->first(['title'])->title}}</a> / <p>{{$good['name']}}</p>
         </div>
 
 

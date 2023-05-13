@@ -274,6 +274,8 @@ class StaffEdit extends Component
                 'type' => 'success',
                 'title' => 'Пример успешно добавлены!',
             ]);
+
+            return redirect(request()->header('Referer'));
         }
     }
 

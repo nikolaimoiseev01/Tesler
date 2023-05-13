@@ -63,14 +63,14 @@
             // Настраиваем высоту модального окна
             var maxHeight = -1;
             $('#calc_cosmetic').show()
-            $('.step_wrap').each(function () {
+            $('.calc_cosmetic_wrap .steps_wrap .step_wrap').each(function () {
 
                 if ($(this).height() > maxHeight) {
                     maxHeight = $(this).height();
                 }
             });
             $('#calc_cosmetic').hide()
-            $('.steps_wrap').height(maxHeight + 20);
+            $('.calc_cosmetic_wrap .steps_wrap').height(maxHeight + 20);
 
             // ----------------------------------------------
 

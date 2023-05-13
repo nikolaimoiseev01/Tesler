@@ -292,9 +292,9 @@
                             </li>
 
                             <li class=" nav-item">
-                                <a href="vk.com" class="nav-link">
+                                <a href="{{route('calc_hair.index')}}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Сферы</p>
+                                    <p>Окрашивание</p>
                                 </a>
                             </li>
 
