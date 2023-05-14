@@ -37,7 +37,7 @@
                     @foreach($options->pluck('step_2')->unique() as $option)
                         <div>
                             <label for="hair_step_{{$option}}"><p>{{$option}}</p></label>
-                            <input type="radio" wire:model="step_2"id="hair_step_{{$option}}"
+                            <input type="radio" wire:model="step_2" id="hair_step_{{$option}}"
                                    value="{{$option}}">
                         </div>
                     @endforeach
@@ -60,24 +60,32 @@
 
 
             <div class="step_wrap @if($step === 4) active @endif">
-                <h2>Расчет:</h2>
-                <p style="color: white">
-                    Предварительная стоимость окрашивания равна <b>{{$result_price}}</b> руб.
-                    Стоимость окрашивания может отличаться, если ранее ваши волосы подвергались таким факторам,
-                    как окрашивание бытовым красителем, кератиновое восстановление, ламинирование волос и другие химические воздействия,
-                    которые влияют на структуру волоса.
-                    Запишитесь на бесплатную консультацию к нашим мастерам.
-                </p>
-                <div class="go_buttons">
-                    <a href="" class="link coal">Записаться</a>
-                    <a href="" class="link coal">Получить консультацию</a>
-                </div>
+                @if($result_price)
+                    <h2>Расчет:</h2>
+                    <p style="color: white">
+                        Предварительная стоимость окрашивания равна <b>{{$result_price}}</b> руб.
+                        Стоимость окрашивания может отличаться, если ранее ваши волосы подвергались таким факторам,
+                        как окрашивание бытовым красителем, кератиновое восстановление, ламинирование волос и другие
+                        химические воздействия,
+                        которые влияют на структуру волоса.
+                        Запишитесь на бесплатную консультацию к нашим мастерам.
+                    </p>
+                    <div class="go_buttons">
+                        <a href="{{$result_link}}" target="_blank" class="link coal">Записаться</a>
+                        <a modal-id="consult_modal" class="modal-link link coal">Получить консультацию</a>
+                    </div>
+                @else
+                    <h2 style="color: white">
+                        Выберите все опции!
+                    </h2>
+                @endif
             </div>
         </div>
 
 
         <div class="buttons_wrap">
-            <a wire:click.prevent="change_slide(-1)" data-direction="-1" id="prev_button" class="@if($step === 0) disabled @endif link fern">Назад</a>
+            <a wire:click.prevent="change_slide(-1)" data-direction="-1" id="prev_button"
+               class="@if($step === 0) disabled @endif link fern">Назад</a>
             <div class="process_dots_wrap">
                 <div id="process_dot_0" @if($step === 0) class="active" @endif></div>
                 <div id="process_dot_1" @if($step === 1) class="active" @endif></div>

@@ -581,6 +581,7 @@ img {
 
         &:not(.switch) {
             width: 21px;
+            min-width: 21px;
 
             &:after {
                 opacity: var(--o, 0);

@@ -878,6 +878,17 @@
                 flex-direction: column;
             }
 
+            .go_buttons {
+                margin-top: 40px;
+                display: flex;
+                justify-content: space-between;
+                gap: 20px;
+                flex-wrap: wrap;
+                a {
+                    color: white;
+                }
+            }
+
             .option_link_wrap {
                 display: flex;
                 justify-content: space-between;

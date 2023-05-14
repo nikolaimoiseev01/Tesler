@@ -17,8 +17,9 @@ class CalcHair extends Component
     public $step = 0;
 
     public $result_price;
+    public $result_link;
 
-    protected $listeners = ['refreshCalchair' => '$refresh', 'make_option'];
+    protected $listeners = ['refreshCalchair' => '$refresh'];
 
     public function render()
     {
@@ -48,36 +49,9 @@ class CalcHair extends Component
                 ->first();
             if ($option) {
                 $this->result_price = $option['result_price'];
+                $this->result_link = 'https://b253254.yclients.com/company/247576/menu?o=s' . $option->service['yc_id'];
             }
         }
     }
 
-    public function make_option()
-    {
-
-        $this->option = \App\Models\CalcHair::where('step_1', $this->step_1)
-            ->where('step_2', $this->step_2)
-            ->where('step_3', $this->step_3)
-            ->first();
-
-//        dd(array_column($this->option['services'], 'name'));
-        if ($this->option['services'] ?? null) {
-            $option_steps = $this->step_1 . ' -> ' . $this->step_2 . ' -> ' . $this->step_3;
-            $services = $this->option['services'];
-        } elseif ($this->step_1 === null || $this->step_2 === null || $this->step_3 === null) {
-            $option_steps = 'Сначала сделайте выбор на всех шагах!';
-            $services[] = ['id' => 999999, 'name' => ''];
-        } else {
-            $option_steps = $this->step_1 . ' -> ' . $this->step_2 . ' -> ' . $this->step_3;
-            $services[] = ['id' => 999999, 'name' => 'Вам подходят все наши услуги!'];
-        }
-
-
-        $this->dispatchBrowserEvent('update_option', [
-            'services' => $services,
-            'option_steps' => $option_steps
-        ]);
-
-//        dd($step_1, $step_2, $step_3);
-    }
 }
