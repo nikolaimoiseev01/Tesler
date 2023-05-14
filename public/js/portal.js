@@ -1,13 +1,14 @@
 // ------  MODALS  ------ //
+
 var modal_on = 0
 $('.modal-link').on('click', function (event) {
     event.preventDefault()
-
     // Закрываем предыдущее
-    $('.modal').fadeOut(200);
-    modal_on = 0
+    // $('.modal').fadeOut(200);
+    // modal_on = 0
 
     modal = $(this).attr('modal-id');
+
     $('#' + modal).fadeToggle(200);
     $('body').css('overflow-y', 'hidden')
     setTimeout(function () {

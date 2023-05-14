@@ -72,7 +72,7 @@
                     </p>
                     <div class="go_buttons">
                         <a href="{{$result_link}}" target="_blank" class="link coal">Записаться</a>
-                        <a modal-id="consult_modal" class="modal-link link coal">Получить консультацию</a>
+                        <a modal-id="consult_modal" class="need-consult link coal">Получить консультацию</a>
                     </div>
                 @else
                     <h2 style="color: white">
@@ -122,6 +122,23 @@
                 if ($('#calc_hair').is(':visible')) {
                     $('.calc_hair_wrap .steps_wrap').height(maxHeight + 20);
                 }
+
+
+                var modal_on = 0
+                $('.need-consult').on('click', function (event) {
+                    event.preventDefault()
+                    // Закрываем предыдущее
+                    $('.modal').fadeOut(200);
+                    modal_on = 0
+
+                    modal = $(this).attr('modal-id');
+
+                    $('#' + modal).fadeToggle(200);
+                    $('body').css('overflow-y', 'hidden')
+                    setTimeout(function () {
+                        modal_on = 1
+                    }, 1000)
+                })
 
             })
         </script>
