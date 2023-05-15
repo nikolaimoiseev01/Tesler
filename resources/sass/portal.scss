@@ -2341,7 +2341,7 @@
             #main_example {
                 width: 712px;
                 height: 480px;
-                object-fit: cover;
+                object-fit: contain;
 
                 @media(max-width: 750px) {
                     max-width: 95%;
