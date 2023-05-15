@@ -95,8 +95,8 @@
                                name="category_examples"
                                id="category_examples"
                                data-allow-reorder="true"
-                               data-max-file-size="3MB"
-                               data-max-files="3">
+                               data-max-file-size="30MB"
+                               data-max-files="30">
 
                     </div>
 
@@ -130,8 +130,8 @@
                            name="pic_category"
                            id="pic_category"
                            data-allow-reorder="true"
-                           data-max-file-size="3MB"
-                           data-max-files="3">
+                           data-max-file-size="30MB"
+                           data-max-files="30">
 
                 </div>
 
@@ -201,7 +201,7 @@
                     imageCropAspectRatio: 1,
                     imageValidateSizeLabelImageSizeTooBig: 'размер изображения не верный!',
                     imageValidateSizeLabelImageSizeTooSmall: 'размер изображения не верный!',
-                    acceptedFileTypes: ['image/png', 'image/jpeg'],
+                    // acceptedFileTypes: ['image/png', 'image/jpeg', 'image/heic'],
 
                     server: {
                         url: '/temp-uploads/pic_category',
@@ -239,7 +239,7 @@
                     imageValidateSizeLabelImageSizeTooBig: 'размер изображения не верный!',
                     imageValidateSizeLabelImageSizeTooSmall: 'размер изображения не верный!',
                     allowFileTypeValidation: true,
-                    acceptedFileTypes: ['image/png', 'image/jpeg'],
+                    // acceptedFileTypes: ['image/png', 'image/jpeg', 'image/heic'],
 
                     server: {
                         url: '/temp-uploads/category_examples',

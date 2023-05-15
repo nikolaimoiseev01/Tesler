@@ -213,6 +213,7 @@ footer {
 
     .top_block {
         display: flex;
+        margin: auto;
         color: $color-stone-100;
         max-width: 1400px;
         justify-content: space-between;
@@ -274,7 +275,8 @@ footer {
     }
 
     .bottom_block {
-        margin-top: 50px;
+        margin: 50px auto 0 auto;
+
         display: flex;
         justify-content: space-between;
         max-width: 1400px;
