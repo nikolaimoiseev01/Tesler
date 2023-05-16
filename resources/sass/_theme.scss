@@ -261,6 +261,10 @@ footer {
                     justify-content: center;
                     transition: .2s all ease-in-out;
 
+                    svg {
+                        width: 28px;
+                    }
+
                     &:hover {
                         background: #787850;
                     }
