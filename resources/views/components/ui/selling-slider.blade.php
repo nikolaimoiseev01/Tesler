@@ -45,7 +45,7 @@
                 </a>
                 <div class="text">
                     <div>
-                        <a href="{{$card['title']}}">
+                        <a href="{{$card['link']}}">
                             <p class="category">{{$card['category']}}</p>
                             <p>{{$card['title']}}</p>
                         </a>

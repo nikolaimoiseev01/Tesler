@@ -313,6 +313,7 @@ class GoodEdit extends Component
             ->get('https://api.yclients.com/api/v1/goods/' . $YCLIENTS_SHOP_ID . '/' . $this->good['yc_id'])
             ->collect()['data'];
 
+
         $storage_id_key = array_search(ENV('YCLIENTS_SHOP_STORAGE'), array_column($yc_good['actual_amounts'], 'storage_id'));
         $yc_actual_amounts = $yc_good['actual_amounts'][$storage_id_key]['amount'] ?? null;
 //dd($yc_good);

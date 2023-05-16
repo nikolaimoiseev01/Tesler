@@ -19,7 +19,7 @@ class CalcHair extends Component
     public $result_price;
     public $result_link;
 
-    protected $listeners = ['refreshCalchair' => '$refresh'];
+    protected $listeners = ['refreshCalchair' => '$refresh', 'next_step_hair'];
 
     public function render()
     {
@@ -37,6 +37,10 @@ class CalcHair extends Component
             $this->step = $this->step + $dir;
         }
 
+    }
+
+    public function next_step_hair() {
+        $this->step = $this->step + 1;
     }
 
     public function dehydrate() {

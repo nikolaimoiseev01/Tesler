@@ -70,7 +70,7 @@
             <div class="info">
                 <p>09:00</p>
                 <p>Красноярск, ул. Авиаторов, д. 21</p>
-                <p>+7 988 777 56-67</p>
+                <p>+7 (391) 214-70-06</p>
             </div>
 
             <a target="_blank" href="https://b253254.yclients.com/company/247576/record-type?o=" class="link-bg fern">

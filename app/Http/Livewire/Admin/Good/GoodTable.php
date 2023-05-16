@@ -146,8 +146,7 @@ final class GoodTable extends PowerGridComponent
                 ->searchable()
                 ->sortable(),
             Column::make('Есть фото?', 'Есть фото?')
-                ->searchable()
-                ->sortable(),
+                ->searchable(),
             Column::make('Цена', 'yc_price')
                 ->searchable()
                 ->sortable(),

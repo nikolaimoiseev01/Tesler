@@ -76,9 +76,7 @@
                 <p><b>ДОСТАВКА</b></p>
                 <p>
                     По Красноярску день в день! Бесплатная доставка при сумме заказа от 3 500 рублей. При сумме заказа
-                    меньше 3 500 рублей — за ваш счёт по актуальному прайсу Яндекс-доставки.
-                    <br><br>
-                    По всей России курьерской службой СДЭК, от 6000 рублей — бесплатно.
+                    меньше 3 500 рублей — 600 рублей в любой город России.
                 </p>
             </div>
 
@@ -123,23 +121,31 @@
                         placeholder="8 911 123 45 67">
                 </div>
 
+                <div class="input_wrap">
+                    <label for="city"><p>Город</p></label>
+                    <input
+                        @if($errors_array)
+                        @if (in_array("city", $errors_array))
+                        class="invalid"
+                        @endif
+                        @endif
+                        wire:model="city" id="city" name="city" required type="text" placeholder="Город">
+                </div>
+
                 <div>
                     <input type="checkbox" id="need_delivery" wire:model="need_delivery"
                            value="1">
-                    <label for="need_delivery"><p>Требуется доставка</p></label>
+                    <label for="need_delivery"><p>Требуется доставка
+                            @if($this->need_delivery && $this->city <> 'Красноярск' && $this->total_price < $this->delivery_price_treshhold)
+                                (+ {{$delivery_price}} руб.)
+                            @elseif($this->need_delivery && ($this->city == 'Красноярск' || $this->total_price >= $this->delivery_price_treshhold))
+                                (бесплатно)
+                            @endif
+                        </p></label>
+
                 </div>
 
                 @if($need_delivery)
-                    <div class="input_wrap">
-                        <label for="city"><p>Город</p></label>
-                        <input
-                            @if($errors_array)
-                            @if (in_array("city", $errors_array))
-                            class="invalid"
-                            @endif
-                            @endif
-                            wire:model="city" id="city" name="city" required type="text" placeholder="Город">
-                    </div>
                     <div class="input_wrap">
                         <label for="address"><p>Адрес</p></label>
                         <input
@@ -165,7 +171,10 @@
                 @endif
 
                 <div class="buttons_wrap">
-                    <a wire:click.prevent="to_checkout()" class="link-bg fern">ОПЛАТИТЬ {{$total_price}} ₽</a>
+                    <a wire:click.prevent="to_checkout()" class="link-bg fern">ОПЛАТИТЬ {{$total_price}}
+                        @if($this->need_delivery && $this->city <> 'Красноярск' && $this->total_price < $this->delivery_price_treshhold)
+                            (+ {{$delivery_price}})
+                        @endif ₽</a>
                 </div>
 
                 <a wire:click.prevent="show_take_option" class="link">Назад</a>

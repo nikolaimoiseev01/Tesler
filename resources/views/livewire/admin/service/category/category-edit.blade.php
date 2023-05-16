@@ -239,7 +239,7 @@
                     imageValidateSizeLabelImageSizeTooBig: 'размер изображения не верный!',
                     imageValidateSizeLabelImageSizeTooSmall: 'размер изображения не верный!',
                     allowFileTypeValidation: true,
-                    // acceptedFileTypes: ['image/png', 'image/jpeg', 'image/heic'],
+                    acceptedFileTypes: ['image/png', 'image/jpeg'],
 
                     server: {
                         url: '/temp-uploads/category_examples',

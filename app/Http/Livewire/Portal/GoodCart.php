@@ -31,6 +31,9 @@ class GoodCart extends Component
     public $address;
     public $index;
 
+    public $delivery_price_treshhold = 3500;
+    public $delivery_price = 600;
+
     public $cart_goods_count;
     public $cart_services_count;
 
@@ -130,6 +133,9 @@ class GoodCart extends Component
             $this->total_price = array_reduce($this->cart_goods, function ($carry, $item) {
                 return $carry + ($item['yc_price'] * ($item['sell_amount'] ?? 1));
             });
+            if ($this->need_delivery && $this->total_price < 3500) {
+                $this->total_price = $this->total_price + 600;
+            }
 
 
             $this->dispatchBrowserEvent('trigger_good_add_button', [
@@ -172,6 +178,9 @@ class GoodCart extends Component
         $this->total_price = array_reduce($this->cart_goods, function ($carry, $item) {
             return $carry + ($item['yc_price'] * ($item['sell_amount'] ?? 1));
         });
+        if ($this->need_delivery && $this->total_price < 3500) {
+            $this->total_price = $this->total_price + 600;
+        }
 
         $this->cart_total -= 1;
         $this->cart_goods_count -= 1;
@@ -240,7 +249,7 @@ class GoodCart extends Component
         foreach ($this->cart_goods as $key => $cart_good) { // Обновляем кол-во оставшегося товара
             $original_good = Good::where('id', $cart_good['id'])->first();
 
-            if($original_good['yc_actual_amount'] == 0 || $original_good['yc_actual_amount'] < $cart_good['yc_actual_amount']) { // Если остаток не такой, уведомляем!
+            if ($original_good['yc_actual_amount'] == 0 || $original_good['yc_actual_amount'] < $cart_good['yc_actual_amount']) { // Если остаток не такой, уведомляем!
                 $this->cart_goods[$key]['yc_actual_amount'] = $original_good['yc_actual_amount'];
                 array_push($this->errors_array, 'update_goods_amounts');
             }
@@ -251,6 +260,20 @@ class GoodCart extends Component
             $this->show_take_option = !$this->show_take_option;
             $this->dispatchBrowserEvent('trigger_mobile_input');
         }
+    }
+
+    public function dehydrateNeedDelivery()
+    {
+
+//        $this->errors_array = [];
+////        dd('test');
+//        if ($this->city) {
+//            $this->need_delivery = true;
+//        } else {
+////            dd('test');
+//            array_push($this->errors_array, 'city');
+//            $this->need_delivery = false;
+//        }
     }
 
     public function to_checkout(Request $request)
@@ -282,15 +305,15 @@ class GoodCart extends Component
             array_push($this->errors_array, 'index');
         }
 
-            foreach ($this->cart_goods as $key => $cart_good) { // Обновляем кол-во оставшегося товара
-                $original_good = Good::where('id', $cart_good['id'])->first();
+        foreach ($this->cart_goods as $key => $cart_good) { // Обновляем кол-во оставшегося товара
+            $original_good = Good::where('id', $cart_good['id'])->first();
 
-                if($original_good['yc_actual_amount'] <> $cart_good['yc_actual_amount']) { // Если остаток не такой, уведомляем!
-                    $this->cart_goods[$key]['yc_actual_amount'] = $original_good['yc_actual_amount'];
-                    array_push($this->errors_array, 'update_goods_amounts');
-                }
-
+            if ($original_good['yc_actual_amount'] <> $cart_good['yc_actual_amount']) { // Если остаток не такой, уведомляем!
+                $this->cart_goods[$key]['yc_actual_amount'] = $original_good['yc_actual_amount'];
+                array_push($this->errors_array, 'update_goods_amounts');
             }
+
+        }
 
         if (empty($this->errors_array)) {
 
@@ -312,6 +335,10 @@ class GoodCart extends Component
                 ];
             }
 
+
+            if ($this->need_delivery && $this->city <> 'Красноярск' && $this->total_price < $this->delivery_price_treshhold) {
+                $this->total_price = $this->total_price + $this->delivery_price;
+            }
 
             $params = [
                 'OrderId' => $tink_order_id,

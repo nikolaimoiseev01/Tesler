@@ -52,6 +52,42 @@
         </a>
     </div>
 
+    <div class="card">
+        <div class="d-flex align-items-center card-header p-2">
+            <h1 style="font-size: 22px;" class="ml-3">Все опции</h1>
+        </div>
+        <div class="card-body">
+            <table class="table table-hover text-nowrap">
+                <thead>
+                <tr>
+                    <th>Шаг 1</th>
+                    <th>Шаг 2</th>
+                    <th>Шаг 3</th>
+                    <th>Услуги</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($options as $option)
+                    <tr>
+                        <td>{{$option['step_1']}}</td>
+                        <td>{{$option['step_2']}}</td>
+                        <td>{{$option['step_3']}}</td>
+                        <td>
+                            @if($option['services'])
+                                @foreach($option['services'] as $service)
+                                    @if($service > 0)
+                                        {{Str::limit(\App\Models\Service::where('id', $service)->first()['name'], 15, '...')}} ||
+                                    @endif
+                                @endforeach
+                            @endif
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+
     @push('scripts')
         <script>
             $('#service_to_add').on('change', function () {

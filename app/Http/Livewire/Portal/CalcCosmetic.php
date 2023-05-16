@@ -12,44 +12,56 @@ class CalcCosmetic extends Component
     public $step_2;
     public $step_3;
 
-    protected $listeners = ['refreshCalcCosmetic' => '$refresh', 'make_option'];
+    public $step = 1;
+
+    public $services;
+    public $has_services;
+
+    protected $listeners = ['refreshCalcCosmetic' => '$refresh', 'next_step_cosmetic'];
 
     public function render()
     {
         return view('livewire.portal.calc-cosmetic');
     }
 
+
     public function mount()
     {
         $this->options = \App\Models\CalcCosmetic::orderBy('id')->get();
     }
 
-    public function make_option()
+
+    public function change_slide($dir)
     {
-
-        $this->option = \App\Models\CalcCosmetic::where('step_1', $this->step_1)
-            ->where('step_2', $this->step_2)
-            ->where('step_3', $this->step_3)
-            ->first();
-
-//        dd(array_column($this->option['services'], 'name'));
-        if ($this->option['services'] ?? null) {
-            $option_steps = $this->step_1 . ' -> ' . $this->step_2 . ' -> ' . $this->step_3;
-            $services = $this->option['services'];
-        } elseif ($this->step_1 === null || $this->step_2 === null || $this->step_3 === null) {
-            $option_steps = 'Сначала сделайте выбор на всех шагах!';
-            $services[] = ['id' => 999999, 'name' => ''];
+        if (($this->step == 1 && $dir == -1) || ($this->step == 4 && $dir == 1)) {
         } else {
-            $option_steps = $this->step_1 . ' -> ' . $this->step_2 . ' -> ' . $this->step_3;
-            $services[] = ['id' => 999999, 'name' => 'Вам подходят все наши услуги!'];
+            $this->step = $this->step + $dir;
         }
-
-
-        $this->dispatchBrowserEvent('update_option', [
-            'services' => $services,
-            'option_steps' => $option_steps
-        ]);
-
-//        dd($step_1, $step_2, $step_3);
     }
+
+    public function next_step_cosmetic() {
+        $this->step = $this->step + 1;
+    }
+
+    public function dehydrate()
+    {
+        if ($this->step_1 && $this->step_2 && $this->step_3) { // Если все выбрали
+            $option = \App\Models\CalcCosmetic::where('step_1', $this->step_1)
+                ->where('step_2', $this->step_2)
+                ->where('step_3', $this->step_3)
+                ->first();
+            if ($option['services']) {
+                $this->has_services = 1;
+                $this->services = $option['services'];
+            } else {
+                $this->has_services = 2;
+
+            }
+        } else {
+            $this->has_services = 3;
+        }
+    }
+
+
+
 }

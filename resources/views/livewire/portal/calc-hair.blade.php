@@ -112,6 +112,12 @@
 
             // ----------------------------------------------
 
+            $('.calc_hair_wrap input').on('change', function() {
+                setTimeout(() => {
+                @this.emit('next_step_hair')
+                }, 300);
+            })
+
             document.addEventListener('livewire:update', function () {
                 var maxHeight = -1;
                 $('.calc_hair_wrap .steps_wrap .step_wrap').each(function () {

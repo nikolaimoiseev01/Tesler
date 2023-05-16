@@ -221,6 +221,17 @@ $('#good_cart_bottom_button').on('click', function (event) {
     event.preventDefault();
     $('.cart_block_wrap').show("slide", {direction: "right"});
 })
+
+$(document).mouseup(function(e)
+{
+    var container = $(".cart_block_wrap");
+
+    if (!container.is(e.target) && container.has(e.target).length === 0)
+    {
+        $('.cart_block_wrap').hide("slide", {direction: "right"});
+    }
+});
+
 $('#good_cart_header_button, .cart_wrap .close_cross').on('click', function () {
     $('.cart_block_wrap').toggle("slide", {direction: "right"});
 })

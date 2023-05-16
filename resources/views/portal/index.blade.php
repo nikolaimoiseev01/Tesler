@@ -102,7 +102,7 @@
             </div>
             <div class="image">
                 <img src="/media/media_fixed/calc_cosmetic.png" alt="">
-                <x-ui.link modal-id="calc_cosmetic" class="link-bg coal modal-link">Рассчитать окрашивание</x-ui.link>
+                <x-ui.link modal-id="calc_cosmetic" class="link-bg coal modal-link">Подобрать процедуру</x-ui.link>
             </div>
 
         </div>
