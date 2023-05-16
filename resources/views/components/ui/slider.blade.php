@@ -37,15 +37,15 @@
                     <img src="{{$card->getFirstMediaUrl('promo_pics')}}" alt="">
                     <p>{{$card['type']}}</p>
                 </div>
-                <div x-data="{ open_{{$card['id']}}: false }" class="text">
+                <div class="text">
                     <div>
                         <p>{{$card['title']}}</p>
 
                         <p>
-                           <span x-show="!open_{{$card['id']}}">{{Str::limit($card['desc'], 90, '')}}</span>
+                           <span id="show_less_{{$card['id']}}">{{Str::limit($card['desc'], 90, '')}}</span>
                             @if (Str::length($card['desc']) > 90)
-                                <span x-show="open_{{$card['id']}}">{{ $card['desc'] }}</span>
-                                <a class="dots" @click="open_{{$card['id']}} = !open_{{$card['id']}}">...</a>
+                                <span style="display: none;" id="show_more_{{$card['id']}}">{{ $card['desc'] }}</span>
+                                <a class="dots" data-show="{{$card['id']}}">...</a>
                             @endif
                         </p>
                     </div>
@@ -55,12 +55,18 @@
 
             </div>
         @endforeach
+
+
     </div>
 </div>
 
 @push('scripts')
     <script>
-
+        $('.dots').on('click', function() {
+            id = $(this).attr('data-show')
+            $('#show_less_' + id).toggle();
+            $('#show_more_' + id).toggle();
+        })
     </script>
 
     <script>
