@@ -62,11 +62,15 @@
 
 @push('scripts')
     <script>
-        $('.dots').on('click', function() {
-            id = $(this).attr('data-show')
-            $('#show_less_' + id).toggle();
-            $('#show_more_' + id).toggle();
-        })
+        $( document ).ready(function() {
+            $('.dots').on('click', function() {
+                id = $(this).attr('data-show')
+                console.log(id)
+                $('#show_less_' + id).toggle();
+                $('#show_more_' + id).toggle();
+            })
+        });
+
     </script>
 
     <script>
