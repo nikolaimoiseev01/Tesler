@@ -6,7 +6,7 @@
                        wire:model="search_input" id="own_book_input_search" name="own_book_input_search"
                        type="text">
 
-                <a id="own_book_input_search_link" href="">
+                <a id="own_book_input_search_link">
                     <svg width="15px" viewBox="0 0 612 612.01">
                         <g id="_4" data-name="4">
                             <path
@@ -148,6 +148,7 @@
                     <a wire:click.prevent="clear_filters" class="clear_filters coal link">Сбросить фильтры</a>
                 @endif
             @endif
+
 
         </div>
 
