@@ -912,6 +912,10 @@
                 flex-wrap: wrap;
                 a {
                     color: white;
+
+                    &:hover {
+                        background: $color-fern-120;
+                    }
                 }
             }
 

@@ -71,8 +71,8 @@
                         Запишитесь на бесплатную консультацию к нашим мастерам.
                     </p>
                     <div class="go_buttons">
-                        <a href="{{$result_link}}" target="_blank" class="link coal">Записаться</a>
-                        <a modal-id="consult_modal" class="need-consult link coal">Получить консультацию</a>
+                        <a href="{{$result_link}}" target="_blank" class="link-bg fern">Записаться</a>
+                        <a modal-id="consult_modal" class="need-consult link-bg fern">Получить консультацию</a>
                     </div>
                 @else
                     <h2 style="color: white">
