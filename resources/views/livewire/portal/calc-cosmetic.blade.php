@@ -17,7 +17,7 @@
             <div id="step_wrap_2" class="step_wrap @if($step === 2) active @endif">
                 <h2>Какой у вас тип кожи?</h2>
                 <div class="filter_wrap check_box_filter_wrap">
-                    @foreach($options->pluck('step_2')->unique() as $option)
+                    @foreach($options_step_2 as $option)
                         <div>
                             <label for="{{$option}}"><p>{{$option}}</p></label>
                             <input wire:model="step_2" type="radio" name="step_2" id="{{$option}}"
