@@ -15,7 +15,7 @@
             </div>
 
             <label class="mt-3" for="">Процедуры в итоге этого варианта: </label>
-            @if ($cur_option['services'] !== null)
+            @if ($cur_option['services'] ?? null !== null)
                 <div>
 
                     @foreach($cur_option['services'] as $cur_option_service)
