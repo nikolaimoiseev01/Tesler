@@ -20,7 +20,7 @@
                 <div class="info">
                     <h2>{{$course['title']}}</h2>
                     <p>{{$course['desc_small']}}</p>
-                    <a modal-id="course_app_modal" class="modal-link link-bg coal">Консультация</a>
+                    <a modal-id="course_app_modal" class="modal-link link-bg coal">Записаться</a>
                 </div>
 
                 <div class="examples_wrap">
