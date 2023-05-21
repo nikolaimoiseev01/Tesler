@@ -95,7 +95,7 @@
                                             <option value="" hidden>Выберите тип</option>
                                         @endif
                                         @foreach($good_types as $good_type)
-                                            <option value="{{$good_type['id']}}">{{$good_type['title']}}
+                                            <option value="{{$good_type['title']}}">{{$good_type['title']}}
                                             </option>
                                         @endforeach
                                     </select>
