@@ -9,7 +9,10 @@
         <x-ui.menu color="#111010"></x-ui.menu>
 
         <div class="content g_bread_wrap">
-            <a href="{{route('market_page')}}" class="link coal">Магазин</a> / <a href="{{route('good_category_page', $good['good_category_id'][0])}}" class="link coal">{{\App\Models\GoodCategory::where('id', $good['good_category_id'][0])->first(['title'])->title}}</a> / <p>{{$good['name']}}</p>
+            <a href="{{route('market_page')}}" class="link coal">Магазин</a> / <a
+                href="{{route('good_category_page', $good['good_category_id'][0])}}"
+                class="link coal">{{\App\Models\GoodCategory::where('id', $good['good_category_id'][0])->first(['title'])->title}}</a>
+            / <p>{{$good['name']}}</p>
         </div>
 
 
@@ -44,13 +47,16 @@
             @endpush
 
             <div class="info">
-{{--                <p>{{\App\Models\GoodCategory::where('id', $good['good_category_id'][0])->first(['title'])->title}}</p>--}}
+                {{--                <p>{{\App\Models\GoodCategory::where('id', $good['good_category_id'][0])->first(['title'])->title}}</p>--}}
                 <p>{{$good['product_type']}}</p>
                 <h2>{{$good['name']}}</h2>
                 @if(Auth::check())
                     <a href="{{route('good.edit', $good['id'])}}" class="link coal">Страница в Админке</a>
                 @endif
-{{--                <p>{{$good['desc_small']}}</p>--}}
+                @if($good['desc_small'])
+                    <p>{{$good['desc_small']}}</p>
+                @endif
+
                 <div>
                     @if($good['brand'])
                         <span class="yellow_info">
@@ -111,7 +117,7 @@
                         <p class="desc">{{$good['desc']}}</p>
                         @if(json_decode($good['specs_detailed']) != null)
                             <p class="title">Подробныые характеристики</p>
-q
+                            q
                             <div class="specs_detailed_wrap">
                                 @foreach(json_decode($good['specs_detailed']) as $spec)
                                     <div class="spec_detailed_wrap">
