@@ -117,7 +117,6 @@
                         <p class="desc">{{$good['desc']}}</p>
                         @if(json_decode($good['specs_detailed']) != null)
                             <p class="title">Подробныые характеристики</p>
-                            q
                             <div class="specs_detailed_wrap">
                                 @foreach(json_decode($good['specs_detailed']) as $spec)
                                     <div class="spec_detailed_wrap">
