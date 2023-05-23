@@ -38,8 +38,8 @@
                     name="pic_goodcategory"
                     id="pic_goodcategory"
                     data-allow-reorder="true"
-                    data-max-file-size="3MB"
-                    data-max-files="3">
+                    data-max-file-size="30MB"
+                    data-max-files="30">
             </div>
         </div>
 
@@ -77,8 +77,8 @@
                     name="pic_goodcategory_small"
                     id="pic_goodcategory_small"
                     data-allow-reorder="true"
-                    data-max-file-size="3MB"
-                    data-max-files="3">
+                    data-max-file-size="30MB"
+                    data-max-files="30">
             </div>
         </div>
 

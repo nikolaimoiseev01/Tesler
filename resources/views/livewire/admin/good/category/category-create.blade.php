@@ -18,8 +18,8 @@
                name="pic_goodcategory"
                id="pic_goodcategory"
                data-allow-reorder="true"
-               data-max-file-size="3MB"
-               data-max-files="3">
+               data-max-file-size="30MB"
+               data-max-files="30">
 
         <input type="file"
                wire:model="pic_goodcategory_small"
@@ -27,8 +27,8 @@
                name="pic_goodcategory_small"
                id="pic_goodcategory_small"
                data-allow-reorder="true"
-               data-max-file-size="3MB"
-               data-max-files="3">
+               data-max-file-size="30MB"
+               data-max-files="30">
 
         <button type="submit" class="w-100 show_preloader_on_click btn btn-outline-primary">Сохранить</button>
 
