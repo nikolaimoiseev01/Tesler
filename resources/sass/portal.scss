@@ -2128,7 +2128,7 @@
         margin-top: 96px;
 
         @media(max-width: 866px) {
-            justify-content: center;
+            //justify-content: center;
         }
 
         @media(max-width: 1400px) {
@@ -2137,6 +2137,10 @@
 
         @media(max-width: $media-tablets-768) {
             gap: 20px;
+        }
+
+        @media(max-width: $media-mobiles-480) {
+            //gap: 10px;
         }
 
         .category_filter_wrap {
@@ -2154,17 +2158,17 @@
             @media(max-width: 1400px) {
                 width: 220px;
                 height: 220px;
+
             }
 
-            @media(max-width: $media-tablets-768) {
-                width: 45%;
+            @media(max-width: $media-laptops-1024) {
+                width: 47%;
                 height: 40vw;
-                //height: 170px;
             }
 
             @media(max-width: $media-mobiles-480) {
-                width: 45%;
-                //height: 130px;
+                //width: 46%;
+                //height: 40vw;
             }
 
 

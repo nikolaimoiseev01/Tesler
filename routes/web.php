@@ -113,7 +113,7 @@ Route::prefix('admin_panel')
         })->name('order.index');
 
         Route::get('/promocodes', function () {
-            return view('admin.promocodes-index');
+            return view('admin.promocodes');
         })->name('promocodes.index');
 
         Route::get('/courses', [App\Http\Controllers\Admin\AdminController::class, 'Course_index'])->name('course.index');
