@@ -255,6 +255,7 @@ class PortalController extends Controller
 
 
         $categories = GoodCategory::whereIn('id', $goods_with_categories)
+            ->orderBy('position')
             ->get();
 
         $abon_page_check = false;
