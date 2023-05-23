@@ -112,6 +112,10 @@ Route::prefix('admin_panel')
             return view('admin.order.order-index');
         })->name('order.index');
 
+        Route::get('/promocodes', function () {
+            return view('admin.promocodes-index');
+        })->name('promocodes.index');
+
         Route::get('/courses', [App\Http\Controllers\Admin\AdminController::class, 'Course_index'])->name('course.index');
         Route::get('/courses/{course_id}', [App\Http\Controllers\Admin\AdminController::class, 'Course_edit'])->name('course.edit');
 

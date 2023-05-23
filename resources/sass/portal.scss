@@ -2157,13 +2157,14 @@
             }
 
             @media(max-width: $media-tablets-768) {
-                width: 161px;
-                height: 170px;
+                width: 45%;
+                height: 40vw;
+                //height: 170px;
             }
 
             @media(max-width: $media-mobiles-480) {
-                width: 130px;
-                height: 130px;
+                width: 45%;
+                //height: 130px;
             }
 
 

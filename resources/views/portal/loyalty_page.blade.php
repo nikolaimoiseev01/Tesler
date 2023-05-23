@@ -67,6 +67,13 @@
             </x-ui.gallery>
         </div>
 
+        <div class="s_desc content two_parts_block_wrap">
+            <div class="left"></div>
+            <div class="right">
+                <h2>СКИДКА до 10% НА ПЕРВЫЙ ВИЗИТ</h2>
+                <p>Прекрасная возможность выгодно посетить сразу несколько процедур. Скидка 5% на окрашивание и уходы для волос, 10% – на все остальные услуги салона.</p>
+            </div>
+        </div>
 
         <x-ui.preview-cta
             title="абонементы"
