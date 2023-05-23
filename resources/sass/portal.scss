@@ -2640,6 +2640,12 @@
             font-size: 32px;
         }
     }
+
+    .interior_pics {
+        @media(max-width: $media-tablets-768) {
+            margin-top: 0;
+        }
+    }
 }
 
 .delivery_wrap {
