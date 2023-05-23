@@ -2835,6 +2835,10 @@
     .info {
         max-width: 50%;
 
+        @media(max-width: $media-tablets-768) {
+            max-width: 80%;
+        }
+
 
         p-400 {
             margin-top: 40px;
