@@ -6,7 +6,7 @@
     <div class="loyalty_page_wrap market_page_wrap">
         <x-ui.menu color="white"></x-ui.menu>
         <div class="page_cover image_blackout">
-            <img src="/media/media_fixed/loyalty_cover.png" alt="">
+            <img src="/media/media_fixed/loyalty_cover.jpeg" alt="">
         </div>
         <div class="content loaylty_info_wrap">
             <div class="info">
