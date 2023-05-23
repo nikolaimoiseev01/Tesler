@@ -2845,12 +2845,20 @@
             max-width: 500px;
             display: inline-block;
         }
+
+
     }
 
     .right_wrap {
         display: flex;
         flex-direction: column;
         gap: 16px;
+
+        a {
+            @media(max-width: $media-tablets-768) {
+                width: 100%;
+            }
+        }
     }
 }
 
