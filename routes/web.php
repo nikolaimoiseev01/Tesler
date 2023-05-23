@@ -112,7 +112,7 @@ Route::prefix('admin_panel')
             return view('admin.order.order-index');
         })->name('order.index');
 
-        Route::get('/promocodes', function () {
+        Route::get('/code_promo', function () {
             return view('admin.promocodes');
         })->name('promocodes.index');
 

@@ -30,11 +30,14 @@
                             <p class="category">
                                 {{\App\Models\GoodCategory::where('id', $cart_good['good_category_id'][0])->first(['title'])->title}}
                             </p>
-                            <a href="{{route('good_page', $cart_good['id'])}}"><p
-                                    class="name">{{$cart_good['name']}}</p></a>
+                            <a href="{{route('good_page', $cart_good['id'])}}">
+                                <p class="name">{{$cart_good['name']}}</p>
+                                <p class="mobile name">
+                                    {{Str::limit(Str::ucfirst(Str::lower($cart_good['name'])), 15, '...')}}</p>
+                            </a>
                             <div class="spec_wrap">
                                 {{--                                <p class="spec">{{$cart_good['capacity']}} {{$cart_good['capacity_type']}}</p>--}}
-                                <p class="spec">{{$cart_good['yc_actual_amount']}} в наличии</p>
+{{--                                <p class="spec">{{$cart_good['yc_actual_amount']}} в наличии</p>--}}
                                 <p class="price">{{$cart_good['yc_price']}} ₽/шт.</p>
                             </div>
 
@@ -52,10 +55,44 @@
                     </div>
                 @endforeach
             </div>
+            <div class="input_wrap">
+                <input
+                    wire:model="promocode"
+                    id="promocode"
+                    name="promocode"
+                    required
+                    type="text"
+                    style="direction: ltr;"
+                    placeholder="Введите промокод">
+                <svg wire:click="applyPromo" width="18" height="15" viewBox="0 0 18 15" fill="none"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M9.05243 1.46367L14.259 6.67023H0.4375V8.3369H14.259L9.05243 13.5434L10.2309 14.7219L17.4494 7.50356L10.2309 0.285156L9.05243 1.46367Z"
+                        fill="#111010" fill-opacity="0.3"/>
+                </svg>
+            </div>
+
             <div class="total_price_wrap">
-                <p>СУММА ЗАКАЗА</p>
+                <p>Стоимость</p>
                 <hr>
-                <p>{{$total_price}} ₽</p>
+                <p class="number"><b>{{$total_price}} ₽</b></p>
+            </div>
+
+            <div class="total_price_wrap">
+                <p>Скидка</p>
+                <hr>
+                <p class="number"><b>{{$total_price * ($discount/100)}} ₽ ({{$discount}}%)</b></p>
+            </div>
+
+            <div class="result_price_wrap total_price_wrap">
+                <p class="yellow_info">итого</p>
+                <div>
+                    @if($discount > 0)
+                        <h2 class="before_price">{{$total_price}} ₽</h2>
+                    @endif
+                    <h2 class="number">{{$total_price * ((100 - $discount)/100)}} ₽</h2>
+                </div>
+
             </div>
 
             <p class="amount_error">
@@ -76,12 +113,16 @@
                 <p><b>ДОСТАВКА</b></p>
                 <p>
                     По Красноярску день в день! Бесплатная доставка при сумме заказа от 3 500 рублей. При сумме заказа
-                    меньше 3 500 рублей — 600 рублей в любой город России.
+                    меньше 3 500 рублей — за ваш счёт по актуальному прайсу Яндекс-доставки.
+                    <br><br>
+                    По всей России курьерской службой СДЭК, от 6000 рублей — бесплатно.
                 </p>
             </div>
 
             <a wire:click.prevent="good_cart_remove_all()" class="remove_all link fern">Удалить все товары</a>
         @endif
+
+
 
         @if($show_take_option)
             <div class="buyer_info_wrap">
@@ -136,9 +177,14 @@
                     <input type="checkbox" id="need_delivery" wire:model="need_delivery"
                            value="1">
                     <label for="need_delivery"><p>Требуется доставка
-                            @if($this->need_delivery && $this->city <> 'Красноярск' && $this->total_price < $this->delivery_price_treshhold)
+                            @if($this->need_delivery
+                && (($this->city <> 'Красноярск' && $this->total_price < $this->delivery_price_treshhold)
+                || ($this->city == 'Красноярск' && $this->total_price < $this->delivery_price_treshhold_home))
+                )
                                 (+ {{$delivery_price}} руб.)
-                            @elseif($this->need_delivery && ($this->city == 'Красноярск' || $this->total_price >= $this->delivery_price_treshhold))
+                            @elseif($this->need_delivery
+                && (($this->city <> 'Красноярск' && $this->total_price >= $this->delivery_price_treshhold)
+                || ($this->city == 'Красноярск' && $this->total_price >= $this->delivery_price_treshhold_home)))
                                 (бесплатно)
                             @endif
                         </p></label>
@@ -157,22 +203,26 @@
                             wire:model="address" id="address" name="address" required type="text"
                             placeholder="Адрес">
                     </div>
-                    <div class="input_wrap">
-                        <label for="index"><p>Индекс</p></label>
-                        <input
-                            @if($errors_array)
-                            @if (in_array("index", $errors_array))
-                            class="invalid"
-                            @endif
-                            @endif
-                            wire:model="index" id="index" name="index" required type="text" placeholder="Индекс">
-                    </div>
+                    {{--                    <div class="input_wrap">--}}
+                    {{--                        <label for="index"><p>Индекс</p></label>--}}
+                    {{--                        <input--}}
+                    {{--                            @if($errors_array)--}}
+                    {{--                            @if (in_array("index", $errors_array))--}}
+                    {{--                            class="invalid"--}}
+                    {{--                            @endif--}}
+                    {{--                            @endif--}}
+                    {{--                            wire:model="index" id="index" name="index" required type="text" placeholder="Индекс">--}}
+                    {{--                    </div>--}}
 
                 @endif
 
                 <div class="buttons_wrap">
-                    <a wire:click.prevent="to_checkout()" class="link-bg fern">ОПЛАТИТЬ {{$total_price}}
-                        @if($this->need_delivery && $this->city <> 'Красноярск' && $this->total_price < $this->delivery_price_treshhold)
+                    <a wire:click.prevent="to_checkout()"
+                       class="link-bg fern">ОПЛАТИТЬ {{$total_price * ((100 - $discount)/100)}}
+                        @if($this->need_delivery
+                && (($this->city <> 'Красноярск' && $this->total_price < $this->delivery_price_treshhold)
+                || ($this->city == 'Красноярск' && $this->total_price < $this->delivery_price_treshhold_home))
+)
                             (+ {{$delivery_price}})
                         @endif ₽</a>
                 </div>
@@ -190,7 +240,9 @@
             document.addEventListener('open_url_new_tab', function (event) {
                 window.open(event.detail.url, '_blank')
             })
-
         </script>
+
+
+
     @endpush
 </div>

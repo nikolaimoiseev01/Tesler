@@ -21,10 +21,24 @@
                                 {{$order['tinkoff_order_id']}}
                             </td>
                         </tr>
+                        @if($order['promocode'])
+                            <tr>
+                                <td style="font-weight: bold">Промокод</td>
+                                <td>
+                                    {{$order['promocode']}}
+                                </td>
+                            </tr>
+                        @endif
                         <tr>
                             <td style="font-weight: bold">Tinkoff статус</td>
                             <td>
                                 {{$order['tinkoff_status']}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold">Полная стоимость с учетом промокода</td>
+                            <td>
+                                {{$order['price'] / 100}} руб.
                             </td>
                         </tr>
                         <tr>
@@ -43,11 +57,11 @@
                         <tr>
                             <td style="font-weight: bold">Получение</td>
                             <td><b>
-                                @if($order['need_delivery'] == 1)
-                                    Нужна доставка
-                                @else
-                                    Самостоятельно
-                                @endif
+                                    @if($order['need_delivery'] == 1)
+                                        Нужна доставка
+                                    @else
+                                        Самостоятельно
+                                    @endif
                                 </b>
                             </td>
                         </tr>
@@ -64,9 +78,11 @@
                                 <td style="font-weight: bold">Статус отправления</td>
                                 <td>
                                     <div class="form-group">
-                                        <select wire:change="make_deli_status" wire:model="deli_status" class="form-control">
+                                        <select wire:change="make_deli_status" wire:model="deli_status"
+                                                class="form-control">
                                             @foreach($deli_statuses_all as $deli_status)
-                                                <option value="{{$deli_status['id']}}">{{$deli_status['title']}}</option>
+                                                <option
+                                                    value="{{$deli_status['id']}}">{{$deli_status['title']}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -82,7 +98,7 @@
         </div>
 
 
-{{--        <a wire:click.prevent="make_selling()">Сделать складские операции</a>--}}
+        {{--        <a wire:click.prevent="make_selling()">Сделать складские операции</a>--}}
 
         <div class="col-md-6">
             <div style="max-width: 1000px;" class="card">

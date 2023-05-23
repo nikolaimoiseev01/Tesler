@@ -23,6 +23,7 @@ class Order extends Model
         'good_deli_status_id',
         'good_deli_track_number',
         'good_deli_price',
+        'promocode',
     ];
 
     protected $casts = [

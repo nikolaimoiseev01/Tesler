@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Portal;
 
 use App\Models\Good;
 use App\Models\Order;
+use App\Models\Promocode;
 use Illuminate\Http\Request;
 
 //use Kenvel\Tinkoff;
@@ -29,9 +30,9 @@ class GoodCart extends Component
     public $mobile;
     public $city;
     public $address;
-    public $index;
 
-    public $delivery_price_treshhold = 3500;
+    public $delivery_price_treshhold = 6000;
+    public $delivery_price_treshhold_home = 3500;
     public $delivery_price = 600;
 
     public $cart_goods_count;
@@ -40,6 +41,9 @@ class GoodCart extends Component
     public $cart_total;
 
     public $errors_array;
+
+    public $promocode;
+    public $discount = 0;
 
     protected $listeners = ['good_cart_add', 'update_good_buttons', 'show_red_cart_g'];
 
@@ -92,6 +96,17 @@ class GoodCart extends Component
 
         $request->session()->put('cart_goods', $this->cart_goods);
 
+
+    }
+
+    public function applyPromo() {
+        $dis = Promocode::where('title', $this->promocode)->first() ?? null;
+        if($dis) {
+           $this->discount = $dis['discount'];
+
+        } else {
+            $this->discount = 0;
+        }
 
     }
 
@@ -301,9 +316,7 @@ class GoodCart extends Component
             array_push($this->errors_array, 'address');
         }
 
-        if ($this->need_delivery == 1 && $this->index == null) {
-            array_push($this->errors_array, 'index');
-        }
+
 
         foreach ($this->cart_goods as $key => $cart_good) { // Обновляем кол-во оставшегося товара
             $original_good = Good::where('id', $cart_good['id'])->first();
@@ -330,19 +343,22 @@ class GoodCart extends Component
                 $tinkoff_good[] = [
                     'good_id' => $cart_good['id'],
                     'good_yc_id' => $cart_good['yc_id'],
-                    'good_price' => $cart_good['yc_price'],
+                    'good_price' => $cart_good['yc_price'] * ((100 - $this->discount)/100),
                     'amount' => $cart_good['sell_amount']
                 ];
             }
 
 
-            if ($this->need_delivery && $this->city <> 'Красноярск' && $this->total_price < $this->delivery_price_treshhold) {
+            if ($this->need_delivery
+                && (($this->city <> 'Красноярск' && $this->total_price < $this->delivery_price_treshhold)
+                || ($this->city == 'Красноярск' && $this->total_price < $this->delivery_price_treshhold_home))
+            ) {
                 $this->total_price = $this->total_price + $this->delivery_price;
             }
 
             $params = [
                 'OrderId' => $tink_order_id,
-                'Amount' => $this->total_price * 100,
+                'Amount' => ($this->total_price * ((100 - $this->discount)/100)) * 100,
                 'SuccessURL' => route('order_success_page', $tink_order_id),
                 'FailURL' => route('home'),
                 'DATA' => [
@@ -352,8 +368,7 @@ class GoodCart extends Component
                     'mobile' => $this->mobile,
                     'need_delivery' => $this->need_delivery,
                     'city' => $this->city,
-                    'address' => $this->address,
-                    'index' => $this->index
+                    'address' => $this->address
                 ],
             ];
             $api->init($params);
@@ -363,15 +378,15 @@ class GoodCart extends Component
                 Order::create([
                     'tinkoff_order_id' => $tink_order_id,
                     'tinkoff_status' => 'Платежная форма открыта',
-                    'price' => $this->total_price * 100,
+                    'price' => ($this->total_price * ((100 - $this->discount)/100)) * 100,
                     'goods' => json_encode($tinkoff_good),
                     'name' => $this->name,
                     'surname' => $this->surname,
+                    'promocode' => $this->promocode,
                     'mobile' => $this->mobile,
                     'need_delivery' => $this->need_delivery,
                     'city' => $this->city,
                     'address' => $this->address,
-                    'index' => $this->index,
                     'good_deli_status_id' => ($this->need_delivery) ? 1 : null
                 ]);
 

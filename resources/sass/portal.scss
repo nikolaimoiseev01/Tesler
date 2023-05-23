@@ -2907,6 +2907,10 @@
     display: flex;
     flex-direction: column;
 
+    @media(max-width: $media-tablets-768) {
+        padding: 20px;
+    }
+
     .buttons_wrap {
         span {
 
@@ -2989,6 +2993,7 @@
         max-height: 400px;
         overflow-y: auto;
         padding-left: 8px;
+        margin-bottom: 60px;
 
         &::-webkit-scrollbar-track {
             -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
@@ -3013,9 +3018,9 @@
             padding-right: 40px;
             align-items: center;
 
-            @media(max-width: $media-tablets-768) {
-                flex-direction: column;
-            }
+            //@media(max-width: $media-tablets-768) {
+            //    flex-direction: column;
+            //}
 
 
             .counter_wrap {
@@ -3024,10 +3029,10 @@
                 align-items: center;
                 flex-direction: column;
 
-                @media(max-width: $media-tablets-768) {
-                    flex-direction: row;
-                    order: 2;
-                }
+                //@media(max-width: $media-tablets-768) {
+                //    flex-direction: row;
+                //    order: 2;
+                //}
 
                 button {
                     width: 30px;
@@ -3042,6 +3047,11 @@
                     border: none;
                     outline: none;
 
+                    @media(max-width: $media-tablets-768) {
+                        width: 20px;
+                        height: 20px;
+                    }
+
                     &:hover {
                         background: $color-fern-100;
                         transition: .1s all ease-in-out;
@@ -3054,6 +3064,11 @@
                 width: 102px;
                 height: 102px;
                 object-fit: cover;
+
+                @media(max-width: $media-tablets-768) {
+                    width: 80px;
+                    height: 80px;
+                }
             }
 
             .info {
@@ -3074,10 +3089,24 @@
 
                 .name {
                     text-decoration: none;
-                    font-size: 18px;
+                    font-size: 16px;
                     color: $color-coal-100;
                     font-weight: 500;
+                    @media(max-width: $media-tablets-768) {
+                        display: none;
+                    }
 
+                    &.mobile {
+                        display: none;
+
+                        @media(max-width: $media-tablets-768) {
+                            display: inherit;
+                        }
+                    }
+
+                    @media(max-width: $media-tablets-768) {
+                        font-size: 16px;
+                    }
 
                 }
 
@@ -3085,6 +3114,10 @@
                     font-size: 20px;
                     color: $color-fern-100;
                     font-weight: 500;
+
+                    @media(max-width: $media-tablets-768) {
+                        font-size: 16px;
+                    }
                 }
 
 
@@ -3122,11 +3155,16 @@
     .total_price_wrap {
         display: flex;
         align-items: flex-end;
-        margin-top: 50px;
+        margin-top: 20px;
         direction: ltr;
 
         p {
-            font-size: 25px;
+            font-size: 14px;
+            color: $color-coal-60;
+        }
+
+        .number {
+            color: $color-coal-100;
         }
 
         hr {
@@ -3137,7 +3175,7 @@
             height: 1px;
             width: 50%;
             flex: 1;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
     }
 
@@ -3174,6 +3212,52 @@
 
     }
 
+    .input_wrap {
+        position: relative;
+
+
+        svg {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            cursor: pointer;
+            transform: translate(-50%, -50%);
+        }
+        input {
+            background: $color-stone-30;
+            color: $color-coal-100;
+
+            &::placeholder {
+                color: $color-coal-60;
+            }
+        }
+
+        label p {
+            color: $color-coal-100;
+        }
+    }
+
+    .result_price_wrap {
+        justify-content: space-between;
+        align-items: center;
+
+        div {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+
+            .before_price {
+                color: rgba(94, 94, 62, 0.4);
+                font-size: 24px;
+                text-decoration: line-through;
+            }
+        }
+
+        .number {
+            font-size: 42px;
+        }
+    }
+
     .buyer_info_wrap {
         direction: ltr;
         display: flex;
@@ -3185,20 +3269,7 @@
             font-size: 30px;
         }
 
-        .input_wrap {
-            input {
-                background: $color-stone-100;
-                color: $color-coal-100;
 
-                &::placeholder {
-                    color: $color-coal-60;
-                }
-            }
-
-            label p {
-                color: $color-coal-100;
-            }
-        }
     }
 
 
