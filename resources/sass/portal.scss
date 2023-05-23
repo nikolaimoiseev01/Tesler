@@ -3003,11 +3003,21 @@
             padding-right: 40px;
             align-items: center;
 
+            @media(max-width: $media-tablets-768) {
+                flex-direction: column;
+            }
+
+
             .counter_wrap {
                 display: flex;
                 gap: 5px;
                 align-items: center;
                 flex-direction: column;
+
+                @media(max-width: $media-tablets-768) {
+                    flex-direction: row;
+                    order: 2;
+                }
 
                 button {
                     width: 30px;
@@ -3041,6 +3051,10 @@
                 flex-direction: column;
                 flex: 1;
                 justify-content: space-between;
+
+                @media(max-width: $media-tablets-768) {
+                    order: 3;
+                }
 
                 .category {
                     font-size: 12px;
