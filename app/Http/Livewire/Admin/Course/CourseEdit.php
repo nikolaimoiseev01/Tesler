@@ -19,6 +19,8 @@ class CourseEdit extends Component
     public $learning;
     public $type;
     public $price;
+    public $staffs;
+    public $staff_id;
 
     public $course_examples;
 
@@ -33,11 +35,11 @@ class CourseEdit extends Component
     public function mount($course_id)
     {
         $this->course = Course::where('id', $course_id)->first();
+        $this->staffs = Staff::orderBy('yc_name')->get();
     }
 
     public function editcourse($formData)
     {
-
 
 // --------- Ищем ошибки в заполнении  --------- //
         $errors_array = [];
@@ -68,6 +70,10 @@ class CourseEdit extends Component
         }
         if ($formData['price'] == '') {
             array_push($errors_array, 'Цена не заполнена.');
+        }
+
+        if ($formData['staff_id'] == '') {
+            array_push($errors_array, 'Мастер курса не заполнен.');
         }
 
         if (!empty($errors_array)) {
@@ -125,7 +131,8 @@ class CourseEdit extends Component
                 'program' => $formData['program'],
                 'dates' => $formData['dates'],
                 'learning' => $formData['learning'],
-                'type' => $formData['type']
+                'type' => $formData['type'],
+                'staff_Id' => $formData['staff_id']
             ]);
 
 

@@ -27,6 +27,7 @@
                     <div>
                         <p>{{$category['desc']}}</p>
                     </div>
+                    <a href="#sp_services_block_{{$category['id']}}" class="link-bg coal">Записаться</a>
                 </div>
             </div>
             <img
@@ -69,7 +70,7 @@
             </div>
         @endif
 
-        <div class="sp_services_block">
+        <div id="sp_services_block_{{$category['id']}}" class="sp_services_block">
             @if(count(\App\Models\Service::where('scope_id', $scope['id'])->where('category_id', $category['id'])->get()) > 0)
                 <h2>{{$category['name']}}</h2>
                 @foreach(\App\Models\Group::whereIn('id', \App\Models\Service::where('scope_id', $scope['id'])
@@ -147,6 +148,36 @@
             @endif
         </div>
     @endforeach
+
+    <div class="content about_wrap">
+        <div class="text">
+            <p>КОНСУЛЬТАЦИЯ</p>
+            <h2> Не опредилились с выбором? </h2>
+            <div>
+                <p>Получите бесплатную онлайн-консультацию от специалистов Tesler и подберите услугу, подходящую именно
+                    вам
+                </p>
+            </div>
+            <a modal-id="consult_modal" class="modal-link link-bg fern">Бесплатная консультация</a>
+        </div>
+        <div class="image_blackout">
+            @if($scope['name'] == 'Подология')
+                <img src="/media/media_fixed/need_consultation_подология.jpg" alt="">
+            @elseif($scope['name'] == 'Перманент')
+                <img src="/media/media_fixed/need_consultation_перманент.jpg" alt="">
+            @elseif($scope['name'] == 'Брови Ресницы')
+                <img src="/media/media_fixed/need_consultation_брови.jpg" alt="">
+            @elseif($scope['name'] == 'Парикмахерские услуги')
+                <img src="/media/media_fixed/need_consultation_парикмахерские.jpg" alt="">
+            @elseif($scope['name'] == 'Косметология')
+                <img src="/media/media_fixed/need_consultation_косметология.jpg" alt="">
+            @else
+                <img src="/media/media_fixed/need_consultation.png" alt="">
+            @endif
+        </div>
+    </div>
+
+
     @push('scripts')
         <script>
             $('.group_title_wrap').on('click', function () {

@@ -1,15 +1,37 @@
 <div x-data="{ open: false }" class="menu_mobile_wrap" id="menuToggle">
-    <svg @click.prevent="open = true" width="18" height="12" viewBox="0 0 18 12" fill="none"
+    <svg class="menu_open_svg" @click.stop.prevent="open = true" width="18" height="12" viewBox="0 0 18 12" fill="none"
          xmlns="http://www.w3.org/2000/svg">
         <path d="M18 5H0V7H18V5Z" fill="#E3E396"/>
         <path d="M18 0H0V2H18V0Z" fill="#E3E396"/>
         <path d="M18 10H0V12H18V10Z" fill="#E3E396"/>
     </svg>
+    @push('scripts')
+        <script>
+            $('.menu_open_svg').on('click', function() {
+                $('.menu_mobile_content_back').fadeIn('fast')
+            })
 
-    <div :class="{ 'active': open }" class="menu_mobile">
+            $(document).mouseup(function(e)
+            {
+                var container = $(".menu_mobile");
+
+                if (!container.is(e.target) && container.has(e.target).length === 0)
+                {
+                    $('.menu_mobile_content_back').fadeOut('fast');
+                }
+            });
+
+            $('.menu_close_cross').on('click', function() {
+                $('.menu_mobile_content_back').fadeOut('fast')
+            })
+
+
+        </script>
+        @endpush
+    <div  @click.outside="open = false" :class="{ 'active': open }" class="menu_mobile">
         <div class="title_wrap">
             <h2>МЕНЮ</h2>
-            <svg @click.prevent="open = false" width="16" height="16" viewBox="0 0 16 16" fill="none"
+            <svg class="menu_close_cross" @click.prevent="open = false" width="16" height="16" viewBox="0 0 16 16" fill="none"
                  xmlns="http://www.w3.org/2000/svg">
                 <path
                     d="M0.118418 14.3638L6.48238 7.99988L0.118408 1.63591L1.53263 0.2217L7.89658 6.58568L14.2605 0.22168L15.6748 1.6359L9.31078 7.99988L15.6747 14.3638L14.2605 15.7781L7.89658 9.41408L1.53263 15.778L0.118418 14.3638Z"
@@ -41,7 +63,6 @@
                 @push('scripts')
                     <script>
                         $('.scopes_title_wrap').on('click', function () {
-                            console.log('test');
                             $('#scopes_links_wrap').slideToggle();
                         })
                     </script>
@@ -68,7 +89,7 @@
             </div>
 
             <div class="info">
-                <p>09:00</p>
+                <p>09:00–21:00</p>
                 <p>Красноярск, ул. Авиаторов, д. 21</p>
                 <p>+7 (391) 214-70-06</p>
             </div>

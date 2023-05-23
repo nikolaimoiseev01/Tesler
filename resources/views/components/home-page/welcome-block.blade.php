@@ -5,7 +5,7 @@
 
     <div class="welcome_cta_wrap">
         <x-logo/>
-        <x-ui.link modal-id="consult_modal" class="modal-link link-bg fern"> Бесплатная консультация</x-ui.link>
+        <x-ui.link modal-id="consult_modal" class="modal-link link-bg fern">Записаться</x-ui.link>
     </div>
 
 </section>

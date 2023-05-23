@@ -24,4 +24,8 @@ class Course extends Model implements HasMedia
     ];
 
     use HasFactory;
+
+    public function Staff() {
+        return $this->belongsTo(Staff::class);
+    }
 }

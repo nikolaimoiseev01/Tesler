@@ -150,23 +150,23 @@ class ServiceEdit extends Component
 //        if ($this->service->getMedia('pic_proccess')->count() == 0 && !$this->pic_proccess) {
 //            array_push($errors_array, 'Изображение процесса не загружено!');
 //        }
-        if ($this->desc_small == null) {
-            array_push($errors_array, 'Маленькое описание не заполнено!');
-        }
-
-        if ($this->desc == null) {
-            array_push($errors_array, 'Описание не заполнено!');
-        }
-        if ($this->proccess == null) {
-            array_push($errors_array, 'Процесс не заполнен!');
-        }
-        if ($this->result == null) {
-            array_push($errors_array, 'Результат не заполнен!');
-        }
-
-        if ($this->service_type == null) {
-            array_push($errors_array, 'Тип услуги не выбран!');
-        }
+//        if ($this->desc_small == null) {
+//            array_push($errors_array, 'Маленькое описание не заполнено!');
+//        }
+//
+//        if ($this->desc == null) {
+//            array_push($errors_array, 'Описание не заполнено!');
+//        }
+//        if ($this->proccess == null) {
+//            array_push($errors_array, 'Процесс не заполнен!');
+//        }
+//        if ($this->result == null) {
+//            array_push($errors_array, 'Результат не заполнен!');
+//        }
+//
+//        if ($this->service_type == null) {
+//            array_push($errors_array, 'Тип услуги не выбран!');
+//        }
 
 
         if (!empty($errors_array)) {
@@ -235,21 +235,21 @@ class ServiceEdit extends Component
 //        if ($this->service->getMedia('pic_proccess')->count() == 0 && !$this->pic_proccess) {
 //            array_push($errors_array, 'Изображение процесса не загружено!');
 //        }
-        if ($this->desc_small == null) {
-            array_push($errors_array, 'Маленькое описание не заполнено!');
-        }
-        if ($this->desc == null) {
-            array_push($errors_array, 'Описание не заполнено!');
-        }
-        if ($this->proccess == null) {
-            array_push($errors_array, 'Процесс не заполнен!');
-        }
-        if ($this->service_type == null) {
-            array_push($errors_array, 'Тип услуги не выбран!');
-        }
-        if ($this->result == null) {
-            array_push($errors_array, 'Результат не заполнен!');
-        }
+//        if ($this->desc_small == null) {
+//            array_push($errors_array, 'Маленькое описание не заполнено!');
+//        }
+//        if ($this->desc == null) {
+//            array_push($errors_array, 'Описание не заполнено!');
+//        }
+//        if ($this->proccess == null) {
+//            array_push($errors_array, 'Процесс не заполнен!');
+//        }
+//        if ($this->service_type == null) {
+//            array_push($errors_array, 'Тип услуги не выбран!');
+//        }
+//        if ($this->result == null) {
+//            array_push($errors_array, 'Результат не заполнен!');
+//        }
 
 
         if (!empty($errors_array)) {

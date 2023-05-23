@@ -110,8 +110,11 @@
 
     <x-home-page.scopes :scopes="$scopes"></x-home-page.scopes>
 
-    <div class="partners_block">
+{{--    <div class="promo_slider">--}}
+{{--        <x-ui.video-slider></x-ui.video-slider>--}}
+{{--    </div>--}}
 
+    <div class="partners_block">
         <div class="parnters_wrap">
             <h1 class="content">Выбираем работать с лучшими</h1>
             <div class="content">
@@ -123,7 +126,43 @@
                 <img src="/media/media_fixed/logo_zeilinski.jpg" alt="">
             </div>
         </div>
+    </div>
 
+    <x-ui.preview-cta
+        title="SHOP-сеты из  любимых продуктов TESLER"
+        link="{{route('market_page')}}"
+        :cards="$shopsets"></x-ui.preview-cta>
+
+    <div id="courses_main_page" class="content courses_wrap about_wrap">
+        <div class="text">
+            <p>бьюти-обучение</p>
+            <h2> Получи новые знания в салоне Tesler </h2>
+            <div>
+                <p><br>
+                    Мы регулярно проводим курсы как для тех, кто хочет освоить профессию с нуля, так и для уже
+                    работающих мастеров, желающих обновить знания.
+                </p>
+                <p>
+                    Выдаем сертификат и даем рассрочку на 4 месяца без %.
+                </p>
+            </div>
+
+            <div class="buttons_wrap">
+                @foreach($courses as $course)
+                    <div onclick="location.href='{{route('course_page', $course['id'])}}';" class="button">
+                        <svg width="22" height="19" viewBox="0 0 22 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M11.1077 2.25602L17.3556 8.50389H0.769775V10.5039H17.3556L11.1077 16.7517L12.5219 18.1659L21.184 9.50389L12.5219 0.841797L11.1077 2.25602Z"
+                                fill="#DDDDD5"/>
+                        </svg>
+
+                        <h2>{{$course['title']}}</h2>
+                        <p>{{$course['type']}}</p>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+        <img src="/media/media_fixed/courses_main.png" alt="">
     </div>
 
     <div class="reviews_block">
@@ -184,39 +223,7 @@
         </div>
     </div>
 
-    <x-ui.preview-cta
-        title="SHOP-сеты из  любимых продуктов TESLER"
-        link="{{route('market_page')}}"
-        :cards="$shopsets"></x-ui.preview-cta>
 
-    <div id="courses_main_page" class="content courses_wrap about_wrap">
-        <div class="text">
-            <p>бьюти-обучение</p>
-            <h2> Получи новые знания в салоне Tesler </h2>
-            <div>
-                <p><br>
-                    Мы регулярно проводим курсы как для тех, кто хочет освоить профессию с нуля, так и для уже работающих мастеров, желающих обновить знания.
-            </p>
-                <p>
-                    Выдаем сертификат и даем рассрочку на 4 месяца без %.
-                </p>
-            </div>
-
-            <div class="buttons_wrap">
-                @foreach($courses as $course)
-                <div onclick="location.href='{{route('course_page', $course['id'])}}';"  class="button">
-                    <svg width="22" height="19" viewBox="0 0 22 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M11.1077 2.25602L17.3556 8.50389H0.769775V10.5039H17.3556L11.1077 16.7517L12.5219 18.1659L21.184 9.50389L12.5219 0.841797L11.1077 2.25602Z" fill="#DDDDD5"/>
-                    </svg>
-
-                    <h2>{{$course['title']}}</h2>
-                    <p>{{$course['type']}}</p>
-                </div>
-                @endforeach
-            </div>
-        </div>
-        <img src="/media/media_fixed/courses_main.png" alt="">
-    </div>
 
     {{--    </div>--}}
 @endsection

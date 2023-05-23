@@ -20,6 +20,15 @@
                 <div class="info">
                     <h2>{{$course['title']}}</h2>
                     <p>{{$course['desc_small']}}</p>
+                    @if($course['staff_id'] ?? null)
+                        <p><b>Мастер курса: </b>
+                            <a class="link fern"
+                               target="_blank"
+                               href="{{route('staff_page', $course->staff['yc_id'])}}">
+                                {{$course->staff['yc_name']}}
+                            </a>
+                        </p>
+                    @endif
                     <a modal-id="course_app_modal" class="modal-link link-bg coal">Записаться</a>
                 </div>
 
@@ -86,7 +95,7 @@
 
 
         <div class="s_desc two_parts_block_wrap only_image">
-             <div class="right_img_wrap right">
+            <div class="right_img_wrap right">
                 <img src="/media/media_fixed/course_page.png" alt="">
             </div>
         </div>

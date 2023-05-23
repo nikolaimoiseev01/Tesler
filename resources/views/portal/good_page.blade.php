@@ -27,7 +27,7 @@
                      alt="">
                 <div class="others_wrap">
                     @foreach($good->getMedia('good_examples') as $key=>$good_example)
-                        @if($key != 0)
+                        @if($key != 0 and $key < 4)
                             {{$good_example}}
                         @endif
                     @endforeach

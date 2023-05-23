@@ -37,6 +37,17 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="exampleInputEmail1">Мастер курса</label>
+                    <select id="staff_id" name="staff_id" class="form-control">
+                        @foreach($staffs as $staff)
+                            <option
+                                @if($staff['id'] == $course['staff_id']) selected @endif
+                            value="{{$staff['id']}}">{{$staff['yc_name']}}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="form-group">
                     <label for="exampleInputEmail1">Программа</label>
                     <textarea name="program" class="form-control">{{$course['program']}}</textarea>
                 </div>

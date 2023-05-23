@@ -58,6 +58,7 @@
 
 </a>
 
+<div class="menu_mobile_content_back"></div>
 
 {{--<x-ui.modal/>--}}
 <x-header/>
