@@ -2626,6 +2626,22 @@
     }
 }
 
+.loyalty_page_wrap {
+    .page_cover {
+        img {
+            @media(max-width: $media-tablets-768) {
+                max-height: 300px;
+            }
+
+        }
+    }
+    .g_info_wrap {
+        h2 {
+            font-size: 32px;
+        }
+    }
+}
+
 .delivery_wrap {
     display: flex;
     flex-direction: column;
