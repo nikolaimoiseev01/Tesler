@@ -25,6 +25,10 @@
                 $('.menu_mobile_content_back').fadeOut('fast')
             })
 
+            $('#contacts_link').on('click', function() {
+                $('.menu_mobile_content_back').fadeOut('fast')
+            })
+
 
         </script>
         @endpush
@@ -85,7 +89,7 @@
 
 
             <div>
-                <a href="#footer" class="link"> Контакты </a>
+                <a @click="open = false" href="#footer" id="contacts_link" class="link"> Контакты </a>
             </div>
 
             <div class="info">
