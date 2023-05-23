@@ -1766,6 +1766,7 @@
     background: #E3E396;
     border-radius: 33px;
     width: fit-content;
+    text-align: center;
 
     p {
         font-size: 14px;
@@ -2508,14 +2509,15 @@
 
 
             #main_example {
-                width: 712px;
+                width: 480px;
                 height: 480px;
-                object-fit: contain;
+                object-fit: cover;
 
                 @media(max-width: 750px) {
                     max-width: 95%;
                     max-height: 500px;
-                    height: inherit;
+                    width: 480px;
+                    height: 480px;
                 }
             }
 
@@ -2534,6 +2536,8 @@
                 img {
                     max-width: 187px;
                     max-height: 152px;
+                    width: 152px;
+                    height: 152px;
                     object-fit: cover;
                     cursor: pointer;
                     @media(max-width: 400px) {
