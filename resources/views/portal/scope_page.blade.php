@@ -171,6 +171,8 @@
                 <img src="/media/media_fixed/need_consultation_парикмахерские.jpg" alt="">
             @elseif($scope['name'] == 'Косметология')
                 <img src="/media/media_fixed/need_consultation_косметология.jpg" alt="">
+            @elseif($scope['name'] == 'Ногтевой сервис')
+                <img src="/media/media_fixed/need_consultation_ногтевой.jpg" alt="">
             @else
                 <img src="/media/media_fixed/need_consultation.png" alt="">
             @endif
