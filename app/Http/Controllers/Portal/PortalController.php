@@ -15,6 +15,8 @@ use App\Models\Service;
 use App\Models\ServiceAdds;
 use App\Models\ShopSet;
 use App\Models\Staff;
+use App\Models\User;
+use App\Notifications\MailNotification;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -472,6 +474,13 @@ class PortalController extends Controller
 
             if ($order['tinkoff_status'] <> 'Подтвержден') { // Чтобы несколько раз не выполнялся
 
+                $user = User::where('id', 1)->first();
+                $user->notify(new MailNotification(
+                    'Новая покупка в магазине!',
+                    "Клиент оплатил покупку в магазине!.\n",
+                    "Подробнее",
+                    route('order.index')
+                ));
 
                 $YCLIENTS_SHOP_ID = ENV('YCLIENTS_SHOP_ID');
                 $YCLIENTS_HEADERS = [

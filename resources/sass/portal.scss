@@ -2161,6 +2161,11 @@
                 height: 170px;
             }
 
+            @media(max-width: $media-mobiles-480) {
+                width: 130px;
+                height: 130px;
+            }
+
 
             &:hover img {
                 height: 80%;
