@@ -19,7 +19,7 @@ class CategoryIndex extends Component
 
 
     public function mount() {
-        $this->goodcategories = GoodCategory::orderBy('title')->get();
+        $this->goodcategories = GoodCategory::orderBy('position')->get();
     }
 
     public function updateOrder($list)
@@ -31,6 +31,8 @@ class CategoryIndex extends Component
             'type' => 'success',
             'title' => 'Порядок успешно изменен!',
         ]);
+
+        $this->emit('refreshCategoryIndex');
     }
 
 }
