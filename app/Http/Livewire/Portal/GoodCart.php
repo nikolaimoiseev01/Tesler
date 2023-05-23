@@ -99,12 +99,16 @@ class GoodCart extends Component
 
     }
 
-    public function applyPromo() {
+    public function applyPromo()
+    {
+        $this->errors_array = [];
+
         $dis = Promocode::where('title', $this->promocode)->first() ?? null;
-        if($dis) {
-           $this->discount = $dis['discount'];
+        if ($dis) {
+            $this->discount = $dis['discount'];
 
         } else {
+            array_push($this->errors_array, 'promo');
             $this->discount = 0;
         }
 
@@ -317,7 +321,6 @@ class GoodCart extends Component
         }
 
 
-
         foreach ($this->cart_goods as $key => $cart_good) { // Обновляем кол-во оставшегося товара
             $original_good = Good::where('id', $cart_good['id'])->first();
 
@@ -343,7 +346,7 @@ class GoodCart extends Component
                 $tinkoff_good[] = [
                     'good_id' => $cart_good['id'],
                     'good_yc_id' => $cart_good['yc_id'],
-                    'good_price' => $cart_good['yc_price'] * ((100 - $this->discount)/100),
+                    'good_price' => $cart_good['yc_price'] * ((100 - $this->discount) / 100),
                     'amount' => $cart_good['sell_amount']
                 ];
             }
@@ -351,14 +354,14 @@ class GoodCart extends Component
 
             if ($this->need_delivery
                 && (($this->city <> 'Красноярск' && $this->total_price < $this->delivery_price_treshhold)
-                || ($this->city == 'Красноярск' && $this->total_price < $this->delivery_price_treshhold_home))
+                    || ($this->city == 'Красноярск' && $this->total_price < $this->delivery_price_treshhold_home))
             ) {
                 $this->total_price = $this->total_price + $this->delivery_price;
             }
 
             $params = [
                 'OrderId' => $tink_order_id,
-                'Amount' => ($this->total_price * ((100 - $this->discount)/100)) * 100,
+                'Amount' => ($this->total_price * ((100 - $this->discount) / 100)) * 100,
                 'SuccessURL' => route('order_success_page', $tink_order_id),
                 'FailURL' => route('home'),
                 'DATA' => [
@@ -378,7 +381,7 @@ class GoodCart extends Component
                 Order::create([
                     'tinkoff_order_id' => $tink_order_id,
                     'tinkoff_status' => 'Платежная форма открыта',
-                    'price' => ($this->total_price * ((100 - $this->discount)/100)) * 100,
+                    'price' => ($this->total_price * ((100 - $this->discount) / 100)) * 100,
                     'goods' => json_encode($tinkoff_good),
                     'name' => $this->name,
                     'surname' => $this->surname,

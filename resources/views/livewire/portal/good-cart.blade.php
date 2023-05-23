@@ -63,7 +63,13 @@
                     required
                     type="text"
                     style="direction: ltr;"
-                    placeholder="Введите промокод">
+                    placeholder="Введите промокод"
+                    @if($errors_array)
+                    @if (in_array("promo", $errors_array))
+                    class="invalid"
+                    @endif
+                    @endif
+                >
                 <svg wire:click="applyPromo" width="18" height="15" viewBox="0 0 18 15" fill="none"
                      xmlns="http://www.w3.org/2000/svg">
                     <path
