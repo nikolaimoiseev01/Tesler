@@ -14,6 +14,7 @@ class CategoryIndex extends Component
 
     public function render()
     {
+        $this->goodcategories = GoodCategory::orderBy('position')->get();
         return view('livewire.admin.good.category.category-index');
     }
 
@@ -31,6 +32,8 @@ class CategoryIndex extends Component
             'type' => 'success',
             'title' => 'Порядок успешно изменен!',
         ]);
+
+        $this->goodcategories = GoodCategory::orderBy('position')->get();
 
         $this->emit('refreshCategoryIndex');
     }

@@ -10,7 +10,8 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 class GoodCategory extends Model implements HasMedia
 {
     protected $fillable = [
-        'title'
+        'title',
+        'position'
     ];
 
     use InteractsWithMedia;
