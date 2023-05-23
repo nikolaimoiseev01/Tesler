@@ -1156,6 +1156,7 @@
         gap: 16px;
         max-width: initial !important;
         margin-top: 24px;
+        justify-content: center;
 
         .button {
             background: $color-fern-100;
@@ -1425,6 +1426,7 @@
     padding-bottom: 120px;
     overflow: hidden;
 
+
     > img {
         position: absolute;
         top: 0;
@@ -1446,6 +1448,7 @@
         justify-content: space-evenly;
         //height: 284px;
         flex-wrap: wrap;
+        gap: 50px;
 
         .review_wrap {
             display: flex;
@@ -1532,6 +1535,10 @@
         transform: translate(-50%, -50%);
         text-align: center;
         color: #FFFFFF;
+
+        @media (max-width: $media-tablets-768) {
+            width: 100%;
+        }
     }
 
 
