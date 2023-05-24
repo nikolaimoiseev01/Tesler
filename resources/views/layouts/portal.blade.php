@@ -25,7 +25,7 @@
     'resources/js/app.js'
     ])
 
-{{--    @vite(['resources/sass/portal.scss','public/build'])--}}
+    {{--    @vite(['resources/sass/portal.scss','public/build'])--}}
 
     @livewireStyles
 
@@ -42,7 +42,6 @@
 </div>
 
 
-
 <x-ui.modal id="consult_modal">
     @livewire('portal.consult-modal')
 </x-ui.modal>
@@ -53,7 +52,9 @@
 
 <a href="#header" class="go_to_head_wrap">
     <svg width="19" height="11" viewBox="0 0 19 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M16.7546 10.8414L9.5068 3.59357L2.25894 10.8414L0.844727 9.42715L9.5068 0.765137L18.1688 9.42715L16.7546 10.8414Z" fill="black"/>
+        <path
+            d="M16.7546 10.8414L9.5068 3.59357L2.25894 10.8414L0.844727 9.42715L9.5068 0.765137L18.1688 9.42715L16.7546 10.8414Z"
+            fill="black"/>
     </svg>
 
 </a>
@@ -67,15 +68,36 @@
 </div>
 <x-footer/>
 
-<div id="good_cart_bottom_button">
-    <svg  width="21" height="22" viewBox="0 0 21 22" fill="none"
-          xmlns="http://www.w3.org/2000/svg">
+<div style="display: none;" id="good_cart_bottom_button">
+    <svg width="21" height="22" viewBox="0 0 21 22" fill="none"
+         xmlns="http://www.w3.org/2000/svg">
         <path fill-rule="evenodd" clip-rule="evenodd"
               d="M5.76953 5.00391C5.76953 2.24249 8.00811 0.00390625 10.7695 0.00390625C13.5309 0.00390625 15.7695 2.24249 15.7695 5.00391H19.7695L20.7695 21.0039H0.769531L1.76953 5.00391H5.76953ZM10.7695 2.00391C12.4264 2.00391 13.7695 3.34706 13.7695 5.00391H7.76953C7.76953 3.34706 9.11263 2.00391 10.7695 2.00391ZM7.76953 7.00391H5.76953V11.0039H7.76953V7.00391ZM13.7695 11.0039H15.7695V7.00391H13.7695V11.0039Z"
               fill="white"/>
     </svg>
     <div class="red_cart"><p>0</p></div>
 </div>
+
+<a style="display: none;"
+   href="https://b253254.yclients.com/company/247576/record-type?o="
+   target="_blank"
+   id="go_to_sign">
+    <p>
+        Онлайн <br> запись
+    </p>
+</a>
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            if (window.location.href.indexOf("market") > -1) {
+                $('#good_cart_bottom_button').show();
+            } else {
+                $('#go_to_sign').show();
+            }
+        });
+    </script>
+@endpush
 
 
 <div class="cart_block_wrap">
@@ -94,8 +116,6 @@
         @livewire('portal.service-cart')
     </div>
 </div>
-
-
 
 
 <!-- include jQuery library -->

@@ -82,7 +82,7 @@
                                                             ->pluck('group_id')
                                                             ->toArray())
                                                             ->get() as $group)
-                    <div class="group_wrap">
+                    <div id="group_wrap_{{$group['id']}}" class="group_wrap">
                         <div data-group-title="{{$group['id']}}" class="group_title_wrap">
                             <h2>{{$group['name']}}</h2>
                             <svg width="15" height="9" viewBox="0 0 15 9" fill="none"

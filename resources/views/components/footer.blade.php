@@ -57,7 +57,7 @@
                 <a href="" class="link">Реквизиты</a>
                 <a href="" class="link">Пользовательское соглашение</a>
             </div>
-            <p>© Tesler House of Beauty 2023</p>
+            <p>© Tesler the house of beauty 2023</p>
         </div>
         <div class="footer__menu">
             <div>

@@ -438,7 +438,7 @@
                         <div class="image_editable_wrap">
                             <img data-crop-component="refreshPromoEdit"
                                  data-crop-width="712"
-                                 data-crop-height="480"
+                                 data-crop-height="712"
                                  class="m-2" style="max-width: 150px;" src="{{$good_example->getFullUrl()}}" alt="">
                             <i class="image_edit_button fa-solid fa-pencil"></i>
                         </div>
