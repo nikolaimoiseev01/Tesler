@@ -4,7 +4,11 @@
             <h1>Каждый день с 09:00 до 21:00</h1>
             <div class="info">
                 <p>+7 (391) 214-70-06</p>
-                <p class="email">tesler_team@mail.ru</p>
+                <p class="email">
+                    <svg width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0.797852 10.3418L5.0907 6.04893L0.797852 1.75601L2.2121 0.341797L7.9192 6.04893L2.2121 11.756L0.797852 10.3418Z" fill="#E3E396"/>
+                    </svg>
+                    tesler_team@mail.ru</p>
                 <p>Красноярск, ул. Авиаторов, д. 21</p>
             </div>
             <div class="socials">
@@ -57,7 +61,7 @@
                 <a href="" class="link">Реквизиты</a>
                 <a href="" class="link">Пользовательское соглашение</a>
             </div>
-            <p>© Tesler the house of beauty 2023</p>
+            <p class="tesler">© Tesler the house of beauty 2023</p>
         </div>
         <div class="footer__menu">
             <div>
@@ -65,6 +69,7 @@
                 <a href="{{route('market_page')}}" class="link">Магазин</a>
                 <a href="{{route('abonements_page')}}" class="link">Абонементы и сертификаты</a>
                 <a href="{{route('loyalty_page')}}" class="link">Программа лояльности</a>
+                <a class="link">Вакансии</a>
                 <a href="{{route('scope_page', 1)}}" class="link">Ногтевой сервис</a>
             </div>
             <div>

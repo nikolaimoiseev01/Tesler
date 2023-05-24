@@ -98,7 +98,14 @@
     @media (max-width: 800px) {
         .ymaps-2-1-79-map, .ya_map_to_black, #map {
             width: 293px !important;
-            height: 180px !important;
+            height: 200px !important;
+        }
+    }
+
+    @media (max-width: 500px) {
+        .ymaps-2-1-79-map, .ya_map_to_black, #map {
+            width: 100% !important;
+            height: 200px !important;
         }
     }
 
