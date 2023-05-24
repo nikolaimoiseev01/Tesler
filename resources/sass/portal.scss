@@ -2241,18 +2241,29 @@
 
                 @media (max-width: $media-tablets-768) {
                     height: auto;
-                    width: 161px;
+                    width: 180px;
                     margin-bottom: 16px;
+                }
+
+                @media (max-width: $media-mobiles-480) {
+                    width: 130px;
                 }
 
                 img {
                     width: 225px;
-                    height: 175px;
+                    height: 225px;
                     object-fit: cover;
 
                     @media (max-width: $media-tablets-768) {
-                        width: 100%;
+                        width: 180px;
+                        height: 180px;
                     }
+
+                    @media (max-width: $media-mobiles-480) {
+                        width: 130px;
+                        height: 130px;
+                    }
+
                 }
 
                 .category {
