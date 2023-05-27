@@ -200,7 +200,7 @@ class PortalController extends Controller
 
 
         foreach ($yc_service as $arr) {
-            $options[] = current($arr);  // COnverted to 1-d array
+            $options[] = current($arr);  // Converted to 1-d array
         }
 
 
@@ -240,8 +240,8 @@ class PortalController extends Controller
     {
 
         $goods = Good::where('yc_price', '>', 0)
-            ->whereJsonDoesntContain('good_category_id', 6)
-            ->whereJsonDoesntContain('good_category_id', 7)
+             ->where('yc_category', '<>', 'Абонементы Сеть Tesler')
+            ->Where('yc_category', '<>', 'Сертификаты Сеть Tesler')
             ->where('flg_active', 1)
             ->get();
 
@@ -320,7 +320,17 @@ class PortalController extends Controller
             })
             ->get();
 
-        $categories = GoodCategory::whereIn('id', [6, 7])->get();
+        $goods_with_categories = [];
+        foreach ($goods as $good) {
+            foreach ($good['good_category_id'] as $category_id) {
+                array_push($goods_with_categories, $category_id);
+            }
+        }
+
+
+        $categories = GoodCategory::whereIn('id', $goods_with_categories)
+            ->orderBy('position')
+            ->get();
 
         $abon_page_check = true;
 
@@ -423,20 +433,21 @@ class PortalController extends Controller
             ->where('flg_active', 1)
             ->get();
 
-        $goods_with_categories = [];
-        foreach ($goods_all as $good) {
-            foreach ($good['good_category_id'] as $category_id) {
-                array_push($goods_with_categories, $category_id);
-            }
-        }
-        $categories = GoodCategory::whereIn('id', $goods_with_categories)
-            ->get();
+
 
         $goods = Good::where('yc_price', '>', 0)
             ->whereJsonContains('good_category_id', intval($request->goodcategory_id))
             ->where('flg_active', 1)
             ->get();
 
+        $goods_with_categories = [];
+        foreach ($goods as $good) {
+            foreach ($good['good_category_id'] as $category_id) {
+                array_push($goods_with_categories, $category_id);
+            }
+        }
+        $categories = GoodCategory::whereIn('id', $goods_with_categories)
+            ->get();
 
         $abon_page_check = false;
 

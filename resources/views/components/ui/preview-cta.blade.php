@@ -4,7 +4,7 @@
     </div>
 
     <div class="right">
-        <h2>{{$title}}</h2>
+        <h2>{!! $title !!}</h2>
         <div class="cards_wrap">
             @foreach($cards as $card)
                 <div class="card_wrap">
@@ -27,5 +27,43 @@
         </div>
         <a href="{{$link}}" target="_blank" class="go_to_all link coal">Смотреть все</a>
     </div>
+
+        @push('scripts')
+            <script>
+
+                    if(window.innerWidth < 768) {
+                        $('.cards_wrap').slick({
+                            infinite: true,
+                            slidesToShow: 2,
+                            touchThreshold: 100,
+                            responsive: [
+
+                                {
+                                    breakpoint: 450,
+                                    settings: {
+                                        slidesToShow: 1,
+                                    }
+                                },
+
+                                // {
+                                //     breakpoint: 480,
+                                //     settings: {
+                                //         slidesToShow: 6,
+                                //         infinite: true,
+                                //     }
+                                // }
+                            ],
+                            // centerMode: true,
+                            slidesToScroll: 1,
+                            arrows: false,
+                            nextArrow: '.next_slider',
+                            prevArrow: '.previous_slider'
+                        });
+                    } else {
+
+                    }
+
+            </script>
+            @endpush
 
 </div>

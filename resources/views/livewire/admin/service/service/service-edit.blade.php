@@ -182,7 +182,7 @@
                                                  data-crop-media="pic_main"
                                                  data-crop-width="610"
                                                  data-crop-height="400"
-                                                 style="max-width: 80%; height: fit-content;" class="col-sm-6"
+                                                 style="max-width: 80%; height: fit-content; max-height: 200px; object-fit: contain;" class="col-sm-6"
                                                  src="{{$src_main}}"
                                                  alt="">
                                             <i class="image_edit_button fa-solid fa-pencil"></i>
@@ -197,7 +197,7 @@
                                                  data-crop-media="pic_proccess"
                                                  data-crop-width="610"
                                                  data-crop-height="400"
-                                                 style="max-width: 80%; height: fit-content;" class="m-3"
+                                                 style="max-width: 80%; height: fit-content; max-height: 200px; object-fit: contain;" class="m-3"
                                                  src="{{$src_proccess}}"
                                                  alt="">
                                             <i class="image_edit_button fa-solid fa-pencil"></i>

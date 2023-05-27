@@ -308,6 +308,8 @@ class ServiceEdit extends Component
 
 
             $this->emit('refreshServiceEdit');
+            return redirect(request()->header('Referer'));
+
         }
     }
 

@@ -32,7 +32,8 @@ class Good extends Model implements HasMedia
         'skin_type',
         'hair_type',
         'product_type',
-        'brand'
+        'brand',
+        'promo_text'
     ];
 
 

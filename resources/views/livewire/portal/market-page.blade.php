@@ -28,6 +28,26 @@
                 </div>
             </div>
 
+            @if(count($categories) > 1)
+                <div class="filter_block_wrap @if($yc_category) has_filter @endif yc_category_filter_wrap">
+                    <a @click="opend_filter = 'category'" class="link coal">Категория</a>
+                    <div x-transition x-show="opend_filter === 'category'" class="filter_wrap check_box_filter_wrap">
+                        @foreach($categories as $category_item)
+                            @if(!$abon_page_check)
+                                <a href="{{route('good_category_page', $category_item['id'])}}"
+                                   class="link fern">{{$category_item['title']}}</a>
+                            @else
+                                <div>
+                                    <input type="checkbox" id="{{$category_item['id']}}" wire:model="yc_category"
+                                           value="{{$category_item['id']}}">
+                                    <label for="{{$category_item['id']}}"><p>{{$category_item['title']}}</p></label>
+                                </div>
+                            @endif
+                        @endforeach
+                    </div>
+                </div>
+            @endif
+
             <div class="filter_block_wrap @if($price_min || $price_max) has_filter @endif price_filter_wrap">
                 <a @click="opend_filter = 'price'" class="link coal">Цена</a>
                 <div x-transition x-show="opend_filter === 'price'" class="filter_wrap">
@@ -38,23 +58,6 @@
                 </div>
             </div>
 
-            <div class="filter_block_wrap @if($yc_category) has_filter @endif yc_category_filter_wrap">
-                <a @click="opend_filter = 'category'" class="link coal">Категория</a>
-                <div x-transition x-show="opend_filter === 'category'" class="filter_wrap check_box_filter_wrap">
-                    @foreach($categories as $category_item)
-                        @if(!$abon_page_check)
-                            <a href="{{route('good_category_page', $category_item['id'])}}"
-                               class="link fern">{{$category_item['title']}}</a>
-                        @else
-                            <div>
-                                <input type="checkbox" id="{{$category_item['id']}}" wire:model="yc_category"
-                                       value="{{$category_item['id']}}">
-                                <label for="{{$category_item['id']}}"><p>{{$category_item['title']}}</p></label>
-                            </div>
-                        @endif
-                    @endforeach
-                </div>
-            </div>
             @if(!$abon_page_check)
                 @if(count($hair_types) > 0)
                     <div class="filter_block_wrap @if($hair_type) has_filter @endif yc_category_filter_wrap">
@@ -156,15 +159,43 @@
             @if(count($goods) === 0)
                 <h2>Товаров по таким критериям не найдено.</h2>
             @else
-                @foreach($goods as $good)
+                @foreach($goods as $key=>$good)
+                    {{--                    @if($key == 4)--}}
+                    {{--                        <div class="sert_big_blog_wrap">--}}
+                    {{--                            <a class="good_cover">--}}
+                    {{--                                <img src="/media/media_fixed/sert_big_block.png" alt="">--}}
+                    {{--                            </a>--}}
+                    {{--                            <div class="info">--}}
+                    {{--                                <p class="category">--}}
+                    {{--                                    СЕРТИФИКАТ--}}
+                    {{--                                </p>--}}
+                    {{--                                <h2>--}}
+                    {{--                                    Подарочныи сертификат--}}
+                    {{--                                </h2>--}}
+                    {{--                            </div>--}}
+                    {{--                            <div class="buttons_wrap">--}}
+                    {{--                                <div class="to_cart_wrap">--}}
+                    {{--                                    <a onclick="Livewire.emit('good_cart_add', {{$good['id']}})"--}}
+                    {{--                                       id="good_add_{{$good['id']}}"--}}
+                    {{--                                       class="link fern">--}}
+                    {{--                                        Купить--}}
+                    {{--                                    </a>--}}
+                    {{--                                </div>--}}
+                    {{--                                <p class="price">{{$good['yc_price']}} ₽</p>--}}
+                    {{--                            </div>--}}
+                    {{--                        </div>--}}
+                    {{--                    @endif--}}
                     <div class="good_card_wrap">
                         <div>
-                            <a class="name" href="{{route('good_page', $good['id'])}}">
+                            <a class="good_cover" href="{{route('good_page', $good['id'])}}">
                                 <img
                                     @if(is_null($good->getFirstMediaUrl('good_examples')) || $good->getFirstMediaUrl('good_examples') == '')
                                     src="/media/media_fixed/logo_holder.png"
                                     @else src="{{$good->getFirstMediaUrl('good_examples')}}" @endif
                                     alt="">
+                                @if($good['promo_text'])
+                                    <p>{{$good['promo_text']}}</p>
+                                @endif
                             </a>
                             <div class="info">
                                 <p class="category">
@@ -179,8 +210,6 @@
                         </div>
                         <div class="buttons_wrap">
                             <div class="to_cart_wrap">
-
-
                                 @if($good['flg_active'] && $good['yc_actual_amount'] > 0 || $good['good_category_id'][0] === 6 || $good['good_category_id'][0] === 7)
                                     <a onclick="Livewire.emit('good_cart_add', {{$good['id']}})"
                                        id="good_add_{{$good['id']}}"

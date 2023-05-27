@@ -59,7 +59,7 @@
                     <form wire:submit.prevent="editGood(Object.fromEntries(new FormData($event.target)))">
                         @csrf
                         <div class="row">
-                            <div class="col-md-8">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="name">Название на сайте</label>
                                     <input wire:model="name" type="text" class="form-control"
@@ -80,6 +80,15 @@
                                             </option>
                                         @endforeach
                                     </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="promo_text">Промо текст</label>
+                                    <input wire:model="promo_text" type="text" class="form-control"
+                                           id="promo_text"
+                                           placeholder="Промотекст">
                                 </div>
                             </div>
 

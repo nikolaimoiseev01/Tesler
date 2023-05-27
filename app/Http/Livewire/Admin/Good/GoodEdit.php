@@ -55,6 +55,7 @@ class GoodEdit extends Component
     public $hair_type;
     public $product_type;
     public $brand;
+    public $promo_text;
 
 //    public $specs_detailed_number = [1];
 
@@ -84,6 +85,7 @@ class GoodEdit extends Component
         $this->flg_discount = $this->good['flg_discount'];
         $this->product_type = $this->good['product_type'];
         $this->brand = $this->good['brand'];
+        $this->promo_text = $this->good['promo_text'];
 
         $this->scopes = Scope::orderBy('name')->get();
         $this->good_categories = GoodCategory::orderBy('title')->get();
@@ -207,6 +209,7 @@ class GoodEdit extends Component
                 'hair_type' => $this->hair_type,
                 'product_type' => $this->product_type,
                 'brand' => $this->brand,
+                'promo_text' => $this->promo_text
             ]);
 
             $this->dispatchBrowserEvent('toast_fire', [

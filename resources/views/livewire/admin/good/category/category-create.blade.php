@@ -3,7 +3,7 @@
 
     <form name="add-blog-post-form" class="p-3 mt-3" id="add-blog-post-form"
           method="post"
-          wire:submit.prevent="creategoodcategory(Object.fromEntries(new FormData($event.target)))">
+          wire:submit.prevent="createGoodCategory(Object.fromEntries(new FormData($event.target)))">
         @csrf
         <h1 style="font-size: 1.8rem;" class="mb-3 pb-3 border-bottom">Добавление категории</h1>
 
@@ -70,6 +70,9 @@
                 allowFileTypeValidation: true,
                 imageValidateSizeMinWidth: 200,
                 imageValidateSizeMinHeight: 200,
+                allowImageResize: true,
+                imageResizeTargetWidth: 336,
+                imageResizeTargetHeight: 240,
                 imageValidateSizeLabelImageSizeTooBig: 'размер изображения не верный!',
                 imageValidateSizeLabelImageSizeTooSmall: 'размер изображения не верный!',
                 acceptedFileTypes: ['image/png', 'image/jpeg'],

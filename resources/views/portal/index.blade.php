@@ -23,7 +23,7 @@
         </x-ui.slider>
     </div>
 
-    <div class="content about_wrap">
+    <div class="content index_page about_wrap">
         <div class="text">
             <p>О НАС</p>
             <h2> Tesler – салон, с заботой о вас </h2>
@@ -129,14 +129,14 @@
     </div>
 
     <x-ui.preview-cta
-        title="SHOP-сеты из  любимых продуктов TESLER"
+        title="SHOP-сеты <br> из  любимых <br> продуктов TESLER"
         link="{{route('market_page')}}"
         :cards="$shopsets"></x-ui.preview-cta>
 
-    <div id="courses_main_page" class="content courses_wrap about_wrap">
+    <div id="courses_main_page" class="index_page content courses_wrap about_wrap">
         <div class="text">
             <p>бьюти-обучение</p>
-            <h2> Получи новые знания в салоне Tesler </h2>
+            <h2> Получи новые <br> знания в салоне <br> Tesler </h2>
             <div>
                 <p><br>
                     Мы регулярно проводим курсы как для тех, кто хочет освоить профессию с нуля, так и для уже
