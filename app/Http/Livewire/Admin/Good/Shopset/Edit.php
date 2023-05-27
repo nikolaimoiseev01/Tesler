@@ -79,7 +79,7 @@ class Edit extends ModalComponent
                 'staff_id' => $formData['staff_id'],
             ]);
 
-            if ($formData['pic_shopset']) {
+            if ($formData['pic_shopset'] ?? null) {
                 $pic_main_path = public_path('media/filepond_temp/' . $formData['pic_shopset']);
                 Image::load($pic_main_path)
                     ->optimize()
