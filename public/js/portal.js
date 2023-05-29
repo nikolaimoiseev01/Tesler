@@ -29,6 +29,16 @@ $(document).on("click", function (event) {
 // ------  / MODALS  ------ //
 
 
+// ------ SHOW DIF ELEMENTS BY WIDTH ------ //
+    if ($(window).innerWidth() < 768) {
+        $('.mobile_only').show()
+        $('.desktop_only').hide()
+    } else {
+        $('.mobile_only').hide()
+        $('.desktop_only').show()
+    }
+
+
 // ------  PRELOADER  ------ //
 $(window).on('load', function () {
     $('.page-preloader-wrap').addClass('preloaded_hiding');

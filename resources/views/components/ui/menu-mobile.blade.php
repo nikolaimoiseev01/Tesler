@@ -7,8 +7,28 @@
     </svg>
     @push('scripts')
         <script>
+            var scrollPos = $(document).scrollTop();
+            function show_gamb_on_scroll(force_hide) {
+                if (scrollPos > 400 || $(window).innerWidth() < 768 || $('.menu_mobile').hasClass('active')) {
+                    $('.menu_mobile_wrap').show()
+                    $('.welcome_menu').hide()
+                } else {
+                    $('.menu_mobile_wrap').hide()
+                    $('.welcome_menu').show()
+                }
+
+            }
+            show_gamb_on_scroll()
+            $(window).scroll(function(){
+                scrollPos = $(document).scrollTop();
+                show_gamb_on_scroll(false)
+            });
+        </script>
+
+        <script>
             $('.menu_open_svg').on('click', function() {
                 $('.menu_mobile_content_back').fadeIn('fast')
+                show_gamb_on_scroll()
             })
 
             $(document).mouseup(function(e)
@@ -23,6 +43,13 @@
 
             $('.menu_close_cross').on('click', function() {
                 $('.menu_mobile_content_back').fadeOut('fast')
+                if (scrollPos > 400) {
+                    $('.menu_mobile_wrap').show()
+                    $('.welcome_menu').hide()
+                } else {
+                    $('.menu_mobile_wrap').hide()
+                    $('.welcome_menu').show()
+                }
             })
 
             $('#contacts_link').on('click', function() {

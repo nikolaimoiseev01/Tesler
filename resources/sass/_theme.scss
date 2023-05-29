@@ -209,10 +209,12 @@ footer {
 
     @media(max-width: $media-laptops-1024) {
         padding: 20px 40px;
+        margin-top: 120px;
     }
 
     @media(max-width: $media-mobiles-480) {
         padding: 20px 20px 40px 20px;
+        margin-top: 80px;
     }
 
 
