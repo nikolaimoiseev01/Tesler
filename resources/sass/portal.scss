@@ -1845,6 +1845,10 @@
         padding-top: $header-height_media_800;
     }
 
+    .welcome_menu {
+        position: inherit;
+    }
+
     .s_welcome_wrap {
         display: flex;
         gap: 20px;
