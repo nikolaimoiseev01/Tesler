@@ -61,8 +61,11 @@
                 <a href="" class="link">Реквизиты</a>
                 <a href="" class="link">Пользовательское соглашение</a>
             </div>
-            <p class="tesler">© Tesler the house of beauty 2023</p>
-            <p class="tesler">ИП Пыханова Юлия Сергеевна</p>
+            <div>
+                <p class="tesler">© Tesler the house of beauty 2023</p>
+                <p class="tesler">ИП Пыханова Юлия Сергеевна (ИНН: 245611640903)</p>
+            </div>
+
         </div>
         <div class="footer__menu">
             <div>

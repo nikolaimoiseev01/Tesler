@@ -69,6 +69,7 @@
                 slidesToShow: 5,
                 centerMode: true,
                 slidesToScroll: 1,
+                touchThreshold: 100,
                 arrows: true,
                 nextArrow: '#next_gallery_' + key,
                 prevArrow: '#previous_gallery_' + key,

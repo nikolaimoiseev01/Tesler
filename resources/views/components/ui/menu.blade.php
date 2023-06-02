@@ -7,8 +7,8 @@
         <a style="color: {{$color}}" href="{{route('home')}}#courses_main_page"> Курсы </a>
         <a style="color: {{$color}}" href="#footer"> Контакты </a>
     </div>
-    <div>
-        <span style="color: {{$color}}">09:00</span>
+    <div class="address">
+        <span style="margin-right: 20px; color: {{$color}}">09:00–21:00</span>
         <span style="color: {{$color}}">Красноярск, ул. Авиаторов, д. 21</span>
     </div>
 </div>
