@@ -55,7 +55,7 @@
     <div class="bottom_block">
         <div class="official_info">
             <x-logo/>
-            <div>
+            <div class="ur_info">
                 <a href="" class="link">Покупка и возврат</a>
                 <a href="" class="link">Политика конфидециальности</a>
                 <a href="" class="link">Реквизиты</a>

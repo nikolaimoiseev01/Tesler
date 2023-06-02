@@ -295,11 +295,10 @@ footer {
         flex-wrap: wrap;
         border-top: 1px solid rgba(221, 221, 213, 0.3);
         padding-top: 32px;
-        gap: 20px;
+        gap: 30px;
 
         .official_info {
             display: flex;
-            max-width: 400px;
             flex-direction: column;
             flex: 1;
             gap: 10px;
@@ -319,6 +318,10 @@ footer {
                     border: none;
 
                 }
+            }
+
+            .ur_info {
+                max-width: 400px;
             }
 
             > div {
