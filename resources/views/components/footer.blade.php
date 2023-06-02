@@ -62,6 +62,7 @@
                 <a href="" class="link">Пользовательское соглашение</a>
             </div>
             <p class="tesler">© Tesler the house of beauty 2023</p>
+            <p class="tesler">ИП Пыханова Юлия Сергеевна</p>
         </div>
         <div class="footer__menu">
             <div>
@@ -69,7 +70,7 @@
                 <a href="{{route('market_page')}}" class="link">Магазин</a>
                 <a href="{{route('abonements_page')}}" class="link">Абонементы и сертификаты</a>
                 <a href="{{route('loyalty_page')}}" class="link">Программа лояльности</a>
-                <a class="link">Вакансии</a>
+                <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLScBDMFllh5S6OL4zMcYTCBwkGD9pF-3LcD6RH6HD1idNDaLKw/viewform?usp=sharing" class="link">Вакансии</a>
                 <a href="{{route('scope_page', 1)}}" class="link">Ногтевой сервис</a>
             </div>
             <div>
