@@ -86,7 +86,7 @@
         $slickElement_slider.slick({
             infinite: true,
             slidesToShow: 4,
-            touchThreshold: 100,
+            touchThreshold: 250,
             responsive: [
                 {
                     breakpoint: 768,
