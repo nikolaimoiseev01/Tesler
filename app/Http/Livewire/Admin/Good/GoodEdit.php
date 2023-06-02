@@ -25,6 +25,8 @@ class GoodEdit extends Component
     public $desc;
     public $usage;
     public $compound;
+    public $discount;
+    public $flg_big_block;
     public $good_examples;
 
     public $specs_detailed;
@@ -79,6 +81,8 @@ class GoodEdit extends Component
         $this->usage = $this->good['usage'];
         $this->compound = $this->good['compound'];
         $this->capacity = $this->good['capacity'];
+        $this->discount = $this->good['discount'];
+        $this->flg_big_block = $this->good['flg_big_block'];
         $this->capacity_type = $this->good['capacity_type'];
         $this->flg_on_road = $this->good['flg_on_road'];
         $this->flg_gift_set = $this->good['flg_gift_set'];
@@ -209,7 +213,9 @@ class GoodEdit extends Component
                 'hair_type' => $this->hair_type,
                 'product_type' => $this->product_type,
                 'brand' => $this->brand,
-                'promo_text' => $this->promo_text
+                'promo_text' => $this->promo_text,
+                'discount' => $this->discount,
+                'flg_big_block' => $this->flg_big_block
             ]);
 
             $this->dispatchBrowserEvent('toast_fire', [

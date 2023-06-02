@@ -52,14 +52,21 @@
     <img id="img_full">
 </x-ui.modal>
 
-<a href="#header" class="go_to_head_wrap">
+<a class="go_to_head_wrap">
     <svg width="19" height="11" viewBox="0 0 19 11" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
             d="M16.7546 10.8414L9.5068 3.59357L2.25894 10.8414L0.844727 9.42715L9.5068 0.765137L18.1688 9.42715L16.7546 10.8414Z"
             fill="black"/>
     </svg>
-
 </a>
+
+@push('scripts')
+    <script>
+        $('.go_to_head_wrap').on('click', function() {
+            $("html, body").animate({ scrollTop: 0 }, "slow");
+        })
+    </script>
+@endpush
 
 <div class="menu_mobile_content_back"></div>
 
@@ -91,7 +98,7 @@
 
 @push('scripts')
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             if (window.location.href.indexOf("market") > -1) {
                 $('#good_cart_bottom_button').show();
             } else {

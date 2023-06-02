@@ -57,20 +57,30 @@
                     <p>{{$good['desc_small']}}</p>
                 @endif
 
-                <div>
-                    @if($good['brand'])
-                        <span class="yellow_info">
+                <div class="details">
+                    <div>
+                        @if($good['brand'])
+                            <span class="yellow_info">
 
                             <a href="{{route('market_page')}}?brand[0]={{$good['brand']}}#market_wrap">
                             <p>Бренд: {{$good['brand']}}</p>
                             </a>
 
                     </span>
-                    @endif
-                    @if($good['capacity'] > 0)
-                        <span class="yellow_info"><p>{{$good['capacity']}} {{$good['capacity_type']}}</p></span>
-                    @endif
-                    <h2 class="price">{{$good['yc_price']}} Р</h2>
+                        @endif
+                        @if($good['capacity'] > 0)
+                            <span class="yellow_info"><p>{{$good['capacity']}} {{$good['capacity_type']}}</p></span>
+                        @endif
+                    </div>
+                    <div class="price_wrap">
+                        @if($good['discount'] > 0)
+                            <h2 class="price discount">{{$good['yc_price']}} Р</h2>
+                        @endif
+                        <h2 class="price">
+                            {{$good['yc_price'] * ((100 - $good['discount'])/100)}} Р
+                        </h2>
+                    </div>
+
                 </div>
                 @if(($good['flg_active'] && $good['yc_actual_amount'] > 0) || ($good['flg_active'] && $good['good_category_id'][0] === 6) || ($good['flg_active'] && $good['good_category_id'][0] === 7))
                     <a onclick="Livewire.emit('good_cart_add', {{$good['id']}})"

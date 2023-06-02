@@ -66,7 +66,7 @@ class GoodCart extends Component
         if ($this->cart_goods) {
 
             $this->total_price = array_reduce($this->cart_goods, function ($carry, $item) {
-                return $carry + ($item['yc_price'] * ($item['sell_amount'] ?? 1));
+                return $carry + (($item['yc_price']  * ((100 - $item['discount'])/100)) * ($item['sell_amount'] ?? 1));
             });
 
         }
@@ -91,7 +91,7 @@ class GoodCart extends Component
         }
 
         $this->total_price = array_reduce($this->cart_goods, function ($carry, $item) {
-            return $carry + ($item['yc_price'] * ($item['sell_amount'] ?? 1));
+            return $carry + (($item['yc_price']  * ((100 - $item['discount'])/100)) * ($item['sell_amount'] ?? 1));
         });
 
         $request->session()->put('cart_goods', $this->cart_goods);
@@ -150,7 +150,7 @@ class GoodCart extends Component
             $request->session()->put('cart_items', $this->cart_items + 1);
 
             $this->total_price = array_reduce($this->cart_goods, function ($carry, $item) {
-                return $carry + ($item['yc_price'] * ($item['sell_amount'] ?? 1));
+                return $carry + (($item['yc_price']  * ((100 - $item['discount'])/100)) * ($item['sell_amount'] ?? 1));
             });
             if ($this->need_delivery && $this->total_price < 3500) {
                 $this->total_price = $this->total_price + 600;
@@ -195,7 +195,7 @@ class GoodCart extends Component
         session()->put('cart_goods', $this->cart_goods);
 
         $this->total_price = array_reduce($this->cart_goods, function ($carry, $item) {
-            return $carry + ($item['yc_price'] * ($item['sell_amount'] ?? 1));
+            return $carry + (($item['yc_price']  * ((100 - $item['discount'])/100)) * ($item['sell_amount'] ?? 1));
         });
         if ($this->need_delivery && $this->total_price < 3500) {
             $this->total_price = $this->total_price + 600;
@@ -346,7 +346,7 @@ class GoodCart extends Component
                 $tinkoff_good[] = [
                     'good_id' => $cart_good['id'],
                     'good_yc_id' => $cart_good['yc_id'],
-                    'good_price' => $cart_good['yc_price'] * ((100 - $this->discount) / 100),
+                    'good_price' => ($cart_good['yc_price']  * ((100 - $cart_good['discount'])/100)) * ((100 - $this->discount) / 100),
                     'amount' => $cart_good['sell_amount']
                 ];
             }

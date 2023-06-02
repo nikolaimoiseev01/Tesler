@@ -67,7 +67,26 @@
                                            placeholder="Имя услуги">
                                 </div>
                             </div>
-                            <div class="col-md-4">
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="promo_text">Промо текст</label>
+                                    <input wire:model="promo_text" type="text" class="form-control"
+                                           id="promo_text"
+                                           placeholder="Промотекст">
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="promo_text">Скидка в процентах</label>
+                                    <input wire:model="discount" type="text" class="form-control"
+                                           id="promo_text"
+                                           placeholder="Скидка">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Сфера от услуг</label>
                                     <select wire:model="scope" class="form-control"
@@ -80,15 +99,6 @@
                                             </option>
                                         @endforeach
                                     </select>
-                                </div>
-                            </div>
-
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="promo_text">Промо текст</label>
-                                    <input wire:model="promo_text" type="text" class="form-control"
-                                           id="promo_text"
-                                           placeholder="Промотекст">
                                 </div>
                             </div>
 
@@ -109,13 +119,24 @@
                                         @endforeach
                                     </select>
                                 </div>
-                            <div class="col-md-4">
+                            <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="brand">Бренд</label>
                                     <input wire:model="brand" type="text" class="form-control"
                                            id="brand"
                                            placeholder="Тип объема">
                                 </div>
+                            </div>
+
+                            <div class="col-md-2 form-group">
+                                <label>Большой блок</label>
+                                <select wire:model="flg_big_block" class="form-control"
+                                        name="flg_big_block" aria-hidden="true">
+                                    <option value="1">Да
+                                    </option>
+                                    <option value="0">Нет
+                                    </option>
+                                </select>
                             </div>
 
                             <div class="col-md-2">

@@ -86,8 +86,8 @@ class GoodIndex extends Component
                 ->collect();
 //            dd($request);
             $request = array_values(Arr::where($request['data'], function ($value, $key) {
-                return str_contains(mb_strtolower($value['category']), 'на продажу');
-            })); // ТОЛЬКО ТАМ, ГДЕ В КАТЕГОРИИ ЕСТЬ СЛОВА "ТОВАРЫ НА ПРОДАЖУ"
+                return str_contains(mb_strtolower($value['category']), 'продажа');
+            })); // ТОЛЬКО ТАМ, ГДЕ В КАТЕГОРИИ ЕСТЬ СЛОВА "НА ПРОДАЖУ"
 
             if ($request ?? null) {
                 $yc_goods = array_merge($yc_goods, $request);

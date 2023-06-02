@@ -160,34 +160,11 @@
                 <h2>Товаров по таким критериям не найдено.</h2>
             @else
                 @foreach($goods as $key=>$good)
-                    {{--                    @if($key == 4)--}}
-                    {{--                        <div class="sert_big_blog_wrap">--}}
-                    {{--                            <a class="good_cover">--}}
-                    {{--                                <img src="/media/media_fixed/sert_big_block.png" alt="">--}}
-                    {{--                            </a>--}}
-                    {{--                            <div class="info">--}}
-                    {{--                                <p class="category">--}}
-                    {{--                                    СЕРТИФИКАТ--}}
-                    {{--                                </p>--}}
-                    {{--                                <h2>--}}
-                    {{--                                    Подарочныи сертификат--}}
-                    {{--                                </h2>--}}
-                    {{--                            </div>--}}
-                    {{--                            <div class="buttons_wrap">--}}
-                    {{--                                <div class="to_cart_wrap">--}}
-                    {{--                                    <a onclick="Livewire.emit('good_cart_add', {{$good['id']}})"--}}
-                    {{--                                       id="good_add_{{$good['id']}}"--}}
-                    {{--                                       class="link fern">--}}
-                    {{--                                        Купить--}}
-                    {{--                                    </a>--}}
-                    {{--                                </div>--}}
-                    {{--                                <p class="price">{{$good['yc_price']}} ₽</p>--}}
-                    {{--                            </div>--}}
-                    {{--                        </div>--}}
-                    {{--                    @endif--}}
-                    <div class="good_card_wrap">
-                        <div>
-                            <a class="good_cover" href="{{route('good_page', $good['id'])}}">
+                    @if($good['flg_big_block'] == 1 &&
+                        !$abon_page_check)
+                        <div  class="big_blog_wrap @if($key % 10 == 4) big_blog_wrap_right @else big_blog_wrap_left @endif"
+                             wire:key="{{$key}}">
+                            <a class="good_cover">
                                 <img
                                     @if(is_null($good->getFirstMediaUrl('good_examples')) || $good->getFirstMediaUrl('good_examples') == '')
                                     src="/media/media_fixed/logo_holder.png"
@@ -201,32 +178,75 @@
                                 <p class="category">
                                     {{\App\Models\GoodCategory::where('id', $good['good_category_id'][0])->first(['title'])->title}}
                                 </p>
-                                <a class="name" target="_blank" href="{{route('good_page', $good['id'])}}">
-                                    <p>
-                                        {{Str::limit(Str::ucfirst(Str::lower($good['name'])), 30, '...')}}
-                                    </p>
+                                <h2>
+                                    И: {{$key}} {{Str::limit(Str::ucfirst(Str::lower($good['name'])), 30, '...')}}
+                                </h2>
+                            </div>
+                            <div class="buttons_wrap">
+                                <div class="to_cart_wrap">
+                                    @if($good['flg_active'] && $good['yc_actual_amount'] > 0 || $good['good_category_id'][0] === 6 || $good['good_category_id'][0] === 7)
+                                        <a onclick="Livewire.emit('good_cart_add', {{$good['id']}})"
+                                           id="good_add_{{$good['id']}}"
+                                           class="link fern">
+                                            @if($good['good_category_id'][0] === 6 || $good['good_category_id'][0] === 7)
+                                                Купить
+                                            @else
+                                                В корзину
+                                            @endif
+                                        </a>
+                                    @else
+                                        <p>Товар закончился</p>
+                                    @endif
+                                </div>
+                                <p class="price">{{$good['yc_price']}} ₽</p>
+                            </div>
+                        </div>
+                    @endif
+
+                    @if($good['flg_big_block'] == 0)
+                        <div wire:key="{{$key}}" class="good_card_wrap">
+                            <div>
+                                <a class="good_cover" href="{{route('good_page', $good['id'])}}">
+                                    <img
+                                        @if(is_null($good->getFirstMediaUrl('good_examples')) || $good->getFirstMediaUrl('good_examples') == '')
+                                        src="/media/media_fixed/logo_holder.png"
+                                        @else src="{{$good->getFirstMediaUrl('good_examples')}}" @endif
+                                        alt="">
+                                    @if($good['promo_text'])
+                                        <p>{{$good['promo_text']}}</p>
+                                    @endif
                                 </a>
-                            </div>
-                        </div>
-                        <div class="buttons_wrap">
-                            <div class="to_cart_wrap">
-                                @if($good['flg_active'] && $good['yc_actual_amount'] > 0 || $good['good_category_id'][0] === 6 || $good['good_category_id'][0] === 7)
-                                    <a onclick="Livewire.emit('good_cart_add', {{$good['id']}})"
-                                       id="good_add_{{$good['id']}}"
-                                       class="link fern">
-                                        @if($good['good_category_id'][0] === 6 || $good['good_category_id'][0] === 7)
-                                            Купить
-                                        @else
-                                            В корзину
-                                        @endif
+                                <div class="info">
+                                    <p class="category">
+                                        {{\App\Models\GoodCategory::where('id', $good['good_category_id'][0])->first(['title'])->title}}
+                                    </p>
+                                    <a class="name" target="_blank" href="{{route('good_page', $good['id'])}}">
+                                        <p>
+                                            И: {{$key}}  {{Str::limit(Str::ucfirst(Str::lower($good['name'])), 30, '...')}}
+                                        </p>
                                     </a>
-                                @else
-                                    <p>Товар закончился</p>
-                                @endif
+                                </div>
                             </div>
-                            <p class="price">{{$good['yc_price']}} ₽</p>
+                            <div class="buttons_wrap">
+                                <div class="to_cart_wrap">
+                                    @if($good['flg_active'] && $good['yc_actual_amount'] > 0 || $good['good_category_id'][0] === 6 || $good['good_category_id'][0] === 7)
+                                        <a onclick="Livewire.emit('good_cart_add', {{$good['id']}})"
+                                           id="good_add_{{$good['id']}}"
+                                           class="link fern">
+                                            @if($good['good_category_id'][0] === 6 || $good['good_category_id'][0] === 7)
+                                                Купить
+                                            @else
+                                                В корзину
+                                            @endif
+                                        </a>
+                                    @else
+                                        <p>Товар закончился</p>
+                                    @endif
+                                </div>
+                                <p class="price">{{$good['yc_price']}} ₽</p>
+                            </div>
                         </div>
-                    </div>
+                    @endif
                 @endforeach
             @endif
         </div>
