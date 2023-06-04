@@ -34,6 +34,8 @@ class GoodEdit extends Component
     public $specs_value;
     public $scopes;
     public $scope;
+    public $categories;
+    public $category;
     public $good_categories;
     public $good_has_categories;
 
@@ -76,6 +78,7 @@ class GoodEdit extends Component
 
         $this->name = $this->good['name'];
         $this->scope = $this->good['scope_id'];
+        $this->category = $this->good['category_id'];
         $this->desc_small = $this->good['desc_small'];
         $this->desc = $this->good['desc'];
         $this->usage = $this->good['usage'];
@@ -92,6 +95,7 @@ class GoodEdit extends Component
         $this->promo_text = $this->good['promo_text'];
 
         $this->scopes = Scope::orderBy('name')->get();
+        $this->categories = Category::orderBy('name')->get();
         $this->good_categories = GoodCategory::orderBy('title')->get();
         $this->good_skin_types = Good_skin_type::orderBy('title')->get();
         $this->good_hair_types = Good_hair_type::orderBy('title')->get();
@@ -201,6 +205,7 @@ class GoodEdit extends Component
             $this->good->update([
                 'name' => $this->name,
                 'scope_id' => $this->scope,
+                'category_id' => $this->category,
                 'desc_small' => $this->desc_small,
                 'desc' => $this->desc,
                 'usage' => $this->usage,

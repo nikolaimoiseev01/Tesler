@@ -142,9 +142,28 @@ class PortalController extends Controller
         unset($category_staff[0]);
 //        dd($category_staff);
 
+
+        $abonements_pre = Good::where('yc_category', 'Абонементы Сеть Tesler')->where('scope_id', $request->scope_id)->take(3)->get();
+//dd($abonements_pre);
+        foreach ($abonements_pre as $abonement) {
+            $abonements[] = [
+                'id' => $abonement['id'],
+                'category_id' => $abonement['category_id'],
+                'title' => $abonement['name'],
+                'price' => $abonement['yc_price'],
+                'img' => $abonement->getFirstMediaUrl('good_examples'),
+                'link' => route('good_page', $abonement['id']),
+                'category' => 'Абонемент'
+            ];
+        }
+
+        $abonements = isset($abonements) ? $abonements : null;
+
+
         return view('portal.scope_page', [
             'scope' => $scope,
-            'category_staff' => $category_staff
+            'category_staff' => $category_staff,
+            'abonements' => $abonements
         ]);
     }
 
@@ -213,7 +232,7 @@ class PortalController extends Controller
         }
 
 
-        $abonements_pre = Good::where('yc_category', 'Абонементы Сеть Tesler')->where('scope_id', $service['scope_id'])->take(3)->get();
+        $abonements_pre = Good::where('yc_category', 'Абонементы Сеть Tesler')->where('category_id', $service['category_id'])->take(3)->get();
 //dd($abonements_pre);
         foreach ($abonements_pre as $abonement) {
             $abonements[] = [

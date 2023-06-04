@@ -76,7 +76,7 @@
     @endif
 
 
-    @if($service['process'])
+    @if($service['proccess'])
 
         <div class="s_desc content two_parts_block_wrap">
             <div class="left"></div>
@@ -89,9 +89,9 @@
     @endif
 
     @if($service->getFirstMediaUrl('pic_proccess'))
-        <div class="s_desc content two_parts_block_wrap only_image">
+        <div class="s_desc sp_page_process_pic two_parts_block_wrap only_image">
             <div class="left"></div>
-            <div class="right_img_wrap right">
+            <div class="right_img_wrap image_blackout right">
                 <img src="{{$service->getFirstMediaUrl('pic_proccess')}}" alt="">
             </div>
         </div>

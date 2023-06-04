@@ -147,6 +147,15 @@
                 @endforeach
             @endif
         </div>
+
+        @if(collect($abonements)->where('category_id', $category['id'])->count() > 0)
+            <x-ui.preview-cta
+                title="абонементы на {{$category['name'] ?? 'услуги'}}"
+                link="{{route('abonements_page')}}"
+                :cards="$abonements">
+            </x-ui.preview-cta>
+        @endif
+
     @endforeach
 
     <div class="content about_wrap">

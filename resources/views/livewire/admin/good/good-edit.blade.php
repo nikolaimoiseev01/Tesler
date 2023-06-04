@@ -29,7 +29,9 @@
             <div class="align-items-center d-flex ml-auto">
                 <div class="d-flex">
 
-                    <a target="_blank" class="mr-3 link" href="https://yclients.com/goods/list/247576/?goodNameOrArticleOrBarcode={{preg_replace('/\s+/', '+', $good['yc_title'])}}">Страница на
+                    <a target="_blank" class="mr-3 link"
+                       href="https://yclients.com/goods/list/247576/?goodNameOrArticleOrBarcode={{preg_replace('/\s+/', '+', $good['yc_title'])}}">Страница
+                        на
                         YClients</a>
                     <a target="_blank" class="mr-3 link" href="{{route('good_page', $good['id'])}}">Страница на
                         сайте</a>
@@ -86,49 +88,8 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>Сфера от услуг</label>
-                                    <select wire:model="scope" class="form-control"
-                                            name="category_id" aria-hidden="true">
-                                        @if(!($scope ?? null))
-                                            <option value="" hidden>Выберите категорию</option>
-                                        @endif
-                                        @foreach($scopes as $scope)
-                                            <option value="{{$scope['id']}}">{{$scope['name']}}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
 
-                        </div>
-
-
-                        <div class="row">
-                                <div class="col-md-4 form-group">
-                                    <label>Тип продукта</label>
-                                    <select wire:model="product_type" class="form-control"
-                                            name="product_type" aria-hidden="true">
-                                        @if(!($good_types ?? null))
-                                            <option value="" hidden>Выберите тип</option>
-                                        @endif
-                                        @foreach($good_types as $good_type)
-                                            <option value="{{$good_type['title']}}">{{$good_type['title']}}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label for="brand">Бренд</label>
-                                    <input wire:model="brand" type="text" class="form-control"
-                                           id="brand"
-                                           placeholder="Тип объема">
-                                </div>
-                            </div>
-
-                            <div class="col-md-2 form-group">
+                            <div class="col-md-3 form-group">
                                 <label>Большой блок</label>
                                 <select wire:model="flg_big_block" class="form-control"
                                         name="flg_big_block" aria-hidden="true">
@@ -137,6 +98,60 @@
                                     <option value="0">Нет
                                     </option>
                                 </select>
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-2 form-group">
+                                <label>Сфера от услуг</label>
+                                <select wire:model="scope" class="form-control"
+                                        name="category_id" aria-hidden="true">
+                                    @if(!($scope ?? null))
+                                        <option value="" hidden>Выберите категорию</option>
+                                    @endif
+                                    @foreach($scopes as $scope)
+                                        <option value="{{$scope['id']}}">{{$scope['name']}}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="col-md-2 form-group">
+                                <label>Категория от услуг</label>
+                                <select wire:model="category" class="form-control"
+                                        name="v" aria-hidden="true">
+                                    @if(!($category ?? null))
+                                        <option value="" hidden>Выберите категорию</option>
+                                    @endif
+                                    @foreach($categories as $category)
+                                        <option value="{{$category['id']}}">{{$category['name']}}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="col-md-2 form-group">
+                                <label>Тип продукта</label>
+                                <select wire:model="product_type" class="form-control"
+                                        name="product_type" aria-hidden="true">
+                                    @if(!($good_types ?? null))
+                                        <option value="" hidden>Выберите тип</option>
+                                    @endif
+                                    @foreach($good_types as $good_type)
+                                        <option value="{{$good_type['title']}}">{{$good_type['title']}}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="brand">Бренд</label>
+                                    <input wire:model="brand" type="text" class="form-control"
+                                           id="brand"
+                                           placeholder="Тип объема">
+                                </div>
                             </div>
 
                             <div class="col-md-2">
@@ -181,7 +196,7 @@
 
                                     <select wire:model="good_category_id" class=" form-control"
                                             aria-hidden="true" id="service_to_add">
-                                            <option value="">Выберите категорию</option>
+                                        <option value="">Выберите категорию</option>
                                         @foreach($good_categories as $good_category)
                                             <option
                                                 value="{{$good_category['id']}}">{{$good_category['title']}}
@@ -271,25 +286,30 @@
                         </div>
 
 
-                        <div class="form-group">
-                            <label for="desc_small">Описание маленькое</label>
-                            <textarea wire:model="desc_small" name="desc_small" class="form-control"></textarea>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="desc_small">Описание маленькое</label>
+                                    <textarea wire:model="desc_small" name="desc_small" class="form-control"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Описание</label>
+                                    <textarea wire:model="desc" name="desc" class="form-control"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Применение</label>
+                                    <textarea wire:model="usage" name="usage" class="form-control"></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Состав</label>
+                                    <textarea wire:model="compound" name="compound" class="form-control"></textarea>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Описание</label>
-                            <textarea wire:model="desc" name="desc" class="form-control"></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Применение</label>
-                            <textarea wire:model="usage" name="usage" class="form-control"></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Состав</label>
-                            <textarea wire:model="compound" name="compound" class="form-control"></textarea>
-                        </div>
 
                         {{--                        <div class="row p-3 ml-1 mb-3 border">--}}
                         {{--                            <div class="col-md-4">--}}
