@@ -17,7 +17,7 @@ class Kernel extends ConsoleKernel
 
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command('UpdateGoods')->timezone('Europe/Moscow')->dailyAt('23:00');
+        $schedule->command('UpdateGoods')->timezone('Europe/Moscow')->dailyAt('14:55');
     }
 
     /**
