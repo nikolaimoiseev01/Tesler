@@ -102,7 +102,7 @@ final class GoodTable extends PowerGridComponent
     {
         return PowerGrid::eloquent()
             ->addColumn('id')
-            ->addColumn('yc_title')
+            ->addColumn('name')
             ->addColumn('yc_category')
             ->addColumn('yc_price')
             ->addColumn('brand')
@@ -139,7 +139,7 @@ final class GoodTable extends PowerGridComponent
             Column::make('ID', 'id')
                 ->searchable()
                 ->sortable(),
-            Column::make('Название', 'yc_title')
+            Column::make('Название', 'name')
                 ->searchable()
                 ->sortable(),
             Column::make('Категория из YC', 'yc_category')

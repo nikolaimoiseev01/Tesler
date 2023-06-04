@@ -222,8 +222,8 @@ class GoodIndex extends Component
 
 
         $yc_goods = [];
-        $changed_after = '2023-01-05T12:00:00';
-        for ($page = 0; $page <= 20; $page++) {
+        $changed_after = '2020-01-05T12:00:00';
+        for ($page = 0; $page <= 200; $page++) {
 
             // Подгружаем товары на продажу
 //            $link = 'https://api.yclients.com/api/v1/goods/' . $YCLIENTS_SHOP_ID . '?count=100&changed_after=' . $changed_after . '&page=' . $page . '&category_id=481179';
@@ -266,14 +266,14 @@ class GoodIndex extends Component
 
         $this->found_yc_goods = null;
 
-        foreach ($yc_goods as $yc_good) { // Идем по всем услугам YCLIENTS
+        foreach ($yc_goods as $yc_good) { // Идем по всем товарам YCLIENTS
             $good_found = Good::where('yc_id', $yc_good['good_id'])->first();
             if ($good_found ?? null) { // Если есть такой товар
                 $storage_id_key = array_search(ENV('YCLIENTS_SHOP_STORAGE'), array_column($yc_good['actual_amounts'], 'storage_id'));
                 $yc_actual_amounts = $yc_good['actual_amounts'][$storage_id_key]['amount'] ?? null;
 
 
-                if ($good_found['yc_title'] <> $yc_good['title'] || $good_found['yc_price'] <> $yc_good['cost'] || $good_found['yc_category'] <> $yc_good['category'] || $good_found['yc_actual_amount'] <> $yc_actual_amounts) {
+                if ($good_found['name'] <> $yc_good['title'] || $good_found['yc_price'] <> $yc_good['cost'] || $good_found['yc_category'] <> $yc_good['category'] || $good_found['yc_actual_amount'] <> $yc_actual_amounts) {
 
                     $good_found->update([
                         'yc_title' => $yc_good['title'],

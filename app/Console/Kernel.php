@@ -10,9 +10,14 @@ class Kernel extends ConsoleKernel
     /**
      * Define the application's command schedule.
      */
+    protected $commands = [
+        Commands\UpdateGoods::class,
+    ];
+
+
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('UpdateGoods')->timezone('Europe/Moscow')->dailyAt('23:00');
     }
 
     /**
