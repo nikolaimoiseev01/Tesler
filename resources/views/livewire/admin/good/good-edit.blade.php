@@ -10,7 +10,7 @@
 
     </style>
     <div style="max-width: 1400px;" class="card">
-        <div class="d-flex align-items-center card-header p-2">
+        <div class="d-flex flex-wrap gap-3  align-items-center card-header p-2">
             <div>
                 <ul class="nav nav-pills">
                     <li class="nav-item">
@@ -27,7 +27,7 @@
             </div>
 
             <div class="align-items-center d-flex ml-auto">
-                <div class="d-flex">
+                <div class="flex-wrap gap-2 d-flex">
 
                     <a target="_blank" class="mr-3 link"
                        href="https://yclients.com/goods/list/247576/?goodNameOrArticleOrBarcode={{preg_replace('/\s+/', '+', $good['yc_title'])}}">Страница
@@ -70,7 +70,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="promo_text">Промо текст</label>
                                     <input wire:model="promo_text" type="text" class="form-control"
@@ -89,7 +89,7 @@
                             </div>
 
 
-                            <div class="col-md-3 form-group">
+                            <div class="col-md-2 form-group">
                                 <label>Большой блок</label>
                                 <select wire:model="flg_big_block" class="form-control"
                                         name="flg_big_block" aria-hidden="true">
@@ -104,7 +104,7 @@
 
 
                         <div class="row">
-                            <div class="col-md-2 form-group">
+                            <div class="col-md-4 form-group">
                                 <label>Сфера от услуг</label>
                                 <select wire:model="scope" class="form-control"
                                         name="category_id" aria-hidden="true">
@@ -118,7 +118,7 @@
                                 </select>
                             </div>
 
-                            <div class="col-md-2 form-group">
+                            <div class="col-md-4 form-group">
                                 <label>Категория от услуг</label>
                                 <select wire:model="category" class="form-control"
                                         name="v" aria-hidden="true">
@@ -132,7 +132,7 @@
                                 </select>
                             </div>
 
-                            <div class="col-md-2 form-group">
+                            <div class="col-md-4 form-group">
                                 <label>Тип продукта</label>
                                 <select wire:model="product_type" class="form-control"
                                         name="product_type" aria-hidden="true">
@@ -145,7 +145,10 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-2">
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="brand">Бренд</label>
                                     <input wire:model="brand" type="text" class="form-control"
@@ -154,7 +157,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-2">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="name">Объем</label>
                                     <input wire:model="capacity" type="number" class="form-control"
@@ -162,7 +165,7 @@
                                            placeholder="Объем">
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="name">Тип измерения объема</label>
                                     <input wire:model="capacity_type" type="text" class="form-control"
