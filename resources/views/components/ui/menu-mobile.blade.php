@@ -9,7 +9,7 @@
         <script>
             var scrollPos = $(document).scrollTop();
             function show_gamb_on_scroll(force_hide) {
-                if (scrollPos > 400 || $(window).innerWidth() < 768 || $('.menu_mobile').hasClass('active')) {
+                if (scrollPos > 400 || $(window).innerWidth() < 769 || $('.menu_mobile').hasClass('active')) {
                     $('.menu_mobile_wrap').show()
                     $('.welcome_menu').hide()
                 } else {
