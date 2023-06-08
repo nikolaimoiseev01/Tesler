@@ -179,7 +179,7 @@
                                     {{\App\Models\GoodCategory::where('id', $good['good_category_id'][0])->first(['title'])->title}}
                                 </p>
                                 <h2>
-                                    И: {{$key}} {{Str::limit(Str::ucfirst(Str::lower($good['name'])), 30, '...')}}
+                                    {{Str::limit(Str::ucfirst(Str::lower($good['name'])), 30, '...')}}
                                 </h2>
                             </div>
                             <div class="buttons_wrap">
@@ -222,7 +222,7 @@
                                     </p>
                                     <a class="name" target="_blank" href="{{route('good_page', $good['id'])}}">
                                         <p>
-                                            И: {{$key}}  {{Str::limit(Str::ucfirst(Str::lower($good['name'])), 30, '...')}}
+                                            {{Str::limit(Str::ucfirst(Str::lower($good['name'])), 30, '...')}}
                                         </p>
                                     </a>
                                 </div>
