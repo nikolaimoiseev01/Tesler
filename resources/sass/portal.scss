@@ -589,6 +589,12 @@
 
     .welcome_video {
         display: none;
+        width: 100vw;
+        height: 100vh;
+        object-fit: cover;
+        position: absolute;
+        top: 0px;
+        left: 0px;
 
         @media(max-width: $media-tablets-768) {
             display: inherit;
@@ -1824,6 +1830,10 @@
                         @media(max-width: $media-mobiles-480) {
                             display: none;
                         }
+                    }
+
+                    .price {
+                        color: $color-fern-100;
                     }
                 }
 

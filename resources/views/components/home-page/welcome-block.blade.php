@@ -2,7 +2,7 @@
     <img src="/media/media_fixed/welcome_pic.jpg" alt="">
 
     <video preload="auto" autoplay="autoplay" webkit-playsinline="" playsinline="" loop="loop" class="welcome_video"
-           style="width: 100vw; height: 100vh; object-fit: cover; position: absolute; top: 0px; left: 0px;" muted="">
+           style="" muted="">
         <source src="/media/media_fixed/welcome_video.mp4"
                 type="video/mp4">
         <source src="/media/media_fixed/welcome_video.webm"

@@ -112,7 +112,9 @@
                                                 мин</p>
                                         </a>
                                         <a href="{{route('service_page', $service['id'])}}">
-                                            <p style="flex: none; width:70px;">{{$service['yc_price_min']}} ₽</p>
+                                            <p class="price" style="flex: none; width:70px;">
+                                                {{number_format($service['yc_price_min'], 0, ',', ' ')}} ₽
+                                            </p>
                                         </a>
                                         <a href="{{route('service_page', $service['id'])}}">
                                             <p>{{$service['name']}}</p>
