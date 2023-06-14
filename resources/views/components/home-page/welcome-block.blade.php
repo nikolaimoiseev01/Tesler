@@ -1,7 +1,15 @@
 <section class="welcome-block">
     <img src="/media/media_fixed/welcome_pic.jpg" alt="">
 
-<x-ui.menu color="white"></x-ui.menu>
+    <video preload="auto" autoplay="autoplay" webkit-playsinline="" playsinline="" loop="loop" class="welcome_video"
+           style="width: 100vw; height: 100vh; object-fit: cover; position: absolute; top: 0px; left: 0px;" muted="">
+        <source src="/media/media_fixed/welcome_video.mp4"
+                type="video/mp4">
+        <source src="/media/media_fixed/welcome_video.webm"
+                type="video/webm">
+    </video>
+
+    <x-ui.menu color="white"></x-ui.menu>
 
     <div class="welcome_cta_wrap">
         <x-logo/>

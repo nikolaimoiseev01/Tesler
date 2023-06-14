@@ -587,6 +587,14 @@
     align-items: center;
     justify-content: center;
 
+    .welcome_video {
+        display: none;
+
+        @media(max-width: $media-tablets-768) {
+            display: inherit;
+        }
+    }
+
     .welcome_menu {
         top: $header-height;
         width: 95%;
