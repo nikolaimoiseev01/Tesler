@@ -1833,7 +1833,10 @@
                     }
 
                     .price {
-                        color: $color-fern-100;
+                        @media(max-width: $media-tablets-768) {
+                            color: $color-fern-100;
+                        }
+
                     }
                 }
 
