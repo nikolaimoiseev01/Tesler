@@ -4,42 +4,65 @@
           wire:submit.prevent="editScope(Object.fromEntries(new FormData($event.target)))">
         @csrf
         <input type="text" name="scope_id" value="{{$scope['id']}}" style="display: none">
-        <h1 style="font-size: 1.8rem;" class="mb-3 pb-3 border-bottom">Изменение сферы</h1>
+        <div class="d-flex justify-content-between mb-3 border-bottom">
+            <h1 style="font-size: 1.8rem;" class="pb-3">Изменение сферы</h1>
+            <div class="d-inline">
+                <div class="d-flex align-items-center ml-auto">
+                        @if($scope['flg_active'] ?? 0 == 1)
+                            <p class="mr-2" style="color: #1ac71a">есть на сайте</p>
+                        @else
+                            <p class="mr-2" style="color: grey">неактивна</p>
+                        @endif
+                    <label class="mb-0 float-right relative inline-flex items-center cursor-pointer">
+
+                        <input wire:model="flg_active" wire:change="toggleActivity" type="checkbox" value=""
+                               class="sr-only peer">
+                        <div
+                            class="w-11 h-6 bg-gray-200 peer-focus:outline-none dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+
+                    </label>
+                </div>
+            </div>
+        </div>
+
+
         <div class="form-group">
             <label for="exampleInputEmail1">Название</label>
             <input type="name" id="name" value="{{$scope['name']}}" name="name" class="form-control">
         </div>
+
+
         <div class="form-group">
             <label for="exampleInputEmail1">Описание</label>
             <textarea name="desc" class="form-control">{{$scope['desc']}}</textarea>
         </div>
 
-{{--        <div style="width: fit-content" id="pic_main_page_block_{{$scope['id']}}"--}}
-{{--             class="position-relative">--}}
-{{--            <label for="">Фото на главной странице</label>--}}
-{{--            <div class="image_editable_wrap">--}}
-{{--                <img data-crop-component="refreshPromoEdit"--}}
-{{--                     data-crop-width="460"--}}
-{{--                     data-crop-height="280"--}}
-{{--                     style="max-width: 100px;" src="/{{$scope['pic_main_page']}}"--}}
-{{--                     alt="">--}}
-{{--                <i class="image_edit_button fa-solid fa-pencil"></i>--}}
-{{--            </div>--}}
-{{--            <a id="make_pic_main_page_block--{{$scope['id']}}"--}}
-{{--               class="mt-3 mb-3 make_pic_main_page_block btn btn-outline-primary">заменить</a>--}}
-{{--        </div>--}}
+        {{--        <div style="width: fit-content" id="pic_main_page_block_{{$scope['id']}}"--}}
+        {{--             class="position-relative">--}}
+        {{--            <label for="">Фото на главной странице</label>--}}
+        {{--            <div class="image_editable_wrap">--}}
+        {{--                <img data-crop-component="refreshPromoEdit"--}}
+        {{--                     data-crop-width="460"--}}
+        {{--                     data-crop-height="280"--}}
+        {{--                     style="max-width: 100px;" src="/{{$scope['pic_main_page']}}"--}}
+        {{--                     alt="">--}}
+        {{--                <i class="image_edit_button fa-solid fa-pencil"></i>--}}
+        {{--            </div>--}}
+        {{--            <a id="make_pic_main_page_block--{{$scope['id']}}"--}}
+        {{--               class="mt-3 mb-3 make_pic_main_page_block btn btn-outline-primary">заменить</a>--}}
+        {{--        </div>--}}
 
-{{--        <div style="display: none;" class="mt-2" id="new_pic_main_page_block_{{$scope['id']}}">--}}
-{{--            <input type="file"--}}
-{{--                   wire:model="pic_scope_main_page"--}}
-{{--                   class="filepond"--}}
-{{--                   name="pic_scope_main_page"--}}
-{{--                   id="pic_scope_main_page"--}}
-{{--                   data-allow-reorder="true"--}}
-{{--                   data-max-file-size="3MB"--}}
-{{--                   data-max-files="3">--}}
+        {{--        <div style="display: none;" class="mt-2" id="new_pic_main_page_block_{{$scope['id']}}">--}}
+        {{--            <input type="file"--}}
+        {{--                   wire:model="pic_scope_main_page"--}}
+        {{--                   class="filepond"--}}
+        {{--                   name="pic_scope_main_page"--}}
+        {{--                   id="pic_scope_main_page"--}}
+        {{--                   data-allow-reorder="true"--}}
+        {{--                   data-max-file-size="3MB"--}}
+        {{--                   data-max-files="3">--}}
 
-{{--        </div>--}}
+        {{--        </div>--}}
 
         <div style="width: fit-content" id="pic_scope_page_block_{{$scope['id']}}"
              class="position-relative">

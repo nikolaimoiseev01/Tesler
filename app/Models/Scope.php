@@ -13,6 +13,7 @@ class Scope extends Model
         'pic_main_page',
         'pic_scope_page',
         'position',
+        'flg_active'
     ];
 
 

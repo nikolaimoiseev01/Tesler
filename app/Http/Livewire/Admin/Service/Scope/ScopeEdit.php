@@ -13,6 +13,8 @@ class ScopeEdit extends ModalComponent
 {
     public $scope;
     public $scope_id;
+    public $flg_active;
+
     public function render()
     {
 
@@ -23,12 +25,27 @@ class ScopeEdit extends ModalComponent
 
     public function mount($scope_id)
     {
-
         $this->scope = Scope::where('id', $scope_id)->first();
+        $this->flg_active = $this->scope['flg_active'];
     }
 
+    public function toggleActivity()
+    {
 
-    public function editScope($formData) {
+
+        $this->scope->update([
+            'flg_active' => $this->flg_active ? 1 : 0
+        ]);
+
+        $this->dispatchBrowserEvent('toast_fire', [
+            'type' => 'success',
+            'title' => $this->flg_active ? 'Сфера появилась на сайте' : 'Сфера скрыта с сайта',
+        ]);
+
+    }
+
+    public function editScope($formData)
+    {
 // --------- Ищем ошибки в заполнении  --------- //
         $errors_array = [];
 
@@ -98,7 +115,6 @@ class ScopeEdit extends ModalComponent
                 'name' => $formData['name'],
                 'desc' => $formData['desc']
             ]);
-
 
 
             $this->dispatchBrowserEvent('toast_fire', [

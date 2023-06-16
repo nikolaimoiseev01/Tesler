@@ -55,7 +55,7 @@ class PortalController extends Controller
 
         $promos = Promo::orderBy('position')->get();
         $interior_pics = interior_photo::orderBy('position')->pluck('pic')->all();
-        $scopes = Scope::orderBy('position')->with('group')->get();
+        $scopes = Scope::orderBy('position')->where('flg_active', 1)->with('group')->get();
 
         $shopsets_pre = ShopSet::orderBy('title')->take(3)->get();
 

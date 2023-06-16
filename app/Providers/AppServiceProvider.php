@@ -21,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         view()->composer('*', function ($view) {
-            $scopes_menu_mobile = Scope::orderBy('name')->get();
+            $scopes_menu_mobile = Scope::where('flg_active', 1)->orderBy('name')->get();
             $view->with([
                 'scopes_menu_mobile' => $scopes_menu_mobile,
             ]);
