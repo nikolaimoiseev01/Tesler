@@ -93,24 +93,32 @@
                             <textarea wire:model="desc" name="desc" class="form-control"></textarea>
                         </div>
 
-                        <div class="mt-3">
-                            <label for="desc_small">Шопсет в подборке</label>
-                            <select wire:model="selected_shopset" class="select2 form-control"
-                                    aria-hidden="true" id="selected_shopset">
-                                @if(!($selected_shopset ?? null))
-                                    <option value="" hidden>Не выбрано</option>
-                                @endif
-                                @foreach($shopsets_all as $shopset)
-                                    <option
-                                        value="{{$shopset['id']}}">{{$shopset['title']}}
-                                    </option>
-                                @endforeach
-                            </select>
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <label for="desc_small">Шопсет в подборке</label>
+                                <select wire:model="selected_shopset" class="select2 form-control"
+                                        aria-hidden="true" id="selected_shopset">
+                                    @if(!($selected_shopset ?? null))
+                                        <option value="" hidden>Не выбрано</option>
+                                    @endif
+                                    @foreach($shopsets_all as $shopset)
+                                        <option
+                                            value="{{$shopset['id']}}">{{$shopset['title']}}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label for="exampleInputEmail1">Опыт</label>
+                                <input wire:model="experience" type="text" class="form-control"
+                                       id="experience"
+                                       placeholder="Опыт">
+                            </div>
                         </div>
 
-                        <div class="mt-3" >
+                        <div class="mt-3">
                             <label for="desc_small">Сертификат в подборке</label>
-                            <select wire:model="selected_sert"  class="select2 form-control"
+                            <select wire:model="selected_sert" class="select2 form-control"
                                     aria-hidden="true" id="selected_sert">
                                 @if(!($selected_sert ?? null))
                                     <option value="" hidden>Не выбрано</option>
@@ -138,7 +146,8 @@
                             </select>
                         </div>
 
-                        <button type="submit" class="mt-3 w-100 show_preloader_on_click btn btn-outline-primary">Сохранить
+                        <button type="submit" class="mt-3 w-100 show_preloader_on_click btn btn-outline-primary">
+                            Сохранить
                         </button>
                     </form>
                 </div>
@@ -242,7 +251,7 @@
     </div>
 
 
-    <div style="max-width: 1400px;"  class="card">
+    <div style="max-width: 1400px;" class="card">
         <div class="d-flex align-items-center card-header p-2">
             <h1 style="font-size: 22px;" class="ml-3">Коллеги этого мастера</h1>
         </div>

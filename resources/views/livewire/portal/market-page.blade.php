@@ -28,7 +28,7 @@
                 </div>
             </div>
 
-            @if(count($categories) > 1)
+            @if(count($categories->where('title', '<>', 'Абонементы')->where('title', '<>', 'Сертификаты')) > 1)
                 <div class="filter_block_wrap @if($yc_category) has_filter @endif yc_category_filter_wrap">
                     <a @click="opend_filter = 'category'" class="link coal">Категория</a>
                     <div x-transition x-show="opend_filter === 'category'" class="filter_wrap check_box_filter_wrap">
@@ -162,9 +162,10 @@
                 @foreach($goods as $key=>$good)
                     @if($good['flg_big_block'] == 1 &&
                         !$abon_page_check)
-                        <div  class="big_blog_wrap @if($key % 10 == 4) big_blog_wrap_right @else big_blog_wrap_left @endif"
-                             wire:key="{{$key}}">
-                            <a class="good_cover">
+                        <div
+                            class="big_blog_wrap @if($key % 10 == 4) big_blog_wrap_right @else big_blog_wrap_left @endif"
+                            wire:key="{{$key}}">
+                            <a class="good_cover" href="{{route('good_page', $good['id'])}}">
                                 <img
                                     @if(is_null($good->getFirstMediaUrl('good_examples')) || $good->getFirstMediaUrl('good_examples') == '')
                                     src="/media/media_fixed/logo_holder.png"
@@ -178,9 +179,11 @@
                                 <p class="category">
                                     {{\App\Models\GoodCategory::where('id', $good['good_category_id'][0])->first(['title'])->title}}
                                 </p>
-                                <h2>
-                                    {{Str::limit(Str::ucfirst(Str::lower($good['name'])), 30, '...')}}
-                                </h2>
+                                <a class="name" href="{{route('good_page', $good['id'])}}">
+                                    <h2>
+                                        {{Str::limit(Str::ucfirst(Str::lower($good['name'])), 30, '...')}}
+                                    </h2>
+                                </a>
                             </div>
                             <div class="buttons_wrap">
                                 <div class="to_cart_wrap">

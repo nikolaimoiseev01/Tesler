@@ -6,9 +6,12 @@
                 <p>+7 (391) 214-70-06</p>
                 <p class="email">
                     <svg width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M0.797852 10.3418L5.0907 6.04893L0.797852 1.75601L2.2121 0.341797L7.9192 6.04893L2.2121 11.756L0.797852 10.3418Z" fill="#E3E396"/>
+                        <path
+                            d="M0.797852 10.3418L5.0907 6.04893L0.797852 1.75601L2.2121 0.341797L7.9192 6.04893L2.2121 11.756L0.797852 10.3418Z"
+                            fill="#E3E396"/>
                     </svg>
-                    tesler_team@mail.ru</p>
+                    tesler_team@mail.ru
+                </p>
                 <p>Красноярск, ул. Авиаторов, д. 21</p>
             </div>
             <div class="socials">
@@ -73,16 +76,18 @@
                 <a href="{{route('market_page')}}" class="link">Магазин</a>
                 <a href="{{route('abonements_page')}}" class="link">Абонементы и сертификаты</a>
                 <a href="{{route('loyalty_page')}}" class="link">Программа лояльности</a>
-                <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLScBDMFllh5S6OL4zMcYTCBwkGD9pF-3LcD6RH6HD1idNDaLKw/viewform?usp=sharing" class="link">Вакансии</a>
-                <a href="{{route('scope_page', 1)}}" class="link">Ногтевой сервис</a>
+                <a target="_blank"
+                   href="https://docs.google.com/forms/d/e/1FAIpQLScBDMFllh5S6OL4zMcYTCBwkGD9pF-3LcD6RH6HD1idNDaLKw/viewform?usp=sharing"
+                   class="link">Вакансии</a>
+
+                <a href="{{route('scope_page', 1)}}" class="link">{{$scopes_menu_mobile[0]['name']}}</a>
             </div>
             <div>
-                <a href="{{route('scope_page', 5)}}" class="link">Брови и ресницы</a>
-                <a href="{{route('scope_page', 8)}}" class="link">Парикмахерские услуги</a>
-                <a href="{{route('scope_page', 4)}}" class="link">Косметология</a>
-                <a href="{{route('scope_page', 3)}}" class="link">Массаж и spa</a>
-                <a href="{{route('scope_page', 2)}}" class="link">Мужские услуги</a>
-                <a href="{{route('scope_page', 9)}}" class="link">Перманент</a>
+                @foreach($scopes_menu_mobile as $key=>$scope)
+                    @if ($key !== 0)
+                        <a href="{{route('scope_page', $scope['id'])}}" class="link">{{$scope['name']}}</a>
+                    @endif
+                @endforeach
             </div>
 
         </div>

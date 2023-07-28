@@ -104,13 +104,12 @@ class StaffIndex extends Component
             ->get('https://api.yclients.com/api/v1/company/' . $YCLIENTS_SHOP_ID . '/staff/')
             ->collect()['data'];
 
-        $yc_staffs = array_values(Arr::where($yc_staffs, function ($value, $key) {
-            return $value['fired'] == 0;
-        })); // Только неуволенных сотрудников
-
         foreach ($yc_staffs as $yc_staff) { // Идем по всем стаффам YCLIENTS
             $staff_found = Staff::where('yc_id', $yc_staff['id'])->first();
 
+            if($yc_staff['fired'] == 1 && $staff_found) { // Если сотрудник уволен и есть в системе - удаляем его
+                $staff_found->delete();
+            }
 
             if ($staff_found ?? null) { // Если есть такой сотрудник
 
@@ -118,7 +117,7 @@ class StaffIndex extends Component
                     'yc_id' => $yc_staff['id'],
                     'yc_name' => $yc_staff['name'],
                     'yc_avatar' => $yc_staff['avatar_big'],
-                    'yc_position' => $yc_staff['position']['title'],
+                    'yc_position' => $yc_staff['position']['title'] ?? 'Другое',
                     'yc_specialization' => $yc_staff['specialization'],
                 ]);
 

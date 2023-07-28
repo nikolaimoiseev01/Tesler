@@ -26,6 +26,7 @@ class StaffEdit extends Component
     public $serts_all;
     public $selected_abon;
     public $abon_all;
+    public $experience;
 
 
     protected $listeners = ['refreshStaffEdit' => '$refresh', 'delete_staff_example_media'];
@@ -44,6 +45,7 @@ class StaffEdit extends Component
         $this->selected_sert = $this->staff['selected_sert'];
         $this->selected_abon = $this->staff['selected_abon'];
         $this->flg_active = $this->staff['flg_active'];
+        $this->experience = $this->staff['experience'];
 
         $this->collegues_all = Staff::orderBy('yc_name')->get();
         $this->shopsets_all = ShopSet::orderBy('title')->get();
@@ -63,6 +65,10 @@ class StaffEdit extends Component
 
         if ($this->desc == null) {
             array_push($errors_array, 'Описание не заполнено!');
+        }
+
+        if ($this->experience == null) {
+            array_push($errors_array, 'Опыт не заполнен!');
         }
 
 
@@ -106,6 +112,10 @@ class StaffEdit extends Component
             array_push($errors_array, 'Описание не заполнено!');
         }
 
+        if ($this->experience == null) {
+            array_push($errors_array, 'Опыт не заполнен!');
+        }
+
 
         if (!empty($errors_array)) {
             $this->dispatchBrowserEvent('swal_fire', [
@@ -127,6 +137,7 @@ class StaffEdit extends Component
                 'selected_shopset' => $this->selected_shopset,
                 'selected_abon' => $this->selected_abon,
                 'selected_sert' => $this->selected_sert,
+                'experience' => $this->experience
             ]);
 
             $this->dispatchBrowserEvent('toast_fire', [

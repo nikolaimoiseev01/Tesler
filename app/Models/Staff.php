@@ -21,7 +21,8 @@ class Staff extends Model implements HasMedia
         'collegues',
         'selected_shopset',
         'selected_abon',
-        'selected_sert'
+        'selected_sert',
+        'experience'
     ];
     /**
      * @var mixed

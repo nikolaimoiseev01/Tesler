@@ -35,13 +35,17 @@
 
         <div class="content categories_filter_wrap">
             @foreach($categories as $category)
-                <div onclick="location.href='{{route('good_category_page', $category['id'])}}';" class="category_filter_wrap">
-                    <img src="{{$category->getFirstMediaUrl('pic_goodcategory_small')}}" alt="">
-                    <p>{{$category['title']}}</p>
-                </div>
+                @if(!($category['title'] == 'Абонементы'))
+                    <div onclick="location.href='{{route('good_category_page', $category['id'])}}';"
+                         class="category_filter_wrap">
+                        <img src="{{$category->getFirstMediaUrl('pic_goodcategory_small')}}" alt="">
+                        <p>{{$category['title']}}</p>
+                    </div>
+                @endif
             @endforeach
         </div>
-        @livewire('portal.market-page', ['goods' => $goods, 'categories' => $categories, 'abon_page_check' => $abon_page_check])
+        @livewire('portal.market-page', ['goods' => $goods, 'categories' => $categories, 'abon_page_check' =>
+        $abon_page_check])
         <div class="content about_wrap">
             <div class="image_blackout">
                 <img src="/media/media_fixed/need_consultation_косметология.jpg" alt="">
@@ -50,7 +54,8 @@
                 <p>КОНСУЛЬТАЦИЯ</p>
                 <h2> не знаете что выбрать? </h2>
                 <div>
-                    <p>Получите бесплатную онлайн-консультацию от специалистов Tesler и подберите услугу, подходящую именно
+                    <p>Получите бесплатную онлайн-консультацию от специалистов Tesler и подберите услугу, подходящую
+                        именно
                         вам
                     </p>
                 </div>

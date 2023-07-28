@@ -10,7 +10,7 @@
             <div class="left">
 
                 <div class="info">
-                    <span class="yellow_info"><p>5 лет опыта</p></span>
+                    <span class="yellow_info"><p>{{$staff['experience']}} опыта</p></span>
                     <p class="specialization">{{$staff['yc_specialization']}}</p>
                 </div>
                 <h2>{{$staff['yc_name']}}</h2>
