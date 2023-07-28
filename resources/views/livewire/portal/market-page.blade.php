@@ -181,7 +181,7 @@
                                 </p>
                                 <a class="name" href="{{route('good_page', $good['id'])}}">
                                     <h2>
-                                        {{Str::limit(Str::ucfirst(Str::lower($good['name'])), 30, '...')}}
+                                        {{Str::limit(Str::ucfirst(Str::lower($good['name'])), 50, '...')}}
                                     </h2>
                                 </a>
                             </div>
@@ -225,7 +225,7 @@
                                     </p>
                                     <a class="name" target="_blank" href="{{route('good_page', $good['id'])}}">
                                         <p>
-                                            {{Str::limit(Str::ucfirst(Str::lower($good['name'])), 30, '...')}}
+                                            {{Str::limit(Str::ucfirst(Str::lower($good['name'])), 45, '...')}}
                                         </p>
                                     </a>
                                 </div>
