@@ -2578,13 +2578,24 @@
 
                 }
 
-                .price {
-                    font-size: 20px;
-                    color: $color-coal-100;
-                    font-weight: 500;
+                .price_wrap {
+                    display: flex;
+                    gap: 10px;
 
-                    @media (max-width: $media-tablets-768) {
-                        order: 1;
+                    .price {
+                        font-size: 20px;
+                        color: $color-coal-100;
+                        font-weight: 500;
+
+                        @media (max-width: $media-tablets-768) {
+                            order: 1;
+                        }
+
+                        &.discount {
+                            text-decoration: line-through;
+                            color: rgba(17, 16, 16, 0.4);
+                            font-size: 18px;
+                        }
                     }
                 }
 

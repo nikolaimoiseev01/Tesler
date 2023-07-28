@@ -108,9 +108,9 @@ class CategoryEdit extends ModalComponent
             if (!$this->category_examples == null || !empty($this->category_examples)) {
                 foreach ($this->category_examples as $key => $category_example) {
                     $file_path = public_path('media/filepond_temp/' . $category_example);
-                    Image::load($file_path)
-                        ->optimize()
-                        ->save($file_path);
+//                    Image::load($file_path)
+//                        ->optimize()
+//                        ->save($file_path);
                     $this->category->addMedia($file_path)->toMediaCollection('category_examples');
                 }
             }

@@ -246,7 +246,14 @@
                                         <p>Товар закончился</p>
                                     @endif
                                 </div>
-                                <p class="price">{{number_format($good['yc_price'] * ((100 - $good['discount'])/100), 0, ',', ' ')}} ₽</p>
+                                <div class="price_wrap">
+                                    @if($good['discount'] > 0)
+                                        <h2 class="price discount">{{number_format($good['yc_price'], 0, ',', ' ')}}</h2>
+                                    @endif
+                                    <p class="price">
+                                        {{number_format($good['yc_price'] * ((100 - $good['discount'])/100), 0, ',', ' ')}} Р
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     @endif
