@@ -17,7 +17,7 @@ class MarketPage extends Component
     public $abon_page_check;
 
     public $goods;
-    public $goods_amt = 13;
+    public $goods_amt = 12;
     public $price_min;
     public $price_max;
     public $categories;
@@ -193,7 +193,7 @@ class MarketPage extends Component
 
     public function load_more()
     {
-        $this->goods_amt += 13;
+        $this->goods_amt += 12;
         $this->emit('refreshMarketPage');
     }
 
