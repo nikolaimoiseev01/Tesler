@@ -201,7 +201,7 @@
                                         <p>Товар закончился</p>
                                     @endif
                                 </div>
-                                <p class="price">{{$good['yc_price'] * ((100 - $good['discount'])/100)}} ₽</p>
+                                <p class="price">{{number_format($good['yc_price'] * ((100 - $good['discount'])/100), 0, ',', ' ')}} ₽</p>
                             </div>
                         </div>
                     @endif
@@ -246,7 +246,7 @@
                                         <p>Товар закончился</p>
                                     @endif
                                 </div>
-                                <p class="price">{{$good['yc_price'] * ((100 - $good['discount'])/100)}} ₽</p>
+                                <p class="price">{{number_format($good['yc_price'] * ((100 - $good['discount'])/100), 0, ',', ' ')}} ₽</p>
                             </div>
                         </div>
                     @endif
