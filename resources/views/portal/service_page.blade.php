@@ -32,7 +32,12 @@
                            class="link-bg coal">Записаться</a>
                         <div class="info">
                             <span class="yellow_info"><p>{{$service['yc_duration'] / 60}} МИН</p></span>
-                            <p class="price">{{$service['yc_price_min']}} ₽</p>
+                            <p class="price">
+                                @if($service['yc_price_min'] <> $service['yc_price_max'])
+                                    от
+                                @endif
+                                {{$service['yc_price_min']}} ₽
+                            </p>
                         </div>
 
                     </div>

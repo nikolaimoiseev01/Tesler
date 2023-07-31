@@ -2483,17 +2483,27 @@
                     .price_wrap {
                         display: flex;
                         gap: 20px;
+                        align-items: center;
+
+                        &.discounted {
+                            background: #D896BB;
+                            padding: 0 10px;
+                            border-radius: 10px;
+                        }
 
                         .discount {
                             font-size: 18px;
                             text-decoration: line-through;
                             color: rgba(17, 16, 16, 0.4);
+                            margin-bottom: 3px;
                         }
 
                         .price {
                             font-size: 20px;
                             color: #111010;
                             font-weight: 500;
+                            display: inline-block;
+                            height: fit-content;
                         }
                     }
 
@@ -2591,25 +2601,38 @@
 
                 }
 
-                .price_wrap {
-                    display: flex;
-                    gap: 10px;
+                .buttons_wrap {
+                    .price_wrap {
+                        display: flex;
+                        gap: 10px;
+                        align-items: center;
 
-                    .price {
-                        font-size: 20px;
-                        color: $color-coal-100;
-                        font-weight: 500;
-
-                        @media (max-width: $media-tablets-768) {
-                            order: 1;
+                        &.discounted {
+                            background: #D896BB;
+                            padding: 0 10px;
+                            border-radius: 10px;
                         }
 
-                        &.discount {
-                            text-decoration: line-through;
-                            color: rgba(17, 16, 16, 0.4);
-                            font-size: 18px;
+                        .price {
+                            font-size: 20px;
+                            color: $color-coal-100;
+                            font-weight: 500;
+
+                            @media (max-width: $media-tablets-768) {
+                                order: 1;
+                            }
+
+                            &.discount {
+                                text-decoration: line-through;
+                                color: rgba(17, 16, 16, 0.4);
+                                font-size: 18px;
+                                display: inline-block;
+                                margin-bottom: 3px;
+                            }
                         }
                     }
+
+
                 }
 
 

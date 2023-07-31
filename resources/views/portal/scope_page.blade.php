@@ -112,7 +112,10 @@
                                                 мин</p>
                                         </a>
                                         <a href="{{route('service_page', $service['id'])}}">
-                                            <p class="price" style="flex: none; width:70px;">
+                                            <p class="price" style="flex: none; width:110px;">
+                                                @if($service['yc_price_min'] <> $service['yc_price_max'])
+                                                    от
+                                                @endif
                                                 {{number_format($service['yc_price_min'], 0, ',', ' ')}} ₽
                                             </p>
                                         </a>

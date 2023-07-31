@@ -201,7 +201,7 @@
                                         <p>Товар закончился</p>
                                     @endif
                                 </div>
-                                <div class="price_wrap">
+                                <div class="price_wrap @if($good['discount'] > 0) discounted @endif">
                                     @if($good['discount'] > 0)
                                         <h2 class="price discount">{{number_format($good['yc_price'], 0, ',', ' ')}}</h2>
                                     @endif
@@ -253,7 +253,7 @@
                                         <p>Товар закончился</p>
                                     @endif
                                 </div>
-                                <div class="price_wrap">
+                                <div class="price_wrap @if($good['discount'] > 0) discounted @endif">
                                     @if($good['discount'] > 0)
                                         <h2 class="price discount">{{number_format($good['yc_price'], 0, ',', ' ')}}</h2>
                                     @endif
