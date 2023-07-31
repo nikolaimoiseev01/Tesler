@@ -38,7 +38,7 @@
                             <div class="spec_wrap">
                                 {{--                                <p class="spec">{{$cart_good['capacity']}} {{$cart_good['capacity_type']}}</p>--}}
 {{--                                <p class="spec">{{$cart_good['yc_actual_amount']}} в наличии</p>--}}
-                                <p class="price">{{$cart_good['yc_price']}} ₽/шт.</p>
+                                <p class="price">{{$cart_good['yc_price']  * ((100 - $cart_good['discount'])/100)}} ₽/шт.</p>
                             </div>
 
                         </div>
