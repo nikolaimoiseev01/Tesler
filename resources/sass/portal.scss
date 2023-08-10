@@ -624,6 +624,10 @@
         align-items: center;
         justify-content: center;
         flex-direction: column;
+
+        @media(max-width: $media-tablets-768) {
+            display: none;
+        }
     }
 
     .logo {
