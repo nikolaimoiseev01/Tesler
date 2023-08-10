@@ -601,6 +601,12 @@
         }
     }
 
+    img {
+        @media(max-width: $media-tablets-768) {
+            display: none;
+        }
+    }
+
     .welcome_menu {
         top: $header-height;
         width: 95%;

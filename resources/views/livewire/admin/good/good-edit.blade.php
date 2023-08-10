@@ -509,8 +509,8 @@
                        name="good_examples"
                        id="good_examples"
                        data-allow-reorder="true"
-                       data-max-file-size="3MB"
-                       data-max-files="3">
+                       data-max-file-size="30MB"
+                       data-max-files="30">
 
             </div>
             <a type="submit" wire:click.prevent="new_good_examples"

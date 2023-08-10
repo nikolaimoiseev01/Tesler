@@ -133,13 +133,12 @@ class GoodCart extends Component
 
         if ($yc_good['loyalty_certificate_type_id'] !== 0) { // Если это сертификат
             $url = 'https://o3194.yclients.com/loyalty/certificate/' . $yc_good['loyalty_certificate_type_id'];
-            $this->dispatchBrowserEvent('open_url_new_tab', [
-                'url' => $url
-            ]);
+            return redirect($url);
         }
 
         if ($yc_good['loyalty_abonement_type_id'] !== 0) { // Если это абонемент
-            return redirect('https://o3194.yclients.com/loyalty/subscription/' . $yc_good['loyalty_abonement_type_id']);
+            $url = 'https://o3194.yclients.com/loyalty/subscription/' . $yc_good['loyalty_abonement_type_id'];
+            return redirect($url);
         }
 
         if ($yc_good['loyalty_abonement_type_id'] === 0 && $yc_good['loyalty_certificate_type_id'] == 0) {

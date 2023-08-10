@@ -492,9 +492,9 @@ class ServiceEdit extends Component
             if (!$this->service_examples == null || !empty($this->service_examples)) {
                 foreach ($this->service_examples as $key => $service_example) {
                     $file_path = public_path('media/filepond_temp/' . $service_example);
-                    Image::load($file_path)
-                        ->optimize()
-                        ->save($file_path);
+//                    Image::load($file_path)
+//                        ->optimize()
+//                        ->save($file_path);
                     $this->service->addMedia($file_path)->toMediaCollection('service_examples');
                 }
             }

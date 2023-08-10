@@ -435,6 +435,7 @@
 <!-- include FilePond jQuery adapter -->
 <script src="/plugins/filepond/filepond.jquery.js"></script>
 <!-- include FilePond plugins -->
+<script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
 <script src="/plugins/filepond/filepond-plugin-image-preview.js"></script>
 <script src="/plugins/filepond/filepond-plugin-image-validate-size.js"></script>
 <script src="/plugins/filepond/filepond-plugin-file-validate-size.js"></script>
@@ -453,7 +454,8 @@
         FilePondPluginImageValidateSize, // для определения размера изображения
         FilePondPluginFileValidateSize, // для определения размера файла в целом
         FilePondPluginImageResize, // для изменения размера изображения
-        FilePondPluginImageTransform // для изменения размера изображения
+        FilePondPluginImageTransform, // для изменения размера изображения
+        FilePond.registerPlugin(FilePondPluginFileValidateType) // Для правильно определения типа файла
         // FilePondPluginImageEdit,
         // FilePondPluginImageExifOrientation,
     );

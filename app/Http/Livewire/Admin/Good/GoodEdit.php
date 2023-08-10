@@ -172,9 +172,10 @@ class GoodEdit extends Component
         if ($this->desc == null) {
             array_push($errors_array, 'Описание не заполнено!');
         }
-        if ($this->usage == null) {
-            array_push($errors_array, 'Применение не заполнено!');
-        }
+
+//        if ($this->usage == null) {
+//            array_push($errors_array, 'Применение не заполнено!');
+//        }
 
         if ($this->scope == null) {
             array_push($errors_array, 'Выберите сферу от услуг!');
