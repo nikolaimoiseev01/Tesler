@@ -45,7 +45,7 @@ class StaffIndex extends Component
                     'yc_id' => $yc_staff['id'],
                     'yc_name' => $yc_staff['name'],
                     'yc_avatar' => $yc_staff['avatar_big'],
-                    'yc_position' => $yc_staff['position']['title'],
+                    'yc_position' => $yc_staff['position']['title'] ?? '',
                     'yc_specialization' => $yc_staff['specialization'],
                 ];
             }

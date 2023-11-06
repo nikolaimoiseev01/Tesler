@@ -104,28 +104,30 @@ class PortalController extends Controller
 
                 for ($x = 0; $x <= 4; $x++) {
                     $category_check = Arr::where($category_staff_pre, function ($value, $key) use ($category) {
-                        if (($value['category_id'] ?? null)) {
+                        if ((isset($value['category_id']) ? $value['category_id'] : null)) {
                             return $value['category_id'] == $category['id'];
                         }
                     });
 
 
-                    if (!($group->service[$x] ?? null) || count($category_check) > 4) // Если не можем найти услугу, нужно выходить из цикла
+                    if (!(isset($group->service[$x]) ? $group->service[$x] : null) || count($category_check) > 4) // Если не можем найти услугу, нужно выходить из цикла
                     {
                         break;
                     };
                     $yc_service = Http::withHeaders($YCLIENTS_HEADERS)
                         ->get('https://api.yclients.com/api/v1/company/' . $YCLIENTS_SHOP_ID . '/services/' . $group->service[$x]['yc_id'])
                         ->collect();
-                    foreach ($yc_service['data']['staff'] as $staff) {
-                        $category_staff_pre[] = [
-                            'category_id' => $category['id'],
-                            'staff_id' => $staff['id'],
-                            'image_url' => $staff['image_url'],
-                            'name' => $staff['name'],
-                        ];
-
+                    if ($yc_service['data'] ?? null) {
+                        foreach ($yc_service['data']['staff'] as $staff) {
+                            $category_staff_pre[] = [
+                                'category_id' => $category['id'],
+                                'staff_id' => $staff['id'],
+                                'image_url' => $staff['image_url'],
+                                'name' => $staff['name'],
+                            ];
+                        }
                     }
+
                 }
 
 
@@ -259,7 +261,7 @@ class PortalController extends Controller
     {
 
         $goods = Good::where('yc_price', '>', 0)
-             ->where('yc_category', '<>', 'Абонементы Сеть Tesler')
+            ->where('yc_category', '<>', 'Абонементы Сеть Tesler')
             ->Where('yc_category', '<>', 'Сертификаты Сеть Tesler')
             ->where('flg_active', 1)
             ->get();
@@ -289,7 +291,7 @@ class PortalController extends Controller
     public function good_page($good_id)
     {
         $good = Good::where('id', $good_id)->first();
-        if($good['yc_category'] == 'Абонементы Сеть Tesler' || $good['yc_category'] == 'Сертификаты Сеть Tesler') {
+        if ($good['yc_category'] == 'Абонементы Сеть Tesler' || $good['yc_category'] == 'Сертификаты Сеть Tesler') {
             $abon_check = true;
         } else {
             $abon_check = false;
@@ -306,7 +308,7 @@ class PortalController extends Controller
         $course = Course::where('id', $course_id)->first();
         $sim_courses_pre = Course::where('id', '<>', $course_id)->get();
         foreach ($sim_courses_pre as $sim_course) {
-            if($sim_course['pic'] ?? null <> null && $sim_course['pic'] <> "") {
+            if ($sim_course['pic'] ?? null <> null && $sim_course['pic'] <> "") {
                 $img = "/" . $sim_course['pic'];
             } else {
                 $img = '/media/media_fixed/logo_holder.png';
@@ -315,12 +317,11 @@ class PortalController extends Controller
                 'id' => $sim_course['id'],
                 'title' => $sim_course['title'],
                 'price' => $sim_course['price'],
-                'img' =>  $img,
+                'img' => $img,
                 'link' => route('course_page', $sim_course['id']),
                 'category' => $sim_course['type'],
             ];
         }
-
 
 
         return view('portal.course_page', [
@@ -453,7 +454,6 @@ class PortalController extends Controller
             ->get();
 
 
-
         $goods = Good::where('yc_price', '>', 0)
             ->whereJsonContains('good_category_id', intval($request->goodcategory_id))
             ->where('flg_active', 1)
@@ -539,7 +539,7 @@ class PortalController extends Controller
                     \"amount\": " . $transaction->amount . ",
                     \"cost_per_unit\": " . $transaction->good_price . ",
                     \"discount\": 0,
-                    \"cost\": " . $total_price .  ",
+                    \"cost\": " . $total_price . ",
                     \"operation_unit_type\": 1,
                     \"master_id\" : 724514
                   }
