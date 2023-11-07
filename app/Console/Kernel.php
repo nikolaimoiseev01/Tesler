@@ -10,9 +10,7 @@ class Kernel extends ConsoleKernel
     /**
      * Define the application's command schedule.
      */
-    protected $commands = [
-        Commands\UpdateGoods::class,
-    ];
+    protected $commands = [];
 
 
     protected function schedule(Schedule $schedule): void
