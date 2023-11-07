@@ -87,13 +87,17 @@ class ServiceUpdate extends Command
             }
         }
 
-        $user = User::where('id', 1)->first();
+        $users = User::all();
         $created_services = count($created_services);
-        $user->notify(new MailNotification(
-            'Успешно обновили все услуги!',
-            "Все услуги на сайте были синхронизированы с YClients. Добавлено новых: {$created_services}; Об остальных обновлена информация.",
-            "Подробнее",
-            route('staff.index')
-        ));
+        foreach ($users as $user) {
+            $user->notify(new MailNotification(
+                'Успешно обновили все услуги!',
+                "Все услуги на сайте были синхронизированы с YClients. Добавлено новых: {$created_services}; Об остальных обновлена информация.",
+                "Подробнее",
+                route('staff.index')
+            ));
+        }
+
+
     }
 }

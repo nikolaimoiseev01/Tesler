@@ -118,12 +118,15 @@ class UpdateGoods extends Command
         }
 
 
-        $user = User::where('id', 1)->first();
-        $user->notify(new MailNotification(
-            'Успешно обновили все товары!',
-            "Все товары на сайте были синхронизированы с YClients. Добавлено товаров: " . count($created_goods) . "; Обновлено товаров: " . count($updated_goods) . ".",
-            "Подробнее",
-            route('good.index')
-        ));
+        $users = User::all();
+        foreach ($users as $user) {
+            $user->notify(new MailNotification(
+                'Успешно обновили все товары!',
+                "Все товары на сайте были синхронизированы с YClients. Добавлено товаров: " . count($created_goods) . "; Обновлено товаров: " . count($updated_goods) . ".",
+                "Подробнее",
+                route('good.index')
+            ));
+        }
+
     }
 }

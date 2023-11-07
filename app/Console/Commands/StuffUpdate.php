@@ -78,14 +78,17 @@ class StuffUpdate extends Command
             }
         }
 
-        $user = User::where('id', 1)->first();
+        $users = User::all();
         $deleted_staff = count($deleted_staff);
         $created_staff = count($created_staff);
-        $user->notify(new MailNotification(
-            'Успешно обновили всех мастеров!',
-            "Все мастера на сайте были синхронизированы с YClients. Удалено уволенных: {$deleted_staff}; Добавлено новых: {$created_staff}; Об остальных обновлена информация.",
-            "Подробнее",
-            route('staff.index')
-        ));
+        foreach ($users as $user) {
+            $user->notify(new MailNotification(
+                'Успешно обновили всех мастеров!',
+                "Все мастера на сайте были синхронизированы с YClients. Удалено уволенных: {$deleted_staff}; Добавлено новых: {$created_staff}; Об остальных обновлена информация.",
+                "Подробнее",
+                route('staff.index')
+            ));
+        }
+
     }
 }
