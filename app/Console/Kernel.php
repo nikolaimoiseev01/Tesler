@@ -18,8 +18,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         $schedule->command('UpdateGoods')->timezone('Europe/Moscow')->dailyAt('13:30');
-        $schedule->command('UpdateService')->timezone('Europe/Moscow')->dailyAt('13:30');
-        $schedule->command('UpdateStaff')->timezone('Europe/Moscow')->dailyAt('13:30');
+        $schedule->command('ServiceUpdate')->timezone('Europe/Moscow')->dailyAt('13:30');
+        $schedule->command('StuffUpdate')->timezone('Europe/Moscow')->dailyAt('13:30');
     }
 
     /**

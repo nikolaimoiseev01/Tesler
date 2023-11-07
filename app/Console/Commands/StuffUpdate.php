@@ -16,7 +16,7 @@ class StuffUpdate extends Command
      *
      * @var string
      */
-    protected $signature = 'UpdateStaff';
+    protected $signature = 'StuffUpdate';
 
     /**
      * The console command description.
