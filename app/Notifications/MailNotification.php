@@ -44,7 +44,7 @@ class MailNotification extends Notification
         return (new MailMessage)
             ->greeting('Приветствую!')
             ->subject($this->subject)
-            ->line($this->email_text)
+            ->line(nl2br($this->email_text))
             ->action($this->email_button_text, url($this->email_button_link))
             ;
     }

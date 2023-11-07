@@ -123,7 +123,7 @@ class GoodIndex extends Component
 
         $this->found_yc_goods = null;
 
-        foreach ($yc_goods as $yc_good) { // Идем по всем услугам YCLIENTS
+        foreach ($yc_goods as $yc_good) { // Идем по всем товарам YCLIENTS
             if (Good::where('yc_id', $yc_good['good_id'])->exists()) {
             } else {
                 $storage_id_key = array_search(ENV('YCLIENTS_SHOP_STORAGE'), array_column($yc_good['actual_amounts'], 'storage_id'));

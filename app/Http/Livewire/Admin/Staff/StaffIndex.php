@@ -38,7 +38,7 @@ class StaffIndex extends Component
 
         $this->found_yc_staffs = null;
 
-        foreach ($yc_staffs as $yc_staff) { // Идем по всем услугам YCLIENTS
+        foreach ($yc_staffs as $yc_staff) { // Идем по всем сотрудникам YCLIENTS
             if (Staff::where('yc_id', $yc_staff['id'])->exists()) {
             } else {
                 $this->found_yc_staffs[] = [
