@@ -11,13 +11,16 @@ class Kernel extends ConsoleKernel
      * Define the application's command schedule.
      */
     protected $commands = [
-        Commands\UpdateGoods::class,
-        Commands\StuffUpdate::class,
-        Commands\ServiceUpdate::class,
     ];
 
+    /**
+     * Define the participation's command schedule.
+     *
+     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @return void
+     */
 
-    protected function schedule(Schedule $schedule): void
+    protected function schedule(Schedule $schedule)
     {
         $schedule->command('UpdateGoods')->timezone('Europe/Moscow')->dailyAt('13:30');
         $schedule->command('ServiceUpdate')->timezone('Europe/Moscow')->dailyAt('13:30');
@@ -25,9 +28,11 @@ class Kernel extends ConsoleKernel
     }
 
     /**
-     * Register the commands for the application.
+     * Register the commands for the participation.
+     *
+     * @return void
      */
-    protected function commands(): void
+    protected function commands()
     {
         $this->load(__DIR__.'/Commands');
 
