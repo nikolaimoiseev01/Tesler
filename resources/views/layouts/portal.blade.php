@@ -88,7 +88,7 @@
 </div>
 
 <a style="display: none;"
-   href="https://b253254.yclients.com/company/247576/record-type?o="
+   href="{{ENV('YCLIENTS_ONLINE_LINK')}}"
    target="_blank"
    id="go_to_sign">
     <p>

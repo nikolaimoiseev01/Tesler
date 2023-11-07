@@ -9,7 +9,7 @@
 
         <x-logo/>
         <div class="right_wrap">
-            <a href="https://b253254.yclients.com/company/247576/record-type?o=" target="_blank" class="link_for_main_sign link coal">ЗАПИСАТЬСЯ</a>
+            <a href="{{ENV('YCLIENTS_ONLINE_LINK')}}" target="_blank" class="link_for_main_sign link coal">ЗАПИСАТЬСЯ</a>
             <x-ui.menu-mobile/>
         </div>
 </div>
