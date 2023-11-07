@@ -16,7 +16,7 @@ class ServiceUpdate extends Command
      *
      * @var string
      */
-    protected $signature = 'AppServiceUpdate';
+    protected $signature = 'UpdateService';
 
     /**
      * The console command description.
