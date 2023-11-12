@@ -686,10 +686,17 @@
     }
 
     .address {
+        display: flex;
 
         span {
             font-weight: 500;
             letter-spacing: 0.04em;
+        }
+
+        .addresses_wrap {
+            display: flex;
+            flex-direction: column;
+
         }
 
     }
