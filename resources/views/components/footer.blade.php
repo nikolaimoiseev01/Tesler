@@ -12,7 +12,8 @@
                     </svg>
                     tesler_team@mail.ru
                 </p>
-                <p>Красноярск, ул. Авиаторов, д. 21</p>
+                <p>Красноярск, ул. Авиаторов, д. 21,</p>
+                <p>Красноярск, ул. Бограда, д. 105</p>
             </div>
             <div class="socials">
                 <a target="_blank" href="https://www.instagram.com/teslerthehousebeauty">

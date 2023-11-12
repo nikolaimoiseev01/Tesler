@@ -28,14 +28,30 @@
             myMap = new ymaps.Map('map', {
                 // При инициализации карты обязательно нужно указать
                 // её центр и коэффициент масштабирования.
-                center: [56.042701, 92.921606],
-                zoom: 13,
+                center: [56.023128, 92.883912],
+                zoom: 12,
                 controls: []
             }, {
                 searchControlProvider: 'yandex#search'
             });
 
             myPlacemark = new ymaps.Placemark(myMap.getCenter(), {}, {
+                // Опции.
+                // Необходимо указать данный тип макета.
+                iconLayout: 'default#image',
+                // Своё изображение иконки метки.
+                iconImageHref: '/media/media_fixed/ya_map_icon.svg',
+                // Размеры метки.
+                iconImageSize: [30, 42],
+                // Смещение левого верхнего угла иконки относительно
+                // её "ножки" (точки привязки).
+                iconImageOffset: [-5, -38]
+            }),
+
+                myMap.geoObjects
+                    .add(myPlacemark)
+
+            myPlacemark = new ymaps.Placemark([56.005868, 92.839717], {}, {
                 // Опции.
                 // Необходимо указать данный тип макета.
                 iconLayout: 'default#image',
