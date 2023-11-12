@@ -51,7 +51,7 @@
                 myMap.geoObjects
                     .add(myPlacemark)
 
-            myPlacemark = new ymaps.Placemark([56.005868, 92.839717], {}, {
+            myPlacemark = new ymaps.Placemark([56.006049, 92.840121], {}, {
                 // Опции.
                 // Необходимо указать данный тип макета.
                 iconLayout: 'default#image',
