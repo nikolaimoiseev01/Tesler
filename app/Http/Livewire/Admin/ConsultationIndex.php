@@ -26,7 +26,7 @@ class ConsultationIndex extends Component
 
     public function render()
     {
-        $this->consultations = Consultation::orderBy('consult_status_id')->get();
+        $this->consultations = Consultation::orderBy('created_at', 'desc')->get();
         return view('livewire.admin.consultation-index');
     }
 
