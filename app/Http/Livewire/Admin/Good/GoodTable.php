@@ -64,6 +64,8 @@ final class GoodTable extends PowerGridComponent
      *
      * @return Builder<\App\Models\Good>
      */
+    public string $sortField = 'created_at';
+    public string $sortDirection = 'desc';
     public function datasource(): Builder
     {
         return Good::query();
@@ -107,6 +109,7 @@ final class GoodTable extends PowerGridComponent
             ->addColumn('yc_price')
             ->addColumn('brand')
             ->addColumn('yc_actual_amount')
+            ->addColumn('created_at')
             ->addColumn('Есть фото?', function (Good $model) {
                 if($model->getFirstMediaUrl('good_examples')) {
                     return "Есть";
@@ -154,6 +157,9 @@ final class GoodTable extends PowerGridComponent
                 ->searchable()
                 ->sortable(),
             Column::make('Остаток', 'yc_actual_amount')
+                ->searchable()
+                ->sortable(),
+            Column::make('Создан', 'created_at')
                 ->searchable()
                 ->sortable(),
 //                ->makeInputSelect(Good::select('yc_category')->distinct()->get(), 'yc_category', 'yc_category'),
