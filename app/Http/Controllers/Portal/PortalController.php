@@ -209,14 +209,11 @@ class PortalController extends Controller
             return $value['fired'] == 0;
         })); // Только неуволенных сотрудников
 
-        $yc_service = Http::withHeaders($YCLIENTS_HEADERS)
-            ->get('https://api.yclients.com/api/v1/company/' . $YCLIENTS_SHOP_ID . '/services/' . $service['yc_id'])
-            ->collect()['data'];
-//        dd($service['yc_id']);
+
 
         $yc_service = Http::withHeaders($YCLIENTS_HEADERS)
             ->get('https://api.yclients.com/api/v1/company/' . $YCLIENTS_SHOP_ID . '/services/' . $service['yc_id'])
-            ->collect()['data']['staff'];
+            ->collect();
         if($yc_service) {
             $yc_service = $yc_service['data']['staff'];
         } else {
