@@ -217,6 +217,11 @@ class PortalController extends Controller
         $yc_service = Http::withHeaders($YCLIENTS_HEADERS)
             ->get('https://api.yclients.com/api/v1/company/' . $YCLIENTS_SHOP_ID . '/services/' . $service['yc_id'])
             ->collect()['data']['staff'];
+        if($yc_service) {
+            $yc_service = $yc_service['data']['staff'];
+        } else {
+            $yc_service = null;
+        }
 //        dd($yc_service);
 
 
