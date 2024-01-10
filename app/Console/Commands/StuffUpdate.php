@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Notifications\MailNotification;
 use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 
 class StuffUpdate extends Command
@@ -49,7 +50,29 @@ class StuffUpdate extends Command
         $deleted_staff = [];
         $created_staff = [];
 
+        // Понимаем, кто есть в нашей системе, но уже удален из YClients
+        $our_staffs = Staff::all()->toArray();
+
+        $yc_staffs_ids = array_column($yc_staffs, 'id');
+        $our_staffs_ids = array_column($our_staffs, 'yc_id');
+
+        $missingIds = array_diff($our_staffs_ids, $yc_staffs_ids);
+
+
+
+
+        if($missingIds) { // Удаляем из нашей системы тех, кого нет в YClients
+            // Преобразовываем массив id в строку для использования в SQL запросе
+            $idsString = implode(',', $missingIds);
+
+            $sql = "DELETE FROM staff WHERE yc_id IN ($idsString)";
+
+            // Выполняем запрос на удаление строк из базы данных
+            DB::delete($sql);
+        }
+
         foreach ($yc_staffs as $yc_staff) { // Идем по всем сотрудникам YCLIENTS
+
             $staff_found = Staff::where('yc_id', $yc_staff['id'])->first();
 
             if (isset($staff_found) ? $staff_found : null) { // Если есть в системе
@@ -79,7 +102,7 @@ class StuffUpdate extends Command
         }
 
         $users = User::all();
-        $deleted_staff = count($deleted_staff);
+        $deleted_staff = count($deleted_staff) + count($missingIds);
         $created_staff = count($created_staff);
         foreach ($users as $user) {
             $user->notify(new MailNotification(
