@@ -215,7 +215,7 @@ class PortalController extends Controller
             ->get('https://api.yclients.com/api/v1/company/' . $YCLIENTS_SHOP_ID . '/services/' . $service['yc_id'])
             ->collect();
         if($yc_service) {
-            $yc_service = $yc_service['data']['staff'];
+            $yc_service = $yc_service['data']['staff'] ?? null;
         } else {
             $yc_service = null;
         }
