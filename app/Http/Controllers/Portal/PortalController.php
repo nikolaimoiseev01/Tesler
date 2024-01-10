@@ -219,21 +219,28 @@ class PortalController extends Controller
         } else {
             $yc_service = null;
         }
+
+        if($yc_service) {
+            foreach ($yc_service as $arr) {
+                $options[] = current($arr);  // Converted to 1-d array
+            }
+
+            /* Filter $array2 and obtain those results for which ['ASIN'] value matches with one of the values contained in $options */
+            if ($options ?? null !== null) {
+                $service_workers = array_filter($workers, function ($v) use ($options) {
+                    return in_array($v['id'], $options);
+                });
+                $service_workers = array_slice($service_workers, 0, 4);
+            }
+        } else {
+            $service_workers = null;
+        }
+
+
 //        dd($yc_service);
 
 
-        foreach ($yc_service as $arr) {
-            $options[] = current($arr);  // Converted to 1-d array
-        }
 
-
-        /* Filter $array2 and obtain those results for which ['ASIN'] value matches with one of the values contained in $options */
-        if ($options ?? null !== null) {
-            $service_workers = array_filter($workers, function ($v) use ($options) {
-                return in_array($v['id'], $options);
-            });
-            $service_workers = array_slice($service_workers, 0, 4);
-        }
 
 
         $abonements_pre = Good::where('yc_category', 'Абонементы Сеть Tesler')->where('category_id', $service['category_id'])->take(3)->get();
