@@ -40,13 +40,19 @@ $(document).on("click", function (event) {
 
 
 // ------  PRELOADER  ------ //
-$(window).on('load', function () {
+function hide_preloader() {
     $('.page-preloader-wrap').addClass('preloaded_hiding');
     window.setTimeout(function () {
         $('.page-preloader-wrap').addClass('preloaded_loaded');
         $('.page-preloader-wrap').removeClass('preloaded_hiding');
     }, 500);
+}
+$(window).on('load', function () {
+    hide_preloader()
 });
+setTimeout(function() {
+    hide_preloader()
+}, 1000)
 
 // ------  //// PRELOADER  ------ //
 

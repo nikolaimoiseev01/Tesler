@@ -164,7 +164,7 @@ class PortalController extends Controller
 
         return view('portal.scope_page', [
             'scope' => $scope,
-            'category_staff' => $category_staff,
+//            'category_staff' => $category_staff,
             'abonements' => $abonements
         ]);
     }
