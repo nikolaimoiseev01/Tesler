@@ -75,7 +75,7 @@
                         <td>
                             @if($option['services'])
                                 @foreach($option['services'] as $service)
-                                    @if($service > 0)
+                                    @if($service > 0 and \App\Models\Service::where('id', $service)->first() ?? null)
                                         {{Str::limit(\App\Models\Service::where('id', $service)->first()['name'], 15, '...')}} ||
                                     @endif
                                 @endforeach
