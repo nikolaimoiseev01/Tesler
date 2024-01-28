@@ -193,6 +193,14 @@
                                     <p>Товары</p>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a href="{{route('order.index')}}" class="nav-link">
+                                    <i class="nav-icon fas fa-percent"></i>
+                                    <p>
+                                        Заказы
+                                    </p>
+                                </a>
+                            </li>
                         </ul>
                     </li>
 
@@ -220,15 +228,6 @@
                                 </a>
                             </li>
                         </ul>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="{{route('order.index')}}" class="nav-link">
-                            <i class="nav-icon fas fa-percent"></i>
-                            <p>
-                                Заказы
-                            </p>
-                        </a>
                     </li>
 
                     <li class="nav-item">
