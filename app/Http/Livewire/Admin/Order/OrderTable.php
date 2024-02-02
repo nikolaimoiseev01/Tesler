@@ -24,6 +24,10 @@ final class OrderTable extends PowerGridComponent
 {
     use ActionButton;
 
+    public string $sortField = 'created_at';
+
+    public string $sortDirection = 'desc';
+
     /*
     |--------------------------------------------------------------------------
     |  Features Setup
