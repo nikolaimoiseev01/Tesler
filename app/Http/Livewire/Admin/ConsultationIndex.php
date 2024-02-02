@@ -34,7 +34,7 @@ class ConsultationIndex extends Component
     {
 
         $this->consult_statuses = ConsultStatus::orderBy('created_at', 'desc')->get();
-    }У
+    }
 
     public function update_consultation($c_id, $s_id)
     {
