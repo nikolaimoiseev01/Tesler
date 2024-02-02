@@ -113,6 +113,7 @@
 
             <div class="buttons_wrap">
                 <a wire:click.prevent="show_take_option" class="link-bg fern">ОФОРМИТЬ ЗАКАЗ</a>
+                <p style="color: grey">Оплата временно недоступна</p>
             </div>
 
             <div class="delivery_wrap">
