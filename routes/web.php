@@ -22,6 +22,11 @@ Route::match(['POST'], '/payments/callback', [App\Http\Controllers\Portal\Portal
 
 Route::get('/', [App\Http\Controllers\Portal\PortalController::class, 'index'])->name('home');
 
+
+Route::get('/gH5NyDGtnYjF', function () {
+    return view('portal.temp_for_promo');
+} )->name('temp_for_promo');
+
 Route::get('/scope/{scope_id}', [App\Http\Controllers\Portal\PortalController::class, 'scope_page'])->name('scope_page');
 Route::get('/service/{service_id}', [App\Http\Controllers\Portal\PortalController::class, 'service_page'])->name('service_page');
 Route::get('/market/', [App\Http\Controllers\Portal\PortalController::class, 'market_page'])->name('market_page');
