@@ -6,7 +6,12 @@
 
 @section('content')
     <div class="welcome_wrap">
-        <img class="background_image" src="/media/media_fixed/new_landing_welcome.png" alt="">
+        <div class="background_image">
+            <video muted="muted" autoplay loop id="video3" class="video">
+                <source src="/media/media_fixed/new_landing_welcome_video.mov" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
 
         <div class="content">
             <div class="header_text_wrap">
