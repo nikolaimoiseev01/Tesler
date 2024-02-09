@@ -18,7 +18,11 @@
             <h3 class="background_text">Tesler Beauty</h3>
 
             <div class="main_text_wrap">
-                <h1 class="top">Privat</h1>
+                <div class="top_wrap">
+                    <h1 class="top">Privat</h1>
+                    <span>^ 14</span>
+                </div>
+
                 <h1 class="bottom">Channel</h1>
             </div>
 
