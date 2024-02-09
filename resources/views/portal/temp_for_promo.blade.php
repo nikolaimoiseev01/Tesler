@@ -82,19 +82,19 @@
         <div class="video-container">
             <div class="video-wrapper">
                 <video style="height: 400px;" id="video1" class="video" controls>
-                    <source src="/media/media_fixed/temp_video_1.mp4#t=1,3" type="video/mp4">
+                    <source src="/media/media_fixed/temp_video_1.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
             </div>
             <div class="video-wrapper">
                 <video style="height: 400px;" id="video2" class="video" controls>
-                    <source src="/media/media_fixed/temp_video_2.mp4#t=3,4" type="video/mp4">
+                    <source src="/media/media_fixed/temp_video_2.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
             </div>
             <div class="video-wrapper">
                 <video style="height: 400px;" id="video3" class="video" controls>
-                    <source src="/media/media_fixed/temp_video_3.mp4#t=4,6" type="video/mp4">
+                    <source src="/media/media_fixed/temp_video_3.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
             </div>
