@@ -1,4 +1,13 @@
 @font-face {
+    font-family: 'Tenor Sans';
+    src: url('/fonts/TenorSans/TenorSans.woff2') format('woff2'),
+    url('/fonts/TenorSans/TenorSans.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
     font-family: 'Victor Serif 40';
     src: url('/fonts/VictorSerif/VictorSerif-40Regular.woff2') format('woff2'),
     url('/fonts/VictorSerif/VictorSerif-40Regular.woff') format('woff');

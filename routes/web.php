@@ -27,6 +27,10 @@ Route::get('/gH5NyDGtnYjF', function () {
     return view('portal.temp_for_promo');
 } )->name('temp_for_promo');
 
+Route::get('/landing', function () {
+    return view('portal.new_landing');
+} )->name('new_landing');
+
 Route::get('/scope/{scope_id}', [App\Http\Controllers\Portal\PortalController::class, 'scope_page'])->name('scope_page');
 Route::get('/service/{service_id}', [App\Http\Controllers\Portal\PortalController::class, 'service_page'])->name('service_page');
 Route::get('/market/', [App\Http\Controllers\Portal\PortalController::class, 'market_page'])->name('market_page');

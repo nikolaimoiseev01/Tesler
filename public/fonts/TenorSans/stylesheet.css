@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'Tenor Sans';
+    src: url('TenorSans.woff2') format('woff2'),
+        url('TenorSans.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+

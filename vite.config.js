@@ -7,6 +7,7 @@ export default defineConfig({
             input: [
                 'resources/sass/admin.scss',
                 'resources/sass/portal.scss',
+                'resources/sass/new_landing.scss',
                 'resources/sass/app.scss',
                 'resources/js/app.js'
             ],

@@ -21,6 +21,11 @@
     "isEntry": true,
     "src": "resources/sass/app.scss"
   },
+  "resources/sass/new_landing.scss": {
+    "file": "assets/new_landing-c9a38b02.css",
+    "isEntry": true,
+    "src": "resources/sass/new_landing.scss"
+  },
   "resources/sass/portal.scss": {
     "file": "assets/portal-148fb860.css",
     "isEntry": true,
