@@ -100,7 +100,7 @@
                         <li>1 индивидуальный мастер-класс по sexy-танцу от DAMER.</li>
                     </ul>
                 </div>
-                <img src="/media/media_fixed/angel.png" alt="">
+                <img src="/media/media_fixed/new_landing_angel.png" alt="">
             </div>
         </div>
 
