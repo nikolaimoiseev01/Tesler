@@ -140,15 +140,15 @@ a {
 
         @media (max-width: 648px) {
             h2 {
-                font-size: 40px;
+                font-size: 45px;
             }
 
             h3 {
-                font-size: 26px;
+                font-size: 30px;
             }
 
             p {
-                font-size: 15px;
+                font-size: 16px;
             }
         }
 
@@ -244,8 +244,23 @@ a {
         opacity: .5;
         letter-spacing: 10px;
 
-        @media (max-width: 648px) {
+        @media (max-width: 750px) {
             letter-spacing: 0px;
+            bottom: -15px;
+            font-size: 30px;
+
+        }
+
+        @media (max-width: 530px) {
+            bottom: -13px;
+            font-size: 25px;
+
+        }
+
+        @media (max-width: 468px) {
+            bottom: -10px;
+            font-size: 20px;
+
         }
 
     }
