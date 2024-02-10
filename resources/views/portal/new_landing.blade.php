@@ -63,7 +63,7 @@
         </div>
 
         <div class="card_wrap">
-            <img src="/media/media_fixed/new_landing_card_3.JPG" alt="">
+            <img src="/media/media_fixed/new_landing_card_2.JPG" alt="">
             <h3>DAMER</h3>
             <p class="desc">
                 Педагог и хореограф самых женственных направлений strip, high heels. Прокачала более 500 учениц.
@@ -74,7 +74,7 @@
         </div>
 
         <div class="card_wrap">
-            <img src="/media/media_fixed/new_landing_card_2.JPG" alt="">
+            <img src="/media/media_fixed/new_landing_card_3.JPG" alt="">
             <h3>INTENSO</h3>
             <p class="desc">
                 Лучшее украшение на твоем теле. Красноярский бренд нижнего белья ручной работы от легендарного
