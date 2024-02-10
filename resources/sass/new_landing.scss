@@ -212,11 +212,6 @@ a {
                 font-size: 75px;
                 line-height: 75px;
             }
-            //display: flex;
-            //flex-direction: column;
-            //align-items: center;
-            //position: inherit;
-            //margin-top: 260px;
 
             .bottom {
                 margin-left: 100px;
@@ -245,22 +240,21 @@ a {
         letter-spacing: 10px;
 
         @media (max-width: 750px) {
-            letter-spacing: 0px;
+            letter-spacing: 5px;
             bottom: -15px;
-            font-size: 30px;
+            font-size: 40px;
 
         }
 
         @media (max-width: 530px) {
             bottom: -13px;
-            font-size: 25px;
-
+            font-size: 5vw;
+            letter-spacing: 2px;
         }
 
         @media (max-width: 468px) {
             bottom: -10px;
-            font-size: 20px;
-
+            letter-spacing: 0px;
         }
 
     }
