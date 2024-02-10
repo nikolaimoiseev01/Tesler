@@ -121,12 +121,18 @@ a {
         .top_wrap {
             display: flex;
             flex-direction: row;
-
         }
 
 
         .bottom {
-            margin-left: 150px;
+            margin-left: 205px;
+        }
+
+        @media (max-width: 1024px) {
+            .bottom {
+                margin-left: 135px;
+            }
+
         }
 
         @media (max-width: 648px) {

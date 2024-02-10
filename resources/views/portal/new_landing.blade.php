@@ -7,7 +7,7 @@
 @section('content')
     <div class="welcome_wrap">
         <div class="background_image">
-            <video muted="muted" autoplay loop id="video3" class="video">
+            <video preload autoplay muted loop playsinline poster="" id="video3" class="video">
                 <source src="/media/media_fixed/new_landing_welcome_video.mov" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
