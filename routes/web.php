@@ -27,7 +27,7 @@ Route::get('/gH5NyDGtnYjF', function () {
     return view('portal.temp_for_promo');
 } )->name('temp_for_promo');
 
-Route::get('/landing', function () {
+Route::get('/privatechannel', function () {
     return view('portal.new_landing');
 } )->name('new_landing');
 
