@@ -17,7 +17,7 @@
             <div class="header_text_wrap">
                 <h2>«PRIVATE CHANNEL»</h2>
                 <h3>Valentine's Day Edition</h3>
-                <p>Tesler Beaitu & Intenso & Damer</p>
+                <p>Tesler Beauty & Intenso & Damer</p>
             </div>
 
             <h3 class="background_text">Tesler Beauty</h3>
