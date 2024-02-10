@@ -63,17 +63,6 @@
         </div>
 
         <div class="card_wrap">
-            <img src="/media/media_fixed/new_landing_card_2.JPG" alt="">
-            <h3>DAMER</h3>
-            <p class="desc">
-                Педагог и хореограф самых женственных направлений strip, high heels. Прокачала более 500 учениц.
-                <br><br>
-                Создатель танцевальных проектов для начинающих и профессиональных танцоров. Участница проекта «Танцы на
-                ТНТ».
-            </p>
-        </div>
-
-        <div class="card_wrap">
             <img src="/media/media_fixed/new_landing_card_3.JPG" alt="">
             <h3>INTENSO</h3>
             <p class="desc">
@@ -85,6 +74,19 @@
 
             </p>
         </div>
+
+        <div class="card_wrap">
+            <img src="/media/media_fixed/new_landing_card_2.JPG" alt="">
+            <h3>DAMER</h3>
+            <p class="desc">
+                Педагог и хореограф самых женственных направлений strip, high heels. Прокачала более 500 учениц.
+                <br><br>
+                Создатель танцевальных проектов для начинающих и профессиональных танцоров. Участница проекта «Танцы на
+                ТНТ».
+            </p>
+        </div>
+
+
     </div>
 
     <div class="desc_2_wrap">
