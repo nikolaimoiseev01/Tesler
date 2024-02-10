@@ -121,7 +121,7 @@
     </div>
 
     <div class="button_wrap">
-        <a href="" class="button">ЗАПИСАТЬСЯ</a>
+        <a href="https://n1013067.yclients.com/select-city/20/select-branch?o=" class="button">ЗАПИСАТЬСЯ</a>
     </div>
 
 @endsection
