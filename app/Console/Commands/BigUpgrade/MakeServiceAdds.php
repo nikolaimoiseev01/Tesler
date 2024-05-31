@@ -31,7 +31,7 @@ class MakeServiceAdds extends Command
 
         DB::transaction(function () { // Чтобы не записать ненужного
 
-            $service_adds_orig = ServiceAdds::where('to_service', 32)->get();
+            $service_adds_orig = ServiceAdds::all();
 
             foreach ($service_adds_orig as $service_add) {
                 $service_to = Service::where('id', $service_add['to_service'])->first();

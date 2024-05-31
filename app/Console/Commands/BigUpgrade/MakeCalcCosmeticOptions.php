@@ -42,7 +42,7 @@ class MakeCalcCosmeticOptions extends Command
                 }
             }
         });
-        
+
         dd('Все закончилось успешно!');
 
     }
