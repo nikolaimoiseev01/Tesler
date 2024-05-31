@@ -35,8 +35,8 @@ class MakeCategoryPics extends Command
                 $url = public_path("/" . $category['pic']);
                 $category->addMedia($url)->toMediaCollection('main_pic');
             }
-
-            dd('Все закончилось успешно!');
         });
+
+        dd('Все закончилось успешно!');
     }
 }

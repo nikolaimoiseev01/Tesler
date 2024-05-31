@@ -42,7 +42,8 @@ class MakeShopsetGoods extends Command
                     ]);
                 }
             }
-            dd('Все закончилось успешно!');
         });
+
+        dd('Все закончилось успешно!');
     }
 }

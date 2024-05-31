@@ -42,9 +42,9 @@ class MakeCategoryStaff extends Command
                     $category->update(['staff_ids' => $option_ids_array]);
                 }
             }
-
-            dd('Все закончилось успешно!');
         });
+
+        dd('Все закончилось успешно!');
 
 
     }
