@@ -32,19 +32,17 @@ class MakeCalcCosmeticOptions extends Command
             $options = CalcCosmetic::all();
 
             foreach ($options as $option) {
-                dd($option);
                 $option_ids_array = [];
                 if ($option['services']) {
                     foreach ($option['services'] as $service) {
                         $option_ids_array[] = str($service['id']);
                     }
                     $option->update(['services' => $option_ids_array]);
-                    dd('Все закончилось успешно!');
+
                 }
             }
-
-
         });
+        dd('Все закончилось успешно!');
 
     }
 }
