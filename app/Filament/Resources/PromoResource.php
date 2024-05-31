@@ -61,12 +61,11 @@ class PromoResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('position')
+                    ->label('Порядок')
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->searchable(),
             ])
             ->filters([
                 //
@@ -74,7 +73,12 @@ class PromoResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
-            ->defaultSort('position', 'asc')
+            ->defaultSort(function (Builder $query): Builder {
+                return $query
+                    ->orderBy('created_at', 'desc')
+                    ->orderBy('position')
+                    ;
+            })
             ->reorderable('position')
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

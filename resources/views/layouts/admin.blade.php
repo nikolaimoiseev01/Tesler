@@ -341,7 +341,7 @@
     <div class="content-wrapper">
 
 
-        @yield('content')
+        <h1>Мы переходим на новую админку: <a class="btn btn-outline-primary" href="/admin">Перейти</a></h1>
 
     </div>
 

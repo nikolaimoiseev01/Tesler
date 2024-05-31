@@ -108,6 +108,7 @@ class RefreshLogResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
             ])
+            ->defaultSort('created_at', 'desc')
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                 ]),
