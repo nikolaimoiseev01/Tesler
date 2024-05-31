@@ -8,7 +8,7 @@ use App\Models\Good\Good;
 use App\Models\Good\GoodCategory;
 use App\Models\Good\Order;
 use App\Models\Good\ShopSet;
-use App\Models\interiorPhoto;
+use App\Models\InteriorPhoto;
 use App\Models\Promo;
 use App\Models\Service\Scope;
 use App\Models\Service\Service;
@@ -46,7 +46,7 @@ class PortalController extends Controller
 
         $promos = Promo::orderBy('position')->get();
 
-        $interior_pics = interiorPhoto::where('id', 1)->first()->getMedia('interior_photos');
+        $interior_pics = InteriorPhoto::where('id', 1)->first()->getMedia('interior_photos');
         $interior_pics = $interior_pics->map(function ($media) {
             return $media->getUrl();
         })->toArray();
@@ -304,7 +304,7 @@ class PortalController extends Controller
             ];
         }
 
-        $interior_pics = interiorPhoto::orderBy('position')->pluck('pic')->all();
+        $interior_pics = InteriorPhoto::orderBy('position')->pluck('pic')->all();
         return view('portal.loyalty_page', [
             'interior_pics' => $interior_pics,
             'abonements' => $abonements
