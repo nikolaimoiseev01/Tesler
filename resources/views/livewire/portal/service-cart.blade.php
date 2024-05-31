@@ -64,7 +64,7 @@
                              alt="">
                         <div class="info">
 {{--                            <p class="category">--}}
-{{--                                {{\App\Models\Category::where('id', $cart_service['category_id'])->first(['name'])->name}}--}}
+{{--                                {{\App\Models\Service\Service\Category::where('id', $cart_service['category_id'])->first(['name'])->name}}--}}
 {{--                            </p>--}}
                             <a href="{{route('service_page', $cart_service['id'])}}"><p class="name">{{$cart_service['name']}}</p></a>
                             <div class="spec_wrap">

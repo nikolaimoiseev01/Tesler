@@ -53,12 +53,12 @@
         <div class="sp_examples_wrap">
             <x-ui.gallery
                 title="ПРИМЕРЫ РАБОТ"
-                :photos="$staff->getMedia('staff_examples')->pluck('original_url')->all()">
+                :photos="$staff->getMedia('examples')->pluck('original_url')->all()">
             </x-ui.gallery>
         </div>
     @endif
 
-    @if ($staff['collegues'] ?? null && count($staff['collegues']) > 0)
+    @if ($collegues)
         <div class="s_desc content two_parts_block_wrap">
             <div class="left"></div>
             <div class="right">
@@ -70,11 +70,11 @@
                 </p>
 
                 <div style="margin-bottom: 20px;" class="workers_wrap">
-                    @foreach($staff['collegues'] as $colleague)
+                    @foreach($collegues as $colleague)
                         <div class="worker"><a href="{{route('staff_page', $colleague['yc_id'])}}">
-                                <img src="{{$colleague['avatar']}}" alt="">
-                                <p-400>{{$colleague['name']}}</p-400>
-                                <p>{{$colleague['specialization']}}</p>
+                                <img src="{{$colleague['yc_avatar']}}" alt="">
+                                <p-400>{{$colleague['yc_name']}}</p-400>
+                                <p>{{$colleague['yc_specialization']}}</p>
                             </a>
                         </div>
                     @endforeach

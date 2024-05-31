@@ -402,6 +402,48 @@ footer {
     }
 }
 
+.link {
+    font-family: 'Inter Tight';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 130%;
+    text-decoration: none;
+    white-space: nowrap;
+    letter-spacing: 0.04em;
+    //text-transform: uppercase;
+    position: relative;
+    width: fit-content;
+
+    @media(max-width: 800px) {
+        font-size: 14px !important;
+    }
+
+
+    &.fern {
+        color: $color-fern-100;
+        border-bottom: 1px solid $color-fern-100;
+    }
+
+    &.coal {
+        color: $color-coal-100;
+        border-bottom: 1px solid $color-coal-100;
+    }
+
+    &.service_added, &.good_added {
+        color: grey !important;
+        cursor: default !important;
+        border: none;
+    }
+
+
+    &.disabled {
+        color: grey !important;
+        cursor: default !important;
+        border: none !important;
+    }
+}
+
 .link-bg {
     display: flex;
     flex-direction: row;
@@ -458,48 +500,23 @@ footer {
     &.service_added, &.good_added {
         background: grey !important;
         cursor: default !important;
-    }
-}
-
-.link {
-    font-family: 'Inter Tight';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 130%;
-    text-decoration: none;
-    white-space: nowrap;
-    letter-spacing: 0.04em;
-    //text-transform: uppercase;
-    position: relative;
-    width: fit-content;
-
-    @media(max-width: 800px) {
-        font-size: 14px !important;
+        pointer-events: none;
     }
 
-
-    &.fern {
-        color: $color-fern-100;
-        border-bottom: 1px solid $color-fern-100;
-    }
-
-    &.coal {
-        color: $color-coal-100;
-        border-bottom: 1px solid $color-coal-100;
-    }
-
-    &.service_added, &.good_added {
-        color: grey !important;
-        cursor: default !important;
-        border: none;
-    }
-
-
-    &.disabled {
-        color: grey !important;
-        cursor: default !important;
-        border: none !important;
+    &.loading {
+        color: grey;
+        background: grey;
+        pointer-events: none;
+        &::after {
+            content: "";
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid $color-fern-120;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
     }
 }
 

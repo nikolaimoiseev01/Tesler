@@ -1,6 +1,8 @@
 @extends('layouts.portal')
 
-@section('title'){{$service['name']}}@endsection
+@section('title')
+    {{$service['name']}}
+@endsection
 
 @section('content')
 
@@ -18,37 +20,29 @@
                 @endif
 
                 <h2>{{$service['name']}}</h2>
-                    @if(Auth::check())
-                        <a href="{{route('service.edit', $service['id'])}}" class="link coal">Страница в Админке</a>
-                    @endif
+                @if(Auth::check())
+                    <a href="{{route('service.edit', $service['id'])}}" class="link coal">Страница в Админке</a>
+                @endif
 
                 <p>{{$service['desc_small']}}</p>
 
                 <div class="buttons_wrap">
                     <div class="button_wrap">
-                        <a target="_blank"
-                           onclick="Livewire.emit('service_cart_add', {{$service['id']}})"
-                           id="service_add_bg_{{$service['id']}}"
-                           class="link-bg coal">Записаться</a>
-                        <div class="info">
-                            <span class="yellow_info"><p>{{$service['yc_duration'] / 60}} МИН</p></span>
-                            <p class="price">
-                                @if($service['yc_price_min'] <> $service['yc_price_max'])
-                                    от
-                                @endif
-                                {{$service['yc_price_min']}} ₽
-                            </p>
-                        </div>
+                        <livewire:portal.components.service.add-to-cart-button :service="$service"></livewire:portal.components.service.add-to-cart-button>
+                            <div class="info">
+                                <span class="yellow_info"><p>{{$service['yc_duration'] / 60}} МИН</p></span>
+                                <p class="price">
+                                    @if($service['yc_price_min'] <> $service['yc_price_max'])
+                                        от
+                                    @endif
+                                    {{$service['yc_price_min']}} ₽
+                                </p>
+                            </div>
 
                     </div>
                 </div>
             </div>
-            <img
-                @if(is_null($service->getFirstMediaUrl('pic_main')) || $service->getFirstMediaUrl('pic_main') == '')
-                src="/media/media_fixed/logo_holder.png"
-                @else src="{{$service->getFirstMediaUrl('pic_main')}}"
-                @endif
-                alt="">
+            <img src="{{$service->getFirstMediaUrl('pic_main') ?: config('cons.default_pic')}}" alt="">
         </div>
     </div>
 
@@ -148,6 +142,5 @@
     @endif
 
     <x-ui.need-consultation/>
-
 
 @endsection

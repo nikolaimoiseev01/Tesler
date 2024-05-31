@@ -110,7 +110,7 @@ window.addEventListener("load", show_hide_scroll, false);
 
 // ------  TRIGGER SEVERVICE ADD BUTTON  ------ //
 $(document).ready(function () {
-    Livewire.emit('update_service_buttons')
+    Livewire.dispatch('update_service_buttons')
 })
 
 
@@ -125,7 +125,7 @@ document.addEventListener('trigger_service_add_button', event => {
         found_button.removeClass('service_added')
         found_button.text(found_button.attr('data-old-text'))
         found_button.removeAttr('onclick')
-        found_button.attr('onclick', "Livewire.emit('service_cart_add', " + event.detail.id + ')')
+        found_button.attr('onclick', "Livewire.dispatch('service_cart_add', " + event.detail.id + ')')
     }
 
 })
@@ -134,8 +134,8 @@ document.addEventListener('trigger_service_add_button', event => {
 
 // ------  TRIGGER GOOD ADD BUTTON  ------ //
 $(document).ready(function () {
-    Livewire.emit('update_good_buttons')
-    Livewire.emit('show_red_cart_s')
+    Livewire.dispatch('update_good_buttons')
+    Livewire.dispatch('show_red_cart_s')
 })
 
 document.addEventListener('update_red_cart', event => {
@@ -178,7 +178,7 @@ document.addEventListener('trigger_good_add_button', event => {
         found_button.removeClass('good_added')
         found_button.text(found_button.attr('data-old-text'))
         found_button.removeAttr('onclick')
-        found_button.attr('onclick', "Livewire.emit('good_cart_add', " + event.detail.id + ')')
+        found_button.attr('onclick', "Livewire.dispatch('good_cart_add', " + event.detail.id + ')')
     }
 })
 // ------ // TRIGGER GOOD ADD BUTTON  ------ //

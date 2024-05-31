@@ -1,6 +1,6 @@
 <div>
     <div style="max-width: 1000px;" class="card">
-        <a wire:click="$emit('openModal', 'admin.good.category.category-create')" class="m-3 btn btn-outline-secondary">
+        <a wire:click="$dispatch('openModal', 'admin.good.category.category-create')" class="m-3 btn btn-outline-secondary">
             <i class="mr-2 fa fa-plus"></i>
             Добавить категорию товара
         </a>
@@ -27,7 +27,9 @@
                             </div>
 
                             <div class="ml-0 mr-3 product-info">
-                                <a onclick='Livewire.emit("openModal", "admin.good.category.category-edit", {{ json_encode(["goodcategory_id" => $goodcategory['id']]) }})'
+                                <a
+{{--                                    onclick='Livewire.emit("openModal", "admin.good.category.category-edit", {{ json_encode(["goodcategory_id" => $goodcategory['id']]) }})'--}}
+                                   wire:click="$dispatch('openModal', {component: 'admin.good.category.category-edit', arguments: {goodcategory_id: {{$goodcategory['id']}}}})"
                                    class="product-title">{{$goodcategory['title']}}</a>
                                 <span style="white-space: inherit;"
                                       class="product-description">{{$goodcategory['desc']}}</span>

@@ -3,15 +3,15 @@
         <div class="search-bar-wrap">
             <div>
                 <input required placeholder="Поиск..."
-                       wire:model="search_input" id="own_book_input_search" name="own_book_input_search"
+                       wire:model.live="search_input" id="own_book_input_search" name="own_book_input_search"
                        type="text">
 
                 <a id="own_book_input_search_link">
                     <svg width="15px" viewBox="0 0 612 612.01">
                         <g id="_4" data-name="4">
                             <path
-                                d="M606.21,578.71l-158-155.48c41.38-45,66.8-104.41,66.8-169.84C515,113.44,399.7,0,257.49,0S0,113.44,0,253.39s115.27,253.4,257.48,253.4A259,259,0,0,0,419.56,450.2L578.18,606.3a20,20,0,0,0,28,0A19.29,19.29,0,0,0,606.21,578.71ZM257.49,467.8c-120.32,0-217.87-96-217.87-214.41S137.17,39,257.49,39s217.87,96,217.87,214.4S377.82,467.8,257.49,467.8Z"
-                                transform="translate(-0.01 0)"/>
+                                    d="M606.21,578.71l-158-155.48c41.38-45,66.8-104.41,66.8-169.84C515,113.44,399.7,0,257.49,0S0,113.44,0,253.39s115.27,253.4,257.48,253.4A259,259,0,0,0,419.56,450.2L578.18,606.3a20,20,0,0,0,28,0A19.29,19.29,0,0,0,606.21,578.71ZM257.49,467.8c-120.32,0-217.87-96-217.87-214.41S137.17,39,257.49,39s217.87,96,217.87,214.4S377.82,467.8,257.49,467.8Z"
+                                    transform="translate(-0.01 0)"/>
                         </g>
                     </svg>
                 </a>
@@ -38,7 +38,7 @@
                                    class="link fern">{{$category_item['title']}}</a>
                             @else
                                 <div>
-                                    <input type="checkbox" id="{{$category_item['id']}}" wire:model="yc_category"
+                                    <input type="checkbox" id="{{$category_item['id']}}" wire:model.live="yc_category"
                                            value="{{$category_item['id']}}">
                                     <label for="{{$category_item['id']}}"><p>{{$category_item['title']}}</p></label>
                                 </div>
@@ -52,9 +52,9 @@
                 <a @click="opend_filter = 'price'" class="link coal">Цена</a>
                 <div x-transition x-show="opend_filter === 'price'" class="filter_wrap">
                     <p>От</p>
-                    <input type="number" id="price_min" name="price_min" wire:model="price_min">
+                    <input type="number" id="price_min" name="price_min" wire:model.live="price_min">
                     <p>До</p>
-                    <input type="number" wire:model="price_max">
+                    <input type="number" wire:model.live="price_max">
                 </div>
             </div>
 
@@ -67,7 +67,7 @@
                             @foreach($hair_types as $hair_type_item)
                                 <div>
                                     <input type="checkbox" id="hair_type_{{$hair_type_item['id']}}"
-                                           wire:model="hair_type"
+                                           wire:model.live="hair_type"
                                            value="{{$hair_type_item['id']}}">
                                     <label for="hair_type_{{$hair_type_item['id']}}"><p>{{$hair_type_item['title']}}</p>
                                     </label>
@@ -86,7 +86,7 @@
                             @foreach($skin_types as $skin_type_item)
                                 <div>
                                     <input type="checkbox" id="skin_type_{{$skin_type_item['id']}}"
-                                           wire:model="skin_type"
+                                           wire:model.live="skin_type"
                                            value="{{$skin_type_item['id']}}">
                                     <label for="skin_type_{{$skin_type_item['id']}}"><p>{{$skin_type_item['title']}}</p>
                                     </label>
@@ -105,7 +105,7 @@
                             @foreach($good_types as $good_type_item)
                                 <div>
                                     <input type="checkbox" id="product_type_{{$good_type_item['id']}}"
-                                           wire:model="good_type"
+                                           wire:model.live="good_type"
                                            value="{{$good_type_item['title']}}">
                                     <label for="product_type_{{$good_type_item['id']}}">
                                         <p>{{$good_type_item['title']}}</p>
@@ -124,7 +124,7 @@
                         <div x-transition x-show="opend_filter === 'brand'" class="filter_wrap check_box_filter_wrap">
                             @foreach($brands as $brand_item)
                                 <div>
-                                    <input type="checkbox" id="{{$brand_item}}" wire:model="brand"
+                                    <input type="checkbox" id="{{$brand_item}}" wire:model.live="brand"
                                            value="{{$brand_item}}">
                                     <label for="{{$brand_item}}"><p>{{$brand_item}}</p></label>
                                 </div>
@@ -139,7 +139,7 @@
                     <div x-transition x-show="opend_filter === 'shopsets'" class="filter_wrap check_box_filter_wrap">
                         @foreach($shopsets as $shopset_item)
                             <div>
-                                <input type="checkbox" id="shop_set_{{$shopset_item['id']}}" wire:model="shopset"
+                                <input type="checkbox" id="shop_set_{{$shopset_item['id']}}" wire:model.live="shopset"
                                        value="{{$shopset_item['id']}}">
                                 <label for="shop_set_{{$shopset_item['id']}}"><p>{{$shopset_item['title']}}</p></label>
                             </div>
@@ -163,21 +163,21 @@
                     @if($good['flg_big_block'] == 1 &&
                         !$abon_page_check)
                         <div
-                            class="big_blog_wrap @if($key % 10 == 4) big_blog_wrap_right @else big_blog_wrap_left @endif"
-                            wire:key="{{$key}}">
+                                class="big_blog_wrap @if($key % 10 == 4) big_blog_wrap_right @else big_blog_wrap_left @endif"
+                                wire:key="{{$key}}">
                             <a class="good_cover" href="{{route('good_page', $good['id'])}}">
                                 <img
-                                    @if(is_null($good->getFirstMediaUrl('good_examples')) || $good->getFirstMediaUrl('good_examples') == '')
-                                    src="/media/media_fixed/logo_holder.png"
-                                    @else src="{{$good->getFirstMediaUrl('good_examples')}}" @endif
-                                    alt="">
+                                        @if(is_null($good->getFirstMediaUrl('good_examples')) || $good->getFirstMediaUrl('good_examples') == '')
+                                            src="/media/media_fixed/logo_holder.png"
+                                        @else src="{{$good->getFirstMediaUrl('good_examples')}}" @endif
+                                        alt="">
                                 @if($good['promo_text'])
                                     <p>{{$good['promo_text']}}</p>
                                 @endif
                             </a>
                             <div class="info">
                                 <p class="category">
-                                    {{\App\Models\GoodCategory::where('id', $good['good_category_id'][0])->first(['title'])->title}}
+                                    {{\App\Models\Good\GoodCategory::where('id', $good['good_category_id'][0])->first(['title'])->title}}
                                 </p>
                                 <a class="name" href="{{route('good_page', $good['id'])}}">
                                     <h2>
@@ -206,7 +206,8 @@
                                         <h2 class="price discount">{{number_format($good['yc_price'], 0, ',', ' ')}}</h2>
                                     @endif
                                     <p class="price">
-                                        {{number_format($good['yc_price'] * ((100 - $good['discount'])/100), 0, ',', ' ')}} Р
+                                        {{number_format($good['yc_price'] * ((100 - $good['discount'])/100), 0, ',', ' ')}}
+                                        Р
                                     </p>
                                 </div>
                             </div>
@@ -218,17 +219,17 @@
                             <div>
                                 <a class="good_cover" href="{{route('good_page', $good['id'])}}">
                                     <img
-                                        @if(is_null($good->getFirstMediaUrl('good_examples')) || $good->getFirstMediaUrl('good_examples') == '')
-                                        src="/media/media_fixed/logo_holder.png"
-                                        @else src="{{$good->getFirstMediaUrl('good_examples')}}" @endif
-                                        alt="">
+                                            @if(is_null($good->getFirstMediaUrl('good_examples')) || $good->getFirstMediaUrl('good_examples') == '')
+                                                src="/media/media_fixed/logo_holder.png"
+                                            @else src="{{$good->getFirstMediaUrl('good_examples')}}" @endif
+                                            alt="">
                                     @if($good['promo_text'])
                                         <p>{{$good['promo_text']}}</p>
                                     @endif
                                 </a>
                                 <div class="info">
                                     <p class="category">
-                                        {{\App\Models\GoodCategory::where('id', $good['good_category_id'][0])->first(['title'])->title}}
+                                        {{\App\Models\Good\GoodCategory::where('id', $good['good_category_id'][0])->first(['title'])->title}}
                                     </p>
                                     <a class="name" target="_blank" href="{{route('good_page', $good['id'])}}">
                                         <p>
@@ -258,7 +259,8 @@
                                         <h2 class="price discount">{{number_format($good['yc_price'], 0, ',', ' ')}}</h2>
                                     @endif
                                     <p class="price">
-                                        {{number_format($good['yc_price'] * ((100 - $good['discount'])/100), 0, ',', ' ')}} Р
+                                        {{number_format($good['yc_price'] * ((100 - $good['discount'])/100), 0, ',', ' ')}}
+                                        Р
                                     </p>
                                 </div>
                             </div>

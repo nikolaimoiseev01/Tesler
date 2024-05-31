@@ -1,7 +1,7 @@
 <div>
     <form wire:key="1" x-show="open" name="add-blog-post-form" class="p-3 mt-3" id="add-blog-post-form"
           method="post"
-          wire:submit.prevent="editScope(Object.fromEntries(new FormData($event.target)))">
+          wire:submit="editScope(Object.fromEntries(new FormData($event.target)))">
         @csrf
         <input type="text" name="scope_id" value="{{$scope['id']}}" style="display: none">
         <div class="d-flex justify-content-between mb-3 border-bottom">
@@ -15,7 +15,7 @@
                         @endif
                     <label class="mb-0 float-right relative inline-flex items-center cursor-pointer">
 
-                        <input wire:model="flg_active" wire:change="toggleActivity" type="checkbox" value=""
+                        <input wire:model.live="flg_active" wire:change="toggleActivity" type="checkbox" value=""
                                class="sr-only peer">
                         <div
                             class="w-11 h-6 bg-gray-200 peer-focus:outline-none dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
@@ -54,7 +54,7 @@
 
         {{--        <div style="display: none;" class="mt-2" id="new_pic_main_page_block_{{$scope['id']}}">--}}
         {{--            <input type="file"--}}
-        {{--                   wire:model="pic_scope_main_page"--}}
+        {{--                   wire:model.live="pic_scope_main_page"--}}
         {{--                   class="filepond"--}}
         {{--                   name="pic_scope_main_page"--}}
         {{--                   id="pic_scope_main_page"--}}
@@ -80,7 +80,7 @@
         </div>
         <div style="display: none;" class="mt-2" id="new_pic_scope_page_block_{{$scope['id']}}">
             <input type="file"
-                   wire:model="pic_scope_page"
+                   wire:model.live="pic_scope_page"
                    class="filepond"
                    name="pic_scope_page"
                    id="pic_scope_page"

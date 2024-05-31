@@ -22,13 +22,10 @@
                             <p>{{$cart_good['sell_amount'] ?? 1}}</p>
                             <button wire:click="update_counter({{$cart_good['id']}}, 1)">+</button>
                         </div>
-                        <img @if(is_null($cart_good['image_url']) || $cart_good['image_url'] == '')
-                             src="/media/media_fixed/logo_holder.png"
-                             @else src="{{$cart_good['image_url']}}" @endif
-                             alt="">
+                        <img src="{{$cart_good['image_url']}}" alt="">
                         <div class="info">
                             <p class="category">
-                                {{\App\Models\GoodCategory::where('id', $cart_good['good_category_id'][0])->first(['title'])->title}}
+                                {{\App\Models\Good\GoodCategory::where('id', $cart_good['good_category_id'][0])->first(['title'])->title}}
                             </p>
                             <a href="{{route('good_page', $cart_good['id'])}}">
                                 <p class="name">{{$cart_good['name']}}</p>
@@ -36,9 +33,8 @@
                                     {{Str::limit(Str::ucfirst(Str::lower($cart_good['name'])), 15, '...')}}</p>
                             </a>
                             <div class="spec_wrap">
-                                {{--                                <p class="spec">{{$cart_good['capacity']}} {{$cart_good['capacity_type']}}</p>--}}
-{{--                                <p class="spec">{{$cart_good['yc_actual_amount']}} в наличии</p>--}}
-                                <p class="price">{{$cart_good['yc_price']  * ((100 - $cart_good['discount'])/100)}} ₽/шт.</p>
+                                <p class="price">{{$cart_good['yc_price']  * ((100 - $cart_good['discount'])/100)}}
+                                    ₽/шт.</p>
                             </div>
 
                         </div>
@@ -46,8 +42,8 @@
                             <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
                                 <path
-                                    d="M0.519784 12.3027L5.82308 6.99941L0.519775 1.6961L1.69829 0.517595L7.00158 5.82091L12.3048 0.517578L13.4834 1.6961L8.18008 6.99941L13.4833 12.3027L12.3048 13.4812L7.00158 8.17791L1.69829 13.4812L0.519784 12.3027Z"
-                                    fill="#DDDDD5" fill-opacity="0.3"/>
+                                        d="M0.519784 12.3027L5.82308 6.99941L0.519775 1.6961L1.69829 0.517595L7.00158 5.82091L12.3048 0.517578L13.4834 1.6961L8.18008 6.99941L13.4833 12.3027L12.3048 13.4812L7.00158 8.17791L1.69829 13.4812L0.519784 12.3027Z"
+                                        fill="#DDDDD5" fill-opacity="0.3"/>
                             </svg>
 
                         </a>
@@ -57,24 +53,24 @@
             </div>
             <div class="input_wrap">
                 <input
-                    wire:model="promocode"
-                    id="promocode"
-                    name="promocode"
-                    required
-                    type="text"
-                    style="direction: ltr;"
-                    placeholder="Введите промокод"
-                    @if($errors_array)
-                    @if (in_array("promo", $errors_array))
-                    class="invalid"
-                    @endif
-                    @endif
+                        wire:model.live="promocode"
+                        id="promocode"
+                        name="promocode"
+                        required
+                        type="text"
+                        style="direction: ltr;"
+                        placeholder="Введите промокод"
+                        @if($errors_array)
+                            @if (in_array("promo", $errors_array))
+                                class="invalid"
+                        @endif
+                        @endif
                 >
                 <svg wire:click="applyPromo" width="18" height="15" viewBox="0 0 18 15" fill="none"
                      xmlns="http://www.w3.org/2000/svg">
                     <path
-                        d="M9.05243 1.46367L14.259 6.67023H0.4375V8.3369H14.259L9.05243 13.5434L10.2309 14.7219L17.4494 7.50356L10.2309 0.285156L9.05243 1.46367Z"
-                        fill="#111010" fill-opacity="0.3"/>
+                            d="M9.05243 1.46367L14.259 6.67023H0.4375V8.3369H14.259L9.05243 13.5434L10.2309 14.7219L17.4494 7.50356L10.2309 0.285156L9.05243 1.46367Z"
+                            fill="#111010" fill-opacity="0.3"/>
                 </svg>
             </div>
 
@@ -112,7 +108,7 @@
             </p>
 
             <div class="buttons_wrap">
-{{--                <a wire:click.prevent="show_take_option" class="link-bg fern">ОФОРМИТЬ ЗАКАЗ</a>--}}
+                {{--                <a wire:click.prevent="show_take_option" class="link-bg fern">ОФОРМИТЬ ЗАКАЗ</a>--}}
                 <p style="color: grey">Оплата временно недоступна</p>
             </div>
 
@@ -125,7 +121,6 @@
                     По всей России курьерской службой СДЭК, от 6000 рублей — бесплатно.
                 </p>
             </div>
-
             <a wire:click.prevent="good_cart_remove_all()" class="remove_all link fern">Удалить все товары</a>
         @endif
 
@@ -138,10 +133,10 @@
 
                 <div class="input_wrap">
                     <label for="name"><p>ИМЯ</p></label>
-                    <input wire:model="name" id="name" name="name"
+                    <input wire:model.live="name" id="name" name="name"
                            @if($errors_array)
-                           @if (in_array("name", $errors_array))
-                           class="invalid"
+                               @if (in_array("name", $errors_array))
+                                   class="invalid"
                            @endif
                            @endif
 
@@ -150,38 +145,39 @@
                 <div class="input_wrap">
                     <label for="surname"><p>ФАМИЛИЯ</p></label>
                     <input
-                        @if($errors_array)
-                        @if (in_array("surname", $errors_array))
-                        class="invalid"
-                        @endif
-                        @endif
-                        wire:model="surname" id="surname" name="surname" required type="text" placeholder="Фамилия">
+                            @if($errors_array)
+                                @if (in_array("surname", $errors_array))
+                                    class="invalid"
+                            @endif
+                            @endif
+                            wire:model.live="surname" id="surname" name="surname" required type="text"
+                            placeholder="Фамилия">
                 </div>
                 <div class="input_wrap">
                     <label for=""><p>КОНТАКТНЫЙ НОМЕР</p></label>
                     <input
-                        @if($errors_array)
-                        @if (in_array("mobile", $errors_array))
-                        class="invalid"
-                        @endif
-                        @endif
-                        wire:model="mobile" id="mobile" name="mobile" required class="mobile_input" type="text"
-                        placeholder="8 911 123 45 67">
+                            @if($errors_array)
+                                @if (in_array("mobile", $errors_array))
+                                    class="invalid"
+                            @endif
+                            @endif
+                            wire:model.live="mobile" id="mobile" name="mobile" required class="mobile_input" type="text"
+                            placeholder="8 911 123 45 67">
                 </div>
 
                 <div class="input_wrap">
                     <label for="city"><p>Город</p></label>
                     <input
-                        @if($errors_array)
-                        @if (in_array("city", $errors_array))
-                        class="invalid"
-                        @endif
-                        @endif
-                        wire:model="city" id="city" name="city" required type="text" placeholder="Город">
+                            @if($errors_array)
+                                @if (in_array("city", $errors_array))
+                                    class="invalid"
+                            @endif
+                            @endif
+                            wire:model.live="city" id="city" name="city" required type="text" placeholder="Город">
                 </div>
 
                 <div>
-                    <input type="checkbox" id="need_delivery" wire:model="need_delivery"
+                    <input type="checkbox" id="need_delivery" wire:model.live="need_delivery"
                            value="1">
                     <label for="need_delivery"><p>Требуется доставка
                             @if($this->need_delivery
@@ -202,13 +198,13 @@
                     <div class="input_wrap">
                         <label for="address"><p>Адрес</p></label>
                         <input
-                            @if($errors_array)
-                            @if (in_array("address", $errors_array))
-                            class="invalid"
-                            @endif
-                            @endif
-                            wire:model="address" id="address" name="address" required type="text"
-                            placeholder="Адрес">
+                                @if($errors_array)
+                                    @if (in_array("address", $errors_array))
+                                        class="invalid"
+                                @endif
+                                @endif
+                                wire:model.live="address" id="address" name="address" required type="text"
+                                placeholder="Адрес">
                     </div>
                     {{--                    <div class="input_wrap">--}}
                     {{--                        <label for="index"><p>Индекс</p></label>--}}
@@ -218,7 +214,7 @@
                     {{--                            class="invalid"--}}
                     {{--                            @endif--}}
                     {{--                            @endif--}}
-                    {{--                            wire:model="index" id="index" name="index" required type="text" placeholder="Индекс">--}}
+                    {{--                            wire:model.live="index" id="index" name="index" required type="text" placeholder="Индекс">--}}
                     {{--                    </div>--}}
 
                 @endif
@@ -248,8 +244,6 @@
                 window.open(event.detail.url, '_blank')
             })
         </script>
-
-
 
     @endpush
 </div>

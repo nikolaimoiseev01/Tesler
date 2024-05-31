@@ -8,7 +8,7 @@
                   class="edit_promo mt-3"
                   id="edit-blog-post-form"
                   method="post"
-                  wire:submit.prevent="editPromo(Object.fromEntries(new FormData($event.target)))">
+                  wire:submit="editPromo(Object.fromEntries(new FormData($event.target)))">
                 @csrf
                 <div class="form-group">
                     <label for="exampleInputEmail1">Заголовок</label>

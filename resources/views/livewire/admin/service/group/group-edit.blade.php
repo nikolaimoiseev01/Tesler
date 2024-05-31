@@ -1,17 +1,17 @@
 <div>
     <form name="add-blog-post-form" class="p-3 mt-3" id="add-blog-post-form"
           method="post"
-          wire:submit.prevent="editGroup(Object.fromEntries(new FormData($event.target)))">
+          wire:submit="editGroup(Object.fromEntries(new FormData($event.target)))">
         @csrf
         <h1 style="font-size: 1.8rem;" class="mb-3 pb-3 border-bottom">Изменение группы</h1>
         <div class="form-group">
             <label for="exampleInputEmail1">Название</label>
-            <input wire:model="name" class="form-control">
+            <input wire:model.live="name" class="form-control">
         </div>
 
         <div class="form-group">
             <label>Сфера</label>
-            <select wire:model="scope" class="form-control">
+            <select wire:model.live="scope" class="form-control">
                 @foreach($scopes as $scope)
                     <option value="{{$scope['id']}}">{{$scope['name']}}
                     </option>
@@ -21,7 +21,7 @@
 
         <div class="form-group">
             <label>Категория</label>
-            <select wire:model="category" class="form-control">
+            <select wire:model.live="category" class="form-control">
                 @foreach($categories as $category)
                     <option value="{{$category['id']}}">{{$category['name']}}
                     </option>

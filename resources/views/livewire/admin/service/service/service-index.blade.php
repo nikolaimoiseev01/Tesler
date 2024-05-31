@@ -21,7 +21,7 @@
         </a>
 
         <div class="form-group">
-            <select wire:model="null_column" class="form-control"
+            <select wire:model.live="null_column" class="form-control"
                     aria-hidden="true" id="has_null">
                 <option value="scope_id">Сфера</option>
                 <option value="category_id">Категория</option>

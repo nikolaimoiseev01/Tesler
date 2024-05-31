@@ -149,28 +149,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-@livewireScripts
-
 <script src="/js/portal.js"></script>
-
-{{--<script src="/plugins/alpinejs/alpinejs.js" defer></script>--}}
 
 <script src="/plugins/slick/slick.js"></script>
 
 <script src="/plugins/jquery-mask/jquery.mask.min.js"></script>
-
-
-{{--<script>--}}
-{{--    $('.gallery').on('init reInit afterChange', function (event, slick, currentSlide, nextSlide) {--}}
-{{--        //currentSlide is undefined on init -- set it to 0 in this case (currentSlide is 0 based)--}}
-{{--        // id = $(this).parent('.gallery_wrap').attr('id').slice(6,99);--}}
-{{--        // slider = $(this).children('.gallery');--}}
-{{--        var $status_gallery = $(this).parent('.gallery_wrap').children('.desc').children('.navigation').children('.pagingInfo_gallery');--}}
-{{--        var i = (currentSlide ? currentSlide : 0) + 1;--}}
-{{--        $status_gallery.text(i + '/' + slick.slideCount);--}}
-{{--    });--}}
-{{--</script>--}}
-
 
 
 @stack('scripts')

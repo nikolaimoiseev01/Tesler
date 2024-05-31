@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
-use App\Models\Course;
-use App\Models\Good;
-use App\Models\Order;
+use App\Models\Course\Course;
+use App\Models\Good\Good;
+use App\Models\Good\Order;
+use App\Models\Good\ShopSet;
 use App\Models\Promo;
-use App\Models\Service;
-use App\Models\ShopSet;
+use App\Models\Service\Category;
+use App\Models\Service\Service;
 use App\Models\Staff;
 use Illuminate\Http\Request;
 

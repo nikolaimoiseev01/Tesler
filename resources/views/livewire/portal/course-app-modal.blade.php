@@ -7,7 +7,7 @@
             себе.
         </p>
         <form action=""
-              wire:submit.prevent="createCourseApp(Object.fromEntries(new FormData($event.target)))"
+              wire:submit="createCourseApp(Object.fromEntries(new FormData($event.target)))"
         >
             <div class="inputs_wrap">
                 <div class="row_1_wrap">
@@ -27,7 +27,7 @@
                 </div>
             </div>
 
-            <button type="submit" class="link-bg fern">Отправить</button>
+            <button wire:loading.class="loading" type="submit" class="link-bg fern">Отправить</button>
         </form>
 
         <p class="off_info_wrap">

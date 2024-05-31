@@ -39,7 +39,7 @@
                         @endif
                         <label class="mb-0 float-right relative inline-flex items-center cursor-pointer">
 
-                            <input wire:model="flg_active" wire:change="toggleActivity" type="checkbox" value=""
+                            <input wire:model.live="flg_active" wire:change="toggleActivity" type="checkbox" value=""
                                    class="sr-only peer">
                             <div
                                 class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
@@ -53,13 +53,13 @@
         <div class="card-body">
             <div class="tab-content">
                 <div class="tab-pane active" id="site_info" tabindex="-1">
-                    <form wire:submit.prevent="editstaff(Object.fromEntries(new FormData($event.target)))">
+                    <form wire:submit="editstaff(Object.fromEntries(new FormData($event.target)))">
                         @csrf
                         {{--                        <div class="row">--}}
                         {{--                            <div class="col-md-10">--}}
                         {{--                                <div class="form-group">--}}
                         {{--                                    <label for="name">Название на сайте</label>--}}
-                        {{--                                    <input wire:model="name" type="text" class="form-control"--}}
+                        {{--                                    <input wire:model.live="name" type="text" class="form-control"--}}
                         {{--                                           id="exampleInputEmail1"--}}
                         {{--                                           placeholder="Имя услуги">--}}
                         {{--                                </div>--}}
@@ -67,7 +67,7 @@
                         {{--                            <div class="col-md-2">--}}
                         {{--                                <div class="form-group">--}}
                         {{--                                    <label>Категория</label>--}}
-                        {{--                                    <select wire:model="category" class="form-control"--}}
+                        {{--                                    <select wire:model.live="category" class="form-control"--}}
                         {{--                                            name="category_id" aria-hidden="true">--}}
                         {{--                                        @if(!($category ?? null))--}}
                         {{--                                            <option value="" hidden>Выберите категорию</option>--}}
@@ -85,18 +85,18 @@
 
                         <div class="form-group">
                             <label for="desc_small">Описание маленькое</label>
-                            <textarea wire:model="desc_small" name="desc_small" class="form-control"></textarea>
+                            <textarea wire:model.live="desc_small" name="desc_small" class="form-control"></textarea>
                         </div>
 
                         <div class="form-group">
                             <label for="exampleInputEmail1">Описание</label>
-                            <textarea wire:model="desc" name="desc" class="form-control"></textarea>
+                            <textarea wire:model.live="desc" name="desc" class="form-control"></textarea>
                         </div>
 
                         <div class="row mt-3">
                             <div class="col-md-6">
                                 <label for="desc_small">Шопсет в подборке</label>
-                                <select wire:model="selected_shopset" class="select2 form-control"
+                                <select wire:model.live="selected_shopset" class="select2 form-control"
                                         aria-hidden="true" id="selected_shopset">
                                     @if(!($selected_shopset ?? null))
                                         <option value="" hidden>Не выбрано</option>
@@ -110,7 +110,7 @@
                             </div>
                             <div class="col-md-6 form-group">
                                 <label for="exampleInputEmail1">Опыт</label>
-                                <input wire:model="experience" type="text" class="form-control"
+                                <input wire:model.live="experience" type="text" class="form-control"
                                        id="experience"
                                        placeholder="Опыт">
                             </div>
@@ -118,7 +118,7 @@
 
                         <div class="mt-3">
                             <label for="desc_small">Сертификат в подборке</label>
-                            <select wire:model="selected_sert" class="select2 form-control"
+                            <select wire:model.live="selected_sert" class="select2 form-control"
                                     aria-hidden="true" id="selected_sert">
                                 @if(!($selected_sert ?? null))
                                     <option value="" hidden>Не выбрано</option>
@@ -133,7 +133,7 @@
 
                         <div class="mt-3">
                             <label for="desc_small">Абонемент в подборке</label>
-                            <select wire:model="selected_abon" class="select2 form-control"
+                            <select wire:model.live="selected_abon" class="select2 form-control"
                                     aria-hidden="true" id="selected_abon">
                                 @if(!($selected_abon ?? null))
                                     <option value="" hidden>Не выбрано</option>
@@ -233,7 +233,7 @@
 
             <div wire:ignore id="filepond_wrap" class="mt-2">
                 <input type="file"
-                       wire:model="staff_examples"
+                       wire:model.live="staff_examples"
                        class="filepond"
                        multiple
                        name="staff_examples"
@@ -360,7 +360,7 @@
             document.addEventListener('update_filepond', function () {
                 $('.filepond--root').remove();
                 $(document).ready(function () {
-                    input = "<input type='file' wire:model='staff_examples' class='filepond' multiple name='staff_examples' id='staff_examples' data-allow-reorder='true' data-max-file-size='3MB' data-max-files='3'>"
+                    input = "<input type='file' wire:model.live='staff_examples' class='filepond' multiple name='staff_examples' id='staff_examples' data-allow-reorder='true' data-max-file-size='3MB' data-max-files='3'>"
                     $('#filepond_wrap').append(input);
                     filepond_trigger();
                 })

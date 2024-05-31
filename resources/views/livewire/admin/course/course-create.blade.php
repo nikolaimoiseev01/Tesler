@@ -1,12 +1,12 @@
 <div>
     <form name="add-blog-post-form" class="p-3 mt-3" id="add-blog-post-form"
           method="post"
-          wire:submit.prevent="createCourse(Object.fromEntries(new FormData($event.target)))">
+          wire:submit="createCourse(Object.fromEntries(new FormData($event.target)))">
         @csrf
         <h1 style="font-size: 1.8rem;" class="mb-3 pb-3 border-bottom">Добавление курса</h1>
         <div class="form-group">
             <label for="exampleInputEmail1">Название</label>
-            <input wire:model="title" class="form-control">
+            <input wire:model.live="title" class="form-control">
         </div>
 
 

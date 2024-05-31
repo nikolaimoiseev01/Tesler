@@ -31,7 +31,7 @@
                     сайте</a>
 
                 <div class="m-0 d-inline mr-3 form-group">
-                    <select wire:model="service_type" class="form-control"
+                    <select wire:model.live="service_type" class="form-control"
                             aria-hidden="true" id="group">
                         @if(!($service_type ?? null))
                             <option value="" hidden>Выберите тип</option>
@@ -52,7 +52,7 @@
                         @endif
                         <label class="mb-0 float-right relative inline-flex items-center cursor-pointer">
 
-                            <input wire:model="flg_active" wire:change="toggleActivity" type="checkbox" value=""
+                            <input wire:model.live="flg_active" wire:change="toggleActivity" type="checkbox" value=""
                                    class="sr-only peer">
                             <div
                                 class="w-11 h-6 bg-gray-200 peer-focus:outline-none dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
@@ -66,13 +66,13 @@
 
             <div class="tab-content">
                 <div class="tab-pane active" id="site_info" tabindex="-1">
-                    <form wire:submit.prevent="editService(Object.fromEntries(new FormData($event.target)))">
+                    <form wire:submit="editService(Object.fromEntries(new FormData($event.target)))">
                         @csrf
                         <div class="row">
 
                             <div class="col-md-6 form-group">
                                 <label for="exampleInputEmail1">Название</label>
-                                <input wire:model="name" type="text" class="form-control"
+                                <input wire:model.live="name" type="text" class="form-control"
                                        id="exampleInputEmail1"
                                        placeholder="Имя услуги">
                             </div>
@@ -80,7 +80,7 @@
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label>Сфера</label>
-                                    <select wire:model="scope" class="form-control"
+                                    <select wire:model.live="scope" class="form-control"
                                             aria-hidden="true" id="scope">
                                         @if(!($scope ?? null))
                                             <option value="" hidden>Выберите сферу</option>
@@ -97,7 +97,7 @@
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label>Категория</label>
-                                    <select wire:model="category" class="form-control"
+                                    <select wire:model.live="category" class="form-control"
                                             name="category_id" aria-hidden="true">
                                         @if(!($category ?? null))
                                             <option value="" hidden>Выберите категорию</option>
@@ -113,7 +113,7 @@
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label>Группа</label>
-                                    <select wire:model="group" class="form-control"
+                                    <select wire:model.live="group" class="form-control"
                                             aria-hidden="true" id="group">
                                         @if(!($group ?? null))
                                             <option value="" hidden>Выберите группу</option>
@@ -133,7 +133,7 @@
                                 <div wire:ignore class="form-group">
                                     <label>Основное изображение</label>
                                     <div class="custom-file">
-                                        <input wire:model="pic_main" type="file" class="custom-file-input"
+                                        <input wire:model.live="pic_main" type="file" class="custom-file-input"
                                                name="pic_main">
                                         <label class="custom-file-label" id="label_pic_main" for="exampleInputFile">
                                             Загрузить изображение <strong>(название на англиском)</strong> <strong>(мин-выс:
@@ -143,17 +143,17 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="desc_small">Описание маленькое</label>
-                                    <textarea wire:model="desc_small" name="desc_small" class="form-control"></textarea>
+                                    <textarea wire:model.live="desc_small" name="desc_small" class="form-control"></textarea>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Описание</label>
-                                    <textarea wire:model="desc" name="desc" class="form-control"></textarea>
+                                    <textarea wire:model.live="desc" name="desc" class="form-control"></textarea>
                                 </div>
                                 <div wire:ignore class="form-group">
                                     <label>Изображение процесса</label>
                                     <div class="custom-file">
-                                        <input wire:model="pic_proccess" type="file" class="custom-file-input"
+                                        <input wire:model.live="pic_proccess" type="file" class="custom-file-input"
                                                name="pic_process">
                                         <label class="custom-file-label" id="label_pic_process" for="exampleInputFile">
                                             Загрузить изображение <strong>(название на англиском)</strong>
@@ -162,13 +162,13 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Процесс</label>
-                                    <textarea wire:model="proccess" class="form-control"></textarea>
+                                    <textarea wire:model.live="proccess" class="form-control"></textarea>
                                 </div>
 
 
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Результат</label>
-                                    <textarea wire:model="result" class="form-control"></textarea>
+                                    <textarea wire:model.live="result" class="form-control"></textarea>
                                 </div>
                             </div>
 
@@ -391,7 +391,7 @@
             </div>
             <div wire:ignore id="filepond_wrap" class="mt-2">
                 <input type="file"
-                       wire:model="service_examples"
+                       wire:model.live="service_examples"
                        class="filepond"
                        multiple
                        name="service_examples"
@@ -500,7 +500,7 @@
                 $(document).ready(function () {
                     $('.filepond--root').remove();
                     setTimeout(function () {
-                        input = "<input type='file' wire:model='service_examples' class='filepond' multiple name='service_examples' id='service_examples' data-allow-reorder='true' data-max-file-size='3MB' data-max-files='3'>"
+                        input = "<input type='file' wire:model.live='service_examples' class='filepond' multiple name='service_examples' id='service_examples' data-allow-reorder='true' data-max-file-size='3MB' data-max-files='3'>"
                         $('#filepond_wrap').append(input);
                         filepond_trigger();
                     }, 500)

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Scope;
+use App\Models\Service\Scope;
 use Illuminate\Http\Request;
 
 class ScopeController extends Controller

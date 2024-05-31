@@ -9,7 +9,7 @@
         <div class="card-body p-0">
             <form name="add-blog-post-form" class="p-3 mb-0" id="add-blog-post-form"
                   method="post"
-                  wire:submit.prevent="editcourse(Object.fromEntries(new FormData($event.target)))">
+                  wire:submit="editcourse(Object.fromEntries(new FormData($event.target)))">
                 @csrf
                 <input type="text" name="course_id" value="{{$course['id']}}" style="display: none">
                 <div class="row">
@@ -126,7 +126,7 @@
 
                     <div wire:ignore id="input_cat_ex_block" class="mt-2">
                         <input type="file"
-                               wire:model="course_examples"
+                               wire:model.live="course_examples"
                                class="filepond"
                                multiple
                                name="course_examples"
@@ -162,7 +162,7 @@
                 </div>
                 <div wire:ignore style="display: none;" class="mt-2" id="new_pic_block_{{$course['id']}}">
                     <input type="file"
-                           wire:model="pic_course"
+                           wire:model.live="pic_course"
                            class="filepond"
                            name="pic_course"
                            id="pic_course"
@@ -274,7 +274,7 @@
             document.addEventListener('update_filepond', function () {
                 $('.filepond--root').remove();
                 $(document).ready(function () {
-                    input = "<input type='file' wire:model='course_examples' class='filepond' multiple name='course_examples' id='course_examples' data-allow-reorder='true' data-max-file-size='3MB' data-max-files='3'>"
+                    input = "<input type='file' wire:model.live='course_examples' class='filepond' multiple name='course_examples' id='course_examples' data-allow-reorder='true' data-max-file-size='3MB' data-max-files='3'>"
                     $('#input_cat_ex_block').append(input);
                     filepond_trigger();
                 })

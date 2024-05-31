@@ -1,13 +1,13 @@
 {
   "resources/js/app.css": {
-    "file": "assets/app-ea1aab35.css",
+    "file": "assets/app-b644015b.css",
     "src": "resources/js/app.css"
   },
   "resources/js/app.js": {
     "css": [
-      "assets/app-ea1aab35.css"
+      "assets/app-b644015b.css"
     ],
-    "file": "assets/app-f339d8da.js",
+    "file": "assets/app-538c0457.js",
     "isEntry": true,
     "src": "resources/js/app.js"
   },
@@ -27,7 +27,7 @@
     "src": "resources/sass/new_landing.scss"
   },
   "resources/sass/portal.scss": {
-    "file": "assets/portal-148fb860.css",
+    "file": "assets/portal-f3a098e2.css",
     "isEntry": true,
     "src": "resources/sass/portal.scss"
   }

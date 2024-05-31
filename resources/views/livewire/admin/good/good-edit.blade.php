@@ -44,7 +44,7 @@
                         @endif
                         <label class="mb-0 float-right relative inline-flex items-center cursor-pointer">
 
-                            <input wire:model="flg_active" wire:change="toggleActivity" type="checkbox" value=""
+                            <input wire:model.live="flg_active" wire:change="toggleActivity" type="checkbox" value=""
                                    class="sr-only peer">
                             <div
                                 class="w-11 h-6 bg-gray-200 peer-focus:outline-none dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
@@ -58,13 +58,13 @@
         <div class="card-body">
             <div class="tab-content">
                 <div class="tab-pane active" id="site_info" tabindex="-1">
-                    <form wire:submit.prevent="editGood(Object.fromEntries(new FormData($event.target)))">
+                    <form wire:submit="editGood(Object.fromEntries(new FormData($event.target)))">
                         @csrf
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="name">Название на сайте</label>
-                                    <input wire:model="name" type="text" class="form-control"
+                                    <input wire:model.live="name" type="text" class="form-control"
                                            id="exampleInputEmail1"
                                            placeholder="Имя услуги">
                                 </div>
@@ -73,7 +73,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="promo_text">Промо текст</label>
-                                    <input wire:model="promo_text" type="text" class="form-control"
+                                    <input wire:model.live="promo_text" type="text" class="form-control"
                                            id="promo_text"
                                            placeholder="Промотекст">
                                 </div>
@@ -82,7 +82,7 @@
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="promo_text">Скидка в процентах</label>
-                                    <input wire:model="discount" type="text" class="form-control"
+                                    <input wire:model.live="discount" type="text" class="form-control"
                                            id="promo_text"
                                            placeholder="Скидка">
                                 </div>
@@ -91,7 +91,7 @@
 
                             <div class="col-md-2 form-group">
                                 <label>Большой блок</label>
-                                <select wire:model="flg_big_block" class="form-control"
+                                <select wire:model.live="flg_big_block" class="form-control"
                                         name="flg_big_block" aria-hidden="true">
                                     <option value="1">Да
                                     </option>
@@ -106,7 +106,7 @@
                         <div class="row">
                             <div class="col-md-4 form-group">
                                 <label>Сфера от услуг</label>
-                                <select wire:model="scope" class="form-control"
+                                <select wire:model.live="scope" class="form-control"
                                         name="category_id" aria-hidden="true">
                                     @if(!($scope ?? null))
                                         <option value="" hidden>Выберите категорию</option>
@@ -120,7 +120,7 @@
 
                             <div class="col-md-4 form-group">
                                 <label>Категория от услуг</label>
-                                <select wire:model="category" class="form-control"
+                                <select wire:model.live="category" class="form-control"
                                         name="v" aria-hidden="true">
                                     @if(!($category ?? null))
                                         <option value="" hidden>Выберите категорию</option>
@@ -134,7 +134,7 @@
 
                             <div class="col-md-4 form-group">
                                 <label>Тип продукта</label>
-                                <select wire:model="product_type" class="form-control"
+                                <select wire:model.live="product_type" class="form-control"
                                         name="product_type" aria-hidden="true">
                                     @if(!($good_types ?? null))
                                         <option value="" hidden>Выберите тип</option>
@@ -151,7 +151,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="brand">Бренд</label>
-                                    <input wire:model="brand" type="text" class="form-control"
+                                    <input wire:model.live="brand" type="text" class="form-control"
                                            id="brand"
                                            placeholder="Тип объема">
                                 </div>
@@ -160,7 +160,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="name">Объем</label>
-                                    <input wire:model="capacity" type="number" class="form-control"
+                                    <input wire:model.live="capacity" type="number" class="form-control"
                                            id="capacity"
                                            placeholder="Объем">
                                 </div>
@@ -168,7 +168,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="name">Тип измерения объема</label>
-                                    <input wire:model="capacity_type" type="text" class="form-control"
+                                    <input wire:model.live="capacity_type" type="text" class="form-control"
                                            id="capacity_type"
                                            placeholder="Тип объема">
                                 </div>
@@ -184,7 +184,7 @@
 
                                             @foreach($good['good_category_id'] as $good_category)
                                                 <div wire:key="{{ $loop->index }}">
-                                                    {{\App\Models\GoodCategory::where('id', $good_category)->first(['title'])->title}}
+                                                    {{\App\Models\Good\Good\GoodCategory::where('id', $good_category)->first(['title'])->title}}
                                                     <a wire:click.prevent="delete_good_category({{$good_category}})"
                                                        href="">
                                                         <i class="fa-solid fa-xmark"></i>
@@ -197,7 +197,7 @@
                                     @endif
 
 
-                                    <select wire:model="good_category_id" class=" form-control"
+                                    <select wire:model.live="good_category_id" class=" form-control"
                                             aria-hidden="true" id="service_to_add">
                                         <option value="">Выберите категорию</option>
                                         @foreach($good_categories as $good_category)
@@ -221,7 +221,7 @@
                                             @foreach($good['skin_type'] as $good_skin_type)
                                                 <div class="d-flex gap-1 align-items-center"
                                                      wire:key="{{ $loop->index }}">
-                                                    {{\App\Models\Good_skin_type::where('id', $good_skin_type)->first(['title'])->title}}
+                                                    {{\App\Models\Good\Good_skin_type::where('id', $good_skin_type)->first(['title'])->title}}
                                                     <a wire:click.prevent="delete_good_skin_type({{$good_skin_type}})"
                                                        href="">
                                                         <i class="fa-solid fa-xmark"></i>
@@ -234,7 +234,7 @@
                                     @endif
 
 
-                                    <select wire:model="good_skin_type_id" class=" form-control"
+                                    <select wire:model.live="good_skin_type_id" class=" form-control"
                                             aria-hidden="true" id="service_to_add">
                                         <option value="">Выберите тип</option>
                                         @foreach($good_skin_types as $good_skin_type)
@@ -258,7 +258,7 @@
                                             @foreach($good['hair_type'] as $good_hair_type)
                                                 <div class="d-flex gap-1 align-items-center"
                                                      wire:key="{{ $loop->index }}">
-                                                    {{\App\Models\Good_hair_type::where('id', $good_hair_type)->first(['title'])->title}}
+                                                    {{\App\Models\Good\Good_hair_type::where('id', $good_hair_type)->first(['title'])->title}}
                                                     <a wire:click.prevent="delete_good_hair_type({{$good_hair_type}})"
                                                        href="">
                                                         <i class="fa-solid fa-xmark"></i>
@@ -271,7 +271,7 @@
                                     @endif
 
 
-                                    <select wire:model="good_hair_type_id" class=" form-control"
+                                    <select wire:model.live="good_hair_type_id" class=" form-control"
                                             aria-hidden="true" id="service_to_add">
                                         <option value="">Выберите тип</option>
                                         @foreach($good_hair_types as $good_hair_type)
@@ -293,22 +293,24 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="desc_small">Описание маленькое</label>
-                                    <textarea wire:model="desc_small" name="desc_small" class="form-control"></textarea>
+                                    <textarea wire:model.live="desc_small" name="desc_small"
+                                              class="form-control"></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Описание</label>
-                                    <textarea wire:model="desc" name="desc" class="form-control"></textarea>
+                                    <textarea wire:model.live="desc" name="desc" class="form-control"></textarea>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Применение</label>
-                                    <textarea wire:model="usage" name="usage" class="form-control"></textarea>
+                                    <textarea wire:model.live="usage" name="usage" class="form-control"></textarea>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Состав</label>
-                                    <textarea wire:model="compound" name="compound" class="form-control"></textarea>
+                                    <textarea wire:model.live="compound" name="compound"
+                                              class="form-control"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -317,7 +319,7 @@
                         {{--                        <div class="row p-3 ml-1 mb-3 border">--}}
                         {{--                            <div class="col-md-4">--}}
                         {{--                                <div class="form-check">--}}
-                        {{--                                    <input wire:model="flg_on_road" type="checkbox" class="form-check-input"--}}
+                        {{--                                    <input wire:model.live="flg_on_road" type="checkbox" class="form-check-input"--}}
                         {{--                                           id="flg_on_road">--}}
                         {{--                                    <label class="form-check-label" for="flg_on_road">Можно взять в дорогу</label>--}}
                         {{--                                </div>--}}
@@ -325,7 +327,7 @@
 
                         {{--                            <div class="col-md-4">--}}
                         {{--                                <div class="form-check">--}}
-                        {{--                                    <input wire:model="flg_gift_set" type="checkbox" class="form-check-input"--}}
+                        {{--                                    <input wire:model.live="flg_gift_set" type="checkbox" class="form-check-input"--}}
                         {{--                                           id="flg_gift_set">--}}
                         {{--                                    <label class="form-check-label" for="flg_gift_set">Подарочный набор</label>--}}
                         {{--                                </div>--}}
@@ -333,7 +335,7 @@
 
                         {{--                            <div class="col-md-4">--}}
                         {{--                                <div class="form-check">--}}
-                        {{--                                    <input wire:model="flg_discount" type="checkbox" class="form-check-input"--}}
+                        {{--                                    <input wire:model.live="flg_discount" type="checkbox" class="form-check-input"--}}
                         {{--                                           id="flg_discount">--}}
                         {{--                                    <label class="form-check-label" for="flg_discount">Скидочный товар</label>--}}
                         {{--                                </div>--}}
@@ -437,12 +439,12 @@
             <div class="mt-3 align-items-center row">
                 <div class="col-md-6 form-group">
                     <label for="specs_title">Характеристика</label>
-                    <input wire:model="specs_title" type="text" class="form-control"
+                    <input wire:model.live="specs_title" type="text" class="form-control"
                            placeholder="Название характеристики">
                 </div>
                 <div class="col-md-5 form-group">
                     <label for="specs_value">Значение</label>
-                    <input wire:model="specs_value" type="text" class="form-control"
+                    <input wire:model.live="specs_value" type="text" class="form-control"
                            placeholder="Значение">
                 </div>
 
@@ -503,7 +505,7 @@
 
             <div wire:ignore id="filepond_wrap" class="mt-2">
                 <input type="file"
-                       wire:model="good_examples"
+                       wire:model.live="good_examples"
                        class="filepond"
                        multiple
                        name="good_examples"
@@ -592,7 +594,7 @@
             document.addEventListener('update_filepond', function () {
                 $('.filepond--root').remove();
                 $(document).ready(function () {
-                    input = "<input type='file' wire:model='good_examples' class='filepond' multiple name='good_examples' id='good_examples' data-allow-reorder='true' data-max-file-size='3MB' data-max-files='3'>"
+                    input = "<input type='file' wire:model.live='good_examples' class='filepond' multiple name='good_examples' id='good_examples' data-allow-reorder='true' data-max-file-size='3MB' data-max-files='3'>"
                     $('#filepond_wrap').append(input);
                     filepond_trigger();
                 })

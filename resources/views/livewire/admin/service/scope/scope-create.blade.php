@@ -1,7 +1,7 @@
 <div>
     <form wire:key="1" x-show="open" name="add-blog-post-form" class="p-3 mt-3" id="add-blog-post-form"
           method="post"
-          wire:submit.prevent="createScope(Object.fromEntries(new FormData($event.target)))">
+          wire:submit="createScope(Object.fromEntries(new FormData($event.target)))">
         @csrf
         <h1 style="font-size: 1.8rem;" class="mb-3 pb-3 border-bottom">Добавление сферы</h1>
         <div class="form-group">
@@ -14,7 +14,7 @@
         </div>
 
         <input type="file"
-               wire:model="pic_scope_main_page"
+               wire:model.live="pic_scope_main_page"
                class="filepond"
                name="pic_scope_main_page"
                id="pic_scope_main_page"
@@ -23,7 +23,7 @@
                data-max-files="3">
 
         <input type="file"
-               wire:model="pic_scope_page"
+               wire:model.live="pic_scope_page"
                class="filepond"
                name="pic_scope_page"
                id="pic_scope_page"

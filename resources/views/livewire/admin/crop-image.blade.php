@@ -9,7 +9,7 @@
     <form name="add-blog-post-form"
           method="post"
           class="p-5 mt-3"
-          wire:submit.prevent="editgoodcategory(Object.fromEntries(new FormData($event.target)))">
+          wire:submit="editgoodcategory(Object.fromEntries(new FormData($event.target)))">
         <div>
             <img id="image" src=" {{$src}}">
         </div>

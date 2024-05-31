@@ -1,6 +1,8 @@
 @extends('layouts.portal')
 
-@section('title'){{$good['name']}}@endsection
+@section('title')
+    {{$good['name']}}
+@endsection
 
 @section('content')
 
@@ -10,8 +12,8 @@
 
         <div class="content g_bread_wrap">
             <a href="{{route('market_page')}}" class="link coal">Магазин</a> / <a
-                href="{{route('good_category_page', $good['good_category_id'][0])}}"
-                class="link coal">{{\App\Models\GoodCategory::where('id', $good['good_category_id'][0])->first(['title'])->title}}</a>
+                    href="{{route('good_category_page', $good['good_category_id'][0])}}"
+                    class="link coal">{{\App\Models\Good\GoodCategory::where('id', $good['good_category_id'][0])->first(['title'])->title}}</a>
             / <p>{{$good['name']}}</p>
         </div>
 
@@ -21,7 +23,7 @@
             <div class="examples_wrap">
                 <img class="show_full_img" id="main_example"
                      @if(is_null($good->getFirstMediaUrl('good_examples')) || $good->getFirstMediaUrl('good_examples') == '')
-                     src="/media/media_fixed/logo_holder.png"
+                         src="/media/media_fixed/logo_holder.png"
                      @else src="{{$good->getFirstMediaUrl('good_examples')}}"
                      @endif
                      alt="">
@@ -47,11 +49,11 @@
             @endpush
 
             <div class="info">
-                {{--                <p>{{\App\Models\GoodCategory::where('id', $good['good_category_id'][0])->first(['title'])->title}}</p>--}}
                 <p>{{$good['product_type']}}</p>
                 <h2>{{$good['name']}}</h2>
                 @if(Auth::check())
-                    <a href="{{route('good.edit', $good['id'])}}" class="link coal">Страница в Админке</a>
+                    <a href="/admin/good/goods/{{$good['id']}}/edit"  target="_blank" class="link coal">Страница в Админке</a>
+
                 @endif
                 @if($good['desc_small'])
                     <p>{{$good['desc_small']}}</p>
@@ -82,19 +84,7 @@
                     </div>
 
                 </div>
-                @if(($good['flg_active'] && $good['yc_actual_amount'] > 0) || ($good['flg_active'] && ($good['yc_category'] == 'Сертификаты Сеть Tesler' || $good['yc_category'] == 'Абонементы Сеть Tesler')) || ($good['flg_active'] && $good['good_category_id'][0] === 6) || ($good['flg_active'] && $good['good_category_id'][0] === 7))
-                    <a onclick="Livewire.emit('good_cart_add', {{$good['id']}})"
-                       id="good_add_{{$good['id']}}"
-                       class="link-bg coal">
-                        @if($good['good_category_id'][0] === 6 || $good['good_category_id'][0] === 7)
-                            Купить
-                        @else
-                            В корзину
-                        @endif
-                    </a>
-                @else
-                    <p>Этот товар недоступен для покупки</p>
-                @endif
+                <livewire:portal.components.good.add-to-cart-button :good="$good"></livewire:portal.components.good.add-to-cart-button>
             </div>
         </div>
 

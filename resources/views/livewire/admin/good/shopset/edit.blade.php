@@ -3,7 +3,7 @@
         <div class="card-body">
             <form name="add-blog-post-form"
                   method="post"
-                  wire:submit.prevent="editShopset(Object.fromEntries(new FormData($event.target)))">
+                  wire:submit="editShopset(Object.fromEntries(new FormData($event.target)))">
                 @csrf
                 <div class="form-group">
                     <label for="exampleInputEmail1">Название</label>
@@ -80,7 +80,7 @@
                     <div x-show="open">
                         <input
                             type="file"
-                            wire:model="pic_shopset"
+                            wire:model.live="pic_shopset"
                             class="filepond"
                             name="pic_shopset"
                             id="pic_shopset"

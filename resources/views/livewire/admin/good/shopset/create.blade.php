@@ -2,7 +2,7 @@
 
     <form name="add-blog-post-form" class="p-3 mt-3" id="add-blog-post-form"
           method="post"
-          wire:submit.prevent="createShopset(Object.fromEntries(new FormData($event.target)))">
+          wire:submit="createShopset(Object.fromEntries(new FormData($event.target)))">
         @csrf
         <h1 style="font-size: 1.8rem;" class="mb-3 pb-3 border-bottom">Добавление шопсета</h1>
 
@@ -26,7 +26,7 @@
         </div>
 
         <input type="file"
-               wire:model="pic_shopset"
+               wire:model.live="pic_shopset"
                class="filepond"
                name="pic_shopset"
                id="pic_shopset"

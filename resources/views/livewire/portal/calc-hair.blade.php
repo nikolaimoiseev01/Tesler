@@ -9,7 +9,7 @@
                     @foreach($options->unique('service_id') as $option)
                         <div>
                             <label for="service_{{$option['service_id']}}"><p>{{$option->service['name']}}</p></label>
-                            <input type="radio" wire:model="step_0" id="service_{{$option['service_id']}}"
+                            <input type="radio" wire:model.live="step_0" id="service_{{$option['service_id']}}"
                                    value="{{$option['service_id']}}">
                         </div>
                     @endforeach
@@ -23,7 +23,7 @@
                     @foreach($options->pluck('step_1')->unique() as $option)
                         <div>
                             <label for="hair_step_{{$option}}"><p>{{$option}}</p></label>
-                            <input type="radio" wire:model="step_1" id="hair_step_{{$option}}"
+                            <input type="radio" wire:model.live="step_1" id="hair_step_{{$option}}"
                                    value="{{$option}}">
                         </div>
                     @endforeach
@@ -37,7 +37,7 @@
                     @foreach($options->pluck('step_2')->unique() as $option)
                         <div>
                             <label for="hair_step_{{$option}}"><p>{{$option}}</p></label>
-                            <input type="radio" wire:model="step_2" id="hair_step_{{$option}}"
+                            <input type="radio" wire:model.live="step_2" id="hair_step_{{$option}}"
                                    value="{{$option}}">
                         </div>
                     @endforeach
@@ -47,11 +47,11 @@
 
             <div class="step_wrap @if($step === 3) active @endif">
                 <h2>Ваши волосы уже окрашены?</h2>
-                <div x-transition x-show="opened_category" class="filter_wrap check_box_filter_wrap">
+                <div class="filter_wrap check_box_filter_wrap">
                     @foreach($options->pluck('step_3')->unique() as $option)
                         <div>
                             <label for="hair_step_{{$option}}"><p>{{$option}}</p></label>
-                            <input type="radio" wire:model="step_3" id="hair_step_{{$option}}"
+                            <input type="radio" wire:model.live="step_3" id="hair_step_{{$option}}"
                                    value="{{$option}}">
                         </div>
                     @endforeach
@@ -60,25 +60,28 @@
 
 
             <div class="step_wrap @if($step === 4) active @endif">
-                @if($result_price)
-                    <h2>Расчет:</h2>
-                    <p style="color: white">
-                        Предварительная стоимость окрашивания равна <b>{{$result_price}}</b> руб.
-                        Стоимость окрашивания может отличаться, если ранее ваши волосы подвергались таким факторам,
-                        как окрашивание бытовым красителем, кератиновое восстановление, ламинирование волос и другие
-                        химические воздействия,
-                        которые влияют на структуру волоса.
-                        Запишитесь на бесплатную консультацию к нашим мастерам.
-                    </p>
-                    <div class="go_buttons">
-                        <a href="{{$result_link}}" target="_blank" class="link-bg fern">Записаться</a>
-                        <a modal-id="consult_modal" class="need-consult link-bg fern">Получить консультацию</a>
+
+                    <div class="result_text @if($result_price) active @endif">
+                        <h2>Расчет:</h2>
+                        <p style="color: white">
+                            Предварительная стоимость окрашивания равна <b>{{$result_price}}</b> руб.
+                            Стоимость окрашивания может отличаться, если ранее ваши волосы подвергались таким факторам,
+                            как окрашивание бытовым красителем, кератиновое восстановление, ламинирование волос и другие
+                            химические воздействия,
+                            которые влияют на структуру волоса.
+                            Запишитесь на бесплатную консультацию к нашим мастерам.
+                        </p>
+                        <div class="go_buttons">
+                            <a href="{{$result_link}}" target="_blank" class="link-bg fern">Записаться</a>
+                            <a modal-id="consult_modal" class="need-consult link-bg fern">Получить консультацию</a>
+                        </div>
                     </div>
-                @else
-                    <h2 style="color: white">
-                        Выберите все опции!
-                    </h2>
-                @endif
+                    <div class="result_text @if(!$result_price) active @endif">
+                        <h2 style="color: white">
+                            Выберите все опции!
+                        </h2>
+                    </div>
+
             </div>
         </div>
 
@@ -99,54 +102,29 @@
     @push('scripts')
         <script>
 
-            // Настраиваем высоту модального окна
-            var maxHeight = -1;
-            $('#calc_hair').show()
-            $('.calc_hair_wrap .steps_wrap .step_wrap').each(function () {
-                if ($(this).height() > maxHeight) {
-                    maxHeight = $(this).height();
-                }
-            });
             $('#calc_hair').hide()
-            $('.calc_hair_wrap .steps_wrap').height(maxHeight + 20);
 
-            // ----------------------------------------------
-
-            $('.calc_hair_wrap input').on('change', function() {
+            $('.calc_hair_wrap input').on('change', function () {
                 setTimeout(() => {
-                @this.emit('next_step_hair')
+                @this.dispatch('next_step_hair')
                 }, 300);
             })
 
-            document.addEventListener('livewire:update', function () {
-                var maxHeight = -1;
-                $('.calc_hair_wrap .steps_wrap .step_wrap').each(function () {
-                    if ($(this).height() > maxHeight) {
-                        maxHeight = $(this).height();
-                    }
-                });
-                if ($('#calc_hair').is(':visible')) {
-                    $('.calc_hair_wrap .steps_wrap').height(maxHeight + 20);
-                }
+            $('.need-consult').on('click', function (event) {
+                event.preventDefault()
+                // Закрываем предыдущее
+                $('.modal').fadeOut(200);
+                modal_on = 0
 
+                modal = $(this).attr('modal-id');
 
-                var modal_on = 0
-                $('.need-consult').on('click', function (event) {
-                    event.preventDefault()
-                    // Закрываем предыдущее
-                    $('.modal').fadeOut(200);
-                    modal_on = 0
-
-                    modal = $(this).attr('modal-id');
-
-                    $('#' + modal).fadeToggle(200);
-                    $('body').css('overflow-y', 'hidden')
-                    setTimeout(function () {
-                        modal_on = 1
-                    }, 1000)
-                })
-
+                $('#' + modal).fadeToggle(200);
+                $('body').css('overflow-y', 'hidden')
+                setTimeout(function () {
+                    modal_on = 1
+                }, 1000)
             })
+
         </script>
     @endpush
 

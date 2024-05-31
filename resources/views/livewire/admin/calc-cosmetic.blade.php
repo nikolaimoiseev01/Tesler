@@ -7,7 +7,7 @@
                         aria-hidden="true" id="cur_option">
                     @foreach($options as $option)
                         <option
-                            value="{{$option['id']}}">{{$option['step_1']}} -> {{$option['step_2']}}
+                                value="{{$option['id']}}">{{$option['step_1']}} -> {{$option['step_2']}}
                             -> {{$option['step_3']}}
                         </option>
                     @endforeach
@@ -41,7 +41,7 @@
                     aria-hidden="true" id="service_to_add">
                 @foreach($services_all as $service)
                     <option
-                        value="{{$service['id']}}">{{$service['name']}}
+                            value="{{$service['id']}}">{{$service['name']}}
                     </option>
                 @endforeach
             </select>
@@ -75,8 +75,9 @@
                         <td>
                             @if($option['services'])
                                 @foreach($option['services'] as $service)
-                                    @if($service > 0 and \App\Models\Service::where('id', $service)->first() ?? null)
-                                        {{Str::limit(\App\Models\Service::where('id', $service)->first()['name'], 15, '...')}} ||
+                                    @if($service > 0 and \App\Models\Service\Service::where('id', $service)->first() ?? null)
+                                        {{Str::limit(\App\Models\Service\Service::where('id', $service)->first()['name'], 15, '...')}}
+                                        ||
                                     @endif
                                 @endforeach
                             @endif

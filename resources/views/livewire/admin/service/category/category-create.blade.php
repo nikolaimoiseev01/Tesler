@@ -5,7 +5,7 @@
 
             <form name="add-blog-post-form" id="add-blog-post-form"
                   method="post"
-                  wire:submit.prevent="createCategory(Object.fromEntries(new FormData($event.target)))">
+                  wire:submit="createCategory(Object.fromEntries(new FormData($event.target)))">
                 @csrf
                 <div class="form-group">
                     <label>Сфера</label>
@@ -34,7 +34,7 @@
 
 
                 <input type="file"
-                       wire:model="pic_category"
+                       wire:model.live="pic_category"
                        class="filepond"
                        name="pic_category"
                        id="pic_category"

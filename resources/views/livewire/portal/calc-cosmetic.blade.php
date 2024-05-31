@@ -7,7 +7,7 @@
                     @foreach($options->pluck('step_1')->unique() as $option)
                         <div>
                             <label for="{{$option}}"><p>{{$option}}</p></label>
-                            <input wire:model="step_1" type="radio" name="step_1" id="{{$option}}"
+                            <input wire:model.live="step_1" type="radio" name="step_1" id="{{$option}}"
                                    value="{{$option}}">
                         </div>
                     @endforeach
@@ -20,7 +20,7 @@
                     @foreach($options_step_2 as $option)
                         <div>
                             <label for="{{$option}}"><p>{{$option}}</p></label>
-                            <input wire:model="step_2" type="radio" name="step_2" id="{{$option}}"
+                            <input wire:model.live="step_2" type="radio" name="step_2" id="{{$option}}"
                                    value="{{$option}}">
                         </div>
                     @endforeach
@@ -29,11 +29,11 @@
 
             <div id="step_wrap_3" class="step_wrap @if($step === 3) active @endif">
                 <h2>Тип посещения</h2>
-                <div x-transition x-show="opened_category" class="filter_wrap check_box_filter_wrap">
+                <div class="filter_wrap check_box_filter_wrap">
                     @foreach($options->pluck('step_3')->unique() as $option)
                         <div>
                             <label for="{{$option}}"><p>{{$option}}</p></label>
-                            <input wire:model="step_3" type="radio" name="step_3" id="{{$option}}"
+                            <input wire:model.live="step_3" type="radio" name="step_3" id="{{$option}}"
                                    value="{{$option}}">
                         </div>
                     @endforeach
@@ -51,7 +51,7 @@
                 <div class="services_wrap">
                     {{--                    {{$services}}--}}
                     @if($services && $has_services === 1)
-                        @foreach($services as $service)
+                        @foreach($services->service as $service)
                             <div class='option_link_wrap'>
                                 <a target='_blank' class='link coal' href='{{route('service_page', $service['id'])}}'>
                                     <p>{{$service['name']}}</p>
@@ -90,9 +90,7 @@
                 $('.calc_cosmetic_wrap .steps_wrap').height(maxHeight + 20);
 
                 $('.calc_cosmetic_wrap input').on('change', function() {
-                    setTimeout(() => {
-                    @this.emit('next_step_cosmetic')
-                    }, 300);
+                    @this.dispatch('next_step_cosmetic');
                 })
 
                 // ----------------------------------------------

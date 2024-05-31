@@ -31,6 +31,10 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'telegram-bot-api' => [
+        'token' => env('TELEGRAM_BOT_TOKEN')
+    ],
+
     'whatsapp' => [
         'from-phone-number-id' => env('WHATSAPP_FROM_PHONE_NUMBER_ID'),
         'token' => env('WHATSAPP_TOKEN'),

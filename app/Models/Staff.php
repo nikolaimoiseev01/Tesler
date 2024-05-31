@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Service\Category;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
@@ -34,4 +35,11 @@ class Staff extends Model implements HasMedia
     ];
 
     use HasFactory;
+
+    use \Staudenmeir\EloquentJsonRelations\HasJsonRelationships;
+
+    public function Category()
+    {
+        return $this->hasManyJson(Category::class, 'staff_ids');
+    }
 }

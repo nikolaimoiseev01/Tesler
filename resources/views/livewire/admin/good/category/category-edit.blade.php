@@ -2,7 +2,7 @@
     <form name="add-blog-post-form"
           method="post"
           class="p-3 mt-3"
-          wire:submit.prevent="editgoodcategory(Object.fromEntries(new FormData($event.target)))">
+          wire:submit="editgoodcategory(Object.fromEntries(new FormData($event.target)))">
         @csrf
         <h1 style="font-size: 1.8rem;" class="mb-3 pb-3 border-bottom">Редактирование категории</h1>
         <div class="form-group">

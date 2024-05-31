@@ -16,7 +16,7 @@
 
                 <label for="">Шаг 1: </label>
                 <div class="mb-3">
-                    <select required wire:model="step_1" class="form-control"
+                    <select required wire:model.live="step_1" class="form-control"
                             aria-hidden="true">
                         <option selected>Выберите опцию</option>
                         @foreach($steps_1 as $s)
@@ -29,7 +29,7 @@
 
                 <label for="">Шаг 2: </label>
                 <div class="mb-3">
-                    <select required wire:model="step_2" class="form-control"
+                    <select required wire:model.live="step_2" class="form-control"
                             aria-hidden="true">
                         <option selected>Выберите опцию</option>
                         @foreach($steps_2 as $s)
@@ -42,7 +42,7 @@
 
                 <label for="">Шаг 3: </label>
                 <div class="mb-3">
-                    <select required wire:model="step_3" class="form-control"
+                    <select required wire:model.live="step_3" class="form-control"
                             aria-hidden="true">
                         <option selected>Выберите опцию</option>
                         @foreach($steps_3 as $s)
@@ -55,7 +55,7 @@
 
 
                 <label for="">Поставить стоимость</label>
-                <input wire:model="result_price" type="text" class="form-control">
+                <input wire:model.live="result_price" type="text" class="form-control">
 
 
                 <button type="submit" wire:click.prevent="new_option_to_add()"

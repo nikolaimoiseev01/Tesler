@@ -3,7 +3,7 @@
 
     <form name="add-blog-post-form" class="p-3 mt-3" id="add-blog-post-form"
           method="post"
-          wire:submit.prevent="createGoodCategory(Object.fromEntries(new FormData($event.target)))">
+          wire:submit="createGoodCategory(Object.fromEntries(new FormData($event.target)))">
         @csrf
         <h1 style="font-size: 1.8rem;" class="mb-3 pb-3 border-bottom">Добавление категории</h1>
 
@@ -13,7 +13,7 @@
         </div>
 
         <input type="file"
-               wire:model="pic_goodcategory"
+               wire:model.live="pic_goodcategory"
                class="filepond"
                name="pic_goodcategory"
                id="pic_goodcategory"
@@ -22,7 +22,7 @@
                data-max-files="30">
 
         <input type="file"
-               wire:model="pic_goodcategory_small"
+               wire:model.live="pic_goodcategory_small"
                class="filepond"
                name="pic_goodcategory_small"
                id="pic_goodcategory_small"

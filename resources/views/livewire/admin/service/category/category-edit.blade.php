@@ -9,7 +9,7 @@
         <div class="card-body p-0">
             <form name="add-blog-post-form" class="p-3 mb-0" id="add-blog-post-form"
                   method="post"
-                  wire:submit.prevent="editCategory(Object.fromEntries(new FormData($event.target)))">
+                  wire:submit="editCategory(Object.fromEntries(new FormData($event.target)))">
                 @csrf
                 <input type="text" name="category_id" value="{{$category['id']}}" style="display: none">
                 <div class="d-flex">
@@ -89,7 +89,7 @@
 
                     <div wire:ignore id="input_cat_ex_block" class="mt-2">
                         <input type="file"
-                               wire:model="category_examples"
+                               wire:model.live="category_examples"
                                class="filepond"
                                multiple
                                name="category_examples"
@@ -125,7 +125,7 @@
                 </div>
                 <div wire:ignore style="display: none;" class="mt-2" id="new_pic_block_{{$category['id']}}">
                     <input type="file"
-                           wire:model="pic_category"
+                           wire:model.live="pic_category"
                            class="filepond"
                            name="pic_category"
                            id="pic_category"
@@ -168,7 +168,7 @@
             @endif
 
             <div class="mt-3">
-                <select wire:model="staff_to_add" class=" form-control"
+                <select wire:model.live="staff_to_add" class=" form-control"
                         aria-hidden="true" id="staff_to_add">
                     @foreach($staff_all as $staff)
                         <option
@@ -284,7 +284,7 @@
             document.addEventListener('update_filepond', function () {
                 $('.filepond--root').remove();
                 $(document).ready(function () {
-                    input = "<input type='file' wire:model='category_examples' class='filepond' multiple name='category_examples' id='category_examples' data-allow-reorder='true' data-max-file-size='3MB' data-max-files='3'>"
+                    input = "<input type='file' wire:model.live='category_examples' class='filepond' multiple name='category_examples' id='category_examples' data-allow-reorder='true' data-max-file-size='3MB' data-max-files='3'>"
                     $('#input_cat_ex_block').append(input);
                     filepond_trigger();
                 })

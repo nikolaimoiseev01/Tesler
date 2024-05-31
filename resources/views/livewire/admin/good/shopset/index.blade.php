@@ -1,6 +1,6 @@
 <div>
     <div style="max-width: 1000px;" class="card">
-        <a wire:click="$emit('openModal', 'admin.good.shopset.create')" class="m-3 btn btn-outline-secondary">
+        <a wire:click="$dispatch('openModal', 'admin.good.shopset.create')" class="m-3 btn btn-outline-secondary">
             <i class="mr-2 fa fa-plus"></i>
             Добавить шопсет
         </a>

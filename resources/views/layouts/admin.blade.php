@@ -377,7 +377,6 @@
 
 {{--<!--  Сторонние JS -->--}}
 <script src="/plugins/adminlte/plugins/sweetalert2/sweetalert2.js"></script>
-<script src="/plugins/alpinejs/alpinejs.js" defer></script>
 <script src="/plugins/powergrid/powergrid.js"></script>
 <script src="/plugins/cropperjs/cropper.js"></script>
 

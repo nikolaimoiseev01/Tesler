@@ -50,7 +50,7 @@
             </a>
             <form wire:key="1" x-show="open" name="add-blog-post-form" class="mt-3" id="add-blog-post-form"
                   method="post"
-                  wire:submit.prevent="createPromo(Object.fromEntries(new FormData($event.target)))">
+                  wire:submit="createPromo(Object.fromEntries(new FormData($event.target)))">
                 @csrf
                 <div class="form-group">
                     <label for="exampleInputEmail1">Заголовок</label>

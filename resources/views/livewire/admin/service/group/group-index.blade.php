@@ -1,6 +1,6 @@
 <div>
     <div style="max-width: 1000px;" class="card">
-        <a wire:click="$emit('openModal', 'admin.service.group.group-create')" class="m-3 btn btn-outline-secondary">
+        <a wire:click="$dispatch('openModal', 'admin.service.group.group-create')" class="m-3 btn btn-outline-secondary">
             <i class="mr-2 fa fa-plus"></i>
             Добавить группу услуг
         </a>
@@ -19,13 +19,13 @@
                             </div>
 
                             <div class="ml-0 mr-3 product-info">
-                                <a onclick='Livewire.emit("openModal", "admin.service.group.group-edit", {{ json_encode(["group_id" => $group['id']]) }})'
+                                <a wire:click="$dispatch('openModal', {component: 'admin.service.group.group-edit', arguments: {group_id: {{$group['id']}}}})"
                                     href="javascript:void(0)" class="product-title">
 {{$group->scope['name']}} / {{ $group->category['name'] }} / {{$group['name']}}
                                 </a>
                             </div>
                             <div class="ml-auto mr-3">
-                                <a  onclick='Livewire.emit("openModal", "admin.service.group.group-edit", {{ json_encode(["group_id" => $group['id']]) }})' class="mr-3">
+                                <a wire:click="$dispatch('openModal', {component: 'admin.service.group.group-edit', arguments: {group_id: {{$group['id']}}}})" class="mr-3">
                                     <i style="font-size: 18px;" class="fa-solid grey_icon fa-pen-to-square"></i>
                                 </a>
                                 {{--                                <a href="">--}}

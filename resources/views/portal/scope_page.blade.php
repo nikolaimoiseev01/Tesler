@@ -1,6 +1,8 @@
 @extends('layouts.portal')
 
-@section('title'){{$scope['name']}}@endsection
+@section('title')
+    {{$scope['name']}}
+@endsection
 
 @section('content')
     <div class="sp_welcome">
@@ -30,10 +32,7 @@
                     <a href="#sp_services_block_{{$category['id']}}" class="link-bg coal">Записаться</a>
                 </div>
             </div>
-            <img
-                @if(is_null($category['pic']) || $category['pic'] == '')
-                src="/media/media_fixed/logo_holder.png"
-                @else src="/{{$category['pic']}}" @endif alt="">
+            <img src="{{$category->getFirstMediaUrl('main_pic') ?: $default_pic}}"  alt="">
         </div>
 
         @if(count($category->getMedia('category_examples')->pluck('original_url')->all()) > 0)
@@ -45,7 +44,7 @@
             </div>
         @endif
 
-        @if ($category['staff'] ?? null && count($category['staff']) > 0)
+        @if ($category['staff_ids'] ?? null && count($category['staff_ids']) > 0)
             <div class="content two_parts_block_wrap">
                 <div class="left"></div>
                 <div class="right">
@@ -56,12 +55,12 @@
                         опыт и работы – нажмите на фото.
                     </p>
                     <div class="workers_wrap">
-                        @foreach($category['staff'] as $staff_member)
+                        @foreach($category->staff as $staff_member)
                             <div class="worker">
                                 <a href="{{route('staff_page', $staff_member['yc_id'])}}">
-                                    <img src="{{$staff_member['avatar']}}" alt="">
-                                    <p-400>{{$staff_member['name']}}</p-400>
-                                    <p>{{$staff_member['specialization']}}</p>
+                                    <img src="{{$staff_member['yc_avatar']}}" alt="">
+                                    <p-400>{{$staff_member['yc_name']}}</p-400>
+                                    <p>{{$staff_member['yc_specialization']}}</p>
                                 </a>
                             </div>
                         @endforeach
@@ -71,9 +70,9 @@
         @endif
 
         <div id="sp_services_block_{{$category['id']}}" class="sp_services_block">
-            @if(count(\App\Models\Service::where('scope_id', $scope['id'])->where('category_id', $category['id'])->get()) > 0)
+            @if(count(\App\Models\Service\Service::where('scope_id', $scope['id'])->where('category_id', $category['id'])->get()) > 0)
                 <h2>{{$category['name']}}</h2>
-                @foreach(\App\Models\Group::whereIn('id', \App\Models\Service::where('scope_id', $scope['id'])
+                @foreach(\App\Models\Service\Group::whereIn('id', \App\Models\Service\Service::where('scope_id', $scope['id'])
                                                             ->where('flg_active', 1)->where('category_id', $category['id'])
                                                             ->where(function ($query) {
                                                                     $query->where('service_type_id', '=', 1)
@@ -95,7 +94,7 @@
 
 
                         <div id="services_in_group_{{$group['id']}}" class="sp_group_services_wrap">
-                            @foreach(\App\Models\Service::where('scope_id', $scope['id'])
+                            @foreach(\App\Models\Service\Service::where('scope_id', $scope['id'])
                                        ->where('category_id', $category['id'])
                                        ->where('flg_active', 1)
                                        ->where(function ($query) {

@@ -78,11 +78,11 @@
                                 <td style="font-weight: bold">Статус отправления</td>
                                 <td>
                                     <div class="form-group">
-                                        <select wire:change="make_deli_status" wire:model="deli_status"
+                                        <select wire:change="make_deli_status" wire:model.live="deli_status"
                                                 class="form-control">
                                             @foreach($deli_statuses_all as $deli_status)
                                                 <option
-                                                    value="{{$deli_status['id']}}">{{$deli_status['title']}}</option>
+                                                        value="{{$deli_status['id']}}">{{$deli_status['title']}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -110,7 +110,7 @@
                         @foreach(json_decode($order['goods']) as $key=>$order)
                             <div>
                                 {{$key + 1}}) <a target="_blank"
-                                                 href="{{route('good.edit', $order->good_id)}}">{{\App\Models\Good::where('id', $order->good_id)->value('name')}}</a>
+                                                 href="{{route('good.edit', $order->good_id)}}">{{\App\Models\Good\Good::where('id', $order->good_id)->value('name')}}</a>
                                 <b>Кол-во: {{$order->amount}}</b>
                             </div>
                         @endforeach

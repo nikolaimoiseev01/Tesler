@@ -3,23 +3,23 @@
 namespace App\Http\Controllers\Portal;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
-use App\Models\Course;
-use App\Models\Good;
-use App\Models\GoodCategory;
-use App\Models\interior_photo;
-use App\Models\Order;
+use App\Models\Course\Course;
+use App\Models\Good\Good;
+use App\Models\Good\GoodCategory;
+use App\Models\Good\Order;
+use App\Models\Good\ShopSet;
+use App\Models\interiorPhoto;
 use App\Models\Promo;
-use App\Models\Scope;
-use App\Models\Service;
+use App\Models\Service\Scope;
+use App\Models\Service\Service;
 use App\Models\ServiceAdds;
-use App\Models\ShopSet;
 use App\Models\Staff;
 use App\Models\User;
 use App\Notifications\MailNotification;
-use Illuminate\Database\Eloquent\Model;
+use App\Services\YcApiRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -28,18 +28,9 @@ class PortalController extends Controller
     public function index()
     {
 
-        $YCLIENTS_SHOP_ID = ENV('YCLIENTS_SHOP_ID');
-        $YCLIENTS_HEADERS = [
-            'Accept' => 'application/vnd.yclients.v2+json',
-            'Authorization' => 'Bearer ' . ENV('YCLIENTS_BEARER') . ', User ' . ENV('YCLIENTS_ADMIN_TOKEN')
-        ];
+        $admins = (new YcApiRequest)->make_request('company', 'staff');
 
-
-        $admins = Http::withHeaders($YCLIENTS_HEADERS)
-            ->get('https://api.yclients.com/api/v1/company/' . $YCLIENTS_SHOP_ID . '/staff/')
-            ->collect();
-
-        $admins = Arr::where($admins['data'], function ($value, $key) {
+        $admins = Arr::where($admins, function ($value, $key) {
             if ($value['position']) {
                 return $value['position']['title'] == 'Администратор';
             }
@@ -54,7 +45,12 @@ class PortalController extends Controller
         $admins = array_slice($admins, 0, 4);
 
         $promos = Promo::orderBy('position')->get();
-        $interior_pics = interior_photo::orderBy('position')->pluck('pic')->all();
+
+        $interior_pics = interiorPhoto::where('id', 1)->first()->getMedia('interior_photos');
+        $interior_pics = $interior_pics->map(function ($media) {
+            return $media->getUrl();
+        })->toArray();
+
         $scopes = Scope::orderBy('position')->where('flg_active', 1)->with('group')->get();
 
         $shopsets_pre = ShopSet::orderBy('title')->take(3)->get();
@@ -89,64 +85,10 @@ class PortalController extends Controller
 
     public function scope_page(Request $request)
     {
-        $YCLIENTS_SHOP_ID = ENV('YCLIENTS_SHOP_ID');
-        $YCLIENTS_HEADERS = [
-            'Accept' => 'application/vnd.yclients.v2+json',
-            'Authorization' => 'Bearer ' . ENV('YCLIENTS_BEARER') . ', User ' . ENV('YCLIENTS_ADMIN_TOKEN')
-        ];
-
         $scope = Scope::where('id', $request->scope_id)->with('category')->first();
 
-        $category_staff_pre[] = [];
-        foreach ($scope->category as $category) {
-            $category_counter = 0;
-            foreach ($category->group as $key => $group) {
-
-                for ($x = 0; $x <= 4; $x++) {
-                    $category_check = Arr::where($category_staff_pre, function ($value, $key) use ($category) {
-                        if ((isset($value['category_id']) ? $value['category_id'] : null)) {
-                            return $value['category_id'] == $category['id'];
-                        }
-                    });
-
-
-                    if (!(isset($group->service[$x]) ? $group->service[$x] : null) || count($category_check) > 4) // Если не можем найти услугу, нужно выходить из цикла
-                    {
-                        break;
-                    };
-                    $yc_service = Http::withHeaders($YCLIENTS_HEADERS)
-                        ->get('https://api.yclients.com/api/v1/company/' . $YCLIENTS_SHOP_ID . '/services/' . $group->service[$x]['yc_id'])
-                        ->collect();
-                    if ($yc_service['data'] ?? null) {
-                        foreach ($yc_service['data']['staff'] as $staff) {
-                            $category_staff_pre[] = [
-                                'category_id' => $category['id'],
-                                'staff_id' => $staff['id'],
-                                'image_url' => $staff['image_url'],
-                                'name' => $staff['name'],
-                            ];
-                        }
-                    }
-
-                }
-
-
-            }
-        }
-
-
-        // Удаляем дубликаты в работниках
-        foreach ($category_staff_pre as $k => $v) {
-            $category_staff[implode($v)] = $v;
-        }
-        $category_staff = array_values($category_staff);
-
-        unset($category_staff[0]);
-//        dd($category_staff);
-
-
         $abonements_pre = Good::where('yc_category', 'Абонементы Сеть Tesler')->where('scope_id', $request->scope_id)->take(3)->get();
-//dd($abonements_pre);
+
         foreach ($abonements_pre as $abonement) {
             $abonements[] = [
                 'id' => $abonement['id'],
@@ -164,31 +106,17 @@ class PortalController extends Controller
 
         return view('portal.scope_page', [
             'scope' => $scope,
-//            'category_staff' => $category_staff,
             'abonements' => $abonements
         ]);
     }
 
     public function service_page(Request $request)
     {
-        $YCLIENTS_SHOP_ID = ENV('YCLIENTS_SHOP_ID');
-        $YCLIENTS_HEADERS = [
-            'Accept' => 'application/vnd.yclients.v2+json',
-            'Authorization' => 'Bearer ' . ENV('YCLIENTS_BEARER') . ', User ' . ENV('YCLIENTS_ADMIN_TOKEN')
-        ];
 
-//        dd($request->service_id);
 
         $service = Service::where('id', intval($request->service_id))->first();
-//        dd($service);
-        $service_id = $service['id'];
-        $service_add_pre = Service::whereIn('id', function ($query) use ($service_id) {
-            $query->select('service_add')
-                ->from(with(new ServiceAdds)->getTable())
-                ->whereIn('to_service', [$service_id]);
-        })->get();
-        $service_add[] = [];
-        foreach ($service_add_pre as $service_add) {
+
+        foreach ($service->service as $service_add) {
             $service_adds[] = [
                 'id' => $service_add['id'],
                 'title' => $service_add['name'],
@@ -200,22 +128,17 @@ class PortalController extends Controller
         }
 
 
-        $workers = Http::withHeaders($YCLIENTS_HEADERS)
-            ->get('https://api.yclients.com/api/v1/company/' . $YCLIENTS_SHOP_ID . '/staff/')
-            ->collect()['data'];
-
+        $workers = (new YcApiRequest())->make_request('company', 'staff');
 
         $workers = array_values(Arr::where($workers, function ($value, $key) {
             return $value['fired'] == 0;
         })); // Только неуволенных сотрудников
 
+        $yc_service = (new YcApiRequest())->make_request('company', "services/{$service['yc_id']}");
+//        dd($yc_service);
 
-
-        $yc_service = Http::withHeaders($YCLIENTS_HEADERS)
-            ->get('https://api.yclients.com/api/v1/company/' . $YCLIENTS_SHOP_ID . '/services/' . $service['yc_id'])
-            ->collect();
         if($yc_service) {
-            $yc_service = $yc_service['data']['staff'] ?? null;
+            $yc_service = $yc_service['staff'] ?? null;
         } else {
             $yc_service = null;
         }
@@ -235,12 +158,6 @@ class PortalController extends Controller
         } else {
             $service_workers = null;
         }
-
-
-//        dd($yc_service);
-
-
-
 
 
         $abonements_pre = Good::where('yc_category', 'Абонементы Сеть Tesler')->where('category_id', $service['category_id'])->take(3)->get();
@@ -387,7 +304,7 @@ class PortalController extends Controller
             ];
         }
 
-        $interior_pics = interior_photo::orderBy('position')->pluck('pic')->all();
+        $interior_pics = interiorPhoto::orderBy('position')->pluck('pic')->all();
         return view('portal.loyalty_page', [
             'interior_pics' => $interior_pics,
             'abonements' => $abonements
@@ -402,8 +319,18 @@ class PortalController extends Controller
 
         $selected_from_staff = null;
 
+        // Коллеги сотрудника
+        if($staff['collegues']) {
+            foreach ($staff['collegues'] as $collegue) {
+                $found_collegue = Staff::where('id', $collegue)->first() ?? null;
+                if ($found_collegue) {
+                    $collegues[] = $found_collegue;
+                };
+            }
+        }
+
         // Шопсет сотрудника
-        $shopset = ShopSet::where('id', $staff['selected_shopset'])->first();
+        $shopset = ShopSet::where('id', $staff['selected_shopset'] ?? null)->first() ?? null;
         if ($shopset ?? null && count($shopset) > 0) {
             $full_price = Good::whereJsonContains('in_shopsets', $shopset['id'])
                 ->sum('yc_price');
@@ -419,7 +346,7 @@ class PortalController extends Controller
 
 
         // Сертификат сотрудника
-        $good = Good::where('id', $staff['selected_sert'])->first();
+        $good = Good::where('id', $staff['selected_sert'] ?? null)->first() ?? null;
         if ($good ?? null && count($good) > 0) {
             $selected_from_staff[] = [
                 'id' => $good['id'],
@@ -432,7 +359,7 @@ class PortalController extends Controller
         }
 
         // Абонемент сотрудника
-        $good = Good::where('id', $staff['selected_abon'])->first();
+        $good = Good::where('id', $staff['selected_abon'] ?? null)->first();
         if ($good ?? null && count($good) > 0) {
             $selected_from_staff[] = [
                 'id' => $good['id'],
@@ -444,11 +371,10 @@ class PortalController extends Controller
             ];
         }
 
-
-//        dd($shopsets);
         return view('portal.staff_page', [
             'staff' => $staff,
-            'selected_from_staff' => $selected_from_staff ?? null
+            'selected_from_staff' => $selected_from_staff ?? null,
+            'collegues' => $collegues ?? null
         ]);
     }
 

@@ -16,7 +16,7 @@
                 <form x-show="open" wire:key="1" x-show="open" name="add-blog-post-form" class="mt-3"
                       id="add-blog-post-form"
                       method="post"
-                      wire:submit.prevent="createInteriorPhoto(Object.fromEntries(new FormData($event.target)))">
+                      wire:submit="createInteriorPhoto(Object.fromEntries(new FormData($event.target)))">
                     @csrf
                     <div id="filepond_wrap" wire:ignore>
                         <input
