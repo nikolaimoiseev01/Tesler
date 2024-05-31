@@ -5,6 +5,7 @@ namespace App\Console\Commands\BigUpgrade;
 use App\Models\Calculators\CalcCosmetic;
 use App\Models\Service\Category;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 
 class MakeCategoryStaff extends Command
 {
@@ -28,19 +29,22 @@ class MakeCategoryStaff extends Command
     public function handle()
     {
 
-        $categories = Category::all();
+        DB::transaction(function () { // Чтобы не записать ненужного
 
-        foreach ($categories as $category) {
-            $option_ids_array = [];
-            if ($category['staff_ids']) {
-                foreach ($category['staff_ids'] as $staff) {
-                    $option_ids_array[] = str($staff['id']);
+            $categories = Category::all();
+
+            foreach ($categories as $category) {
+                $option_ids_array = [];
+                if ($category['staff_ids']) {
+                    foreach ($category['staff_ids'] as $staff) {
+                        $option_ids_array[] = str($staff['id']);
+                    }
+                    $category->update(['staff_ids' => $option_ids_array]);
                 }
-                $category->update(['staff_ids'=>$option_ids_array]);
             }
-        }
 
-        dd('Все закончилось успешно!');
+            dd('Все закончилось успешно!');
+        });
 
 
     }

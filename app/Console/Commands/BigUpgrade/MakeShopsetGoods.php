@@ -5,6 +5,7 @@ namespace App\Console\Commands\BigUpgrade;
 use App\Models\Good\Good;
 use App\Models\Good\ShopSet;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 
 class MakeShopsetGoods extends Command
 {
@@ -27,17 +28,21 @@ class MakeShopsetGoods extends Command
      */
     public function handle()
     {
-        $goods = Good::whereNotNull('in_shopsets')->get();
-        foreach ($goods as $good) {
-            foreach ($good['in_shopsets'] as $shopset_id) {
-                $shopset = ShopSet::where('id', $shopset_id)->first();
-                $goods_in_shopset = $shopset['goods'] ?? [];
-                array_push($goods_in_shopset,$good['id']);
-                $shopset->update([
-                    'goods'=>$goods_in_shopset
-                ]);
+
+        DB::transaction(function () { // Чтобы не записать ненужного
+
+            $goods = Good::whereNotNull('in_shopsets')->get();
+            foreach ($goods as $good) {
+                foreach ($good['in_shopsets'] as $shopset_id) {
+                    $shopset = ShopSet::where('id', $shopset_id)->first();
+                    $goods_in_shopset = $shopset['goods'] ?? [];
+                    array_push($goods_in_shopset, $good['id']);
+                    $shopset->update([
+                        'goods' => $goods_in_shopset
+                    ]);
+                }
             }
-        }
-        dd('Все закончилось успешно!');
+            dd('Все закончилось успешно!');
+        });
     }
 }
