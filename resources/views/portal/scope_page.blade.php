@@ -80,6 +80,7 @@
                                                                 })
                                                             ->pluck('group_id')
                                                             ->toArray())
+                                                            ->orderBy('position')
                                                             ->get() as $group)
                     <div id="group_wrap_{{$group['id']}}" class="group_wrap">
                         <div data-group-title="{{$group['id']}}" class="group_title_wrap">

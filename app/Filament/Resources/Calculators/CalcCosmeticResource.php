@@ -64,15 +64,15 @@ class CalcCosmeticResource extends Resource
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('step_1')
-                    ->options(CalcCosmetic::all()->pluck('step_1')->unique())
+                    ->options(CalcCosmetic::all()->pluck('step_1', 'step_1')->unique())
                     ->searchable()
                     ->label('Шаг 1'),
                 Tables\Filters\SelectFilter::make('step_2')
-                    ->options(CalcCosmetic::all()->pluck('step_2')->unique())
+                    ->options(CalcCosmetic::all()->pluck('step_2', 'step_2')->unique())
                     ->searchable()
                     ->label('Шаг 2'),
                 Tables\Filters\SelectFilter::make('step_3')
-                    ->options(CalcCosmetic::all()->pluck('step_3')->unique())
+                    ->options(CalcCosmetic::all()->pluck('step_3', 'step_3')->unique())
                     ->searchable()
                     ->label('Шаг 3'),
             ], layout: FiltersLayout::AboveContent)

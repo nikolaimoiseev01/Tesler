@@ -17,7 +17,7 @@ class CalcCosmetic extends Model
     ];
 
     protected $casts = [
-        'services' => 'json'
+        'services' => 'array'
     ];
 
     use HasFactory;

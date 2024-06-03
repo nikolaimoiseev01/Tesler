@@ -84,7 +84,7 @@
                     </div>
 
                 </div>
-                <livewire:portal.components.good.add-to-cart-button :good="$good"></livewire:portal.components.good.add-to-cart-button>
+                <livewire:portal.components.good.add-to-cart-button :good="$good" type="link-bg coal"></livewire:portal.components.good.add-to-cart-button>
             </div>
         </div>
 

@@ -63,6 +63,9 @@ class GroupResource extends Resource
                 Tables\Columns\TextColumn::make('category.name')
                     ->label('Категория')
                     ->sortable(),
+                Tables\Columns\TextColumn::make('position')
+                    ->label('Позиция')
+                    ->sortable(),
                 TextColumn::make('service_count')->counts('service')->label('Услуг в группе')
             ])
             ->filters([

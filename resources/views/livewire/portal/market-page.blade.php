@@ -240,19 +240,7 @@
                             </div>
                             <div class="buttons_wrap">
                                 <div class="to_cart_wrap">
-                                    @if($good['flg_active'] && $good['yc_actual_amount'] > 0 || $good['good_category_id'][0] === 6 || $good['good_category_id'][0] === 7)
-                                        <a onclick="Livewire.emit('good_cart_add', {{$good['id']}})"
-                                           id="good_add_{{$good['id']}}"
-                                           class="link fern">
-                                            @if($good['good_category_id'][0] === 6 || $good['good_category_id'][0] === 7)
-                                                Купить
-                                            @else
-                                                В корзину
-                                            @endif
-                                        </a>
-                                    @else
-                                        <p>Товар закончился</p>
-                                    @endif
+                                    <livewire:portal.components.good.add-to-cart-button :good="$good" type="link fern"></livewire:portal.components.good.add-to-cart-button>
                                 </div>
                                 <div class="price_wrap @if($good['discount'] > 0) discounted @endif">
                                     @if($good['discount'] > 0)
