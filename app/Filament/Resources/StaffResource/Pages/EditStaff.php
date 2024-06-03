@@ -3,7 +3,10 @@
 namespace App\Filament\Resources\StaffResource\Pages;
 
 use App\Filament\Resources\StaffResource;
+use App\Models\Good\Good;
+use App\Models\Staff;
 use Filament\Actions;
+use Filament\Actions\Action;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Support\HtmlString;
 
@@ -14,7 +17,11 @@ class EditStaff extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-//            Actions\DeleteAction::make(),
+            Action::make("Страница на сайте")
+                ->label('Страница на сайте')
+                ->url(fn(Staff $staff) => route('staff_page', $staff['yc_id']))
+                ->tooltip('Откроется в новом окне')
+                ->openUrlInNewTab()
         ];
     }
 

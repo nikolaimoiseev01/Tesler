@@ -53,7 +53,7 @@
         <div class="sp_examples_wrap">
             <x-ui.gallery
                 title="ПРИМЕРЫ РАБОТ"
-                :photos="$staff->getMedia('examples')->pluck('original_url')->all()">
+                :photos="$staff->getMedia('staff_examples')->pluck('original_url')->all()">
             </x-ui.gallery>
         </div>
     @endif

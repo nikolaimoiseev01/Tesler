@@ -101,7 +101,7 @@ class StaffResource extends Resource
                         Tabs\Tab::make('Примеры мастера')
                             ->schema([
                                 Forms\Components\SpatieMediaLibraryFileUpload::make('examples')
-                                    ->collection('examples')
+                                    ->collection('staff_examples')
                                     ->image()
                                     ->multiple()
                                     ->reorderable()
@@ -110,9 +110,7 @@ class StaffResource extends Resource
                                     ->panelLayout('grid')
                                     ->imageEditorMode(2)
                                     ->imageResizeMode('cover')
-                                    ->imageCropAspectRatio('9:16')
-                                    ->imageResizeTargetWidth('1080')
-                                    ->imageResizeTargetHeight('1920')
+                                    ->imageCropAspectRatio('11:16')
                                     ->columnSpan(['lg' => 1]),
                             ]),
                         Tabs\Tab::make('Коллеги мастера')->schema([

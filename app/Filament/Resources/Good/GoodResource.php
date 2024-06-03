@@ -182,20 +182,6 @@ class GoodResource extends Resource
                                         )
                                         ->grid(2)
                                 ])->collapsed(),
-
-//                                Section::make('Входит в шопсеты')->schema([
-//                                    Repeater::make('specs_detailed')
-//                                        ->label('')
-//                                        ->schema([
-//                                            TextInput::make('title')->required(),
-//                                            TextInput::make('value')->required(),
-//                                        ])
-//                                        ->columns(2)
-//                                        ->addAction(
-//                                            fn(Action $action) => $action->label('Добавить'),
-//                                        )
-//                                        ->grid(2)
-//                                ])->collapsed(),
                             ]),
 
                         Tabs\Tab::make('Yclients')
@@ -229,9 +215,7 @@ class GoodResource extends Resource
                                     ->imageEditorMode(2)
                                     ->imageResizeMode('cover')
                                     ->label('Примеры')
-                                    ->imageCropAspectRatio('9:16')
-                                    ->imageResizeTargetWidth('1080')
-                                    ->imageResizeTargetHeight('1920')
+                                    ->imageCropAspectRatio('11:16')
                                     ->columnSpan(['lg' => 1]),
                             ]),
                     ])->columnSpanFull(),
