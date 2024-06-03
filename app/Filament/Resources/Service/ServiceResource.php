@@ -192,6 +192,17 @@ class ServiceResource extends Resource
                 Tables\Columns\TextColumn::make('yc_id')
                     ->searchable()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('flg_active')
+                    ->badge()
+                    ->getStateUsing(function (Model $record) {
+                        return $record['flg_active'] == 1 ? 'Да' : 'Нет';
+                    })
+                    ->color(fn(string $state): string => match ($state) {
+                        'Да' => 'success',
+                        'Нет' => 'warning'
+                    })
+                    ->label('Активно?')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('name')
                     ->label('Название для сайта')
                     ->searchable(),
@@ -210,17 +221,6 @@ class ServiceResource extends Resource
                 Tables\Columns\TextColumn::make('group.name')
                     ->searchable()
                     ->label('Группа')
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('flg_active')
-                    ->badge()
-                    ->getStateUsing(function (Model $record) {
-                        return $record['flg_active'] == 1 ? 'Да' : 'Нет';
-                    })
-                    ->color(fn(string $state): string => match ($state) {
-                        'Да' => 'success',
-                        'Нет' => 'warning'
-                    })
-                    ->label('Активно?')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('service_type.name')
                     ->label('Тип')
