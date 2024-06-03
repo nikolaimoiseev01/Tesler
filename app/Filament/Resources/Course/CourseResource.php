@@ -49,7 +49,7 @@ class CourseResource extends Resource
                                         ->searchable()
                                         ->label('Сотрудник'),
                                     Forms\Components\TextInput::make('price')
-                                        ->label('Название')
+                                        ->label('Цена')
                                         ->numeric()
                                         ->prefix('$'),
                                     Forms\Components\TextInput::make('type')

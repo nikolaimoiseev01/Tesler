@@ -183,19 +183,19 @@ class GoodResource extends Resource
                                         ->grid(2)
                                 ])->collapsed(),
 
-                                Section::make('Входит в шопсеты')->schema([
-                                    Repeater::make('specs_detailed')
-                                        ->label('')
-                                        ->schema([
-                                            TextInput::make('title')->required(),
-                                            TextInput::make('value')->required(),
-                                        ])
-                                        ->columns(2)
-                                        ->addAction(
-                                            fn(Action $action) => $action->label('Добавить'),
-                                        )
-                                        ->grid(2)
-                                ])->collapsed(),
+//                                Section::make('Входит в шопсеты')->schema([
+//                                    Repeater::make('specs_detailed')
+//                                        ->label('')
+//                                        ->schema([
+//                                            TextInput::make('title')->required(),
+//                                            TextInput::make('value')->required(),
+//                                        ])
+//                                        ->columns(2)
+//                                        ->addAction(
+//                                            fn(Action $action) => $action->label('Добавить'),
+//                                        )
+//                                        ->grid(2)
+//                                ])->collapsed(),
                             ]),
 
                         Tabs\Tab::make('Yclients')
