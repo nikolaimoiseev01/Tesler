@@ -30,7 +30,7 @@ class MakeStaffCollegues extends Command
     {
         DB::transaction(function () { // Чтобы не записать ненужного
 
-            $staffs = Staff::where('id', 8)->get();
+            $staffs = Staff::all();
 
             foreach ($staffs as $staff_m) {
                 $option_ids_array = [];
