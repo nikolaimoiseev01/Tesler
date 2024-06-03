@@ -123,7 +123,6 @@ class OrderResource extends Resource
                 Tables\Columns\TextColumn::make('price')
                     ->label('Сумма заказа')
                     ->numeric(0)
-                    ->money('RUB')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('name')
                     ->label('Имя клиента')
@@ -151,7 +150,7 @@ class OrderResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Создан')
-                    ->dateTime('d.m.y H:i')
+                    ->dateTime('d.m H:i')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('promocode')
                     ->label('Промокод')
