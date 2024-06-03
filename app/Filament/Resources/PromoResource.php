@@ -29,21 +29,46 @@ class PromoResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('desc')
-                    ->required()
-                    ->columnSpanFull(),
-                Forms\Components\TextInput::make('link')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('link_text')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('type')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('position')
-                    ->numeric(),
-                Forms\Components\FileUpload::make('test')
+                Forms\Components\Card::make()->schema([
+                    Forms\Components\Grid::make()->schema([
+                        Forms\Components\TextInput::make('title')
+                            ->label('Заголовок')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('type')
+                            ->label('Тип акции')
+                            ->maxLength(255),
+                    ]),
+
+                    Forms\Components\Grid::make()->schema([
+                        Forms\Components\Textarea::make('desc')
+                            ->label('Описание')
+                            ->required()
+                            ->rows(5)
+                            ->columnSpan(1),
+                        Forms\Components\Grid::make()->schema([
+                            Forms\Components\TextInput::make('link')
+                                ->label('Куда ведет ссылка')
+                                ->maxLength(255),
+                            Forms\Components\TextInput::make('link_text')
+                                ->label('Текст ссылки')
+                                ->maxLength(255),
+                        ])->columns(1)->columnSpan(1)
+                    ])->columns(2),
+                    Forms\Components\SpatieMediaLibraryFileUpload::make('promo_pics')
+                        ->collection('promo_pics')
+                        ->image()
+                        ->reorderable()
+                        ->label('')
+                        ->imageEditor()
+                        ->panelLayout('grid')
+                        ->imageEditorMode(2)
+                        ->imageResizeMode('cover')
+                        ->label('Обложка')
+                        ->imageCropAspectRatio('460:280')
+                        ->columnSpanFull(),
+                ])
+
             ]);
     }
 
@@ -52,15 +77,17 @@ class PromoResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('title')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('link')
+                    ->label('Название')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('link_text')
+                    ->label('Текст ссылки')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('type')
+                    ->label('Тип')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
+                    ->label('Создана')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('position')
                     ->label('Порядок')
@@ -76,9 +103,9 @@ class PromoResource extends Resource
             ->defaultSort(function (Builder $query): Builder {
                 return $query
                     ->orderBy('created_at', 'desc')
-                    ->orderBy('position')
-                    ;
+                    ->orderBy('position');
             })
+            ->defaultSort('position')
             ->reorderable('position')
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

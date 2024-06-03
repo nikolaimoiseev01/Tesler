@@ -113,11 +113,6 @@ class CourseResource extends Resource
         return $table
             ->columns([
                 Stack::make([
-                    SpatieMediaLibraryImageColumn::make('course_cover')
-                        ->extraImgAttributes(['class' => 'w-full rounded'])
-                        ->height('auto')
-                        ->width('100%')
-                        ->collection('course_cover'),
                     Tables\Columns\TextColumn::make('title')
                         ->weight(FontWeight::SemiBold)
                         ->limit(50)
