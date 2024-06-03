@@ -16,4 +16,6 @@ class ManagePromocodes extends ManageRecords
             Actions\CreateAction::make(),
         ];
     }
+
+    protected static ?string $title = 'Промокоды';
 }

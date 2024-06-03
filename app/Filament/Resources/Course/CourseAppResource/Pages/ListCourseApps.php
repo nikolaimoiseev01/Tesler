@@ -22,4 +22,6 @@ class ListCourseApps extends ListRecords
     {
         return null;
     }
+
+    protected static ?string $title = 'Заявки на курсы';
 }

@@ -16,4 +16,6 @@ class ManageConsultations extends ManageRecords
             Actions\CreateAction::make(),
         ];
     }
+
+    protected static ?string $title = 'Консультации';
 }

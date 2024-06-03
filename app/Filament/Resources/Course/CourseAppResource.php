@@ -31,6 +31,8 @@ class CourseAppResource extends Resource
 
     protected static ?int $navigationSort = 6;
 
+
+
     public static function getNavigationBadge(): ?string
     {
         return static::getModel()::where('consult_status_id', 1)->count();
@@ -79,6 +81,10 @@ class CourseAppResource extends Resource
                 SelectColumn::make('consult_status_id')
                     ->options(ConsultStatus::all()->pluck('title', 'id'))
                     ->label('Статус'),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Создана')
+                    ->dateTime('d.m H:i')
+                    ->sortable(),
             ])
             ->recordUrl('')
             ->filters([

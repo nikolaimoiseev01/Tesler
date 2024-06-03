@@ -26,6 +26,8 @@ class ConsultationResource extends Resource
 
     protected static ?int $navigationSort = 5;
 
+    protected static ?string $title = 'Консультации';
+
     public static function getNavigationBadge(): ?string
     {
         return static::getModel()::where('consult_status_id', 1)->count();
@@ -36,15 +38,18 @@ class ConsultationResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('user_name')
+                    ->label('Имя пользователя')
+                    ->disabled()
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('user_mobile')
+                    ->label('Телефон')
+                    ->disabled()
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('user_comment')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('consult_status_id')
+                    ->label('Вопрос')
+                    ->disabled()
                     ->required()
                     ->maxLength(255),
             ]);
@@ -61,14 +66,16 @@ class ConsultationResource extends Resource
                     ->label('Телефон')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('user_comment')
+                    ->limit(20)
                     ->label('Комментарий')
                     ->searchable(),
                 SelectColumn::make('consult_status_id')
                     ->options(ConsultStatus::all()->pluck('title', 'id'))
+                    ->extraAttributes(['class' => 'w-[16]'])
                     ->label('Статус'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Создан')
-                    ->dateTime()
+                    ->dateTime('d.m H:i')
                     ->sortable(),
             ])
             ->recordUrl('')
@@ -77,7 +84,7 @@ class ConsultationResource extends Resource
                 //
             ])
             ->actions([
-//                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make(),
 //                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
