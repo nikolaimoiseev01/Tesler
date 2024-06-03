@@ -32,7 +32,7 @@
                     <a href="#sp_services_block_{{$category['id']}}" class="link-bg coal">Записаться</a>
                 </div>
             </div>
-            <img src="{{$category->getFirstMediaUrl('main_pic') ?: $default_pic}}"  alt="">
+            <img src="{{$category->getFirstMediaUrl('main_pic') ?: config('cons.default_pic')}}"  alt="">
         </div>
 
         @if(count($category->getMedia('category_examples')->pluck('original_url')->all()) > 0)
