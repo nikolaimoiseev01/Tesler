@@ -12,6 +12,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 class Good extends Model implements HasMedia
 {
     protected $fillable = [
+        'id',
         'yc_id',
         'yc_title',
         'yc_price',
