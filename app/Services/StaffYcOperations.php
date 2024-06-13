@@ -108,7 +108,7 @@ class StaffYcOperations
                     $description['Добавили новых из YClients'][] = [
                         'yc_id' => $yc_staff['id'],
                         'name' => $yc_staff['name'],
-                        'specialization' => $staff_found['specialization']
+                        'specialization' => $yc_staff['specialization']
                     ];
 
                 }
