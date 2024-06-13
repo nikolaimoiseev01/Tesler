@@ -146,7 +146,7 @@ class ServiceResource extends Resource
                                         Placeholder::make('Название')
                                             ->content(fn(Service $record): string => $record['yc_title']),
                                         Placeholder::make('Категория')
-                                            ->content(fn(Service $record): string => $record['yc_category_name']),
+                                            ->content(fn(Service $record): string => $record['yc_category_name'] ?? 'Ничего не получили'),
                                     ]),
                                     Placeholder::make('Коммент')
                                         ->content(fn(Service $record): string => $record['yc_comment']),
