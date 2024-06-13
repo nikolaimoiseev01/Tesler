@@ -81,21 +81,17 @@ class ServiceResource extends Resource
                                     Forms\Components\Grid::make(2)->schema([
                                         Forms\Components\Textarea::make('desc_small')
                                             ->label('Описание маленькое')
-                                            ->required()
                                             ->rows(6),
                                         Forms\Components\Textarea::make('desc')
                                             ->rows(6)
-                                            ->required()
                                             ->label('Описание'),
                                     ]),
                                     Forms\Components\Grid::make(2)->schema([
                                         Forms\Components\Textarea::make('proccess')
                                             ->label('Процесс')
-                                            ->required()
                                             ->rows(6),
                                         Forms\Components\Textarea::make('result')
                                             ->rows(6)
-                                            ->required()
                                             ->label('Результат'),
                                     ]),
 
