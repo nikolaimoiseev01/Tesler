@@ -43,6 +43,7 @@ class ScopeResource extends Resource
                 ])->columnSpan(3),
                 Forms\Components\SpatieMediaLibraryFileUpload::make('main_page_pic')
                     ->collection('main_page_pic')
+                    ->label('Обложка на главной странице')
                     ->image()
                     ->multiple()
                     ->reorderable()
@@ -57,6 +58,7 @@ class ScopeResource extends Resource
                 Forms\Components\SpatieMediaLibraryFileUpload::make('scope_page_pic')
                     ->collection('scope_page_pic')
                     ->image()
+                    ->label('Обложка на странице сферы')
                     ->multiple()
                     ->reorderable()
                     ->label('')
