@@ -8,7 +8,7 @@
     <div class="sp_welcome">
         <x-ui.menu color="white"></x-ui.menu>
         <div class="image_blackout">
-            <img src="/{{$scope['pic_scope_page']}}" alt="">
+            <img src="{{$scope->getFirstMediaUrl('scope_page_pic')}}" alt="">
         </div>
         <h1>{{$scope['desc']}}</h1>
     </div>

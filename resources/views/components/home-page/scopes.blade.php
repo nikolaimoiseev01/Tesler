@@ -4,7 +4,7 @@
     @foreach($scopes as $scope)
         <div class="scope_wrap">
             <div class="image_blackout">
-                <img src="{{$scope['pic_main_page']}}" alt="">
+                <img src="{{$scope->getFirstMediaUrl('main_page_pic')}}" alt="">
             </div>
             <div class="info">
                 <h2 onclick="location.href='{{route('scope_page', $scope['id'])}}';">{{$scope['name']}}</h2>

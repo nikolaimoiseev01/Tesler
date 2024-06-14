@@ -28,19 +28,43 @@ class ScopeResource extends Resource
     {
         return $form
             ->schema([
-                    Forms\Components\Grid::make(1)->schema([
-                        Forms\Components\TextInput::make('name')
-                            ->disabled()
-                            ->label('Название')
-                            ->required()
-                            ->maxLength(255),
-                        Forms\Components\Textarea::make('desc')
-                            ->required()
-                            ->label('Описание')
-                            ->columnSpanFull(),
-                        Forms\Components\Toggle::make('flg_active')
-                            ->label('Есть на сайте?'),
-                    ])->columnSpan(3),
+                Forms\Components\Grid::make(1)->schema([
+                    Forms\Components\TextInput::make('name')
+                        ->disabled()
+                        ->label('Название')
+                        ->required()
+                        ->maxLength(255),
+                    Forms\Components\Textarea::make('desc')
+                        ->required()
+                        ->label('Описание')
+                        ->columnSpanFull(),
+                    Forms\Components\Toggle::make('flg_active')
+                        ->label('Есть на сайте?'),
+                ])->columnSpan(3),
+                Forms\Components\SpatieMediaLibraryFileUpload::make('main_page_pic')
+                    ->collection('main_page_pic')
+                    ->image()
+                    ->multiple()
+                    ->reorderable()
+                    ->label('')
+                    ->imageEditor()
+                    ->imageEditorMode(2)
+                    ->imageResizeMode('cover')
+                    ->imageResizeTargetHeight(640)
+                    ->imageResizeTargetWidth(388)
+                    ->imageCropAspectRatio('388:640')
+                    ->columnSpan(['lg' => 1]),
+                Forms\Components\SpatieMediaLibraryFileUpload::make('scope_page_pic')
+                    ->collection('scope_page_pic')
+                    ->image()
+                    ->multiple()
+                    ->reorderable()
+                    ->label('')
+                    ->imageEditor()
+                    ->imageEditorMode(2)
+                    ->imageResizeMode('cover')
+                    ->imageCropAspectRatio('1662:729')
+                    ->columnSpan(['lg' => 1]),
 
             ]);
     }
