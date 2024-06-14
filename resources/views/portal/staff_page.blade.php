@@ -15,7 +15,7 @@
                 </div>
                 <h2>{{$staff['yc_name']}}</h2>
                 @if(Auth::check())
-                    <a href="{{route('staff.edit', $staff['id'])}}" class="link coal">Страница в Админке</a>
+                    <a href="/admin/staff/{{$staff['id']}}/edit" class="link coal">Страница в Админке</a>
                 @endif
                 <p>{{$staff['desc_small']}}</p>
 
