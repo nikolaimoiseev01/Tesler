@@ -28,7 +28,7 @@
 
                 <div class="buttons_wrap">
                     <div class="button_wrap">
-                        <livewire:portal.components.service.add-to-cart-button :service="$service"></livewire:portal.components.service.add-to-cart-button>
+                        <livewire:portal.components.service.add-to-cart-button :service="$service" type="link-bg coal"></livewire:portal.components.service.add-to-cart-button>
                             <div class="info">
                                 <span class="yellow_info"><p>{{$service['yc_duration'] / 60}} МИН</p></span>
                                 <p class="price">

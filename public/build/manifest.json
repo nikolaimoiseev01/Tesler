@@ -20,7 +20,7 @@
     "src": "resources/sass/new_landing.scss"
   },
   "resources/sass/portal.scss": {
-    "file": "assets/portal-2f03a0c9.css",
+    "file": "assets/portal-2fa726fe.css",
     "isEntry": true,
     "src": "resources/sass/portal.scss"
   }

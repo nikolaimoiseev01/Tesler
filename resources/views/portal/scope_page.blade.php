@@ -124,9 +124,10 @@
                                         </a>
                                     </div>
                                     <div class="buttons-wrap">
-                                        <a onclick="Livewire.emit('service_cart_add', {{$service['id']}})"
-                                           id="service_add_bg_{{$service['id']}}"
-                                           class="link coal">Записаться</a>
+{{--                                        <a onclick="Livewire.emit('service_cart_add', {{$service['id']}})"--}}
+{{--                                           id="service_add_bg_{{$service['id']}}"--}}
+{{--                                           class="link coal">Записаться</a>--}}
+                                        <livewire:portal.components.service.add-to-cart-button :service="$service" type="link coal"></livewire:portal.components.service.add-to-cart-button>
                                         <a href="{{route('service_page', $service['id'])}}"
                                            class="link fern">Подробнее</a>
                                         <a class="svg_link" href="{{route('service_page', $service['id'])}}">
