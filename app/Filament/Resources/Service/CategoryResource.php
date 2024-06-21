@@ -74,8 +74,7 @@ class CategoryResource extends Resource
                                                 ->relationship(name: 'promo', titleAttribute: 'title')
                                                 ->options(Promo::all()->pluck('title', 'id'))
                                                 ->searchable()
-                                                ->label('Поп-ап')
-                                                ->required(),
+                                                ->label('Поп-ап'),
                                         ])->columnSpan(['lg' => 1]),
                                     ])->columns(2),
                                     Forms\Components\Textarea::make('desc')
