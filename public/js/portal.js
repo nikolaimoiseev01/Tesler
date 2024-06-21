@@ -61,7 +61,7 @@ $(document).on("click", function (event) {
     }
 });
 
-$('.close_modal_icon').on("click", function (event) {
+$('.close_modal_icon, .close_modal_button').on("click", function (event) {
     close_modal()
 });
 
