@@ -85,6 +85,8 @@ class PortalController extends Controller
 
     public function scope_page(Request $request)
     {
+        $promo = Promo::first();
+
         $scope = Scope::where('id', $request->scope_id)->with('category')->first();
 
         $abonements_pre = Good::where('yc_category', 'Абонементы Сеть Tesler')->where('scope_id', $request->scope_id)->take(3)->get();
@@ -106,7 +108,8 @@ class PortalController extends Controller
 
         return view('portal.scope_page', [
             'scope' => $scope,
-            'abonements' => $abonements
+            'abonements' => $abonements,
+            'promo' => $promo
         ]);
     }
 

@@ -20,7 +20,9 @@
             </a>
         @endforeach
     </div>
+
     @foreach($scope->category as $category)
+
         <div id="category_{{$category['id']}}" class="sp_cat_about_wrap">
             <div class="text_wrap">
                 <div class="text">
@@ -32,7 +34,7 @@
                     <a href="#sp_services_block_{{$category['id']}}" class="link-bg coal">Записаться</a>
                 </div>
             </div>
-            <img src="{{$category->getFirstMediaUrl('main_pic') ?: config('cons.default_pic')}}"  alt="">
+            <img src="{{$category->getFirstMediaUrl('main_pic') ?: config('cons.default_pic')}}" alt="">
         </div>
 
         @if(count($category->getMedia('category_examples')->pluck('original_url')->all()) > 0)
@@ -69,90 +71,8 @@
             </div>
         @endif
 
-        <div id="sp_services_block_{{$category['id']}}" class="sp_services_block">
-            @if(count(\App\Models\Service\Service::where('scope_id', $scope['id'])->where('category_id', $category['id'])->get()) > 0)
-                <h2>{{$category['name']}}</h2>
-                @foreach(\App\Models\Service\Group::whereIn('id', \App\Models\Service\Service::where('scope_id', $scope['id'])
-                                                            ->where('flg_active', 1)->where('category_id', $category['id'])
-                                                            ->where(function ($query) {
-                                                                    $query->where('service_type_id', '=', 1)
-                                                                          ->orWhere('service_type_id', '=', 2);
-                                                                })
-                                                            ->pluck('group_id')
-                                                            ->toArray())
-                                                            ->orderBy('position')
-                                                            ->get() as $group)
-                    <div id="group_wrap_{{$group['id']}}" class="group_wrap">
-                        <div data-group-title="{{$group['id']}}" class="group_title_wrap">
-                            <h2>{{$group['name']}}</h2>
-                            <svg width="15" height="9" viewBox="0 0 15 9" fill="none"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M1.46757 0.580322L7.50741 6.6202L13.5473 0.580322L14.7258 1.75883L7.50741 8.9772L0.289062 1.75883L1.46757 0.580322Z"
-                                    fill="#111010"/>
-                            </svg>
-                        </div>
-
-
-                        <div id="services_in_group_{{$group['id']}}" class="sp_group_services_wrap">
-                            @foreach(\App\Models\Service\Service::where('scope_id', $scope['id'])
-                                       ->where('category_id', $category['id'])
-                                       ->where('flg_active', 1)
-                                       ->where(function ($query) {
-                                            $query->where('service_type_id', '=', 1)
-                                                  ->orWhere('service_type_id', '=', 2);
-                                        })
-                                       ->where('group_id', $group['id'])
-                                       ->get() as $service)
-                                <div class="service_wrap">
-                                    <div class="info">
-                                        <a href="{{route('service_page', $service['id'])}}">
-                                            <p class="duration"
-                                               style="flex: none; width: 80px;">{{$service['yc_duration'] / 60}}
-                                                мин</p>
-                                        </a>
-                                        <a href="{{route('service_page', $service['id'])}}">
-                                            <p class="price" style="flex: none; width:110px;">
-                                                @if($service['yc_price_min'] <> $service['yc_price_max'])
-                                                    от
-                                                @endif
-                                                {{number_format($service['yc_price_min'], 0, ',', ' ')}} ₽
-                                            </p>
-                                        </a>
-                                        <a href="{{route('service_page', $service['id'])}}">
-                                            <p>{{$service['name']}}</p>
-                                        </a>
-                                    </div>
-                                    <div class="buttons-wrap">
-{{--                                        <a onclick="Livewire.emit('service_cart_add', {{$service['id']}})"--}}
-{{--                                           id="service_add_bg_{{$service['id']}}"--}}
-{{--                                           class="link coal">Записаться</a>--}}
-                                        <livewire:portal.components.service.add-to-cart-button :service="$service" type="link coal"></livewire:portal.components.service.add-to-cart-button>
-                                        <a href="{{route('service_page', $service['id'])}}"
-                                           class="link fern">Подробнее</a>
-                                        <a class="svg_link" href="{{route('service_page', $service['id'])}}">
-                                            <svg width="15" height="4" viewBox="0 0 15 4" fill="none"
-                                                 xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M0.833496 0.798828V3.29883H3.3335V0.798828H0.833496Z"
-                                                      fill="black"/>
-                                                <path d="M6.25016 0.798828V3.29883H8.75016V0.798828H6.25016Z"
-                                                      fill="black"/>
-                                                <path d="M11.6668 0.798828V3.29883H14.1668V0.798828H11.6668Z"
-                                                      fill="black"/>
-                                            </svg>
-                                        </a>
-                                    </div>
-
-
-                                </div>
-                            @endforeach
-                        </div>
-
-                    </div>
-
-                @endforeach
-            @endif
-        </div>
+        <livewire:portal.components.service.category-services
+            :category="$category"></livewire:portal.components.service.category-services>
 
         @if(collect($abonements)->where('category_id', $category['id'])->count() > 0)
             <x-ui.preview-cta

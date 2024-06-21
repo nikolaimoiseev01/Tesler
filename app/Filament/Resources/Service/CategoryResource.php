@@ -4,7 +4,9 @@ namespace App\Filament\Resources\Service;
 
 use App\Filament\Resources\Service\CategoryResource\Pages;
 use App\Filament\Resources\Service\CategoryResource\RelationManagers;
+use App\Models\Promo;
 use App\Models\Service\Category;
+use App\Models\Service\Scope;
 use App\Models\Staff;
 use App\Models\User;
 use Filament\Forms;
@@ -68,6 +70,12 @@ class CategoryResource extends Resource
                                                 ->required()
                                                 ->label('Заголовок блока')
                                                 ->maxLength(255),
+                                            Forms\Components\Select::make('promo_id')
+                                                ->relationship(name: 'promo', titleAttribute: 'title')
+                                                ->options(Promo::all()->pluck('title', 'id'))
+                                                ->searchable()
+                                                ->label('Поп-ап')
+                                                ->required(),
                                         ])->columnSpan(['lg' => 1]),
                                     ])->columns(2),
                                     Forms\Components\Textarea::make('desc')

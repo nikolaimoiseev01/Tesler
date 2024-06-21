@@ -1,42 +1,117 @@
+const setCookie = (name, value, days) => {
+    let expires = "";
+    if (days) {
+        const date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+};
+
+const getCookie = (name) => {
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+};
+
+
 // ------  MODALS  ------ //
 
 var modal_on = 0
-$('.modal-link').on('click', function (event) {
-    event.preventDefault()
+
+function open_modal(modal) {
     // Закрываем предыдущее
     // $('.modal').fadeOut(200);
     // modal_on = 0
 
-    modal = $(this).attr('modal-id');
+    modal = $('#' + modal)
+    if (modal.length) {
+        modal.fadeToggle(200);
+        $('body').css('overflow-y', 'hidden')
+        setTimeout(function () {
+            modal_on = 1
+        }, 1000)
+    }
 
-    $('#' + modal).fadeToggle(200);
-    $('body').css('overflow-y', 'hidden')
-    setTimeout(function () {
-        modal_on = 1
-    }, 1000)
+}
+
+function close_modal() {
+    if (modal_on === 1) {
+        $('.modal').fadeOut(200);
+        $('body').css('overflow-y', 'auto')
+        modal_on = 0
+    }
+
+}
+
+$('.modal-link').on('click', function (event) {
+    event.preventDefault()
+    modal = $(this).attr('modal-id');
+    open_modal(modal)
 })
 
 $(document).on("click", function (event) {
     if (!$(event.target).closest(".modal_content").length) {
-        if (modal_on === 1) {
-            $('.modal').fadeOut(200);
-            $('body').css('overflow-y', 'auto')
-            modal_on = 0
-        }
+        close_modal()
     }
+});
+
+$('.close_modal_icon').on("click", function (event) {
+    close_modal()
 });
 
 // ------  / MODALS  ------ //
 
 
+// ------  MODAL IN CATEGORY  ------ //
+document.addEventListener("DOMContentLoaded", function() {
+    const blocks = document.querySelectorAll('.sp_services_block');
+
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.5 // Срабатывает, когда 50% блока видно на экране
+    };
+
+    const observerCallback = (entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                cat_id = entry.target.getAttribute('cat_id')
+                modal_id = 'cat_modal_id_' + cat_id
+
+                if(!getCookie(modal_id) && $(`#${modal_id}`).length) {
+                    console.log('ready to show!')
+                    setCookie(modal_id, true, 7);
+                    open_modal(modal_id)
+                }
+
+            }
+        });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+    blocks.forEach(block => {
+        observer.observe(block);
+    });
+});
+
+
+// ------  / MODAL IN CATEGORY  ------ //
+
+
 // ------ SHOW DIF ELEMENTS BY WIDTH ------ //
-    if ($(window).innerWidth() < 768) {
-        $('.mobile_only').show()
-        $('.desktop_only').hide()
-    } else {
-        $('.mobile_only').hide()
-        $('.desktop_only').show()
-    }
+if ($(window).innerWidth() < 768) {
+    $('.mobile_only').show()
+    $('.desktop_only').hide()
+} else {
+    $('.mobile_only').hide()
+    $('.desktop_only').show()
+}
 
 
 // ------  PRELOADER  ------ //
@@ -47,10 +122,11 @@ function hide_preloader() {
         $('.page-preloader-wrap').removeClass('preloaded_hiding');
     }, 500);
 }
+
 $(window).on('load', function () {
     hide_preloader()
 });
-setTimeout(function() {
+setTimeout(function () {
     hide_preloader()
 }, 1000)
 
@@ -238,12 +314,10 @@ $('#good_cart_bottom_button').on('click', function (event) {
     $('.cart_block_wrap').show("slide", {direction: "right"});
 })
 
-$(document).mouseup(function(e)
-{
+$(document).mouseup(function (e) {
     var container = $(".cart_block_wrap");
 
-    if (!container.is(e.target) && container.has(e.target).length === 0)
-    {
+    if (!container.is(e.target) && container.has(e.target).length === 0) {
         $('.cart_block_wrap').hide("slide", {direction: "right"});
     }
 });
@@ -278,7 +352,7 @@ $(document).ready(function () {
 
 // ------ SHOW FULL IMG ------ //
 
-$('.show_full_img').on('click', function(e) {
+$('.show_full_img').on('click', function (e) {
     url = $(this).attr('src')
 
     $('#img_full').attr('src', url)

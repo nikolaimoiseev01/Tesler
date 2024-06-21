@@ -478,10 +478,18 @@ footer {
     &.fern {
         background: $color-fern-100;
         color: $color-stone-100;
+        &:hover {
+            background: $color-coal-100;
+        }
     }
 
-    &.fern:hover {
-        background: $color-coal-100;
+    &.fern_to_light {
+        background: $color-fern-100;
+        color: $color-stone-100;
+        &:hover {
+            background: $color-frog-100;
+            color: $color-coal-100;
+        }
     }
 
     &.coal {

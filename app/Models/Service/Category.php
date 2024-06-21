@@ -2,6 +2,7 @@
 
 namespace App\Models\Service;
 
+use App\Models\Promo;
 use App\Models\Staff;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -20,7 +21,8 @@ class Category extends Model implements HasMedia
         'pic',
         'position',
         'block_title',
-        'staff_ids'
+        'staff_ids',
+        'promo_id'
     ];
 
     use HasFactory;
@@ -34,12 +36,17 @@ class Category extends Model implements HasMedia
         return $this->belongsTo(Scope::class);
     }
 
+
     public function Group() {
         return $this->hasMany(Group::class);
     }
 
     public function Service() {
         return $this->hasMany(Service::class);
+    }
+
+    public function Promo() {
+        return $this->belongsTo(Promo::class);
     }
 
     public function Staff()
