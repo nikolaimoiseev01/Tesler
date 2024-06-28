@@ -85,9 +85,10 @@ document.addEventListener("DOMContentLoaded", function() {
                 modal_id = 'cat_modal_id_' + cat_id
 
                 if(!getCookie(modal_id) && $(`#${modal_id}`).length) {
-                    console.log('ready to show!')
-                    setCookie(modal_id, true, 7);
-                    open_modal(modal_id)
+                    setTimeout(function() {
+                        setCookie(modal_id, true, 7);
+                        open_modal(modal_id)
+                    }, 3000)
                 }
 
             }

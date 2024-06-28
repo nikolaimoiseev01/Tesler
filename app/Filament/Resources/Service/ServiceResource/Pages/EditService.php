@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Service\ServiceResource\Pages;
 
 use App\Filament\Resources\Service\ServiceResource;
+use App\Models\Good\Good;
 use App\Models\Service\Service;
 use App\Services\ServiceYcOperations;
 use App\Services\YcApiRequest;
@@ -19,9 +20,15 @@ class EditService extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
+            Action::make("Страница на сайте")
+                ->label('Страница на сайте')
+                ->url(fn(Service $service) => route('service_page', $service['id']))
+                ->tooltip('Откроется в новом окне')
+                ->openUrlInNewTab(),
             Action::make("Refresh YC")
                 ->label('Обновить YC инфо')
                 ->requiresConfirmation()
+                ->color('success')
                 ->action(function (Service $service) {
                     $service = collect([$service]);
                     App::make(ServiceYcOperations::class)->update($service);

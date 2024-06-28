@@ -19,14 +19,6 @@ class GoodYcOperations
 
         DB::transaction(function () { // Чтобы не записать ненужного
 
-
-            $YCLIENTS_SHOP_ID = ENV('YCLIENTS_SHOP_ID');
-            $YCLIENTS_HEADERS = [
-                'Accept' => 'application/vnd.yclients.v2+json',
-                'Authorization' => 'Bearer ' . ENV('YCLIENTS_BEARER') . ', User ' . ENV('YCLIENTS_ADMIN_TOKEN')
-            ];
-
-
             $yc_goods = [];
             $changed_after = '2023-01-05T12:00:00';
             for ($page = 0; $page <= 200; $page++) {

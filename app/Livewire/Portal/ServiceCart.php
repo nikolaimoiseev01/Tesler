@@ -16,6 +16,8 @@ class ServiceCart extends Component
     public $cart_services_count;
     public $cart_goods_count;
 
+    public $chosen_yc_shop;
+
     protected $listeners = ['service_cart_add', 'test_test', 'update_service_buttons', 'show_red_cart_s'];
 
     public function render()
@@ -35,6 +37,7 @@ class ServiceCart extends Component
 
     public function mount(Request $request)
     {
+        $this->chosen_yc_shop = app('chosen_shop');
         $this->cart_services = $request->session()->get('cart_services');
         $this->cart_total = $request->session()->get('cart_total');
         $this->cart_services_count = $request->session()->get('cart_services_count');
@@ -48,7 +51,7 @@ class ServiceCart extends Component
             }
 
             $this->link_services = rtrim($this->link_services, ",");
-            $this->yc_link = 'https://b253254.yclients.com/company/247576/menu?o=s' . $this->link_services;
+            $this->yc_link = "https://b253254.yclients.com/company/{$this->chosen_yc_shop['id']}/menu?o=s" . $this->link_services;
 
             $this->total_price = array_reduce($this->cart_services, function ($carry, $item) {
                 return $carry + $item['yc_price_min'];
@@ -87,7 +90,7 @@ class ServiceCart extends Component
             }
         }
         $this->link_services = rtrim($this->link_services, ",");
-        $this->yc_link = 'https://b253254.yclients.com/company/247576/menu?o=s' . $this->link_services;
+        $this->yc_link = "https://b253254.yclients.com/company/{$this->chosen_yc_shop['id']}/menu?o=s" . $this->link_services;
 
         $this->total_price = array_reduce($this->cart_services, function ($carry, $item) {
             return $carry + $item['yc_price_min'];
@@ -166,7 +169,7 @@ class ServiceCart extends Component
             }
         }
         $this->link_services = rtrim($this->link_services, ",");
-        $this->yc_link = 'https://b253254.yclients.com/company/247576/menu?o=s' . $this->link_services;
+        $this->yc_link = "https://b253254.yclients.com/company/{$this->chosen_yc_shop['id']}/menu?o=s" . $this->link_services;
 
         $this->total_price = array_reduce($this->cart_services, function ($carry, $item) {
             return $carry + $item['yc_price_min'];

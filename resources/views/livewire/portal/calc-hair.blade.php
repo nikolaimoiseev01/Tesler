@@ -7,11 +7,14 @@
                 <h2>Выберите услугу</h2>
                 <div class="filter_wrap check_box_filter_wrap">
                     @foreach($options->unique('service_id') as $option)
-                        <div>
-                            <label for="service_{{$option['service_id']}}"><p>{{$option->service['name']}}</p></label>
-                            <input type="radio" wire:model.live="step_0" id="service_{{$option['service_id']}}"
-                                   value="{{$option['service_id']}}">
-                        </div>
+                        @if($option->service)
+                            <div>
+                                <label for="service_{{$option['service_id']}}"><p>{{$option->service['name']}}</p>
+                                </label>
+                                <input type="radio" wire:model.live="step_0" id="service_{{$option['service_id']}}"
+                                       value="{{$option['service_id']}}">
+                            </div>
+                        @endif
                     @endforeach
                 </div>
             </div>
@@ -61,26 +64,26 @@
 
             <div class="step_wrap @if($step === 4) active @endif">
 
-                    <div class="result_text @if($result_price) active @endif">
-                        <h2>Расчет:</h2>
-                        <p style="color: white">
-                            Предварительная стоимость окрашивания равна <b>{{$result_price}}</b> руб.
-                            Стоимость окрашивания может отличаться, если ранее ваши волосы подвергались таким факторам,
-                            как окрашивание бытовым красителем, кератиновое восстановление, ламинирование волос и другие
-                            химические воздействия,
-                            которые влияют на структуру волоса.
-                            Запишитесь на бесплатную консультацию к нашим мастерам.
-                        </p>
-                        <div class="go_buttons">
-                            <a href="{{$result_link}}" target="_blank" class="link-bg fern">Записаться</a>
-                            <a modal-id="consult_modal" class="need-consult link-bg fern">Получить консультацию</a>
-                        </div>
+                <div class="result_text @if($result_price) active @endif">
+                    <h2>Расчет:</h2>
+                    <p style="color: white">
+                        Предварительная стоимость окрашивания равна <b>{{$result_price}}</b> руб.
+                        Стоимость окрашивания может отличаться, если ранее ваши волосы подвергались таким факторам,
+                        как окрашивание бытовым красителем, кератиновое восстановление, ламинирование волос и другие
+                        химические воздействия,
+                        которые влияют на структуру волоса.
+                        Запишитесь на бесплатную консультацию к нашим мастерам.
+                    </p>
+                    <div class="go_buttons">
+                        <a href="{{$result_link}}" target="_blank" class="link-bg fern">Записаться</a>
+                        <a modal-id="consult_modal" class="need-consult link-bg fern">Получить консультацию</a>
                     </div>
-                    <div class="result_text @if(!$result_price) active @endif">
-                        <h2 style="color: white">
-                            Выберите все опции!
-                        </h2>
-                    </div>
+                </div>
+                <div class="result_text @if(!$result_price) active @endif">
+                    <h2 style="color: white">
+                        Выберите все опции!
+                    </h2>
+                </div>
 
             </div>
         </div>

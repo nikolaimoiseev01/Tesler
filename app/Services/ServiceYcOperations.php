@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Calculators\CalcHair;
 use App\Models\RefreshLog;
 use App\Models\Service\Service;
 use App\Models\User;
@@ -16,6 +17,11 @@ use Filament\Notifications\Notification;
 
 class ServiceYcOperations
 {
+    public $deleted_services;
+    public $description;
+    public $created_services;
+    public $yc_services;
+
     public function update($services)
     {
 
@@ -73,23 +79,80 @@ class ServiceYcOperations
 
 
     }
-    public function refreshAll()
+
+    public function CreateYcServices()
+    {
+        // Отдельно сохраняем услуги каждого филиала
+        $yc_shops = config('cons.yc_shops');
+        $yc_services_comp_1 = (new YcApiRequest)->make_request('company', 'services', $yc_shops[0]);
+        $yc_services_comp_2 = (new YcApiRequest)->make_request('company', 'services', $yc_shops[1]);
+
+        $mergedArray = [];
+        $idMap = [];
+
+        // Проставляем флаги для 1 филиала
+        foreach ($yc_services_comp_1 as $item) {
+            $id = $item['id'];
+            $item['flg_1'] = true;
+            $item['flg_2'] = false;
+            $mergedArray[$id] = $item;
+            $idMap[$id] = 1;
+        }
+
+        // Проставлем остальные флаги.
+        foreach ($yc_services_comp_2 as $item) {
+            $id = $item['id'];
+            if (isset($mergedArray[$id])) {
+                $mergedArray[$id]['flg_2'] = true;
+            } else {
+                $item['flg_1'] = false;
+                $item['flg_2'] = true;
+                $mergedArray[$id] = $item;
+            }
+            $idMap[$id] = 1;
+        }
+
+        // Берем уникальные ID
+        $this->yc_services = array_values($mergedArray);
+
+    }
+
+    public function deleteUnused()
     {
 
+        $our_services = Service::all();
+        $this->deleted_services = 0;
+        foreach ($our_services as $our_service) { // Идем по всем услугам НАШИМ
+
+            // Получение столбца 'id' из массива
+            $idColumn = array_column($this->yc_services, 'id');
+
+            // Поиск ID в столбце 'id'
+            $idExists = array_search($our_service['yc_id'], $idColumn) !== false;
+
+            if (!$idExists) {  // ЕСЛИ В YC нет такой услуги
+                $this->description['Удалили, потому что не нашли таких в YC'][] = [
+                    'yc_id' => $our_service['yc_id'],
+                    'title' => $our_service['title'],
+                ];
+                CalcHair::where('service_id', $our_service['id'])->delete();
+                $our_service->delete();
+                $this->deleted_services += 1;
+            }
+
+        }
+    }
+
+
+    public function CreateUpdate()
+    {
         DB::transaction(function () { // Чтобы не записать ненужного
 
-            $yc_services = (new YcApiRequest)->make_request('company', 'services');
+            $this->created_services = [];
 
-            $this->found_yc_services = null;
+            foreach ($this->yc_services as $yc_service) { // Идем по всем услугам YCLIENTS
 
-            $yc_services = array_values(Arr::where($yc_services, function ($value, $key) {
-                return $value['active'] == 1; // Берем только активный в YClients услуги
-            }));
-
-            $created_services = [];
-
-            foreach ($yc_services as $yc_service) { // Идем по всем услугам YCLIENTS
-                $service_found = Service::where('yc_id', $yc_service['id'])->first();
+                $service_found = Service::where('yc_id', $yc_service['id'])->first(); // Ищем такую у нас
 
                 $yc_service_category = (new YcApiRequest)->make_request('service_category', $yc_service['category_id']);
 
@@ -99,7 +162,7 @@ class ServiceYcOperations
                     $yc_service_category = null;
                 }
 
-                if ($service_found ?? null) { // Если есть такая услуга
+                if ($service_found ?? null) { // Если есть такая услуга, то обновляем ее
 
                     $service_found->update([
                         'yc_title' => $yc_service['title'],
@@ -108,17 +171,20 @@ class ServiceYcOperations
                         'yc_price_max' => $yc_service['price_max'],
                         'yc_duration' => $yc_service['duration'],
                         'yc_category_name' => $yc_service_category,
+                        'flg_active' => $yc_service['active'],
                         'name' => $yc_service['title'],
+                        'flg_comp_1' => $yc_service['flg_1'],
+                        'flg_comp_2' => $yc_service['flg_2']
                     ]);
 
-                    $description['Обновили инфо из YClients'][] = [
+                    $this->description['Обновили инфо из YClients'][] = [
                         'yc_id' => $yc_service['id'],
                         'title' => $yc_service['title'],
                     ];
 
 
-                } else { // Если нет такой услуги
-                    array_push($created_services, $yc_service['title']);
+                } else { // Если нет такой услуги, то создаем её
+                    array_push($this->created_services, $yc_service['title']);
                     Service::create([
                         'yc_id' => $yc_service['id'],
                         'yc_title' => $yc_service['title'],
@@ -130,9 +196,11 @@ class ServiceYcOperations
                         'flg_active' => 0,
                         'name' => $yc_service['title'],
                         'desc' => $yc_service['comment'],
+                        'flg_comp_1' => $yc_service['flg_1'],
+                        'flg_comp_2' => $yc_service['flg_2']
                     ]);
 
-                    $description['Добавили новых из YClients'][] = [
+                    $this->description['Добавили новых из YClients'][] = [
                         'yc_id' => $yc_service['id'],
                         'title' => $yc_service['title'],
                     ];
@@ -140,24 +208,32 @@ class ServiceYcOperations
 
                 }
             }
-
-            $created_services = count($created_services);
-            $title = '📡 Успешно обновили все услуги! 📡';
-            $text = "Все услуги на сайте были синхронизированы с YClients. Добавлено новых: *{$created_services}* \nОб остальных обновлена информация.";
-
-
-            RefreshLog::create([
-                'model' => 'Услуги',
-                'type' => 'Синхронизация с YClients',
-                'summary' => $text,
-                'description' => json_encode($description) ?? 'Не нашли, что можно сделать'
-            ]);
-
-
-            // Посылаем Telegram уведомление нам
-            \Illuminate\Support\Facades\Notification::route('telegram', env('TELEGRAM_CHAT_ID'))
-                ->notify(new TelegramNotification($title, $text, null, null));
-
         });
+    }
+
+    public function refreshAll()
+    {
+
+        $this->CreateYcServices();
+        $this->CreateUpdate();
+        $this->deleteUnused();
+
+        $this->created_services = count($this->created_services);
+        $title = '📡 Успешно обновили все услуги! 📡';
+        $text = "Все услуги на сайте были синхронизированы с YClients. Добавлено новых: *{$this->created_services}* \nУдалено с сайта: *{$this->deleted_services}* \nОб остальных обновлена информация.";
+
+
+        RefreshLog::create([
+            'model' => 'Услуги',
+            'type' => 'Синхронизация с YClients',
+            'summary' => $text,
+            'description' => json_encode($this->description) ?? 'Не нашли, что можно сделать'
+        ]);
+
+
+        // Посылаем Telegram уведомление нам
+        \Illuminate\Support\Facades\Notification::route('telegram', env('TELEGRAM_CHAT_ID'))
+            ->notify(new TelegramNotification($title, $text, null, null));
+
     }
 }

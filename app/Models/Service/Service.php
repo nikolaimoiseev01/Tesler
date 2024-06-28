@@ -29,7 +29,9 @@ class Service extends Model implements HasMedia
         'result',
         'service_type_id',
         'yc_category_name',
-        'service_adds'
+        'service_adds',
+        'flg_comp_1',
+        'flg_comp_2'
     ];
 
 
@@ -41,19 +43,23 @@ class Service extends Model implements HasMedia
     use HasFactory;
     use \Staudenmeir\EloquentJsonRelations\HasJsonRelationships;
 
-    public function Service_type() {
+    public function Service_type()
+    {
         return $this->belongsTo(Service_type::class);
     }
 
-    public function Scope() {
+    public function Scope()
+    {
         return $this->belongsTo(Scope::class);
     }
 
-    public function Category() {
+    public function Category()
+    {
         return $this->belongsTo(Category::class);
     }
 
-    public function Group() {
+    public function Group()
+    {
         return $this->belongsTo(Group::class);
     }
 

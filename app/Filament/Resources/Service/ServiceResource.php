@@ -155,6 +155,12 @@ class ServiceResource extends Resource
                                             ->content(fn(Service $record): string => $record['yc_price_max']),
                                         Placeholder::make('Длительность')
                                             ->content(fn(Service $record): string => $record['yc_duration']),
+                                        Placeholder::make('Есть в филиале на Авиаторов')
+                                            ->label('Есть в филиале 1')
+                                            ->content(fn(Service $record): string => $record['flg_comp_1'] ? 'да' : 'нет'),
+                                        Placeholder::make('Есть в филиале Бограда')
+                                            ->label('Есть в филиале 2')
+                                            ->content(fn(Service $record): string => $record['flg_comp_2'] ? 'да' : 'нет'),
                                     ]),
                                 ]),
                             Tabs\Tab::make('Допы к этой услуге')
