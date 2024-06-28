@@ -3,11 +3,12 @@
 <div class="scopes_wrap">
     @foreach($scopes as $scope)
         <div class="scope_wrap">
-            <div class="image_blackout">
+            <div onclick="location.href='{{route('scope_page', $scope['id'])}}';" class="image_blackout">
                 <img src="{{$scope->getFirstMediaUrl('main_page_pic')}}" alt="">
             </div>
             <div class="info">
                 <h2 onclick="location.href='{{route('scope_page', $scope['id'])}}';">{{$scope['name']}}</h2>
+                <div onclick="location.href='{{route('scope_page', $scope['id'])}}';" style="flex: 1"></div>
                 <div class="services_wrap">
                     <div class="services">
                         @foreach($scope->group as $group)
