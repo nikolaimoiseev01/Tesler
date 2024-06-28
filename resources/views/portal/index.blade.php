@@ -16,7 +16,7 @@
 
     {{--    <div class="content">--}}
 
-    <div class="promo_slider">
+    <div id="promo_slider" class="promo_slider">
         <x-ui.slider
             title="Акции, новости и события TESLER"
             :cards="$promos">

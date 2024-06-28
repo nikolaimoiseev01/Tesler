@@ -171,11 +171,16 @@ class ServiceYcOperations
                         'yc_price_max' => $yc_service['price_max'],
                         'yc_duration' => $yc_service['duration'],
                         'yc_category_name' => $yc_service_category,
-                        'flg_active' => $yc_service['active'],
                         'name' => $yc_service['title'],
                         'flg_comp_1' => $yc_service['flg_1'],
                         'flg_comp_2' => $yc_service['flg_2']
                     ]);
+
+                    if($service_found['flg_active'] ?? null) {
+                        $service_found->update([
+                            'flg_active' => $yc_service['active'],
+                        ]);
+                    }
 
                     $this->description['Обновили инфо из YClients'][] = [
                         'yc_id' => $yc_service['id'],

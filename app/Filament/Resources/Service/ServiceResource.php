@@ -239,7 +239,8 @@ class ServiceResource extends Resource
                     ->label('Группа')
                     ->relationship('group', 'name'),
                 Tables\Filters\SelectFilter::make('yc_category_name')
-                    ->options(Service::all()->whereNotNull('yc_category_name')->pluck('yc_category_name')->unique())
+                    ->attribute('id')
+                    ->options(Service::all()->whereNotNull('yc_category_name')->pluck('yc_category_name', 'id')->unique())
                     ->label('YC Категория'),
             ])->filtersFormColumns(2)
             ->actions([

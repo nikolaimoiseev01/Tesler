@@ -186,6 +186,10 @@ header {
                 }
                 .link {
                     border: none !important;
+
+                    @media (max-width: $media-mobiles-480) {
+                        display: none;
+                    }
                 }
                 .filter_wrap {
                     position: absolute;
