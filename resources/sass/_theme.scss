@@ -175,12 +175,22 @@ header {
             align-items: center;
 
             .choose_comp_wrap {
+                display: flex;
+                gap: 5px;
+                align-items: center;
+                position: relative;
+                svg {
+                    width: 15px;
+                    height: 15px;
+                    fill: white;
+                }
                 .link {
                     border: none !important;
                 }
                 .filter_wrap {
                     position: absolute;
                     background: white;
+                    top: 16px;
                     padding: 10px;
                     z-index: 10;
                     margin-top: 10px;
