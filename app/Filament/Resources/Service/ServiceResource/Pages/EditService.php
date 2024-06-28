@@ -25,14 +25,14 @@ class EditService extends EditRecord
                 ->url(fn(Service $service) => route('service_page', $service['id']))
                 ->tooltip('Откроется в новом окне')
                 ->openUrlInNewTab(),
-            Action::make("Refresh YC")
-                ->label('Обновить YC инфо')
-                ->requiresConfirmation()
-                ->color('success')
-                ->action(function (Service $service) {
-                    $service = collect([$service]);
-                    App::make(ServiceYcOperations::class)->update($service);
-                })
+//            Action::make("Refresh YC")
+//                ->label('Обновить YC инфо')
+//                ->requiresConfirmation()
+//                ->color('success')
+//                ->action(function (Service $service) {
+//                    $service = collect([$service]);
+//                    App::make(ServiceYcOperations::class)->update($service);
+//                })
         ];
     }
 

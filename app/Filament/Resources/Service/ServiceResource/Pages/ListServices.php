@@ -18,14 +18,14 @@ class ListServices extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Action::make("Refresh YC")
-                ->label('Обновить YC инфо')
-                ->requiresConfirmation()
-                ->modalDescription('Вы уверены, что хотите это сделать? Это займет несколько минут, так как проверит абсолютно все услуги в системе.')
-                ->action(function (Service $service) {
-                    $services = Service::all();
-                    App::make(ServiceYcOperations::class)->update($services);
-                }),
+//            Action::make("Refresh YC")
+//                ->label('Обновить YC инфо')
+//                ->requiresConfirmation()
+//                ->modalDescription('Вы уверены, что хотите это сделать? Это займет несколько минут, так как проверит абсолютно все услуги в системе.')
+//                ->action(function (Service $service) {
+//                    $services = Service::all();
+//                    App::make(ServiceYcOperations::class)->update($services);
+//                }),
         ];
     }
 }
