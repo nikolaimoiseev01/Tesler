@@ -84,6 +84,29 @@
 
     @endforeach
 
+
+    @if(count($scope['faqs'] ?? 0) > 0)
+        <livewire:portal.components.service.scope-faq
+            :questions="$scope['faqs']"></livewire:portal.components.service.scope-faq>
+    @endif
+
+    @push('scripts')
+        <script>
+            $('.question').on('click', function () {
+
+                id = $(this).attr('data-q-id')
+                block = $('#a_' + id)
+                if (block.is(":visible")) {
+                    $(this).children('svg').css('transform', 'rotate(0)')
+                } else {
+                    $(this).children('svg').css('transform', 'rotate(45deg)')
+                }
+                block.slideToggle()
+            })
+        </script>
+    @endpush
+
+
     <div class="content about_wrap">
         <div class="text">
             <p>КОНСУЛЬТАЦИЯ</p>

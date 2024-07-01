@@ -15,9 +15,13 @@ class Scope extends Model implements HasMedia
         'pic_main_page',
         'pic_scope_page',
         'position',
-        'flg_active'
+        'flg_active',
+        'faqs'
     ];
 
+    protected $casts = [
+        'faqs' => 'array'
+    ];
 
     use HasFactory;
     use InteractsWithMedia;

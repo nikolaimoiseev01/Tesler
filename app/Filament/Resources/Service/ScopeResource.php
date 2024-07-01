@@ -6,6 +6,9 @@ use App\Filament\Resources\Service\ScopeResource\Pages;
 use App\Filament\Resources\Service\ScopeResource\RelationManagers;
 use App\Models\Service\Scope;
 use Filament\Forms;
+use Filament\Forms\Components\Actions\Action;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -61,6 +64,25 @@ class ScopeResource extends Resource
                     ->imageResizeMode('cover')
                     ->imageCropAspectRatio('1662:729')
                     ->columnSpan(['lg' => 1]),
+                Forms\Components\Section::make()->schema([
+                    Repeater::make('faqs')
+                        ->schema([
+                            TextInput::make('question')
+                                ->label('Вопрос')
+                                ->required(),
+                            Forms\Components\Textarea::make('answer')
+                                ->label('Ответ')
+                                ->rows(7)
+                                ->required(),
+                        ])
+                        ->label('')
+                        ->columnSpanFull()
+                        ->columns(1)
+                        ->grid(2)
+                        ->addAction(
+                            fn(Action $action) => $action->label('Добавить вопрос'),
+                        )
+                ])->heading('Популярные вопросы')
 
             ]);
     }
