@@ -85,7 +85,7 @@
     @endforeach
 
 
-    @if(count($scope['faqs'] ?? 0) > 0)
+    @if(count($scope['faqs'] ?? []) > 0)
         <livewire:portal.components.service.scope-faq
             :questions="$scope['faqs']"></livewire:portal.components.service.scope-faq>
     @endif
