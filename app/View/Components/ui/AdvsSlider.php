@@ -8,7 +8,7 @@ use Illuminate\View\Component;
 
 class AdvsSlider extends Component
 {
-    public $advs;
+    public $adves;
     /**
      * Create a new component instance.
      */
@@ -22,7 +22,7 @@ class AdvsSlider extends Component
      */
     public function render(): View|Closure|string
     {
-        $this->advs = [
+        $this->adves = [
             [
                 'title' => 'Гарантия качества',
                 'text' => 'Мы предоставляем гарантию 7 дней на все виды покрытий ногтей. Если у вас возникнут проблемы с
@@ -58,7 +58,7 @@ class AdvsSlider extends Component
             ],
         ];
         return view('components.ui.advs-slider', [
-            'advs' => $this->advs
+            'adves' => $this->adves
         ]);
     }
 }
