@@ -71,9 +71,16 @@
             </div>
         @endif
 
+{{--        @if($loop->index == 0)--}}
+{{--            <x-ui.advs-slider></x-ui.advs-slider>--}}
+{{--        @endif--}}
+
         @if($loop->index == 0)
-            <x-ui.advs-slider></x-ui.advs-slider>
+            <livewire:portal.components.service.scope-advs></livewire:portal.components.service.scope-advs>
+
         @endif
+
+
 
         <livewire:portal.components.service.category-services
             :category="$category"></livewire:portal.components.service.category-services>
