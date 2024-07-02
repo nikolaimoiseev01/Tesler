@@ -82,7 +82,26 @@ class ScopeResource extends Resource
                         ->addAction(
                             fn(Action $action) => $action->label('Добавить вопрос'),
                         )
-                ])->heading('Популярные вопросы')
+                ])->heading('Популярные вопросы'),
+                Forms\Components\Section::make()->schema([
+                    Repeater::make('advs')
+                        ->schema([
+                            TextInput::make('title')
+                                ->label('Заголовок')
+                                ->required(),
+                            Forms\Components\Textarea::make('text')
+                                ->label('Текст')
+                                ->rows(7)
+                                ->required(),
+                        ])
+                        ->label('')
+                        ->columnSpanFull()
+                        ->columns(1)
+                        ->grid(2)
+                        ->addAction(
+                            fn(Action $action) => $action->label('Добавить преимущество'),
+                        )
+                ])->heading('Преимущества в сфере')
 
             ]);
     }

@@ -71,13 +71,8 @@
             </div>
         @endif
 
-{{--        @if($loop->index == 0)--}}
-{{--            <x-ui.advs-slider></x-ui.advs-slider>--}}
-{{--        @endif--}}
-
-        @if($loop->index == 0)
-            <livewire:portal.components.service.scope-advs></livewire:portal.components.service.scope-advs>
-
+        @if($loop->index == 0 && count($scope['advs'] ?? []) > 0)
+            <livewire:portal.components.service.scope-advs :advs="$scope['advs']"></livewire:portal.components.service.scope-advs>
         @endif
 
 

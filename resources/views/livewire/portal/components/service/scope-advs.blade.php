@@ -31,7 +31,7 @@
 
 
         <div class="slider">
-            @foreach($adves as $adv)
+            @foreach($advs as $adv)
                 <div class="card">
                     <div class="text">
                         <div>
@@ -49,7 +49,7 @@
     </div>
 
     <div class="content sp_advs_wrap">
-        @foreach($adves as $adv)
+        @foreach($advs as $adv)
             <div class="adv_wrap">
                 <h2>{{$adv['title']}}</h2>
                 <p>{{$adv['text']}}</p>
