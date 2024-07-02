@@ -32,21 +32,31 @@
     @livewireStyles
 
     <!-- Yandex.Metrika counter -->
-    <script type="text/javascript" >
-        (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-            m[i].l=1*new Date();
-            for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-            k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    <script type="text/javascript">
+        (function (m, e, t, r, i, k, a) {
+            m[i] = m[i] || function () {
+                (m[i].a = m[i].a || []).push(arguments)
+            };
+            m[i].l = 1 * new Date();
+            for (var j = 0; j < document.scripts.length; j++) {
+                if (document.scripts[j].src === r) {
+                    return;
+                }
+            }
+            k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
+        })
         (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
 
         ym(96375595, "init", {
-            clickmap:true,
-            trackLinks:true,
-            accurateTrackBounce:true,
-            webvisor:true
+            clickmap: true,
+            trackLinks: true,
+            accurateTrackBounce: true,
+            webvisor: true
         });
     </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/96375595" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <noscript>
+        <div><img src="https://mc.yandex.ru/watch/96375595" style="position:absolute; left:-9999px;" alt=""/></div>
+    </noscript>
     <!-- /Yandex.Metrika counter -->
 
     @yield('styles')
@@ -80,8 +90,8 @@
 
 @push('scripts')
     <script>
-        $('.go_to_head_wrap').on('click', function() {
-            $("html, body").animate({ scrollTop: 0 }, "slow");
+        $('.go_to_head_wrap').on('click', function () {
+            $("html, body").animate({scrollTop: 0}, "slow");
         })
     </script>
 @endpush
@@ -127,7 +137,7 @@
 @endpush
 
 
-<div class="cart_block_wrap">
+<div x-data="{ opened: 'goods' }" class="cart_block_wrap">
     <div class="cart_wrap">
         <a class="close_cross">
             <svg width="19" height="3" viewBox="0 0 19 3" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -136,11 +146,15 @@
         </a>
         <h2>Корзина</h2>
         <div class="buttons_wrap">
-            <a href="" id="cart_service_button" class="link coal">Услуги (<span>0</span>)</a>
-            <a href="" id="cart_good_button" class="link coal">Товары (<span>0</span>)</a>
+            <a :class="{ 'active': opened === 'services' }" @click="opened = 'services'" id="cart_service_button" class="link coal">Услуги (<span>0</span>)</a>
+            <a :class="{ 'active': opened === 'goods' }" @click="opened = 'goods'" id="cart_good_button" class="link coal">Товары (<span>0</span>)</a>
         </div>
-        @livewire('portal.good-cart')
-        @livewire('portal.service-cart')
+        <div x-show="opened == 'services'">
+            @livewire('portal.service-cart')
+        </div>
+        <div x-show="opened == 'goods'">
+            @livewire('portal.good-cart')
+        </div>
     </div>
 </div>
 

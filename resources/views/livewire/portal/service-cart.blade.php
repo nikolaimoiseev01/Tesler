@@ -56,33 +56,39 @@
             <div class="goods_wrap">
 
 
-                @foreach($cart_services as $cart_service)
-                    <div class="good_wrap">
-                        <img @if(is_null($cart_service['image_url']) || $cart_service['image_url'] == '')
-                             src="/media/media_fixed/logo_holder.png"
-                             @else src="{{$cart_service['image_url']}}" @endif
-                             alt="">
-                        <div class="info">
-{{--                            <p class="category">--}}
-{{--                                {{\App\Models\Service\Service\Category::where('id', $cart_service['category_id'])->first(['name'])->name}}--}}
-{{--                            </p>--}}
-                            <a href="{{route('service_page', $cart_service['id'])}}"><p class="name">{{$cart_service['name']}}</p></a>
-                            <div class="spec_wrap">
-                                <p class="spec">{{$cart_service['yc_category_name']}}</p>
-                                <p class="price">{{$cart_service['yc_price_min']}} ₽</p>
+                @foreach($out_services as $scope_services)
+                    <h3>{{$scope_services['title']}}</h3>
+                    @foreach($scope_services['services'] as $cart_service)
+                        <div class="good_wrap">
+                            <img @if(is_null($cart_service['image_url']) || $cart_service['image_url'] == '')
+                                     src="/media/media_fixed/logo_holder.png"
+                                 @else src="{{$cart_service['image_url']}}" @endif
+                                 alt="">
+                            <div class="info">
+                                {{--                            <p class="category">--}}
+                                {{--                                {{\App\Models\Service\Service\Category::where('id', $cart_service['category_id'])->first(['name'])->name}}--}}
+                                {{--                            </p>--}}
+                                <a href="{{route('service_page', $cart_service['id'])}}"><p class="name">{{$cart_service['name']}}</p></a>
+                                <div class="spec_wrap">
+                                    <p class="spec">{{$cart_service['yc_category_name']}}</p>
+                                    <p class="price">{{$cart_service['yc_price_min']}} ₽</p>
+                                </div>
+
                             </div>
+                            <a class="remove_good" wire:click.prevent="service_cart_remove({{$cart_service['id']}})">
+                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M0.519784 12.3027L5.82308 6.99941L0.519775 1.6961L1.69829 0.517595L7.00158 5.82091L12.3048 0.517578L13.4834 1.6961L8.18008 6.99941L13.4833 12.3027L12.3048 13.4812L7.00158 8.17791L1.69829 13.4812L0.519784 12.3027Z"
+                                        fill="#DDDDD5" fill-opacity="0.3"/>
+                                </svg>
+
+                            </a>
 
                         </div>
-                        <a class="remove_good" wire:click.prevent="service_cart_remove({{$cart_service['id']}})">
-                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M0.519784 12.3027L5.82308 6.99941L0.519775 1.6961L1.69829 0.517595L7.00158 5.82091L12.3048 0.517578L13.4834 1.6961L8.18008 6.99941L13.4833 12.3027L12.3048 13.4812L7.00158 8.17791L1.69829 13.4812L0.519784 12.3027Z"
-                                    fill="#DDDDD5" fill-opacity="0.3"/>
-                            </svg>
-
-                        </a>
-
+                    @endforeach
+                    <div class="buttons_wrap">
+                        <a target="_blank" href="{{$scope_services['link']}}" class="link-bg fern">Перейти к записи</a>
                     </div>
                 @endforeach
             </div>
@@ -93,9 +99,7 @@
                 <p>{{$total_price}} ₽</p>
             </div>
 
-            <div class="buttons_wrap">
-                <a target="_blank" href="{{$yc_link}}" class="link-bg fern">Перейти к записи</a>
-            </div>
+
 
 
             <a wire:click.prevent="service_cart_remove_all()" class="remove_all link fern">Удалить все услуги</a>

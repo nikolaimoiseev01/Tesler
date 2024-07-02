@@ -197,12 +197,9 @@ document.addEventListener('trigger_service_add_button', event => {
         found_button.addClass('service_added')
         found_button.attr('data-old-text', found_button.text())
         found_button.text('в корзине')
-        found_button.removeAttr('onclick')
     } else if (event.detail.type === 'remove') {
         found_button.removeClass('service_added')
         found_button.text(found_button.attr('data-old-text'))
-        found_button.removeAttr('onclick')
-        found_button.attr('onclick', "Livewire.dispatch('service_cart_add', " + event.detail.id + ')')
     }
 
 })
@@ -260,36 +257,9 @@ document.addEventListener('trigger_good_add_button', event => {
 })
 // ------ // TRIGGER GOOD ADD BUTTON  ------ //
 
-// ------ TRIGGER CARTS  ------ //
-function show_good_cart() {
-    $('.good_cart_wrap').show()
-    $('#cart_good_button').addClass('active')
-
-    $('.service_cart_block_wrap').hide()
-    $('#cart_service_button').removeClass('active')
-}
-
-function show_service_cart() {
-    $('.good_cart_wrap').hide()
-    $('#cart_good_button').removeClass('active')
-    $('.service_cart_block_wrap').show()
-    $('#cart_service_button').addClass('active')
-}
-
-$('#cart_service_button').on('click', function (event) {
-    event.preventDefault();
-    show_service_cart()
-})
-
-$('#cart_good_button').on('click', function (event) {
-    event.preventDefault();
-    show_good_cart()
-})
-
 
 document.addEventListener('trigger_good_cart_open', function () {
     $('.cart_block_wrap').show("slide", {direction: "right"});
-    show_good_cart()
 
 })
 
@@ -299,8 +269,6 @@ document.addEventListener('trigger_good_cart_close', function () {
 
 document.addEventListener('trigger_service_cart_open', function () {
     $('.cart_block_wrap').show("slide", {direction: "right"});
-    show_service_cart()
-
 })
 
 document.addEventListener('trigger_service_cart_close', function () {
@@ -308,7 +276,6 @@ document.addEventListener('trigger_service_cart_close', function () {
 })
 
 $('.cart_block_wrap').hide();
-show_good_cart()
 
 $('#good_cart_bottom_button').on('click', function (event) {
     event.preventDefault();
