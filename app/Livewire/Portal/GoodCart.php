@@ -45,17 +45,20 @@ class GoodCart extends Component
     public $promocode;
     public $discount = 0;
 
+    public $chosen_yc_shop;
+
     protected $listeners = ['good_cart_add', 'update_good_buttons', 'show_red_cart_g'];
 
     public function render()
     {
-
+        $this->chosen_yc_shop = app('chosen_shop');
         return view('livewire.portal.good-cart');
     }
 
 
     public function mount(Request $request)
     {
+
         $this->cart_items = $request->session()->get('cart_items');
         $this->cart_total = $request->session()->get('cart_total');
         $this->cart_goods_count = $request->session()->get('cart_goods_count');
@@ -258,8 +261,9 @@ class GoodCart extends Component
         }
     }
 
-    public function show_take_option()
+    public function show_take_option_true()
     {
+
         $this->errors_array = [];
 
         foreach ($this->cart_goods as $key => $cart_good) { // Обновляем кол-во оставшегося товара
@@ -294,6 +298,8 @@ class GoodCart extends Component
 
     public function to_checkout(Request $request)
     {
+
+        dd($this->chosen_yc_shop);
 
         // --------- Ищем ошибки в заполнении  --------- //
         $this->errors_array = [];

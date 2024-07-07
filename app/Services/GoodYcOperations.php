@@ -15,13 +15,13 @@ class GoodYcOperations
 {
     public function refreshAll()
     {
-
+        ini_set('max_execution_time', 3600);
 
         DB::transaction(function () { // Чтобы не записать ненужного
 
             $yc_goods = [];
             $changed_after = '2023-01-05T12:00:00';
-            for ($page = 0; $page <= 200; $page++) {
+            for ($page = 0; $page <= 10; $page++) {
                 // Подгружаем товары на продажу
                 $request = (new YcApiRequest)->make_request('goods', '?count=100&changed_after=' . $changed_after . '&page=' . $page);
                 if ($request) {
@@ -31,6 +31,16 @@ class GoodYcOperations
                 }
             }
 
+            $desiredGoodId = 28701480;
+
+            $filteredItems = array_filter($yc_goods, function($item) use ($desiredGoodId) {
+                return $item['good_id'] == $desiredGoodId;
+            });
+
+            dd($filteredItems);
+
+
+            dd($yc_goods[0]['actual_amounts']);
 
             $this->found_yc_goods = null;
             $updated_goods = [];

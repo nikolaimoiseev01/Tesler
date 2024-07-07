@@ -421,6 +421,7 @@ class PortalController extends Controller
     public function payment_callback(Request $request)
     {
 
+
         Log::info('//////////////////////////  CALBACK STARTED //////////////////////////');
         Log::info('//  $request STARTED //');
         Log::info($request['Status']);
