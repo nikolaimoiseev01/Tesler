@@ -30,10 +30,12 @@ class PortalController extends Controller
 
         $admins = (new YcApiRequest)->make_request('company', 'staff');
 
+
         $admins = Arr::where($admins, function ($value, $key) {
             if ($value['position']) {
                 return $value['position']['title'] == 'Администратор';
             }
+            return false;
         });
 
         $admins = Arr::where($admins, function ($value, $key) {
@@ -44,7 +46,7 @@ class PortalController extends Controller
 
         $admins = array_slice($admins, 0, 4);
 
-        $promos = Promo::orderBy('position')->get();
+        $promos = Promo::orderBy('position')->where('flg_active', true)->get();
 
         $interior_pics = InteriorPhoto::where('id', 1)->first()->getMedia('interior_photos');
         $interior_pics = $interior_pics->map(function ($media) {

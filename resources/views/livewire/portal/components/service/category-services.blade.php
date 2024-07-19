@@ -1,5 +1,5 @@
 <div cat_id="{{$category['id']}}" id="sp_services_block_{{$category['id']}}" class="sp_services_block">
-    @if($category->promo)
+    @if($category->promo ?? null and $category->promo['flg_active'])
         <x-ui.modal custom-class="modal_promo_from_cat" id="cat_modal_id_{{$category['id']}}">
             <livewire:portal.components.service.modal-promo
                 :promo="$category->promo"></livewire:portal.components.service.category-services>

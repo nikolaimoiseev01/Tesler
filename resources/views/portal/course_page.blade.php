@@ -94,7 +94,7 @@
         </div>
 
 
-        <div class="s_desc two_parts_block_wrap only_image">
+        <div class="content s_desc two_parts_block_wrap only_image">
             <div class="right_img_wrap right">
                 <img src="/media/media_fixed/course_page.png" alt="">
             </div>

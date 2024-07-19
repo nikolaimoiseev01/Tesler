@@ -27,9 +27,6 @@ class CategoryServices extends Component
             ->pluck('group_id')
             ->toArray();
 
-
-
-
         $this->groups = Group::whereIn('id', $services_in_group)
             ->orderBy('position')
             ->with(['service' => function ($query) {

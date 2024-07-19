@@ -5,6 +5,7 @@ use Laravel\Telescope\Watchers;
 
 return [
 
+
     /*
     |--------------------------------------------------------------------------
     | Telescope Master Switch

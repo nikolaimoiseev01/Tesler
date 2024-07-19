@@ -34,7 +34,7 @@ class ConsultModal extends Component
         ]);
 
         $title = 'Новая заявка на консультацию!';
-        $text = '';
+        $text = "*Имя:* {$formData['name']} \n*Телефон:* {$formData['mobile']} \n*Вопрос:* {$formData['comment']}";
 
         // Посылаем Telegram уведомление нам
         Notification::route('telegram', env('TELEGRAM_CHAT_ID'))

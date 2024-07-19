@@ -79,6 +79,8 @@ class PromoResource extends Resource
                 Tables\Columns\TextColumn::make('title')
                     ->label('Название')
                     ->searchable(),
+                Tables\Columns\ToggleColumn::make('flg_active')
+                    ->label('Есть на сайте'),
                 Tables\Columns\TextColumn::make('link_text')
                     ->label('Текст ссылки')
                     ->searchable(),

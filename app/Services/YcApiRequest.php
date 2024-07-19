@@ -23,8 +23,6 @@ class YcApiRequest
             ->get($url)
             ->collect();
 
-//        dd($yc_response);
-
         $response = $yc_response['data'] ?? $yc_response;
         return $response;
     }

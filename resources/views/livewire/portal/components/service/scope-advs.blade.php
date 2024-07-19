@@ -48,7 +48,7 @@
         </div>
     </div>
 
-    <div class="content sp_advs_wrap">
+    <div class="content @if(count($advs) < 6) two_columns @else three_columns @endif  sp_advs_wrap">
         @foreach($advs as $adv)
             <div class="adv_wrap">
                 <h2>{{$adv['title']}}</h2>

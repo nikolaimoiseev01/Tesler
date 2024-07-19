@@ -43,27 +43,30 @@ class ScopeResource extends Resource
                         ->columnSpanFull(),
                     Forms\Components\Toggle::make('flg_active')
                         ->label('Есть на сайте?'),
-                ])->columnSpan(3),
-                Forms\Components\SpatieMediaLibraryFileUpload::make('main_page_pic')
-                    ->collection('main_page_pic')
-                    ->label('Обложка на главной странице')
-                    ->image()
-                    ->imageEditor()
-                    ->imageEditorMode(2)
-                    ->imageResizeMode('cover')
-                    ->imageResizeTargetHeight(640)
-                    ->imageResizeTargetWidth(388)
-                    ->imageCropAspectRatio('388:640')
-                    ->columnSpan(['lg' => 1]),
-                Forms\Components\SpatieMediaLibraryFileUpload::make('scope_page_pic')
-                    ->collection('scope_page_pic')
-                    ->image()
-                    ->label('Обложка на странице сферы')
-                    ->imageEditor()
-                    ->imageEditorMode(2)
-                    ->imageResizeMode('cover')
-                    ->imageCropAspectRatio('1662:729')
-                    ->columnSpan(['lg' => 1]),
+                ]),
+                Forms\Components\Section::make()->schema([
+                    Forms\Components\SpatieMediaLibraryFileUpload::make('main_page_pic')
+                        ->collection('main_page_pic')
+                        ->label('Обложка на главной странице')
+                        ->image()
+                        ->imageEditor()
+                        ->imageEditorMode(2)
+                        ->imageResizeMode('cover')
+                        ->imageResizeTargetHeight(640)
+                        ->imageResizeTargetWidth(388)
+                        ->imageCropAspectRatio('388:640')
+                        ->columnSpan(['lg' => 1]),
+                    Forms\Components\SpatieMediaLibraryFileUpload::make('scope_page_pic')
+                        ->collection('scope_page_pic')
+                        ->image()
+                        ->label('Обложка на странице сферы')
+                        ->imageEditor()
+                        ->imageEditorMode(2)
+                        ->imageResizeMode('cover')
+                        ->imageCropAspectRatio('1662:729')
+                        ->columnSpan(['lg' => 1]),
+                ])->columns(1)->columnSpanFull(),
+
                 Forms\Components\Section::make()->schema([
                     Repeater::make('faqs')
                         ->schema([
@@ -82,7 +85,7 @@ class ScopeResource extends Resource
                         ->addAction(
                             fn(Action $action) => $action->label('Добавить вопрос'),
                         )
-                ])->heading('Популярные вопросы'),
+                ])->columnSpanFull()->heading('Популярные вопросы'),
                 Forms\Components\Section::make()->schema([
                     Repeater::make('advs')
                         ->schema([
@@ -102,6 +105,7 @@ class ScopeResource extends Resource
                             fn(Action $action) => $action->label('Добавить преимущество'),
                         )
                 ])->heading('Преимущества в сфере')
+
 
             ]);
     }

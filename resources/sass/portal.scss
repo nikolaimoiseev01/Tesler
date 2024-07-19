@@ -1009,7 +1009,7 @@
     display: none;
 
     @media (max-width: $media-mobiles-480) {
-        display: initial;
+        display: -webkit-box;
     }
 
     .navigation {
@@ -4007,11 +4007,22 @@
 }
 
 .sp_advs_wrap {
-    display: flex;
+    display: grid;
     flex-wrap: wrap;
     justify-content: space-between;
     gap: 100px;
     margin-top: 100px;
+
+    &.two_columns {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    &.three_columns {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .adv_wrap:nth-of-type(even) {
+        justify-self: end;
+    }
 
     @media (max-width: $media-desktops-1200) {
         justify-content: center;

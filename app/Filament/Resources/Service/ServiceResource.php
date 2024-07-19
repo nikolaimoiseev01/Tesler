@@ -194,15 +194,7 @@ class ServiceResource extends Resource
                 Tables\Columns\TextColumn::make('yc_id')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('flg_active')
-                    ->badge()
-                    ->getStateUsing(function (Model $record) {
-                        return $record['flg_active'] == 1 ? 'Да' : 'Нет';
-                    })
-                    ->color(fn(string $state): string => match ($state) {
-                        'Да' => 'success',
-                        'Нет' => 'warning'
-                    })
+                Tables\Columns\ToggleColumn::make('flg_active')
                     ->label('Активно?')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('name')
@@ -239,8 +231,8 @@ class ServiceResource extends Resource
                     ->label('Группа')
                     ->relationship('group', 'name'),
                 Tables\Filters\SelectFilter::make('yc_category_name')
-                    ->attribute('id')
-                    ->options(Service::all()->whereNotNull('yc_category_name')->pluck('yc_category_name', 'id')->unique())
+                    ->attribute('yc_category_name')
+                    ->options(Service::all()->whereNotNull('yc_category_name')->pluck('yc_category_name', 'yc_category_name')->unique())
                     ->label('YC Категория'),
             ])->filtersFormColumns(2)
             ->actions([

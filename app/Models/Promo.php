@@ -15,7 +15,8 @@ class Promo extends Model implements HasMedia
         'link',
         'link_text',
         'type',
-        'position'
+        'position',
+        'flg_active'
     ];
 
     use InteractsWithMedia;
