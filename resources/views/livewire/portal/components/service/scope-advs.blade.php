@@ -6,6 +6,9 @@
             opacity: 0.5;
             pointer-events: none;
         }
+        .slick-slide {
+            width: fit-content;
+        }
     </style>
 @endsection
 
@@ -60,11 +63,10 @@
 
 @push('scripts')
     <script>
-        var $slickElement_slider = $('.slider').not('.slick-initialized');
+        var $slickElement_slider = $('.slider');
 
         var $status_slider = $('.pagingInfo_slider');
         $slickElement_slider.on('init reInit afterChange', function (event, slick, currentSlide, nextSlide) {
-            console.log('test')
             //currentSlide is undefined on init -- set it to 0 in this case (currentSlide is 0 based)
             var i = (currentSlide ? currentSlide : 0) + 1;
             $status_slider.text(i + '/' + slick.slideCount);
@@ -73,14 +75,15 @@
         $slickElement_slider.slick({
             infinite: true,
             slidesToShow: 2,
-            touchThreshold: 250,
+            touchThreshold: 700,
+            adaptiveHeight: true,
             responsive: [
                 {
-                    breakpoint: 768,
-                    settings: {
-                        slidesToShow: 5,
-                        infinite: true,
-                    }
+                    // breakpoint: 768,
+                    // settings: {
+                    //     slidesToShow: 5,
+                    //     infinite: true,
+                    // }
                 },
                 // {
                 //     breakpoint: 480,
