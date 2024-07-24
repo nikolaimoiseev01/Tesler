@@ -131,7 +131,7 @@ class ServiceYcOperations
             $idExists = array_search($our_service['yc_id'], $idColumn) !== false;
 
             if (!$idExists) {  // ЕСЛИ В YC нет такой услуги
-                $this->description['Удалили, потому что не нашли таких в YC'][] = [
+                $this->description['3. Удалили, потому что не нашли таких в YC'][] = [
                     'yc_id' => $our_service['yc_id'],
                     'title' => $our_service['title'],
                 ];
@@ -182,7 +182,7 @@ class ServiceYcOperations
                         ]);
                     }
 
-                    $this->description['Обновили инфо из YClients'][] = [
+                    $this->description['3. Обновили инфо из YClients'][] = [
                         'yc_id' => $yc_service['id'],
                         'title' => $yc_service['title'],
                     ];
@@ -205,7 +205,7 @@ class ServiceYcOperations
                         'flg_comp_2' => $yc_service['flg_2']
                     ]);
 
-                    $this->description['Добавили новых из YClients'][] = [
+                    $this->description['1. Добавили новых из YClients'][] = [
                         'yc_id' => $yc_service['id'],
                         'title' => $yc_service['title'],
                     ];

@@ -51,21 +51,21 @@ class RefreshLogResource extends Resource
                         ->label('')
                         ->formatStateUsing(function (RefreshLog $refreshLog): HtmlString {
                             $array = json_decode($refreshLog['description'], true);
-
+                            $array = collect($array)->sortKeys()->toArray();
                             $html = '';
 
                             foreach ($array as $group => $values) {
 
-                                $html .= "<br><b>{$group}</b><br>";
+                                $html .= "<div x-data='{ open: false }' class='group'><br><b>{$group}</b> <span @click=\"open = !open\" x-text=\"open ? `Скрыть` : `Подробнее`\"></span><br>";
                                 foreach ($values as $key => $elements) {
-                                    $html .= "<b>{$key}: yc_id = {$elements['yc_id']}</b>";
+                                    $html .= "<b x-show='open'>{$key}: yc_id = {$elements['yc_id']}</b>";
                                     foreach ($elements as $key => $value) {
                                         if ($key <> 'yc_id') {
-                                            $html .= "<p>{$key} -> {$value}</p>";
+                                            $html .= "<p x-show='open'>{$key} -> {$value}</p>";
                                         }
                                     }
                                 }
-
+                                $html .= "</div>";
                             }
                             $html = new HtmlString($html);
                             return $html;
