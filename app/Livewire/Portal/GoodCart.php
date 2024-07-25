@@ -32,7 +32,7 @@ class GoodCart extends Component
     public $address;
 
     /* Стоимость товаров, с которой начинается платная доставка (елси НЕ Красноярск) */
-    public $delivery_price_treshhold = 6000;
+    public $delivery_price_treshhold = 5500;
 
     /* Стоимость товаров, с которой начинается платная доставка (елси Красноярск) */
     public $delivery_price_treshhold_home = 3500;
