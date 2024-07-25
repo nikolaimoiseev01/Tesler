@@ -13,6 +13,41 @@ use Illuminate\Support\Facades\Http;
 
 class StaffYcOperations
 {
+
+    public function makeStaff() {
+        // Отдельно сохраняем услуги каждого филиала
+        $yc_shops = config('cons.yc_shops');
+        $yc_staffs_comp_1 = (new YcApiRequest)->make_request('company', 'staff', $yc_shops[0]);
+        $yc_staffs_comp_2 = (new YcApiRequest)->make_request('company', 'staff', $yc_shops[1]);
+
+        $mergedArray = [];
+        $idMap = [];
+
+        // Проставляем флаги для 1 филиала
+        foreach ($yc_staffs_comp_1 as $item) {
+            $id = $item['id'];
+            $item['flg_1'] = true;
+            $item['flg_2'] = false;
+            $mergedArray[$id] = $item;
+            $idMap[$id] = 1;
+        }
+
+        // Проставлем остальные флаги.
+        foreach ($yc_staffs_comp_2 as $item) {
+            $id = $item['id'];
+            if (isset($mergedArray[$id])) {
+                $mergedArray[$id]['flg_2'] = true;
+            } else {
+                $item['flg_1'] = false;
+                $item['flg_2'] = true;
+                $mergedArray[$id] = $item;
+            }
+            $idMap[$id] = 1;
+        }
+
+        // Берем уникальные ID
+        $this->yc_staffs = array_values($mergedArray);
+    }
     public function refreshAll()
     {
 
@@ -20,9 +55,10 @@ class StaffYcOperations
 
         DB::transaction(function () { // Чтобы не записать ненужного
 
-            $yc_staffs = (new YcApiRequest)->make_request('company', 'staff');
+            $this->makeStaff();
 
-            $yc_staffs = array_values(Arr::where($yc_staffs, function ($value, $key) {
+
+           $this->yc_staffs = array_values(Arr::where($this->yc_staffs, function ($value, $key) {
                 return $value['fired'] == 0;
             })); // Только неуволенных сотрудников
 
@@ -34,10 +70,10 @@ class StaffYcOperations
             // Понимаем, кто есть в нашей системе, но уже удален из YClients
             $our_staffs = Staff::all()->toArray();
 
-            $yc_staffs_ids = array_column($yc_staffs, 'id');
+            $this->yc_staffs_ids = array_column($this->yc_staffs, 'id');
             $our_staffs_ids = array_column($our_staffs, 'yc_id');
 
-            $missingIds = array_diff($our_staffs_ids, $yc_staffs_ids);
+            $missingIds = array_diff($our_staffs_ids, $this->yc_staffs_ids);
 
             if ($missingIds) { // Удаляем из нашей системы тех, кого нет в YClients
 
@@ -60,7 +96,7 @@ class StaffYcOperations
                 DB::delete($sql);
             }
 
-            foreach ($yc_staffs as $yc_staff) { // Идем по всем сотрудникам YCLIENTS
+            foreach ($this->yc_staffs as $yc_staff) { // Идем по всем сотрудникам YCLIENTS
 
                 $staff_found = Staff::where('yc_id', $yc_staff['id'])->first();
 

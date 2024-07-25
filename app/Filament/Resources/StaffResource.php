@@ -156,18 +156,8 @@ class StaffResource extends Resource
                 Tables\Columns\TextColumn::make('yc_position')
                     ->label('Позиция YC')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('flg_active')
-                    ->badge()
+                Tables\Columns\ToggleColumn::make('flg_active')
                     ->label('Есть на сайте?')
-                    ->getStateUsing(function (Model $record) {
-                        return $record['flg_active'] == 1 ? 'Есть на сайте' : 'Скрыто';
-                    })
-                    ->color(fn(string $state): string => match ($state) {
-                        'Есть на сайте' => 'success',
-                        'Скрыто' => 'warning'
-                    })
-                    ->numeric()
-                    ->sortable(),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('yc_name')
