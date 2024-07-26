@@ -71,7 +71,7 @@ class RefreshLogResource extends Resource
                             return $html;
                         })
                         ->columnSpanFull()
-                ])->collapsed()
+                ])
 
 //                Forms\Components\TextInput::make('model')
 //                    ->required()

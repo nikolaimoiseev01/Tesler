@@ -149,14 +149,18 @@ class StaffResource extends Resource
                     ->circular(),
                 Tables\Columns\TextColumn::make('yc_name')
                     ->label('Имя')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('yc_specialization')
                     ->label('Специализация YC')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('yc_position')
+                    ->sortable()
                     ->label('Позиция YC')
                     ->searchable(),
                 Tables\Columns\ToggleColumn::make('flg_active')
+                    ->sortable()
                     ->label('Есть на сайте?')
             ])
             ->filters([

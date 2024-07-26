@@ -47,6 +47,7 @@ class StaffYcOperations
 
         // Берем уникальные ID
         $this->yc_staffs = array_values($mergedArray);
+
     }
     public function refreshAll()
     {
@@ -103,7 +104,7 @@ class StaffYcOperations
                 if (isset($staff_found) ? $staff_found : null) { // Если есть в системе
                     if ($yc_staff['fired'] == 1) { // Если сотрудник уволен удаляем его
 
-                        $description['Были в нашей системе, но на момент обновления были в статусе уволенных в YClients. Удалили их'][] = [
+                        $description['2. Были в нашей системе, но на момент обновления были в статусе уволенных в YClients. Удалили их'][] = [
                             'id' => $staff_found['id'],
                             'yc_id' => $staff_found['yc_id'],
                             'name' => $staff_found['yc_name'],
@@ -123,7 +124,7 @@ class StaffYcOperations
                             'yc_specialization' => $yc_staff['specialization'],
                         ]);
 
-                        $description['Обновили информацию по ним'][] = [
+                        $description['3. Обновили информацию по ним'][] = [
                             'id' => $staff_found['id'],
                             'yc_id' => $staff_found['yc_id'],
                             'name' => $staff_found['yc_name'],
@@ -132,21 +133,26 @@ class StaffYcOperations
 
                     }
                 } else { // Если сотрудника нет в системе
-                    array_push($created_staff, $yc_staff['name']);
-                    staff::create([
-                        'yc_id' => $yc_staff['id'],
-                        'yc_name' => $yc_staff['name'],
-                        'yc_avatar' => $yc_staff['avatar_big'],
-                        'yc_position' => $yc_staff['position']['title'] ?? '',
-                        'yc_specialization' => $yc_staff['specialization'],
-                    ]);
 
-                    $description['Добавили новых из YClients'][] = [
-                        'yc_id' => $yc_staff['id'],
-                        'name' => $yc_staff['name'],
-                        'specialization' => $yc_staff['specialization']
-                    ];
+                    $staff_created = staff::firstOrCreate(
+                        ['yc_name' => $yc_staff['name']], // Условие для поиска существующей записи
+                        [
+                            'yc_id' => $yc_staff['id'],
+                            'yc_avatar' => $yc_staff['avatar_big'],
+                            'yc_position' => $yc_staff['position']['title'] ?? '',
+                            'yc_specialization' => $yc_staff['specialization'],
+                        ]
+                    );
 
+                    // Проверяем, была ли запись создана
+                    if ($staff_created->wasRecentlyCreated) {
+                        array_push($created_staff, $yc_staff['name']);
+                        $description['1. Добавили новых из YClients'][] = [
+                            'yc_id' => $yc_staff['id'],
+                            'name' => $yc_staff['name'],
+                            'specialization' => $yc_staff['specialization']
+                        ];
+                    };
                 }
             }
 
