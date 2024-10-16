@@ -42,7 +42,6 @@ class TelegramNotification extends Notification
         return [TelegramChannel::class];
     }
 
-
     public function toTelegram($notifiable)
     {
 

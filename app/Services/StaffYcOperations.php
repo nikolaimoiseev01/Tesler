@@ -58,6 +58,12 @@ class StaffYcOperations
 
             $this->makeStaff();
 
+            foreach ($this->yc_staffs as $item) {
+                if($item['id'] == 3456895) {
+                    dd($item);
+                }
+            }
+
 
            $this->yc_staffs = array_values(Arr::where($this->yc_staffs, function ($value, $key) {
                 return $value['fired'] == 0;
