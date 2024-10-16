@@ -58,11 +58,11 @@ class StaffYcOperations
 
             $this->makeStaff();
 
-            foreach ($this->yc_staffs as $item) {
-                if($item['id'] == 3456895) {
-                    dd($item);
-                }
-            }
+//            foreach ($this->yc_staffs as $item) {
+//                if($item['id'] == 3456895) {
+//                    dd($item);
+//                }
+//            }
 
 
            $this->yc_staffs = array_values(Arr::where($this->yc_staffs, function ($value, $key) {
@@ -141,9 +141,10 @@ class StaffYcOperations
                 } else { // Если сотрудника нет в системе
 
                     $staff_created = staff::firstOrCreate(
-                        ['yc_name' => $yc_staff['name']], // Условие для поиска существующей записи
+                        ['yc_id' => $yc_staff['id']], // Условие для поиска существующей записи
                         [
                             'yc_id' => $yc_staff['id'],
+                            'yc_name' => $yc_staff['name'],
                             'yc_avatar' => $yc_staff['avatar_big'],
                             'yc_position' => $yc_staff['position']['title'] ?? '',
                             'yc_specialization' => $yc_staff['specialization'],
