@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     setTimeout(function() {
                         setCookie(modal_id, true, 7);
                         open_modal(modal_id)
-                    }, 3000)
+                    }, 300)
                 }
 
             }
