@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const observerOptions = {
         root: null,
         rootMargin: '0px',
-        threshold: 0.5 // Срабатывает, когда 50% блока видно на экране
+        threshold: 0.1 // Срабатывает, когда 50% блока видно на экране
     };
 
     const observerCallback = (entries, observer) => {
