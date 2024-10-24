@@ -80,9 +80,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const observerCallback = (entries, observer) => {
         entries.forEach(entry => {
-            console.log('in callback')
             if (entry.isIntersecting) {
-                console.log('in observe')
                 cat_id = entry.target.getAttribute('cat_id')
                 modal_id = 'cat_modal_id_' + cat_id
 
@@ -90,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     setTimeout(function() {
                         setCookie(modal_id, true, 7);
                         open_modal(modal_id)
-                    }, 300)
+                    }, 1500)
                 }
 
             }
@@ -99,7 +97,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const observer = new IntersectionObserver(observerCallback, observerOptions);
     blocks.forEach(block => {
-        console.log('in func')
         observer.observe(block);
     });
 });
