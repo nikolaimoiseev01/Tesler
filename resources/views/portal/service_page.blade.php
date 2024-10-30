@@ -21,7 +21,7 @@
 
                 <h2>{{$service['name']}}</h2>
                 @if(Auth::check())
-                    <a href="{{route('service.edit', $service['id'])}}" class="link coal">Страница в Админке</a>
+                    <a href="/admin/service/services/{{$service['id']}}/edit" class="link coal">Страница в Админке</a>
                 @endif
 
                 <p>{{$service['desc_small']}}</p>
