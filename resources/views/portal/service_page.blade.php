@@ -141,6 +141,8 @@
         </x-ui.preview-cta>
     @endif
 
-    <x-ui.need-consultation/>
+    <x-ui.need-consultation
+        imgLink="{{$service->scope->getFirstMediaUrl('scope_service_page_pic')}}"
+    />
 
 @endsection

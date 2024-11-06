@@ -65,6 +65,18 @@ class ScopeResource extends Resource
                         ->imageResizeMode('cover')
                         ->imageCropAspectRatio('1662:729')
                         ->columnSpan(['lg' => 1]),
+                    Forms\Components\SpatieMediaLibraryFileUpload::make('scope_service_page_pic')
+                        ->collection('scope_service_page_pic')
+                        ->image()
+                        ->label('Обложка на странице услуги')
+                        ->hintIconTooltip('В блоке "Не опредилились с выбором?"')
+                        ->imageEditor()
+                        ->imageEditorMode(2)
+                        ->imageResizeMode('cover')
+                        ->imageResizeTargetWidth('610')
+                        ->imageResizeTargetHeight('700')
+                        ->imageCropAspectRatio('610:700')
+                        ->columnSpan(['lg' => 1]),
                 ])->columns(1)->columnSpanFull(),
 
                 Forms\Components\Section::make()->schema([
