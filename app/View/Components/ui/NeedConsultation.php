@@ -20,8 +20,6 @@ class NeedConsultation extends Component
         } else {
             $this->imgLink = $default_link;
         }
-
-        dd($this->imgLink);
     }
 
     /**
