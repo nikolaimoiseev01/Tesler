@@ -27,8 +27,8 @@ class NeedConsultation extends Component
      */
     public function render(): View|Closure|string
     {
-        dd(123);
-        dd($this->imglink);
-        return view('components.ui.need-consultation')->with('imglink', $this->imglink);
+        return view('components.ui.need-consultation', [
+            'imglink' => $this->imglink
+        ]);
     }
 }
