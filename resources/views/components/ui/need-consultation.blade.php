@@ -10,6 +10,6 @@
         <a modal-id="consult_modal" class="modal-link link-bg fern">Бесплатная консультация</a>
     </div>
     <div class="image_blackout">
-        <img src="{{$imglink ?? 'test'}}" alt="">
+        <img src="{{$imglink ?? config('cons.default_pic')}}" alt="">
     </div>
 </div>

@@ -15,14 +15,11 @@ class NeedConsultation extends Component
     public function __construct($imglink=null)
     {
         $default_link = config('cons.default_pic');
-//        if(is_null($imglink)) {
-//            $this->imglink = 'test';
-//        }
-//        if($imglink <> '') {
-//            $this->imgLink = $imglink;
-//        } else {
-//            $this->imgLink = $default_link;
-//        }
+        if($imglink <> '') {
+            $this->imgLink = $imglink;
+        } else {
+            $this->imgLink = $default_link;
+        }
     }
 
     /**
@@ -30,7 +27,6 @@ class NeedConsultation extends Component
      */
     public function render(): View|Closure|string
     {
-        dd(123);
         return view('components.ui.need-consultation', [
             'imglink' => $this->imglink
         ]);
