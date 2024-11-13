@@ -8,16 +8,16 @@ use Illuminate\View\Component;
 
 class NeedConsultation extends Component
 {
-    public $imgLink;
+    public $imglink;
     /**
      * Create a new component instance.
      */
-    public function __construct($imgLink=null)
+    public function __construct($imglink=null)
     {
         $default_link = config('cons.default_pic');
         dd($default_link);
-        if($imgLink <> '') {
-            $this->imgLink = $imgLink;
+        if($imglink <> '') {
+            $this->imgLink = $imglink;
         } else {
             $this->imgLink = $default_link;
         }
