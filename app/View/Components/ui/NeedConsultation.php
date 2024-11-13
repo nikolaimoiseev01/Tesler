@@ -14,8 +14,7 @@ class NeedConsultation extends Component
      */
     public function __construct($imglink=null)
     {
-        $this->imglink = 'test';
-//        $default_link = config('cons.default_pic');
+        $default_link = config('cons.default_pic');
 //        if(is_null($imglink)) {
 //            $this->imglink = 'test';
 //        }
