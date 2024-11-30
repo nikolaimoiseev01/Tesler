@@ -199,7 +199,7 @@ class YCApiTest extends Command
         // Подсчитываем количество моделей, у которых есть медиафайлы в коллекции 'good_examples'
         $count = Good::whereHas('media', function ($query) {
             $query->where('collection_name', 'good_examples');
-        })->get();
+        })->pluck('name');
         dd($count);
 //        $this->CreateYcGoods(); // Создаем уникальные товары из YClients
 //        dd(count($this->yc_goods));
