@@ -9,13 +9,15 @@ $yc_shops = [
         'order' => 1,
         'name' => 'Авиторов 21',
         'id' => 247576,
-        'storage_id' => ENV('APP_DEBUG') ? "1039381" : '1043605'
+        'storage_id' => ENV('APP_DEBUG') ? 1039381 : 1043605,
+        'good_for_sell_parent_category' => 481179
     ],
     [
         'order' => 2,
         'name' => 'Бограда 105',
         'id' => 921995,
-        'storage_id' => ENV('APP_DEBUG') ? "2174746" : '1857399'
+        'storage_id' => ENV('APP_DEBUG') ? 2174746 : 1857399,
+        'good_for_sell_parent_category' => 1389938
     ]
 
 ];

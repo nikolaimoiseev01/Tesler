@@ -19,11 +19,13 @@ class YcApiRequest
 
         $url = "https://api.yclients.com/api/v1/{$url_type}/{$shop['id']}/{$url_end}";
 
-        $yc_response = Http::withHeaders($YCLIENTS_HEADERS)
-            ->get($url)
-            ->collect();
+//        echo("Смотрим URL:{$url}\n");
 
-        $response = $yc_response['data'] ?? $yc_response;
+        $yc_response = Http::withHeaders($YCLIENTS_HEADERS)
+            ->get($url);
+
+        $response = $yc_response->collect()['data'] ?? $yc_response->collect();
+
         return $response;
     }
 

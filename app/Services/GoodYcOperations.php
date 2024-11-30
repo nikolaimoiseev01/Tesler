@@ -13,23 +13,39 @@ use Illuminate\Support\Facades\Http;
 
 class GoodYcOperations
 {
+    function getGoods($yc_shop) {
+        $changed_after = '2023-01-05T12:00:00';
+        $yc_goods = [];
+        for ($page = 0; $page <= 10; $page++) {
+            // Подгружаем товары на продажу
+            $request = (new YcApiRequest)->make_request('goods', '?count=100&changed_after=' . $changed_after . '&page=' . $page, $yc_shop);
+            if ($request) {
+                $yc_goods = array_merge($yc_goods, $request);
+            } else {
+                break;
+            }
+        }
+        return $yc_goods;
+    }
+
     public function refreshAll()
     {
         ini_set('max_execution_time', 3600);
 
+        $yc_shops = config('cons.yc_shops');
+
+        $yc_goods_comp1 = $this->getGoods($yc_shops[0]);
+
+        $desiredGoodId = 32779756;
+
+        $filteredItems = array_filter($yc_goods_comp1, function($item) use ($desiredGoodId) {
+            return $item['good_id'] == $desiredGoodId;
+        });
+
+        dd($filteredItems);
+
         DB::transaction(function () { // Чтобы не записать ненужного
 
-            $yc_goods = [];
-            $changed_after = '2023-01-05T12:00:00';
-            for ($page = 0; $page <= 10; $page++) {
-                // Подгружаем товары на продажу
-                $request = (new YcApiRequest)->make_request('goods', '?count=100&changed_after=' . $changed_after . '&page=' . $page);
-                if ($request) {
-                    $yc_goods = array_merge($yc_goods, $request);
-                } else {
-                    break;
-                }
-            }
 
             $desiredGoodId = 28701480;
 
