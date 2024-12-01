@@ -245,6 +245,8 @@ class GoodResource extends Resource
                     ->label('ID'),
                 Tables\Columns\TextColumn::make('name')
                     ->label('Название')
+                    ->limit(50)
+                    ->tooltip(fn(Good $record):string => $record['name'])
                     ->searchable(),
                 Tables\Columns\TextColumn::make('yc_category')
                     ->label('Категория из YClients')
@@ -264,15 +266,10 @@ class GoodResource extends Resource
                     })
                     ->label('Активно?')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('capacity')
-                    ->label('Объем')
-                    ->getStateUsing(function (Model $record) {
-                        return $record['capacity'] . ' ' . $record['capacity_type'];
-                    })
-                    ->numeric()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('goodtype.title')
                     ->label('Тип товара')
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('yc_actual_amount_total')
                     ->tooltip('На всех складах')
@@ -281,7 +278,15 @@ class GoodResource extends Resource
                     ->sortable(),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('yc_category')
+                    ->options(Good::all()->pluck('yc_category', 'yc_category')->unique())
+                    ->multiple()
+                    ->searchable()
+                    ->label('YC Категория'),
+                Tables\Filters\SelectFilter::make('flg_active')
+                    ->options(Good::all()->pluck('flg_active', 'flg_active')->unique())
+                    ->multiple()
+                    ->label('Активно')
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
