@@ -28,6 +28,6 @@ class GoodRefresh extends Command
      */
     public function handle()
     {
-        App::make(GoodYcOperations::class)->refreshAll();
+        App::make(GoodYcOperations::class)->fullGoodsUpdate();
     }
 }

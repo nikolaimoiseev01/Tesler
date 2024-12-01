@@ -16,6 +16,8 @@ use App\Models\ServiceAdds;
 use App\Models\Staff;
 use App\Models\User;
 use App\Notifications\MailNotification;
+use App\Notifications\TelegramNotification;
+use App\Services\GoodYcSale;
 use App\Services\YcApiRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -142,13 +144,13 @@ class PortalController extends Controller
         $yc_service = (new YcApiRequest())->make_request('company', "services/{$service['yc_id']}");
 //        dd($yc_service);
 
-        if($yc_service) {
+        if ($yc_service) {
             $yc_service = $yc_service['staff'] ?? null;
         } else {
             $yc_service = null;
         }
 
-        if($yc_service) {
+        if ($yc_service) {
             foreach ($yc_service as $arr) {
                 $options[] = current($arr);  // Converted to 1-d array
             }
@@ -325,7 +327,7 @@ class PortalController extends Controller
         $selected_from_staff = null;
 
         // Коллеги сотрудника
-        if($staff['collegues']) {
+        if ($staff['collegues']) {
             foreach ($staff['collegues'] as $collegue) {
                 $found_collegue = Staff::where('id', $collegue)->first() ?? null;
                 if ($found_collegue) {
@@ -430,116 +432,44 @@ class PortalController extends Controller
         Log::info($request);
         Log::info($request['Status'] == 'CONFIRMED');
         Log::info('// $request ENDED //');
-
-
-        $order = Order::where('tinkoff_order_id', $request['OrderId'])->first();
-
-
         Log::info('//  $request_Status STARTED //');
         Log::info($request['Status']);
         Log::info('//  $request_Status ENDED //');
 
 
-        if ($request['Status'] === 'CONFIRMED') { // ЕСЛИ УСПЕШНО ОПЛАЧЕНО, СОЗДАЕМ ОПЕРАЦИИ СПИСАНИЯ в YCLIENTS
+        $order = Order::where('tinkoff_order_id', $request['OrderId'])->first();
+        $statuses = [
+            'CONFIRMED' => 'Подтвержден',
+            'REJECTED' => 'Отклонен',
+            'REFUNDED' => 'Возвращен',
+        ];
+        $order->update([
+            'tinkoff_status' => $statuses[$request['Status']] ?? null,
+        ]);
 
-            $order = Order::where('tinkoff_order_id', $request['OrderId'])->first();
-
-            if ($order['tinkoff_status'] <> 'Подтвержден') { // Чтобы несколько раз не выполнялся
-
-                $user = User::where('id', 1)->first();
-                $user->notify(new MailNotification(
-                    'Новая покупка в магазине!',
-                    "Клиент оплатил покупку в магазине!.\n",
-                    "Подробнее",
-                    route('order.index')
-                ));
-
-                $YCLIENTS_SHOP_ID = ENV('YCLIENTS_SHOP_ID');
-                $YCLIENTS_HEADERS = [
-                    'Accept' => 'application/vnd.yclients.v2+json',
-                    'Authorization' => 'Bearer ' . ENV('YCLIENTS_BEARER') . ', User ' . ENV('YCLIENTS_ADMIN_TOKEN')
-                ];
-//        dd('Bearer ' . ENV('YCLIENTS_BEARER') . ', User ' . ENV('YCLIENTS_ADMIN_TOKEN'));
-
-                $url = 'https://api.yclients.com/api/v1/storage_operations/operation/' . $YCLIENTS_SHOP_ID;
+        if ($request['Status'] === 'CONFIRMED' && $order['tinkoff_status'] <> 'Подтвержден') { // ЕСЛИ УСПЕШНО ОПЛАЧЕНО, СОЗДАЕМ ОПЕРАЦИИ СПИСАНИЯ в YCLIENTS и проверяем, чтобы несколько раз не записать
 
 
-                foreach (json_decode($order['goods']) as $transaction) { // ИДЕМ ПО ВСЕМ ТОВАРАМ В ЗАКАЗЕ
+            // Посылаем уведомления, что новая покупка.
+            $title = 'Новая покупка в магазине!';
+            $text = "Клиент оплатил покупку в магазине!.\n";
+            $user = User::where('id', 1)->first();
+            $user->notify(new MailNotification( $title, $text,"Подробнее", route('order.index')));
+            \Illuminate\Support\Facades\Notification::route('telegram', env('TELEGRAM_CHAT_ID'))
+                ->notify(new TelegramNotification($title, $text, null, null));
 
-                    $total_price = $transaction->good_price * $transaction->amount;
+            foreach (json_decode($order['goods']) as $transaction) { // ИДЕМ ПО ВСЕМ ТОВАРАМ В ЗАКАЗЕ
 
-                    $data = "{
-              \"type_id\": 1,
-              \"create_date\": \"" . date('Y-m-d H:i:s') . "\",
-              \"storage_id\": " . ENV('YCLIENTS_SHOP_STORAGE') . ",
-              \"master_id\" : 724514,
-              \"goods_transactions\": [
-                  {
-                    \"document_id\": 123456,
-                    \"good_id\": " . $transaction->good_yc_id . ",
-                    \"amount\": " . $transaction->amount . ",
-                    \"cost_per_unit\": " . $transaction->good_price . ",
-                    \"discount\": 0,
-                    \"cost\": " . $total_price . ",
-                    \"operation_unit_type\": 1,
-                    \"master_id\" : 724514
-                  }
-              ]
-        }";
+                App::make(GoodYcSale::class)->makeGoodSale(
+                    good_yc_id: $transaction->good_yc_id,
+                    branch_id: $transaction->branch_id,
+                    storage_id: $transaction->storage_id,
+                    total_price: $transaction->good_price * $transaction->amount,
+                    goods_amount: $transaction->amount
+                );
 
-                    $make_operation = Http::withHeaders($YCLIENTS_HEADERS)
-                        ->withBody($data)
-                        ->post($url)
-                        ->collect();
-
-
-                    // Создаем продажу по операции
-
-                    $document_id = $make_operation['data']['document_id'];
-                    $url_selling = 'https://api.yclients.com/api/v1/company/' . $YCLIENTS_SHOP_ID . '/sale/' . $document_id . '/payment';
-
-                    $data_selling = "{
-                                    \"payment\": {
-                                        \"method\": {
-                                            \"slug\": \"account\",
-                                            \"account_id\": 472965
-                                        },
-                                    \"amount\": " . $total_price . "
-                                    }
-                                    }";
-
-                    $make_selling = Http::withHeaders($YCLIENTS_HEADERS)
-                        ->withBody($data_selling)
-                        ->post($url_selling)
-                        ->collect();
-
-                    $good = Good::where('id', $transaction->good_id)->first();
-
-                    $good->update([
-                        'yc_actual_amount' => $good['yc_actual_amount'] - $transaction->amount
-                    ]);
-
-                    if ($request['Status'] === 'CONFIRMED') {
-                        $status = 'Подтвержден';
-                    } else if ($request['Status'] === 'REJECTED') {
-                        $status = 'Отклонен';
-                    } else if ($request['Status'] === 'REFUNDED') {
-                        $status = 'Возвращен';
-                    }
-
-                    $order->update([
-                        'tinkoff_status' => $status,
-                    ]);
-
-                    $order->save();
-                    $good->save();
-
-
-                    Log::info('//  $make_operation STARTED //');
-                    Log::info($make_operation);
-                    Log::info('//  $make_operation ENDED //');
-                }
             }
+
         }
 
     }

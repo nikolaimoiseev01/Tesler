@@ -58,7 +58,7 @@ class RefreshLogResource extends Resource
 
                                 $html .= "<div x-data='{ open: false }' class='group'><br><b>{$group}</b> <span @click=\"open = !open\" x-text=\"open ? `Скрыть` : `Подробнее`\"></span><br>";
                                 foreach ($values as $key => $elements) {
-                                    $html .= "<b x-show='open'>{$key}: yc_id = {$elements['yc_id']}</b>";
+                                    $html .= "<b x-show='open'>{$key}: yc_id (в каждом филиале свой ID) = {$elements['yc_ids']}</b>";
                                     foreach ($elements as $key => $value) {
                                         if ($key <> 'yc_id') {
                                             $html .= "<p x-show='open'>{$key} -> {$value}</p>";

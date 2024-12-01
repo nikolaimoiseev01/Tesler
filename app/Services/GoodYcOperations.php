@@ -13,149 +13,299 @@ use Illuminate\Support\Facades\Http;
 
 class GoodYcOperations
 {
-    function getGoods($yc_shop) {
-        $changed_after = '2023-01-05T12:00:00';
-        $yc_goods = [];
-        for ($page = 0; $page <= 10; $page++) {
-            // Подгружаем товары на продажу
-            $request = (new YcApiRequest)->make_request('goods', '?count=100&changed_after=' . $changed_after . '&page=' . $page, $yc_shop);
-            if ($request) {
-                $yc_goods = array_merge($yc_goods, $request);
-            } else {
-                break;
-            }
-        }
-        return $yc_goods;
-    }
 
-    public function refreshAll()
+    public $yc_goods;
+    public $yc_shops;
+    public $log_description;
+
+    public $created_goods = 0;
+    public $deleted_goods = 0;
+    public $updated_goods = 0;
+
+    public function tempMakeNewYcIDS() // Метод запускается один раз при обновлении системы
     {
-        ini_set('max_execution_time', 3600);
+        $goods = Good::all();
+        foreach ($goods as $good) {
+            $new_yc_ids = json_encode([
+                [
+                    'sallon_id' => 247576,
+                    'good_id' => $good['yc_id']
+                ],
+                [
+                    'sallon_id' => 247576,
+                    'good_id' => $good['yc_id']
+                ]
+            ]);
+            $good->update([
+                'yc_ids' => $new_yc_ids
+            ]);
+        }
+        dd('Все товары обновлены!');
+    }
+    public function helpGetSameGoods($goods) // Вспомогательный метод
+    {
+        // Считаем количество каждого title
+        $titleCounts = array_count_values(array_column($goods, 'title'));
 
-        $yc_shops = config('cons.yc_shops');
-
-        $yc_goods_comp1 = $this->getGoods($yc_shops[0]);
-
-        $desiredGoodId = 32779756;
-
-        $filteredItems = array_filter($yc_goods_comp1, function($item) use ($desiredGoodId) {
-            return $item['good_id'] == $desiredGoodId;
+        // Фильтруем только те элементы, где title повторяется
+        $filteredData = array_filter($goods, function ($item) use ($titleCounts) {
+            return $titleCounts[$item['title']] > 1;
         });
 
-        dd($filteredItems);
+        // Сброс индексов
+        $filteredData = array_values($filteredData);
 
-        DB::transaction(function () { // Чтобы не записать ненужного
+        // Сортируем массив по ключу 'title'
+        usort($filteredData, function ($a, $b) {
+            return strcmp($a['title'], $b['title']);
+        });
 
+        dd($filteredData);
+    }
 
-            $desiredGoodId = 28701480;
+    public function helpGetParticularGood($goods, $title)
+    {
+        $filteredGoods = array_filter($goods, function ($item) use ($title) {
+            return $item['title'] === $title;
+        });
+        echo("Найденный товар:");
+        dd($filteredGoods);
+    } // Вспомогательный метод
 
-            $filteredItems = array_filter($yc_goods, function($item) use ($desiredGoodId) {
-                return $item['good_id'] == $desiredGoodId;
+    public function createBranchGoods($branch) // Понимаем список товаров в конкретном филиале
+    {
+        $goods = [];
+        // Получаем дочернии категории от папки "Товары на продажу" конкретного филиала
+        $url_type = 'goods/category_node';
+        $url_end = "{$branch['good_for_sell_parent_category']}?page=1&count=10";
+        $categories = (new YcApiRequest)->make_request($url_type, $url_end, $branch);
+
+        // Добавляем категории сертификатов и абонементов
+        $new_categiries = [
+            ['category_id' => $branch['abonement_category'], 'title' => 'Абонементы'],
+            ['category_id' => $branch['sert_category'], 'title' => 'Сертификаты']
+        ];
+        $categories['children'] = array_merge($categories['children'], $new_categiries);
+
+        foreach ($categories['children'] as $category) { // Идем по каждой категории и собираем товары
+            if ($category['category_id'] <> 0) { // Костыль, чтобы не подтягивать левые категории
+                $url_type = 'goods';
+                $url_end = "?category_id={$category['category_id']}";
+                $category_goods = (new YcApiRequest)->make_request($url_type, $url_end, $branch);
+                $goods = array_merge($goods, $category_goods);
+            }
+        }
+        return $goods;
+    }
+
+    public function filterActualAmountsInGood($yc_good) // Ставим поле actual_amounts на товарах из YClients, чтобы остались нужные storage и остатки
+    {
+
+        // Создаем карту yc_shops для быстрого доступа по storage_id
+        $yc_shops_map = [];
+        foreach ($this->yc_shops as $shop) {
+            $yc_shops_map[$shop['storage_id']] = [
+                'name' => $shop['name'],
+                'branch_id' => $shop['id'],
+                'order' => $shop['order']
+            ];
+        }
+
+        // Фильтруем и обогащаем данные в первом массиве
+        $result = array_values(array_filter(array_map(function ($storage) use ($yc_shops_map) {
+            $storage_id = (string)$storage['storage_id']; // Приводим storage_id к строке для корректного сравнения
+            if (isset($yc_shops_map[$storage_id])) {
+                // Добавляем информацию из yc_shops
+                return array_merge($storage, $yc_shops_map[$storage_id], ['good_enabled_in_branch' => true]);
+            }
+            return null;
+        }, $yc_good['actual_amounts'])));
+
+        // Проверяем отсутствующие storage_id и добавляем их
+        foreach ($yc_shops_map as $storage_id => $info) {
+            // Если storage_id отсутствует в результирующем массиве, добавляем его
+            $exists = array_filter($result, function ($item) use ($storage_id) {
+                return $item['storage_id'] === $storage_id;
             });
+            if (empty($exists)) {
+                $result[] = [
+                    'storage_id' => $storage_id,
+                    'branch_id' => $info['branch_id'],
+                    'amount' => 0,
+                    'good_enabled_in_branch' => false,
+                    'name' => $info['name'],
+                    'order' => $info['order']
+                ];
+            }
+        }
 
-            dd($filteredItems);
+        $yc_good['actual_amounts'] = $result;
 
+        return $yc_good;
+    }
 
-            dd($yc_goods[0]['actual_amounts']);
+    public function YcGoodsToUnique($yc_goods) // Схлопываем неуникальные товары, полученные из YC
+    {
+        // Массив для хранения уникальных товаров
+        $uniqueProducts = [];
 
-            $this->found_yc_goods = null;
-            $updated_goods = [];
-            $created_goods = [];
+        // Обработка товаров
+        foreach ($yc_goods as $yc_good) {
+            $yc_goodId = $yc_good['title'];
 
-            foreach ($yc_goods as $yc_good) { // Идем по всем товарам YCLIENTS
-                $good_found = Good::where('yc_id', $yc_good['good_id'])->first();
+            if (isset($uniqueProducts[$yc_goodId])) {
+                // Объединяем actual_amounts
+                $uniqueProducts[$yc_goodId]['actual_amounts'] = array_merge(
+                    $uniqueProducts[$yc_goodId]['actual_amounts'],
+                    $yc_good['actual_amounts']
+                );
+                $uniqueProducts[$yc_goodId]['yc_ids'][] = [
+                    'salon_id' => $yc_good['salon_id'],
+                    'good_id' => $yc_good['good_id']
+                ];
+            } else {
+                // Добавляем новый товар
+                $uniqueProducts[$yc_goodId] = $yc_good;
+                $uniqueProducts[$yc_goodId]['yc_ids'][] = [
+                    'salon_id' => $yc_good['salon_id'],
+                    'good_id' => $yc_good['good_id']
+                ];
+            }
+        }
 
-                $storage_id_key = array_search(ENV('YCLIENTS_SHOP_STORAGE'), array_column($yc_good['actual_amounts'], 'storage_id'));
+        echo("Шаг уникализации yc_goods успешно заверешен\n");
 
-                $yc_actual_amounts = $yc_good['actual_amounts'][$storage_id_key]['amount'] ?? null;
+        return $uniqueProducts;
+    }
 
-                if ($good_found ?? null) { // Если есть такой товар
-                    if ($good_found['name'] <> $yc_good['title'] || $good_found['yc_price'] <> $yc_good['cost'] || $good_found['yc_category'] <> $yc_good['category'] || $good_found['yc_actual_amount'] <> $yc_actual_amounts) {
+    public function makeYcGoods() // Общий метод создания нужного $this->yc_goods
+    {
 
-                        array_push($updated_goods, $yc_good['title']);
-                        $good_found->update([
-                            'yc_title' => $yc_good['title'],
-                            'yc_price' => $yc_good['cost'],
-                            'yc_category' => $yc_good['category'],
-                            'yc_actual_amount' => $yc_actual_amounts,
-                            'name' => $yc_good['title'],
-                        ]);
+        $this->yc_shops = config('cons.yc_shops');
 
-                        $description['Обновили инфо из YClients'][] = [
-                            'yc_id' => $yc_good['good_id'],
-                            'Название' => $yc_good['title'],
-                            'Остаток на складе' => $yc_actual_amounts
-                        ];
+        // Собираем товары каждого филиала
+        $yc_goods_comp_1 = $this->createBranchGoods($this->yc_shops[0]);
+        $yc_goods_comp_2 = $this->createBranchGoods($this->yc_shops[1]);
+        $merged_yc_goods = array_merge($yc_goods_comp_1, $yc_goods_comp_2);
+        $unique_yc_goods = $this->YcGoodsToUnique($merged_yc_goods); // Делаем уникальные товары (ПО НАЗВАНИЮ)
 
+        foreach ($unique_yc_goods as &$yc_good) { // Идем по всем YC товарам
+
+            $yc_good = $this->filterActualAmountsInGood($yc_good); // Оставляем только нужные склады в каждом товаре
+
+        }
+        unset($yc_good); // После завершения работы со ссылками обязательно сбросить ссылку
+
+        $this->yc_goods = array_values($unique_yc_goods);
+
+        echo("Шаг создания yc_goods успешно заверешен\n");
+
+//        $this->getSameGoods($unique_yc_goods); // Получить одинаковые товары по названию
+
+//        $this->helpGetParticularGood($unique_yc_goods, 'MUSK MOCHEQI Шёлковая SPA-маска с маслом семян жожоба 500 мл'); // Получить конкретное название из массива
+
+    }
+
+    public function createUpdateGoods() // Идем по всем товарам YC и обновляем нашу базу
+    {
+        DB::transaction(function () { // Чтобы не записать ненужного
+            foreach ($this->yc_goods as $yc_good) { // Идем по всем товарам из YC
+                $ids_to_search = array_column($yc_good['yc_ids'], 'good_id');
+                $good_found = Good::where(function ($query) use ($ids_to_search) { // Ищем товар в нашей системе по любым ID из YC
+                    foreach ($ids_to_search as $id) {
+                        $query->orWhereJsonContains('yc_ids', ['good_id' => $id]);
                     }
-                } else { // Если нет такого товара
-                    $this->found_yc_goods[] = [
-                        'yc_id' => $yc_good['good_id'],
+                })->first();
+
+                if ($good_found ?? null) { // Если находим такой товар у нас, обновляем его
+                    $good_found->update([
+                        'yc_ids' => json_encode($yc_good['yc_ids']),
                         'yc_title' => $yc_good['title'],
                         'yc_price' => $yc_good['cost'],
                         'yc_category' => $yc_good['category'],
-                        'yc_actual_amount' => $yc_actual_amounts,
-                        'last_change_date' => substr($yc_good['last_change_date'], 0, 10),
-                        'yc_active' => 0
-                    ];
-
-
-                }
-            }
-
-            // Берем только уникальные из новых
-            $unique_array = [];
-            if ($this->found_yc_goods ?? null) {
-                foreach ($this->found_yc_goods as $element) {
-                    $hash = $element['yc_id'];
-                    $unique_array[$hash] = $element;
-                }
-                $this->found_yc_goods = array_values($unique_array);
-            }
-
-            if ($this->found_yc_goods ?? null) {
-                foreach ($this->found_yc_goods as $found_yc_good) {
-
-                    array_push($created_goods, $found_yc_good['yc_title']);
-
-                    Good::create([
-                        'yc_id' => $found_yc_good['yc_id'],
-                        'yc_title' => $found_yc_good['yc_title'],
-                        'yc_price' => $found_yc_good['yc_price'],
-                        'yc_category' => $found_yc_good['yc_category'],
-                        'yc_actual_amount' => $found_yc_good['yc_actual_amount'],
-                        'flg_active' => 0,
-                        'name' => $found_yc_good['yc_title'],
+                        'yc_actual_amount' => $yc_good['actual_amounts'],
+                        'yc_actual_amount_total' => array_sum(array_column($yc_good['actual_amounts'], 'amount'))
                     ]);
 
-                    $description['Добавили новые товары из YClients'][] = [
-                        'yc_id' => $found_yc_good['yc_id'],
-                        'Название' => $found_yc_good['yc_title'],
-                        'Остаток на складе' => $found_yc_good['yc_actual_amount']
+                    $this->updated_goods += 1;
+                    $this->log_description['1. Обновили инфо из YClients'][] = [
+                        'yc_ids' => json_encode($yc_good['yc_ids']),
+                        'title' => $yc_good['title'],
                     ];
 
+                } else { // Если не находим такой товар, создаем
+                    Good::create([
+                        'yc_ids' => json_encode($yc_good['yc_ids']),
+                        'yc_title' => $yc_good['title'],
+                        'yc_price' => $yc_good['cost'],
+                        'yc_category' => $yc_good['category'],
+                        'yc_actual_amount' => json_encode($yc_good['actual_amounts']),
+                        'yc_actual_amount_total' => array_sum(array_column($yc_good['actual_amounts'], 'amount')),
+                        'name' => $yc_good['title'],
+                        'flg_active' => 0
+                    ]);
+                    $this->created_goods += 1;
+                    $this->log_description['2. Добавили новые из YClients'][] = [
+                        'yc_ids' => json_encode($yc_good['yc_ids']),
+                        'title' => $yc_good['title'],
+                    ];
+                }
 
+            }
+        });
+        echo("Шаг обновления успешно заверешен\n");
+    }
+
+    public function deleteUnused() // Идем по всем товарам нашей базы и удаляем тех, что уже нет в YC
+    {
+
+        DB::transaction(function () { // Чтобы не записать ненужного
+            $our_goods = Good::all();
+
+            // Находим все ID из YClients
+            $yc_ids_to_look_into = array_reduce($this->yc_goods, function ($carry, $item) {
+                if (isset($item['yc_ids'])) {
+                    $carry = array_merge($carry, array_column($item['yc_ids'], 'good_id'));
+                }
+                return $carry;
+            }, []);
+            foreach ($our_goods as $our_good) { // Идем по всем товарам НАШИМ
+                $ids_to_search = array_column(json_decode($our_good['yc_ids'], true), 'good_id');
+                $matches = array_intersect($ids_to_search, $yc_ids_to_look_into); // Находим пересечения
+
+                if (!$matches) { // Если такого товара нет в YClients
+                    $this->log_description['3. Удалили, потому что не нашли таких товаров в YC'][] = [
+                        'yc_ids' => $our_good['yc_ids'],
+                        'title' => $our_good['name'],
+                    ];
+                    $our_good->delete();
+                    $this->deleted_goods += 1;
                 }
             }
-
-
-            $created_goods = count($created_goods);
-            $updated_goods = count($updated_goods);
-            $title = '📡 Успешно обновили все товары! 📡';
-            $text = "Все товары на сайте были синхронизированы с YClients. Добавлено товаров: *{$created_goods}*\n Обновлено товаров: *{$updated_goods}*.";
-
-
-            RefreshLog::create([
-                'model' => 'Товары',
-                'type' => 'Синхронизация с YClients',
-                'summary' => $text,
-                'description' => json_encode($description) ?? 'Не нашли, что можно сделать'
-            ]);
-
-            // Посылаем Telegram уведомление нам
-            \Illuminate\Support\Facades\Notification::route('telegram', env('TELEGRAM_CHAT_ID'))
-                ->notify(new TelegramNotification($title, $text, null, null));
-
         });
+        echo("Шаг удаления успешно заверешен\n");
+
+    }
+
+    public function fullGoodsUpdate() {
+
+        //        $this->tempMakeNewYcIDS();
+        $this->makeYcGoods(); // Создаем уникальные товары из YClients
+        $this->createUpdateGoods(); // Обновляем товары в нашей системе из YClients
+        $this->deleteUnused(); // Удаляем товары в нашей системе, которых нет в YClients
+
+        $title = '📡 Успешно обновили все товары! 📡';
+        $text = "Все товары на сайте были синхронизированы с YClients. Добавлено новых: *{$this->created_goods}* \nУдалено с сайта: *{$this->deleted_goods}* \nОбновили информацию: *$this->updated_goods*.";
+
+        RefreshLog::create([
+            'model' => 'Товары',
+            'type' => 'Синхронизация с YClients',
+            'summary' => $text,
+            'description' => json_encode($this->log_description) ?? 'Не нашли, что можно сделать'
+        ]);
+
+        // Посылаем Telegram уведомление нам
+        \Illuminate\Support\Facades\Notification::route('telegram', env('TELEGRAM_CHAT_ID'))
+            ->notify(new TelegramNotification($title, $text, null, null));
     }
 }

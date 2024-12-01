@@ -21,6 +21,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\HtmlString;
 
 class GoodResource extends Resource
 {
@@ -188,9 +189,22 @@ class GoodResource extends Resource
                             ->label('Получено из YClients')
                             ->schema([
                                 Forms\Components\Grid::make()->schema([
-                                    Placeholder::make('yc_id')
+                                    Placeholder::make('yc_ids')
+                                        ->hintIcon('heroicon-o-question-mark-circle')
+                                        ->hintIconTooltip('В каждом салоне свой ID')
                                         ->label('YC ID')
-                                        ->content(fn(Good $record): string => $record['yc_id']),
+                                        ->content(fn(Good $record): string => $record['yc_ids']),
+                                    Placeholder::make('yc_actual_amount')
+                                        ->hintIcon('heroicon-o-question-mark-circle')
+                                        ->hintIconTooltip('В каждом салоне свой ID')
+                                        ->label('Остатки на разных складах')
+                                        ->content(function (Good $record) {
+                                            $string = '';
+                                            foreach (json_decode($record['yc_actual_amount']) as $item) {
+                                                $string .= "Филиал: $item->name, Склад: $item->storage_id, Остаток: $item->amount<br>";
+                                            }
+                                            return new HtmlString($string);
+                                        }),
                                     Placeholder::make('yc_title')
                                         ->label('Название')
                                         ->content(fn(Good $record): string => $record['yc_title']),
@@ -201,7 +215,8 @@ class GoodResource extends Resource
                                         ->label('Цена')
                                         ->content(fn(Good $record): string => $record['yc_price']),
                                 ])
-                            ]),
+                            ])
+                        ,
                         Tabs\Tab::make('Изображения')
                             ->schema([
                                 Forms\Components\SpatieMediaLibraryFileUpload::make('good_examples')
@@ -228,8 +243,6 @@ class GoodResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('id')
                     ->label('ID'),
-                Tables\Columns\TextColumn::make('yc_id')
-                    ->label('YC ID'),
                 Tables\Columns\TextColumn::make('name')
                     ->label('Название')
                     ->searchable(),
@@ -261,7 +274,8 @@ class GoodResource extends Resource
                 Tables\Columns\TextColumn::make('goodtype.title')
                     ->label('Тип товара')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('yc_actual_amount')
+                Tables\Columns\TextColumn::make('yc_actual_amount_total')
+                    ->tooltip('На всех складах')
                     ->label('Остаток из YClients')
                     ->numeric()
                     ->sortable(),

@@ -22,7 +22,7 @@ class EditGood extends EditRecord
                 ->label('Страница на сайте')
                 ->url(fn(Good $good) => route('good_page', $good['id']))
                 ->tooltip('Откроется в новом окне')
-                ->openUrlInNewTab()
+                ->openUrlInNewTab(),
         ];
     }
 

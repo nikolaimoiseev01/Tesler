@@ -18,6 +18,7 @@ class Good extends Model implements HasMedia
         'yc_price',
         'yc_category',
         'yc_actual_amount',
+        'yc_actual_amount_total',
         'flg_active',
         'scope_id',
         'category_id',
@@ -37,7 +38,8 @@ class Good extends Model implements HasMedia
         'brand',
         'promo_text',
         'discount',
-        'flg_big_block'
+        'flg_big_block',
+        'yc_ids'
     ];
 
 
