@@ -285,23 +285,23 @@ class GoodYcOperations
 
     public function fullGoodsUpdate() {
 
-                $this->tempMakeNewYcIDS();
-//        $this->makeYcGoods(); // Создаем уникальные товары из YClients
-//        $this->createUpdateGoods(); // Обновляем товары в нашей системе из YClients
-//        $this->deleteUnused(); // Удаляем товары в нашей системе, которых нет в YClients
+//                $this->tempMakeNewYcIDS();
+        $this->makeYcGoods(); // Создаем уникальные товары из YClients
+        $this->createUpdateGoods(); // Обновляем товары в нашей системе из YClients
+        $this->deleteUnused(); // Удаляем товары в нашей системе, которых нет в YClients
 
-//        $title = '📡 Успешно обновили все товары! 📡';
-//        $text = "Все товары на сайте были синхронизированы с YClients. Добавлено новых: *{$this->created_goods}* \nУдалено с сайта: *{$this->deleted_goods}* \nОбновили информацию: *$this->updated_goods*.";
-//
-//        RefreshLog::create([
-//            'model' => 'Товары',
-//            'type' => 'Синхронизация с YClients',
-//            'summary' => $text,
-//            'description' => json_encode($this->log_description) ?? 'Не нашли, что можно сделать'
-//        ]);
-//
-//        // Посылаем Telegram уведомление нам
-//        \Illuminate\Support\Facades\Notification::route('telegram', env('TELEGRAM_CHAT_ID'))
-//            ->notify(new TelegramNotification($title, $text, null, null));
+        $title = '📡 Успешно обновили все товары! 📡';
+        $text = "Все товары на сайте были синхронизированы с YClients. Добавлено новых: *{$this->created_goods}* \nУдалено с сайта: *{$this->deleted_goods}* \nОбновили информацию: *$this->updated_goods*.";
+
+        RefreshLog::create([
+            'model' => 'Товары',
+            'type' => 'Синхронизация с YClients',
+            'summary' => $text,
+            'description' => json_encode($this->log_description) ?? 'Не нашли, что можно сделать'
+        ]);
+
+        // Посылаем Telegram уведомление нам
+        \Illuminate\Support\Facades\Notification::route('telegram', env('TELEGRAM_CHAT_ID'))
+            ->notify(new TelegramNotification($title, $text, null, null));
     }
 }
