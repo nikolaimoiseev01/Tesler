@@ -18,12 +18,5 @@ class ListGoods extends ListRecords
         ];
     }
 
-    protected function getHeaderWidgets(): array
-    {
-        return [
-            GoodResource\Widgets\StatsOverview::class
-        ];
-    }
-
     protected static ?string $title = 'Товары';
 }
