@@ -28,11 +28,7 @@ class GoodYcOperations
         foreach ($goods as $good) {
             $new_yc_ids = json_encode([
                 [
-                    'sallon_id' => 247576,
-                    'good_id' => $good['yc_id']
-                ],
-                [
-                    'sallon_id' => 247576,
+                    'branch_id' => 247576,
                     'good_id' => $good['yc_id']
                 ]
             ]);
