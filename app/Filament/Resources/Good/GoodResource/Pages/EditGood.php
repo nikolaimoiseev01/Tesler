@@ -9,6 +9,7 @@ use App\Services\ServiceYcOperations;
 use Filament\Actions;
 use Filament\Actions\Action;
 use Filament\Resources\Pages\EditRecord;
+use Filament\Widgets\StatsOverviewWidget;
 use Illuminate\Support\Facades\App;
 
 class EditGood extends EditRecord
@@ -30,4 +31,6 @@ class EditGood extends EditRecord
     {
         return $this->record['name'];
     }
+
+
 }

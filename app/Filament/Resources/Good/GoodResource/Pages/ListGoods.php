@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Good\GoodResource\Pages;
 use App\Filament\Resources\Good\GoodResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use Filament\Widgets\StatsOverviewWidget;
 
 class ListGoods extends ListRecords
 {
@@ -14,6 +15,13 @@ class ListGoods extends ListRecords
     {
         return [
             Actions\CreateAction::make(),
+        ];
+    }
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            GoodResource\Widgets\StatsOverview::class
         ];
     }
 
