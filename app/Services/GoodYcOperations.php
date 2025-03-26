@@ -285,8 +285,10 @@ class GoodYcOperations
 
     public function fullGoodsUpdate() {
 
+
 //                $this->tempMakeNewYcIDS();
         $this->makeYcGoods(); // Создаем уникальные товары из YClients
+//        dd($this->yc_goods);
         $this->createUpdateGoods(); // Обновляем товары в нашей системе из YClients
         $this->deleteUnused(); // Удаляем товары в нашей системе, которых нет в YClients
 

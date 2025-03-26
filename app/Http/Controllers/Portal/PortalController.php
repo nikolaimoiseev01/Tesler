@@ -197,8 +197,8 @@ class PortalController extends Controller
             ->where('yc_category', '<>', 'Абонементы Сеть Tesler')
             ->Where('yc_category', '<>', 'Сертификаты Сеть Tesler')
             ->where('flg_active', 1)
+            ->where('yc_actual_amount_total', '>', 0)
             ->get();
-
 
         $goods_with_categories = [];
         foreach ($goods as $good) {

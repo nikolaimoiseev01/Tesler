@@ -1,7 +1,7 @@
 <div class="content welcome_menu">
     <div>
         <a style="color: {{$color}}" href="{{route('home')}}#scopes_main_page"> Услуги и прайс </a>
-        <a style="color: {{$color}}" href="{{route('market_page')}}"> Магазин </a>
+{{--        <a style="color: {{$color}}" href="{{route('market_page')}}"> Магазин </a>--}}
         <a style="color: {{$color}}" href="{{route('abonements_page')}}"> Абонементы и сертификаты </a>
         <a style="color: {{$color}}" href="{{route('loyalty_page')}}"> Программа лояльности </a>
         <a style="color: {{$color}}" href="{{route('home')}}#courses_main_page"> Курсы </a>
