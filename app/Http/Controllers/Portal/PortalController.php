@@ -271,6 +271,7 @@ class PortalController extends Controller
                 $query->where('yc_category', 'Абонементы Сеть Tesler')
                     ->orWhere('yc_category', 'Сертификаты Сеть Tesler');
             })
+            ->whereNotNull('good_category_id')
             ->get();
 
         $goods_with_categories = [];
