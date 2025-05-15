@@ -70,10 +70,16 @@ class GoodResource extends Resource
                                             Forms\Components\Select::make('good_category_id')
                                                 ->options(GoodCategory::all()->pluck('title', 'id'))
                                                 ->searchable()
+                                                ->dehydrateStateUsing(fn(string $state): string => intval($state))
                                                 ->label('Категория товара'),
                                         )
                                         ->required()
                                         ->label('')
+                                        ->mutateDehydratedStateUsing(function (array $state): array {
+                                            $intConverted = array_values(array_map(fn($item) => (int)$item['good_category_id'], $state));
+                                            return $intConverted;
+                                        }
+                                        )
                                         ->addAction(
                                             fn(Action $action) => $action->label('Добавить категорию'),
                                         )
@@ -247,7 +253,7 @@ class GoodResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->label('Название')
                     ->limit(50)
-                    ->tooltip(fn(Good $record):string => $record['name'])
+                    ->tooltip(fn(Good $record): string => $record['name'])
                     ->searchable(),
                 Tables\Columns\TextColumn::make('yc_category')
                     ->label('Категория из YClients')
