@@ -72,6 +72,7 @@ class GoodResource extends Resource
                                                 ->searchable()
                                                 ->label('Категория товара'),
                                         )
+                                        ->required()
                                         ->label('')
                                         ->addAction(
                                             fn(Action $action) => $action->label('Добавить категорию'),
