@@ -39,7 +39,8 @@ class Good extends Model implements HasMedia
         'promo_text',
         'discount',
         'flg_big_block',
-        'yc_ids'
+        'yc_ids',
+        'compound'
     ];
 
 

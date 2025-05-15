@@ -132,10 +132,21 @@ class GoodCart extends Component
         $good_to_add['image_url'] = $good_img_url;
         $good_to_add['sell_amount'] = 1;
 
+        // Сертификаты и абоны смотрим только по первому филиалу
+        if($good_to_add['good_category_id'][0] === 6 || $good_to_add['good_category_id'][0] === 7) {
+            $salon_id = 247576;
+        } else {
+            $salon_id = $this->chosen_yc_shop['id'];
+        }
+//        dd($good_to_add['yc_ids']);
+//        dd($this->chosen_yc_shop);
+        $good_to_add_yc_id = collect(json_decode($good_to_add['yc_ids']))->firstWhere('salon_id', $salon_id)->good_id ?? null;
         $yc_good = (new YcApiRequest)->make_request(
-            'goods',
-            $good_to_add['yc_id']
+            url_type: 'goods',
+            url_end: $good_to_add_yc_id
         );
+
+//        dd($yc_good);
 
         if ($yc_good['loyalty_certificate_type_id'] !== 0) { // Если это сертификат
             $url = 'https://o3194.yclients.com/loyalty/certificate/' . $yc_good['loyalty_certificate_type_id'];

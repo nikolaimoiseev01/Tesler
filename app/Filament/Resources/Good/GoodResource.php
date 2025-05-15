@@ -65,7 +65,7 @@ class GoodResource extends Resource
                                 ])->columns(8),
 
                                 Section::make('Категории товара')->schema([
-                                    Repeater::make('service_adds')
+                                    Repeater::make('good_category_id')
                                         ->simple(
                                             Forms\Components\Select::make('good_category_id')
                                                 ->options(GoodCategory::all()->pluck('title', 'id'))
