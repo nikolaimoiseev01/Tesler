@@ -19,6 +19,7 @@
         "laravel/ui": "^4.2",
         "livewire/livewire": "^3.0",
         "netflie/laravel-notification-whatsapp": "^1.1",
+        "opcodesio/log-viewer": "^3.17",
         "power-components/livewire-powergrid": "^5.6",
         "spatie/laravel-image-optimizer": "^1.7",
         "spatie/laravel-medialibrary": "^10.0.0",
