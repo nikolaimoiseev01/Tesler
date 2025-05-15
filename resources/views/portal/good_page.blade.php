@@ -10,12 +10,14 @@
 
         <x-ui.menu color="#111010"></x-ui.menu>
 
-        <div class="content g_bread_wrap">
-            <a href="{{route('market_page')}}" class="link coal">Магазин</a> / <a
-                href="{{route('good_category_page', $good['good_category_id'][0])}}"
-                class="link coal">{{\App\Models\Good\GoodCategory::where('id', $good['good_category_id'][0])->first(['title'])->title}}</a>
-            / <p>{{$good['name']}}</p>
-        </div>
+        @if($good['good_category_id'])
+            <div class="content g_bread_wrap">
+                <a href="{{route('market_page')}}" class="link coal">Магазин</a> / <a
+                    href="{{route('good_category_page', $good['good_category_id'][0])}}"
+                    class="link coal">{{\App\Models\Good\GoodCategory::where('id', $good['good_category_id'][0])->first(['title'])->title}}</a>
+                / <p>{{$good['name']}}</p>
+            </div>
+        @endif
 
 
         <div class="g_welcome_wrap">
