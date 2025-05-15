@@ -12,8 +12,8 @@
 
         <div class="content g_bread_wrap">
             <a href="{{route('market_page')}}" class="link coal">Магазин</a> / <a
-                    href="{{route('good_category_page', $good['good_category_id'][0])}}"
-                    class="link coal">{{\App\Models\Good\GoodCategory::where('id', $good['good_category_id'][0])->first(['title'])->title}}</a>
+                href="{{route('good_category_page', $good['good_category_id'][0])}}"
+                class="link coal">{{\App\Models\Good\GoodCategory::where('id', $good['good_category_id'][0])->first(['title'])->title}}</a>
             / <p>{{$good['name']}}</p>
         </div>
 
@@ -52,7 +52,8 @@
                 <p>{{$good['product_type']}}</p>
                 <h2>{{$good['name']}}</h2>
                 @if(Auth::check())
-                    <a href="/admin/good/goods/{{$good['id']}}/edit"  target="_blank" class="link coal">Страница в Админке</a>
+                    <a href="/admin/good/goods/{{$good['id']}}/edit" target="_blank" class="link coal">Страница в
+                        Админке</a>
 
                 @endif
                 @if($good['desc_small'])
@@ -84,7 +85,8 @@
                     </div>
 
                 </div>
-                <livewire:portal.components.good.add-to-cart-button :good="$good" type="link-bg coal"></livewire:portal.components.good.add-to-cart-button>
+                <livewire:portal.components.good.add-to-cart-button :good="$good"
+                                                                    type="link-bg coal"></livewire:portal.components.good.add-to-cart-button>
             </div>
         </div>
 
@@ -113,21 +115,23 @@
                     @endif
                 </div>
                 <div style="transition: .3s ease-in-out" class="list-wrap">
-                    <div id="description">
-                        <p class="desc">{{$good['desc']}}</p>
-                        @if(json_decode($good['specs_detailed']) != null)
-                            <p class="title">Подробныые характеристики</p>
-                            <div class="specs_detailed_wrap">
-                                @foreach(json_decode($good['specs_detailed']) as $spec)
-                                    <div class="spec_detailed_wrap">
-                                        <p>{{$spec->title}}</p>
-                                        <hr>
-                                        <p>{{$spec->value}}</p>
-                                    </div>
-                                @endforeach
-                            </div>
-                        @endif
-                    </div>
+                    @if($good['specs_detailed'] ?? null)
+                        <div id="description">
+                            <p class="desc">{{$good['desc']}}</p>
+                            @if(json_decode($good['specs_detailed']) != null)
+                                <p class="title">Подробныые характеристики</p>
+                                <div class="specs_detailed_wrap">
+                                    @foreach(json_decode($good['specs_detailed']) as $spec)
+                                        <div class="spec_detailed_wrap">
+                                            <p>{{$spec->title}}</p>
+                                            <hr>
+                                            <p>{{$spec->value}}</p>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @endif
+                        </div>
+                    @endif
                     @if(!$abon_check)
                         <div id="usage" class="hide">
                             <p style="margin-top:20px;" class="desc">{{$good['usage']}}</p>
