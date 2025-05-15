@@ -120,14 +120,14 @@
                     @if($good['specs_detailed'] ?? null)
                         <div id="description">
                             <p class="desc">{{$good['desc']}}</p>
-                            @if(json_decode($good['specs_detailed']) != null)
+                            @if($good['specs_detailed'] != null)
                                 <p class="title">Подробныые характеристики</p>
                                 <div class="specs_detailed_wrap">
-                                    @foreach(json_decode($good['specs_detailed']) as $spec)
+                                    @foreach($good['specs_detailed'] as $spec)
                                         <div class="spec_detailed_wrap">
-                                            <p>{{$spec->title}}</p>
+                                            <p>{{$spec['title']}}</p>
                                             <hr>
-                                            <p>{{$spec->value}}</p>
+                                            <p>{{$spec['value']}}</p>
                                         </div>
                                     @endforeach
                                 </div>
