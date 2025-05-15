@@ -275,8 +275,10 @@ class PortalController extends Controller
 
         $goods_with_categories = [];
         foreach ($goods as $good) {
-            foreach ($good['good_category_id'] as $category_id) {
-                array_push($goods_with_categories, $category_id);
+            if($good['good_category_id'] ?? null) {
+                foreach ($good['good_category_id'] as $category_id) {
+                    array_push($goods_with_categories, $category_id);
+                }
             }
         }
 
