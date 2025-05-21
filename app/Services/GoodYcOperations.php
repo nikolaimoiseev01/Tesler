@@ -59,10 +59,10 @@ class GoodYcOperations
         dd($filteredData);
     }
 
-    public function helpGetParticularGood($goods, $title)
+    public function helpGetParticularGood($goods, $filter_by_column, $filter_by_value)
     {
-        $filteredGoods = array_filter($goods, function ($item) use ($title) {
-            return $item['title'] === $title;
+        $filteredGoods = array_filter($goods, function ($item) use ($filter_by_column, $filter_by_value) {
+            return str_contains($item[$filter_by_column], $filter_by_value);
         });
         echo("Найденный товар:");
         dd($filteredGoods);
@@ -86,7 +86,7 @@ class GoodYcOperations
         foreach ($categories['children'] as $category) { // Идем по каждой категории и собираем товары
             if ($category['category_id'] <> 0) { // Костыль, чтобы не подтягивать левые категории
                 $url_type = 'goods';
-                $url_end = "?category_id={$category['category_id']}";
+                $url_end = "?category_id={$category['category_id']}&page=1&count=100";
                 $category_goods = (new YcApiRequest)->make_request($url_type, $url_end, $branch);
                 $goods = array_merge($goods, $category_goods);
             }
@@ -285,10 +285,13 @@ class GoodYcOperations
 
     public function fullGoodsUpdate() {
 
-
 //                $this->tempMakeNewYcIDS();
         $this->makeYcGoods(); // Создаем уникальные товары из YClients
-//        dd($this->yc_goods);
+
+//        $this->yc_shops = config('cons.yc_shops');
+//        $yc_goods_comp_1 = $this->createBranchGoods($this->yc_shops[0]);
+//        $this->helpGetParticularGood(goods: $yc_goods_comp_1, filter_by_column: 'title', filter_by_value:  'педикюр');
+
         $this->createUpdateGoods(); // Обновляем товары в нашей системе из YClients
         $this->deleteUnused(); // Удаляем товары в нашей системе, которых нет в YClients
 
