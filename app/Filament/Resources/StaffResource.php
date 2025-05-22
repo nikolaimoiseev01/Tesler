@@ -66,23 +66,23 @@ class StaffResource extends Resource
                                             ->default('1 год'),
                                     ])->columnSpan(1),
                                 ])->columns(3),
-                                Forms\Components\Grid::make(3)->schema([
-                                    Select::make('selected_shopset')
-                                        ->label('Шопсет в подборке')
-                                        ->options(ShopSet::all()->pluck('title', 'id'))
-                                        ->searchable()
-                                        ->required(),
-                                    Select::make('selected_sert')
-                                        ->label('Сертификат в подборке')
-                                        ->options(Good::whereJsonContains('good_category_id', 6)->pluck('name', 'id'))
-                                        ->searchable()
-                                        ->required(),
-                                    Select::make('selected_abon')
-                                        ->label('Абонемент в подборке')
-                                        ->options(Good::whereJsonContains('good_category_id', 7)->pluck('name', 'id'))
-                                        ->searchable()
-                                        ->required()
-                                ]),
+//                                Forms\Components\Grid::make(3)->schema([
+//                                    Select::make('selected_shopset')
+//                                        ->label('Шопсет в подборке')
+//                                        ->options(ShopSet::all()->pluck('title', 'id'))
+//                                        ->searchable()
+//                                        ->required(),
+//                                    Select::make('selected_sert')
+//                                        ->label('Сертификат в подборке')
+//                                        ->options(Good::whereJsonContains('good_category_id', 6)->pluck('name', 'id'))
+//                                        ->searchable()
+//                                        ->required(),
+//                                    Select::make('selected_abon')
+//                                        ->label('Абонемент в подборке')
+//                                        ->options(Good::whereJsonContains('good_category_id', 7)->pluck('name', 'id'))
+//                                        ->searchable()
+//                                        ->required()
+//                                ]),
                             ]),
                         Tabs\Tab::make('Получено от YClients')
                             ->schema([

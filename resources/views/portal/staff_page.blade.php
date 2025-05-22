@@ -84,12 +84,12 @@
         </div>
     @endif
 
-    @if($selected_from_staff ?? null && count($selected_from_staff)>0)
-        <x-ui.preview-cta
-            title="Подборки от мастера"
-            link="{{route('market_page')}}"
-            :cards="$selected_from_staff"></x-ui.preview-cta>
-    @endif
+{{--    @if($selected_from_staff ?? null && count($selected_from_staff)>0)--}}
+{{--        <x-ui.preview-cta--}}
+{{--            title="Подборки от мастера"--}}
+{{--            link="{{route('market_page')}}"--}}
+{{--            :cards="$selected_from_staff"></x-ui.preview-cta>--}}
+{{--    @endif--}}
 
     <x-ui.need-consultation/>
 
