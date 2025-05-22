@@ -74,12 +74,12 @@ class StaffResource extends Resource
                                         ->required(),
                                     Select::make('selected_sert')
                                         ->label('Сертификат в подборке')
-                                        ->options(Good::where('yc_category', 'Сертификаты Сеть Tesler')->pluck('name', 'id'))
+                                        ->options(Good::whereJsonContains('good_category_id', 6)->pluck('name', 'id'))
                                         ->searchable()
                                         ->required(),
                                     Select::make('selected_abon')
                                         ->label('Абонемент в подборке')
-                                        ->options(Good::where('yc_category', 'Абонементы Сеть Tesler')->pluck('name', 'id'))
+                                        ->options(Good::whereJsonContains('good_category_id', 7)->pluck('name', 'id'))
                                         ->searchable()
                                         ->required()
                                 ]),
