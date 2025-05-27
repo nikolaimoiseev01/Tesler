@@ -67,7 +67,7 @@
                 @foreach($admins as $admin)
                     <div class="worker">
                         <a href="{{route('staff_page', $admin['yc_id'])}}">
-                            <img src="{{$admin['avatar']}}" alt="">
+                            <img src="{{$admin['yc_avatar']}}" alt="">
                             <p-400>{{$admin['yc_name']}}</p-400>
                             <p>{{$admin['yc_specialization']}}</p>
                         </a>
