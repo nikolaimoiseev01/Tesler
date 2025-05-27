@@ -45,8 +45,9 @@ class PortalController extends Controller
                 return $value['fired'] == 0;
             }
         });
+        $admins = Staff::where('yc_position', 'Администратор')->where('flg_active', 1)->latest()->limit(4)->get();
 
-        $admins = array_slice($admins, 0, 4);
+//        $admins = array_slice($admins, 0, 4);
 
         $promos = Promo::orderBy('position')->where('flg_active', true)->get();
 
@@ -325,12 +326,10 @@ class PortalController extends Controller
     {
 
         $staff = Staff::where('yc_id', $request->staff_yc_id)->first();
-        $shopsets_pre = ShopSet::where('staff_id', $staff['id'])->get();
-
         $selected_from_staff = null;
 
         // Коллеги сотрудника
-        if ($staff['collegues']) {
+        if ($staff['collegues'] ?? null) {
             foreach ($staff['collegues'] as $collegue) {
                 $found_collegue = Staff::where('id', $collegue)->first() ?? null;
                 if ($found_collegue) {
