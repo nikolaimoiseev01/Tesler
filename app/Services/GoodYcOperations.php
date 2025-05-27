@@ -38,6 +38,7 @@ class GoodYcOperations
         }
         dd('Все товары обновлены!');
     }
+
     public function helpGetSameGoods($goods) // Вспомогательный метод
     {
         // Считаем количество каждого title
@@ -214,15 +215,16 @@ class GoodYcOperations
                 })->first();
 
                 if ($good_found ?? null) { // Если находим такой товар у нас, обновляем его
+
                     $good_found->update([
                         'yc_ids' => json_encode($yc_good['yc_ids']),
+                        'name' => $yc_good['title'],
                         'yc_title' => $yc_good['title'],
                         'yc_price' => $yc_good['cost'],
                         'yc_category' => $yc_good['category'],
                         'yc_actual_amount' => $yc_good['actual_amounts'],
                         'yc_actual_amount_total' => array_sum(array_column($yc_good['actual_amounts'], 'amount'))
                     ]);
-
                     $this->updated_goods += 1;
                     $this->log_description['1. Обновили инфо из YClients'][] = [
                         'yc_ids' => json_encode($yc_good['yc_ids']),
@@ -246,7 +248,6 @@ class GoodYcOperations
                         'title' => $yc_good['title'],
                     ];
                 }
-
             }
         });
         echo("Шаг обновления успешно заверешен\n");
@@ -283,14 +284,15 @@ class GoodYcOperations
 
     }
 
-    public function fullGoodsUpdate() {
+    public function fullGoodsUpdate()
+    {
 
 //                $this->tempMakeNewYcIDS();
         $this->makeYcGoods(); // Создаем уникальные товары из YClients
 
 //        $this->yc_shops = config('cons.yc_shops');
 //        $yc_goods_comp_1 = $this->createBranchGoods($this->yc_shops[0]);
-//        $this->helpGetParticularGood(goods: $yc_goods_comp_1, filter_by_column: 'title', filter_by_value:  'педикюр');
+//        $this->helpGetParticularGood(goods: $this->yc_goods, filter_by_column: 'category_id', filter_by_value:  '445497');
 
         $this->createUpdateGoods(); // Обновляем товары в нашей системе из YClients
         $this->deleteUnused(); // Удаляем товары в нашей системе, которых нет в YClients
