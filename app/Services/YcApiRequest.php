@@ -14,9 +14,8 @@ class YcApiRequest
 
         $YCLIENTS_HEADERS = [
             'Accept' => 'application/vnd.yclients.v2+json',
-            'Authorization' => 'Bearer ' . ENV('YCLIENTS_BEARER') . ', User ' . ENV('YCLIENTS_ADMIN_TOKEN')
+            'Authorization' => 'Bearer ' . config('app.yclients.bearer') . ', User ' . config('app.yclients.admin_token')
         ];
-        dd($YCLIENTS_HEADERS);
 
         $url = "https://api.yclients.com/api/v1/{$url_type}/{$shop['id']}/{$url_end}";
 //        echo("Смотрим URL:{$url}\n");

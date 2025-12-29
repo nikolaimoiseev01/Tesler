@@ -213,4 +213,9 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
 
+    'yclients' => [
+        'bearer' => ENV('YCLIENTS_BEARER'),
+        'admin_token' => ENV('YCLIENTS_ADMIN_TOKEN'),
+    ]
+
 ];
