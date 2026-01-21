@@ -29,6 +29,7 @@ class AdminPanelProvider extends PanelProvider
             ->maxContentWidth(MaxWidth::Full)
             ->sidebarFullyCollapsibleOnDesktop()
             ->id('admin')
+            ->passwordReset()
             ->path('admin')
             ->favicon('/media/media_fixed/favicon/favicon_admin.png')
             ->login()
