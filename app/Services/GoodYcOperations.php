@@ -309,7 +309,7 @@ class GoodYcOperations
             'description' => json_encode($this->log_description) ?? 'Не нашли, что можно сделать'
         ]);
 
-        dd(config('app.telegram_chat_id'));
+//        dd(config('app.telegram_chat_id'));
 
         app(Telegram::class)->sendMessage([
             'chat_id' => config('app.telegram_chat_id'),
