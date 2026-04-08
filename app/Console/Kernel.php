@@ -21,9 +21,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('UpdateGoods')->timezone('Europe/Moscow')->dailyAt('21:00');
-        $schedule->command('UpdateStaff')->timezone('Europe/Moscow')->dailyAt('21:00');
-        $schedule->command('UpdateService')->timezone('Europe/Moscow')->dailyAt('21:00');
+        $schedule->command('app:good-refresh')->timezone('Europe/Moscow')->dailyAt('21:00');
+        $schedule->command('app:staff-refresh')->timezone('Europe/Moscow')->dailyAt('21:15');
+        $schedule->command('app:service-refresh')->timezone('Europe/Moscow')->dailyAt('21:30');
     }
 
     /**

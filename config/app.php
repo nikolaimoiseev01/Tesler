@@ -216,6 +216,8 @@ return [
     'yclients' => [
         'bearer' => ENV('YCLIENTS_BEARER'),
         'admin_token' => ENV('YCLIENTS_ADMIN_TOKEN'),
-    ]
+    ],
+
+    'telegram_chat_id' => ENV('TELEGRAM_CHAT_ID'),
 
 ];
