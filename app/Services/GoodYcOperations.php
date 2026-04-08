@@ -311,8 +311,10 @@ class GoodYcOperations
 
 //        dd(config('app.telegram_chat_id'));
 
+        echo config('app.telegram_chat_id');
+
         app(Telegram::class)->sendMessage([
-            'chat_id' => "-4272894582",
+            'chat_id' => config('app.telegram_chat_id'),
             'text' => "123",
             'parse_mode' => 'Markdown',
         ]);
