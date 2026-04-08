@@ -237,7 +237,7 @@ class ServiceYcOperations
 
 
         // Посылаем Telegram уведомление нам
-        \Illuminate\Support\Facades\Notification::route('telegram', env('TELEGRAM_CHAT_ID'))
+        \Illuminate\Support\Facades\Notification::route('telegram', config('app.telegram_chat_id'))
             ->notify(new TelegramNotification($title, $text, null, null));
 
     }

@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection ALL */
 
 namespace App\Services;
 
@@ -176,7 +176,7 @@ class StaffYcOperations
             ]);
 
             // Посылаем Telegram уведомление нам
-            Notification::route('telegram', env('TELEGRAM_CHAT_ID'))
+            Notification::route('telegram', config('app.telegram_chat_id'))
                 ->notify(new TelegramNotification($title, $text, null, null));
 
         });
