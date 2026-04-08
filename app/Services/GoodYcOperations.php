@@ -289,31 +289,31 @@ class GoodYcOperations
     public function fullGoodsUpdate()
     {
 
-//                $this->tempMakeNewYcIDS();
-        $this->makeYcGoods(); // Создаем уникальные товары из YClients
-
-//        $this->yc_shops = config('cons.yc_shops');
-//        $yc_goods_comp_1 = $this->createBranchGoods($this->yc_shops[0]);
-//        $this->helpGetParticularGood(goods: $this->yc_goods, filter_by_column: 'category_id', filter_by_value:  '445497');
-
-        $this->createUpdateGoods(); // Обновляем товары в нашей системе из YClients
-        $this->deleteUnused(); // Удаляем товары в нашей системе, которых нет в YClients
-
-        $title = '📡 Успешно обновили все товары! 📡';
-        $text = "Все товары на сайте были синхронизированы с YClients. Добавлено новых: *{$this->created_goods}* \nУдалено с сайта: *{$this->deleted_goods}* \nОбновили информацию: *$this->updated_goods*.";
-
-        RefreshLog::create([
-            'model' => 'Товары',
-            'type' => 'Синхронизация с YClients',
-            'summary' => $text,
-            'description' => json_encode($this->log_description) ?? 'Не нашли, что можно сделать'
-        ]);
+////                $this->tempMakeNewYcIDS();
+//        $this->makeYcGoods(); // Создаем уникальные товары из YClients
+//
+////        $this->yc_shops = config('cons.yc_shops');
+////        $yc_goods_comp_1 = $this->createBranchGoods($this->yc_shops[0]);
+////        $this->helpGetParticularGood(goods: $this->yc_goods, filter_by_column: 'category_id', filter_by_value:  '445497');
+//
+//        $this->createUpdateGoods(); // Обновляем товары в нашей системе из YClients
+//        $this->deleteUnused(); // Удаляем товары в нашей системе, которых нет в YClients
+//
+//        $title = '📡 Успешно обновили все товары! 📡';
+//        $text = "Все товары на сайте были синхронизированы с YClients. Добавлено новых: *{$this->created_goods}* \nУдалено с сайта: *{$this->deleted_goods}* \nОбновили информацию: *$this->updated_goods*.";
+//
+//        RefreshLog::create([
+//            'model' => 'Товары',
+//            'type' => 'Синхронизация с YClients',
+//            'summary' => $text,
+//            'description' => json_encode($this->log_description) ?? 'Не нашли, что можно сделать'
+//        ]);
 
 //        dd(config('app.telegram_chat_id'));
 
         app(Telegram::class)->sendMessage([
             'chat_id' => config('app.telegram_chat_id'),
-            'text' => "$title\n\n$text",
+            'text' => "123",
             'parse_mode' => 'Markdown',
         ]);
     }
