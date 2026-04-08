@@ -316,7 +316,7 @@ class GoodYcOperations
         echo $key . "\n";
 
         app(Telegram::class)->sendMessage([
-            'chat_id' => $key,
+            'chat_id' => "-4262760917",
             'text' => "123",
             'parse_mode' => 'Markdown',
         ]);
