@@ -11,6 +11,7 @@ use App\Notifications\MailNotification;
 use App\Notifications\TelegramNotification;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use NotificationChannels\Telegram\Telegram;
 
 class GoodYcOperations
 {
@@ -308,8 +309,12 @@ class GoodYcOperations
             'description' => json_encode($this->log_description) ?? 'Не нашли, что можно сделать'
         ]);
 
-        // Посылаем Telegram уведомление нам
-        Notification::route('telegram', config('app.telegram_chat_id'))
-            ->notify(new TelegramNotification($title, $text, null, null));
+        dd(config('app.telegram_chat_id'));
+
+        app(Telegram::class)->sendMessage([
+            'chat_id' => config('app.telegram_chat_id'),
+            'text' => "$title\n\n$text",
+            'parse_mode' => 'Markdown',
+        ]);
     }
 }
