@@ -2,6 +2,7 @@
 
 namespace App\Models\Service;
 
+use Staudenmeir\EloquentJsonRelations\HasJsonRelationships;
 use App\Models\Calculators\CalcCosmetic;
 use App\Models\Service_type;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -41,7 +42,7 @@ class Service extends Model implements HasMedia
 
     use InteractsWithMedia;
     use HasFactory;
-    use \Staudenmeir\EloquentJsonRelations\HasJsonRelationships;
+    use HasJsonRelationships;
 
     public function Service_type()
     {

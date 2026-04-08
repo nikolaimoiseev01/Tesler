@@ -2,6 +2,7 @@
 
 namespace App\Models\Calculators;
 
+use Staudenmeir\EloquentJsonRelations\HasJsonRelationships;
 use App\Models\Service\Service;
 use App\Models\Staff;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -21,7 +22,7 @@ class CalcCosmetic extends Model
     ];
 
     use HasFactory;
-    use \Staudenmeir\EloquentJsonRelations\HasJsonRelationships;
+    use HasJsonRelationships;
 
     public function Service()
     {

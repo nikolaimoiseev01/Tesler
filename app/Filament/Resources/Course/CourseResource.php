@@ -2,14 +2,27 @@
 
 namespace App\Filament\Resources\Course;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Schemas\Components\Grid;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Forms\Components\Textarea;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Support\Enums\TextSize;
+use Filament\Actions\EditAction;
+use Filament\Actions\BulkActionGroup;
+use App\Filament\Resources\Course\CourseResource\Pages\ListCourses;
+use App\Filament\Resources\Course\CourseResource\Pages\CreateCourse;
+use App\Filament\Resources\Course\CourseResource\Pages\EditCourse;
 use App\Filament\Resources\Course\CourseResource\Pages;
 use App\Filament\Resources\Course\CourseResource\RelationManagers;
 use App\Models\Course\Course;
 use App\Models\Good\Good_skin_type;
 use App\Models\Staff;
 use Filament\Forms;
-use Filament\Forms\Components\Tabs;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
@@ -25,38 +38,38 @@ class CourseResource extends Resource
 {
     protected static ?string $model = Course::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-book-open';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-book-open';
 
     protected static ?string $navigationLabel = 'Курсы';
-    protected static ?string $navigationGroup = 'Настройки';
+    protected static string | \UnitEnum | null $navigationGroup = 'Настройки';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Tabs::make('Tabs')
                     ->tabs([
-                        Tabs\Tab::make('Общее')->schema([
-                            Forms\Components\Grid::make(2)->schema([
-                                Forms\Components\Grid::make(1)->schema([
-                                    Forms\Components\TextInput::make('title')
+                        Tab::make('Общее')->schema([
+                            Grid::make(2)->schema([
+                                Grid::make(1)->schema([
+                                    TextInput::make('title')
                                         ->required()
                                         ->label('Название')
                                         ->maxLength(255),
-                                    Forms\Components\Select::make('staff_id')
+                                    Select::make('staff_id')
                                         ->options(Staff::all()->pluck('yc_name', 'id'))
 //                                ->relationship(name: 'staff', titleAttribute: 'yc_name')
                                         ->searchable()
                                         ->label('Сотрудник'),
-                                    Forms\Components\TextInput::make('price')
+                                    TextInput::make('price')
                                         ->label('Цена')
                                         ->numeric()
                                         ->prefix('$'),
-                                    Forms\Components\TextInput::make('type')
+                                    TextInput::make('type')
                                         ->label('Тип')
                                         ->maxLength(255),
                                 ])->columnSpan(1),
-                                Forms\Components\SpatieMediaLibraryFileUpload::make('course_cover')
+                                SpatieMediaLibraryFileUpload::make('course_cover')
                                     ->collection('course_cover')
                                     ->image()
                                     ->multiple()
@@ -72,23 +85,23 @@ class CourseResource extends Resource
                                     ->imageResizeTargetHeight('1920')
                                     ->columnSpan(['lg' => 1])->columnSpan(1),
                             ])->columns(2),
-                            Forms\Components\Grid::make(2)->schema([
-                                Forms\Components\Textarea::make('desc_small')
+                            Grid::make(2)->schema([
+                                Textarea::make('desc_small')
                                     ->label('Описание маленькое'),
-                                Forms\Components\Textarea::make('desc')
+                                Textarea::make('desc')
                                     ->label('Описание'),
-                                Forms\Components\Textarea::make('proccess')
+                                Textarea::make('proccess')
                                     ->label('Процесс'),
-                                Forms\Components\Textarea::make('program')
+                                Textarea::make('program')
                                     ->label('Программа'),
-                                Forms\Components\Textarea::make('dates')
+                                Textarea::make('dates')
                                     ->label('Даты'),
-                                Forms\Components\Textarea::make('learning')
+                                Textarea::make('learning')
                                     ->label('Обучение'),
                             ])->columns(2)
                         ]),
-                        Tabs\Tab::make('Примеры')->schema([
-                            Forms\Components\SpatieMediaLibraryFileUpload::make('course_examples')
+                        Tab::make('Примеры')->schema([
+                            SpatieMediaLibraryFileUpload::make('course_examples')
                                 ->collection('course_examples')
                                 ->image()
                                 ->multiple()
@@ -113,15 +126,15 @@ class CourseResource extends Resource
         return $table
             ->columns([
                 Stack::make([
-                    Tables\Columns\TextColumn::make('title')
+                    TextColumn::make('title')
                         ->weight(FontWeight::SemiBold)
                         ->limit(50)
                         ->searchable()
-                        ->size(Tables\Columns\TextColumn\TextColumnSize::Large),
-                    Tables\Columns\TextColumn::make('type')
+                        ->size(TextSize::Large),
+                    TextColumn::make('type')
                         ->label('Тип')
                         ->searchable(),
-                    Tables\Columns\TextColumn::make('price')
+                    TextColumn::make('price')
                         ->money('RUB'),
                 ])
 
@@ -129,15 +142,15 @@ class CourseResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
             ->contentGrid([
                 'md' => 2,
                 'xl' => 3,
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
+            ->toolbarActions([
+                BulkActionGroup::make([
 //                    Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
@@ -153,9 +166,9 @@ class CourseResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCourses::route('/'),
-            'create' => Pages\CreateCourse::route('/create'),
-            'edit' => Pages\EditCourse::route('/{record}/edit'),
+            'index' => ListCourses::route('/'),
+            'create' => CreateCourse::route('/create'),
+            'edit' => EditCourse::route('/{record}/edit'),
         ];
     }
 }

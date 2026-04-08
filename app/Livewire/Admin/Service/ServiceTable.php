@@ -47,11 +47,10 @@ final class ServiceTable extends PowerGridComponent
     | Provides data to your Table using a Model or Collection
     |
     */
-
     /**
      * PowerGrid datasource.
      *
-     * @return Builder<\App\Models\Service\Service>
+     * @return Builder<Service>
      */
     public function datasource(): Builder
     {

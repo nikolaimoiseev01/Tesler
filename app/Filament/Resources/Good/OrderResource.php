@@ -2,6 +2,19 @@
 
 namespace App\Filament\Resources\Good;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\EditAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Resources\Good\OrderResource\Pages\ListOrders;
+use App\Filament\Resources\Good\OrderResource\Pages\CreateOrder;
+use App\Filament\Resources\Good\OrderResource\Pages\EditOrder;
 use App\Filament\Resources\Good\OrderResource\Pages;
 use App\Filament\Resources\Good\OrderResource\RelationManagers;
 use App\Models\Good\Good;
@@ -10,8 +23,6 @@ use App\Models\Good\Order;
 use App\Models\Good_deli_status;
 use Filament\Forms;
 use Filament\Forms\Components\Placeholder;
-use Filament\Forms\Form;
-use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -24,20 +35,20 @@ class OrderResource extends Resource
 {
     protected static ?string $model = Order::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-currency-dollar';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-currency-dollar';
 
     protected static ?string $navigationLabel = 'Заказы товаров';
-    protected static ?string $navigationGroup = 'Популярное';
+    protected static string | \UnitEnum | null $navigationGroup = 'Популярное';
 
     protected static ?int $navigationSort = 3;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Grid::make(2)->schema([
-                    Forms\Components\Card::make()->schema([
-                        Forms\Components\Grid::make(2)->schema([
+        return $schema
+            ->components([
+                Grid::make(2)->schema([
+                    Section::make()->schema([
+                        Grid::make(2)->schema([
                             Placeholder::make('price')
                                 ->label('Общая стоимость с промокодом')
                                 ->content(fn(Order $record): string => number_format($record['price'], 2) . ' руб.'),
@@ -49,8 +60,8 @@ class OrderResource extends Resource
                             ->label('Доставка')
                             ->content(fn(Order $record): string => $record['need_delivery'] ? 'Нужна' : 'Нет'),
                     ])->columnSpan(1)->heading('Финансы'),
-                    Forms\Components\Card::make()->schema([
-                        Forms\Components\Grid::make(2)->schema([
+                    Section::make()->schema([
+                        Grid::make(2)->schema([
                             Placeholder::make('name')
                                 ->label('Имя клиента: ')
                                 ->content(fn(Order $record): string => $record['name'] . ' ' . $record['surname']),
@@ -63,8 +74,8 @@ class OrderResource extends Resource
                             ->content(fn(Order $record): string => "{$record['city']}, {$record['address']}, {$record['index']}"),
                     ])->columnSpan(1)->heading('Клиент')
                 ])->columns(2),
-                Forms\Components\Grid::make()->schema([
-                    Forms\Components\Card::make()->schema([
+                Grid::make()->schema([
+                    Section::make()->schema([
                         Placeholder::make('goods')
                             ->label('')
                             ->content(function (Order $record): HtmlString {
@@ -78,8 +89,8 @@ class OrderResource extends Resource
                                 return new HtmlString($goods);
                             }),
                     ])->columnSpan(2)->heading('Товары в заказе'),
-                    Forms\Components\Card::make()->schema([
-                        Forms\Components\Grid::make(2)->schema([
+                    Section::make()->schema([
+                        Grid::make(2)->schema([
                             Placeholder::make('tinkoff_order_id')
                                 ->label('Tinkoff Order ID')
                                 ->content(fn(Order $record): string => $record['tinkoff_order_id']),
@@ -90,15 +101,15 @@ class OrderResource extends Resource
                     ])->columnSpan(2)->heading('От Tinkoff'),
                 ])->columns(4),
 
-                Forms\Components\Card::make()->schema([
-                    Forms\Components\Grid::make(3)->schema([
-                        Forms\Components\Select::make('good_deli_status_id')
+                Section::make()->schema([
+                    Grid::make(3)->schema([
+                        Select::make('good_deli_status_id')
                             ->options(Good_deli_status::all()->pluck('title', 'id'))
                             ->label('Статус доставки'),
-                        Forms\Components\TextInput::make('good_deli_price')
+                        TextInput::make('good_deli_price')
                             ->label('Стоимость доставки')
                             ->numeric(),
-                        Forms\Components\TextInput::make('good_deli_track_number')
+                        TextInput::make('good_deli_track_number')
                             ->label('Трек-номер')
                             ->maxLength(255),
                     ])
@@ -110,30 +121,30 @@ class OrderResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')
+                TextColumn::make('id')
                     ->label('ID')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('tinkoff_order_id')
+                TextColumn::make('tinkoff_order_id')
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->label('Tinkoff Order ID')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('tinkoff_status')
+                TextColumn::make('tinkoff_status')
                     ->label('Статус Tinkoff')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('price')
+                TextColumn::make('price')
                     ->label('Сумма заказа')
                     ->numeric(0)
                     ->sortable(),
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->label('Имя клиента')
                     ->getStateUsing(function (Model $record) {
                         return $record['name'] . ' ' . $record['surname'];
                     })
                     ->searchable(),
-                Tables\Columns\TextColumn::make('mobile')
+                TextColumn::make('mobile')
                     ->label('Телефон')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('need_delivery')
+                TextColumn::make('need_delivery')
                     ->badge()
                     ->getStateUsing(function (Model $record) {
                         return $record['need_delivery'] == 1 ? 'Да' : 'Нет';
@@ -144,15 +155,15 @@ class OrderResource extends Resource
                     })
                     ->label('Доставка?')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('good_deli_status.title')
+                TextColumn::make('good_deli_status.title')
                     ->label('Статус доставки')
                     ->default('Ну нужна')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->label('Создан')
                     ->dateTime('d.m H:i')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('promocode')
+                TextColumn::make('promocode')
                     ->label('Промокод')
                     ->default('Не спользовался')
                     ->searchable(),
@@ -161,12 +172,12 @@ class OrderResource extends Resource
                 //
             ])
             ->defaultSort('created_at', 'desc')
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -181,9 +192,9 @@ class OrderResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListOrders::route('/'),
-            'create' => Pages\CreateOrder::route('/create'),
-            'edit' => Pages\EditOrder::route('/{record}/edit'),
+            'index' => ListOrders::route('/'),
+            'create' => CreateOrder::route('/create'),
+            'edit' => EditOrder::route('/{record}/edit'),
         ];
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 
+use Illuminate\Support\Facades\Notification;
 use App\Models\Good\Good;
 use App\Models\RefreshLog;
 use App\Models\User;
@@ -308,7 +309,7 @@ class GoodYcOperations
         ]);
 
         // Посылаем Telegram уведомление нам
-        \Illuminate\Support\Facades\Notification::route('telegram', env('TELEGRAM_CHAT_ID'))
+        Notification::route('telegram', env('TELEGRAM_CHAT_ID'))
             ->notify(new TelegramNotification($title, $text, null, null));
     }
 }

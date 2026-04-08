@@ -2,12 +2,17 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\EditAction;
+use Filament\Actions\BulkActionGroup;
+use App\Filament\Resources\InteriorPhotoResource\Pages\ManageInteriorPhotos;
 use App\Filament\Resources\InteriorPhotoResource\Pages;
 use App\Filament\Resources\InteriorPhotoResource\RelationManagers;
 use App\Models\InteriorPhoto;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -19,17 +24,17 @@ class InteriorPhotoResource extends Resource
 {
     protected static ?string $model = InteriorPhoto::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-photo';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-photo';
 
     protected static ?string $navigationLabel = 'Фото интерьера';
 
-    protected static ?string $navigationGroup = 'Настройки';
+    protected static string | \UnitEnum | null $navigationGroup = 'Настройки';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\SpatieMediaLibraryFileUpload::make('interior_photos')
+        return $schema
+            ->components([
+                SpatieMediaLibraryFileUpload::make('interior_photos')
                     ->collection('interior_photos')
                     ->image()
                     ->multiple()
@@ -51,7 +56,7 @@ class InteriorPhotoResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('pic')
+                TextColumn::make('pic')
                     ->label('')
                     ->getStateUsing(function (Model $record) {
                         return 'Нажмите, чтобы посмотреть или изменить фото интерьера';
@@ -60,12 +65,12 @@ class InteriorPhotoResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
 //                Tables\Actions\DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
+            ->toolbarActions([
+                BulkActionGroup::make([
 //                    Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
@@ -74,7 +79,7 @@ class InteriorPhotoResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageInteriorPhotos::route('/'),
+            'index' => ManageInteriorPhotos::route('/'),
         ];
     }
 }

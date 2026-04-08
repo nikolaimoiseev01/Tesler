@@ -2,12 +2,17 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\EditAction;
+use Filament\Actions\BulkActionGroup;
+use App\Filament\Resources\ConsultationResource\Pages\ManageConsultations;
 use App\Filament\Resources\ConsultationResource\Pages;
 use App\Filament\Resources\ConsultationResource\RelationManagers;
 use App\Models\Consultation;
 use App\Models\ConsultStatus;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\SelectColumn;
@@ -19,10 +24,10 @@ class ConsultationResource extends Resource
 {
     protected static ?string $model = Consultation::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-left-right';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-chat-bubble-left-right';
     protected static ?string $navigationLabel = 'Консультации';
 
-    protected static ?string $navigationGroup = 'Популярное';
+    protected static string | \UnitEnum | null $navigationGroup = 'Популярное';
 
     protected static ?int $navigationSort = 5;
 
@@ -33,21 +38,21 @@ class ConsultationResource extends Resource
         return static::getModel()::where('consult_status_id', 1)->count();
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('user_name')
+        return $schema
+            ->components([
+                TextInput::make('user_name')
                     ->label('Имя пользователя')
                     ->disabled()
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('user_mobile')
+                TextInput::make('user_mobile')
                     ->label('Телефон')
                     ->disabled()
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('user_comment')
+                TextInput::make('user_comment')
                     ->label('Вопрос')
                     ->disabled()
                     ->required()
@@ -59,13 +64,13 @@ class ConsultationResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user_name')
+                TextColumn::make('user_name')
                     ->label('Имя клиента')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('user_mobile')
+                TextColumn::make('user_mobile')
                     ->label('Телефон')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('user_comment')
+                TextColumn::make('user_comment')
                     ->limit(20)
                     ->label('Комментарий')
                     ->searchable(),
@@ -73,7 +78,7 @@ class ConsultationResource extends Resource
                     ->options(ConsultStatus::all()->pluck('title', 'id'))
                     ->extraAttributes(['class' => 'w-[16]'])
                     ->label('Статус'),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->label('Создан')
                     ->dateTime('d.m H:i')
                     ->sortable(),
@@ -83,12 +88,12 @@ class ConsultationResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
 //                Tables\Actions\DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
+            ->toolbarActions([
+                BulkActionGroup::make([
 //                    Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
@@ -97,7 +102,7 @@ class ConsultationResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageConsultations::route('/'),
+            'index' => ManageConsultations::route('/'),
         ];
     }
 }

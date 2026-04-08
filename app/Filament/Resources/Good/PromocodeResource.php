@@ -2,11 +2,18 @@
 
 namespace App\Filament\Resources\Good;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Resources\Good\PromocodeResource\Pages\ManagePromocodes;
 use App\Filament\Resources\Good\PromocodeResource\Pages;
 use App\Filament\Resources\Good\PromocodeResource\RelationManagers;
 use App\Models\Good\Promocode;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -17,22 +24,22 @@ class PromocodeResource extends Resource
 {
     protected static ?string $model = Promocode::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-receipt-percent';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-receipt-percent';
 
     protected static ?string $navigationLabel = 'Промокоды';
-    protected static ?string $navigationGroup = 'Модель товаров';
+    protected static string | \UnitEnum | null $navigationGroup = 'Модель товаров';
 
     protected static ?int $navigationSort = 5;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('title')
+        return $schema
+            ->components([
+                TextInput::make('title')
                     ->label('Промокод')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('discount')
+                TextInput::make('discount')
                     ->label('Скидка в процентах')
                     ->required()
                     ->numeric(),
@@ -43,18 +50,18 @@ class PromocodeResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('title')
+                TextColumn::make('title')
                     ->label('Промокод')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('discount')
+                TextColumn::make('discount')
                     ->numeric()
                     ->label('Скидка в процентах')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -62,13 +69,13 @@ class PromocodeResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ->recordActions([
+                EditAction::make(),
+                DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -76,7 +83,7 @@ class PromocodeResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManagePromocodes::route('/'),
+            'index' => ManagePromocodes::route('/'),
         ];
     }
 }

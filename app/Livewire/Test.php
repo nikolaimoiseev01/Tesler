@@ -49,11 +49,10 @@ final class Test extends PowerGridComponent
     | Provides data to your Table using a Model or Collection
     |
     */
-
     /**
      * PowerGrid datasource.
      *
-     * @return Builder<\App\Models\Good\Order>
+     * @return Builder<Order>
      */
     public function datasource(): Builder
     {

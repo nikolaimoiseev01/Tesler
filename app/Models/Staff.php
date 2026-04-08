@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Staudenmeir\EloquentJsonRelations\HasJsonRelationships;
 use App\Models\Service\Category;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -36,7 +37,7 @@ class Staff extends Model implements HasMedia
 
     use HasFactory;
 
-    use \Staudenmeir\EloquentJsonRelations\HasJsonRelationships;
+    use HasJsonRelationships;
 
     public function Category()
     {

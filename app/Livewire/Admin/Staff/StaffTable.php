@@ -38,12 +38,11 @@ final class StaffTable extends PowerGridComponent
     | Provides data to your Table using a Model or Collection
     |
     */
-
     /**
-    * PowerGrid datasource.
-    *
-    * @return Builder<\App\Models\Staff>
-    */
+     * PowerGrid datasource.
+     *
+     * @return Builder<Staff>
+     */
     public function datasource(): Builder
     {
         return Staff::query();

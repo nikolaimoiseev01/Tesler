@@ -45,11 +45,10 @@ final class GoodTable extends PowerGridComponent
     | Provides data to your Table using a Model or Collection
     |
     */
-
     /**
      * PowerGrid datasource.
      *
-     * @return Builder<\App\Models\Good\Good>
+     * @return Builder<Good>
      */
     public string $sortField = 'created_at';
     public string $sortDirection = 'desc';

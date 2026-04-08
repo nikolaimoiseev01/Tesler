@@ -2,6 +2,7 @@
 
 namespace App\Models\Service;
 
+use Staudenmeir\EloquentJsonRelations\HasJsonRelationships;
 use App\Models\Promo;
 use App\Models\Staff;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,7 +13,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 class Category extends Model implements HasMedia
 {
 
-    use \Staudenmeir\EloquentJsonRelations\HasJsonRelationships;
+    use HasJsonRelationships;
 
     protected $fillable = [
         'scope_id',

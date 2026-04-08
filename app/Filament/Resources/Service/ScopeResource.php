@@ -2,14 +2,23 @@
 
 namespace App\Filament\Resources\Service;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Grid;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Toggle;
+use Filament\Schemas\Components\Section;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Actions\Action;
+use Filament\Actions\EditAction;
+use Filament\Actions\BulkActionGroup;
+use App\Filament\Resources\Service\ScopeResource\Pages\ManageScopes;
+use App\Filament\Resources\Service\ServiceResource\Widgets\UpdateYC;
 use App\Filament\Resources\Service\ScopeResource\Pages;
 use App\Filament\Resources\Service\ScopeResource\RelationManagers;
 use App\Models\Service\Scope;
 use Filament\Forms;
-use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
@@ -22,30 +31,30 @@ class ScopeResource extends Resource
 {
     protected static ?string $model = Scope::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-group';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-group';
     protected static ?string $navigationLabel = 'Сферы';
     protected static ?int $navigationSort = 1;
-    protected static ?string $navigationGroup = 'Модель услуг';
+    protected static string | \UnitEnum | null $navigationGroup = 'Модель услуг';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Grid::make(1)->schema([
-                    Forms\Components\TextInput::make('name')
+        return $schema
+            ->components([
+                Grid::make(1)->schema([
+                    TextInput::make('name')
                         ->disabled()
                         ->label('Название')
                         ->required()
                         ->maxLength(255),
-                    Forms\Components\Textarea::make('desc')
+                    Textarea::make('desc')
                         ->required()
                         ->label('Описание')
                         ->columnSpanFull(),
-                    Forms\Components\Toggle::make('flg_active')
+                    Toggle::make('flg_active')
                         ->label('Есть на сайте?'),
                 ]),
-                Forms\Components\Section::make()->schema([
-                    Forms\Components\SpatieMediaLibraryFileUpload::make('main_page_pic')
+                Section::make()->schema([
+                    SpatieMediaLibraryFileUpload::make('main_page_pic')
                         ->collection('main_page_pic')
                         ->label('Обложка на главной странице')
                         ->image()
@@ -56,7 +65,7 @@ class ScopeResource extends Resource
                         ->imageResizeTargetWidth(388)
                         ->imageCropAspectRatio('388:640')
                         ->columnSpan(['lg' => 1]),
-                    Forms\Components\SpatieMediaLibraryFileUpload::make('scope_page_pic')
+                    SpatieMediaLibraryFileUpload::make('scope_page_pic')
                         ->collection('scope_page_pic')
                         ->image()
                         ->label('Обложка на странице сферы')
@@ -65,7 +74,7 @@ class ScopeResource extends Resource
                         ->imageResizeMode('cover')
                         ->imageCropAspectRatio('1662:729')
                         ->columnSpan(['lg' => 1]),
-                    Forms\Components\SpatieMediaLibraryFileUpload::make('scope_service_page_pic')
+                    SpatieMediaLibraryFileUpload::make('scope_service_page_pic')
                         ->collection('scope_service_page_pic')
                         ->image()
                         ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'В блоке "Не опредилились с выбором?"')
@@ -78,13 +87,13 @@ class ScopeResource extends Resource
                         ->columnSpan(['lg' => 1]),
                 ])->columns(1)->columnSpanFull(),
 
-                Forms\Components\Section::make()->schema([
+                Section::make()->schema([
                     Repeater::make('faqs')
                         ->schema([
                             TextInput::make('question')
                                 ->label('Вопрос')
                                 ->required(),
-                            Forms\Components\Textarea::make('answer')
+                            Textarea::make('answer')
                                 ->label('Ответ')
                                 ->rows(7)
                                 ->required(),
@@ -97,13 +106,13 @@ class ScopeResource extends Resource
                             fn(Action $action) => $action->label('Добавить вопрос'),
                         )
                 ])->columnSpanFull()->heading('Популярные вопросы'),
-                Forms\Components\Section::make()->schema([
+                Section::make()->schema([
                     Repeater::make('advs')
                         ->schema([
                             TextInput::make('title')
                                 ->label('Заголовок')
                                 ->required(),
-                            Forms\Components\Textarea::make('text')
+                            Textarea::make('text')
                                 ->label('Текст')
                                 ->rows(7)
                                 ->required(),
@@ -125,9 +134,9 @@ class ScopeResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('flg_active')
+                TextColumn::make('flg_active')
                     ->badge()
                     ->getStateUsing(function (Model $record) {
                         return $record['flg_active'] == 1 ? 'Есть на сайте' : 'Скрыто';
@@ -147,11 +156,11 @@ class ScopeResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
+            ->toolbarActions([
+                BulkActionGroup::make([
 //                    Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
@@ -160,7 +169,7 @@ class ScopeResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageScopes::route('/'),
+            'index' => ManageScopes::route('/'),
         ];
     }
 
@@ -172,7 +181,7 @@ class ScopeResource extends Resource
     public static function getWidgets(): array
     {
         return [
-            ServiceResource\Widgets\UpdateYC::class,
+            UpdateYC::class,
         ];
     }
 }

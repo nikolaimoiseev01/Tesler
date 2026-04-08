@@ -2,12 +2,19 @@
 
 namespace App\Filament\Resources\Good;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Grid;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Actions\EditAction;
+use Filament\Actions\BulkActionGroup;
+use App\Filament\Resources\Good\GoodCategoryResource\Pages\ManageGoodCategories;
 use App\Filament\Resources\Good\GoodCategoryResource\Pages;
 use App\Filament\Resources\Good\GoodCategoryResource\RelationManagers;
 use App\Models\Good\Good;
 use App\Models\Good\GoodCategory;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
@@ -18,9 +25,9 @@ class GoodCategoryResource extends Resource
 {
     protected static ?string $model = GoodCategory::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-group';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-group';
     protected static ?string $navigationLabel = 'Категории товаров';
-    protected static ?string $navigationGroup = 'Модель товаров';
+    protected static string | \UnitEnum | null $navigationGroup = 'Модель товаров';
 
     public function getTitle(): String
     {
@@ -28,17 +35,17 @@ class GoodCategoryResource extends Resource
     }
     protected static ?string $title = 'Custom Page Title';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('title')
+        return $schema
+            ->components([
+                TextInput::make('title')
                     ->required()
                     ->columnSpanFull()
                     ->label('Название')
                     ->maxLength(255),
-                Forms\Components\Grid::make(2)->schema([
-                    Forms\Components\SpatieMediaLibraryFileUpload::make('pic_goodcategory')
+                Grid::make(2)->schema([
+                    SpatieMediaLibraryFileUpload::make('pic_goodcategory')
                         ->collection('pic_goodcategory')
                         ->image()
                         ->label('Шапка на странице категории')
@@ -49,7 +56,7 @@ class GoodCategoryResource extends Resource
                         ->imageResizeTargetWidth('1920')
                         ->imageResizeTargetHeight('1080')
                         ->columnSpan(['lg' => 1]),
-                        Forms\Components\SpatieMediaLibraryFileUpload::make('pic_goodcategory_small')
+                        SpatieMediaLibraryFileUpload::make('pic_goodcategory_small')
                             ->collection('pic_goodcategory_small')
                             ->image()
                             ->label('Изображения для квадратных фильтров')
@@ -68,11 +75,11 @@ class GoodCategoryResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')
+                TextColumn::make('id')
                     ->sortable()
                     ->label('ID')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('title')
+                TextColumn::make('title')
                     ->sortable()
                     ->label('Название')
                     ->searchable(),
@@ -86,18 +93,18 @@ class GoodCategoryResource extends Resource
             ])
             ->defaultSort('position')
             ->filters([
-                Tables\Filters\SelectFilter::make('id')
+                SelectFilter::make('id')
                     ->options(GoodCategory::all()->pluck('title', 'id')->unique())
                     ->multiple()
                     ->searchable()
                     ->label('Категория'),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
             ->reorderable('position')
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
+            ->toolbarActions([
+                BulkActionGroup::make([
                 ]),
             ]);
     }
@@ -105,7 +112,7 @@ class GoodCategoryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageGoodCategories::route('/'),
+            'index' => ManageGoodCategories::route('/'),
         ];
     }
 }

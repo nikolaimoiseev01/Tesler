@@ -2,11 +2,24 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Grid;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
+use Filament\Actions\EditAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Resources\PromoResource\Pages\ListPromos;
+use App\Filament\Resources\PromoResource\Pages\CreatePromo;
+use App\Filament\Resources\PromoResource\Pages\EditPromo;
 use App\Filament\Resources\PromoResource\Pages;
 use App\Filament\Resources\PromoResource\RelationManagers;
 use App\Models\Promo;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -17,45 +30,45 @@ class PromoResource extends Resource
 {
     protected static ?string $model = Promo::class;
 
-    protected static ?string $navigationIcon = 'heroicon-m-arrow-trending-up';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-m-arrow-trending-up';
 
     protected static ?string $navigationLabel = 'Промо-акции';
 
-    protected static ?string $navigationGroup = 'Настройки';
+    protected static string | \UnitEnum | null $navigationGroup = 'Настройки';
 
     protected static ?int $navigationSort = 3;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Card::make()->schema([
-                    Forms\Components\Grid::make()->schema([
-                        Forms\Components\TextInput::make('title')
+        return $schema
+            ->components([
+                Section::make()->schema([
+                    Grid::make()->schema([
+                        TextInput::make('title')
                             ->label('Заголовок')
                             ->required()
                             ->maxLength(255),
-                        Forms\Components\TextInput::make('type')
+                        TextInput::make('type')
                             ->label('Тип акции')
                             ->maxLength(255),
                     ]),
 
-                    Forms\Components\Grid::make()->schema([
-                        Forms\Components\Textarea::make('desc')
+                    Grid::make()->schema([
+                        Textarea::make('desc')
                             ->label('Описание')
                             ->required()
                             ->rows(5)
                             ->columnSpan(1),
-                        Forms\Components\Grid::make()->schema([
-                            Forms\Components\TextInput::make('link')
+                        Grid::make()->schema([
+                            TextInput::make('link')
                                 ->label('Куда ведет ссылка')
                                 ->maxLength(255),
-                            Forms\Components\TextInput::make('link_text')
+                            TextInput::make('link_text')
                                 ->label('Текст ссылки')
                                 ->maxLength(255),
                         ])->columns(1)->columnSpan(1)
                     ])->columns(2),
-                    Forms\Components\SpatieMediaLibraryFileUpload::make('promo_pics')
+                    SpatieMediaLibraryFileUpload::make('promo_pics')
                         ->collection('promo_pics')
                         ->image()
                         ->reorderable()
@@ -76,22 +89,22 @@ class PromoResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('title')
+                TextColumn::make('title')
                     ->label('Название')
                     ->searchable(),
-                Tables\Columns\ToggleColumn::make('flg_active')
+                ToggleColumn::make('flg_active')
                     ->label('Есть на сайте'),
-                Tables\Columns\TextColumn::make('link_text')
+                TextColumn::make('link_text')
                     ->label('Текст ссылки')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('type')
+                TextColumn::make('type')
                     ->label('Тип')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->label('Создана')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('position')
+                TextColumn::make('position')
                     ->label('Порядок')
                     ->sortable()
                     ->searchable(),
@@ -99,8 +112,8 @@ class PromoResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
             ->defaultSort(function (Builder $query): Builder {
                 return $query
@@ -109,9 +122,9 @@ class PromoResource extends Resource
             })
             ->defaultSort('position')
             ->reorderable('position')
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -126,9 +139,9 @@ class PromoResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPromos::route('/'),
-            'create' => Pages\CreatePromo::route('/create'),
-            'edit' => Pages\EditPromo::route('/{record}/edit'),
+            'index' => ListPromos::route('/'),
+            'create' => CreatePromo::route('/create'),
+            'edit' => EditPromo::route('/{record}/edit'),
         ];
     }
 }

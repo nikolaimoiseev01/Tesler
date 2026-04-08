@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Order;
 
+use Illuminate\Http\Request;
 use App\Models\Good\Order;
 use App\Models\Good_deli_status;
 use Livewire\Component;
@@ -37,7 +38,7 @@ class OrderEdit extends Component
             );
     }
 
-    public function make_selling(\Illuminate\Http\Request $request) {
+    public function make_selling(Request $request) {
         $request->session()->put('cart_goods', null);
         $request->session()->put('cart_total', null);
         $request->session()->put('cart_goods_count', null);

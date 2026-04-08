@@ -16,10 +16,9 @@ class Kernel extends ConsoleKernel
     /**
      * Define the participation's command schedule.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @param Schedule $schedule
      * @return void
      */
-
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('UpdateGoods')->timezone('Europe/Moscow')->dailyAt('21:00');

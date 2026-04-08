@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Good\GoodCategoryResource\Pages;
 
+use Filament\Actions\CreateAction;
 use App\Filament\Resources\Good\GoodCategoryResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ManageRecords;
@@ -14,7 +15,7 @@ class ManageGoodCategories extends ManageRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            CreateAction::make(),
         ];
     }
 

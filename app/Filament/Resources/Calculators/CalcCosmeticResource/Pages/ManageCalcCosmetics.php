@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Calculators\CalcCosmeticResource\Pages;
 
+use Filament\Actions\CreateAction;
 use App\Filament\Resources\Calculators\CalcCosmeticResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ManageRecords;
@@ -15,7 +16,7 @@ class ManageCalcCosmetics extends ManageRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            CreateAction::make(),
         ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Service\CategoryResource\Pages;
 
+use Filament\Actions\DeleteAction;
 use App\Filament\Resources\Service\CategoryResource;
 use App\Models\Good\Good;
 use App\Models\Service\Category;
@@ -16,7 +17,7 @@ class EditCategory extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            DeleteAction::make(),
             Action::make("Страница на сайте")
                 ->label('Страница на сайте')
                 ->url(fn(Category $category ) => route('scope_page', $category['scope_id']) . '#category_' . $category['id'])

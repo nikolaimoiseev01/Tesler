@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Calculators\CalcHairResource\Pages;
 
+use Filament\Actions\CreateAction;
 use App\Filament\Resources\Calculators\CalcHairResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ManageRecords;
@@ -13,7 +14,7 @@ class ManageCalcHairs extends ManageRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            CreateAction::make(),
         ];
     }
 

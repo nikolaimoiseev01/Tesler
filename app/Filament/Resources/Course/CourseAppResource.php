@@ -2,6 +2,13 @@
 
 namespace App\Filament\Resources\Course;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\BulkActionGroup;
+use App\Filament\Resources\Course\CourseAppResource\Pages\ListCourseApps;
+use App\Filament\Resources\Course\CourseAppResource\Pages\CreateCourseApp;
+use App\Filament\Resources\Course\CourseAppResource\Pages\EditCourseApp;
 use App\Filament\Resources\Course\CourseAppResource\Pages;
 use App\Filament\Resources\Course\CourseAppResource\RelationManagers;
 use App\Models\ConsultStatus;
@@ -9,7 +16,6 @@ use App\Models\Course\CourseApp;
 use App\Models\Good\Good_skin_type;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\SelectColumn;
@@ -24,10 +30,10 @@ class CourseAppResource extends Resource
 {
     protected static ?string $model = CourseApp::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-arrow-down-circle';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-arrow-down-circle';
 
     protected static ?string $navigationLabel = 'Заявки на курсы';
-    protected static ?string $navigationGroup = 'Популярное';
+    protected static string | \UnitEnum | null $navigationGroup = 'Популярное';
 
     protected static ?int $navigationSort = 6;
 
@@ -38,23 +44,23 @@ class CourseAppResource extends Resource
         return static::getModel()::where('consult_status_id', 1)->count();
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('user_name')
+        return $schema
+            ->components([
+                TextInput::make('user_name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('user_mobile')
+                TextInput::make('user_mobile')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('user_comment')
+                TextInput::make('user_comment')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('course_id')
+                TextInput::make('course_id')
                     ->required()
                     ->numeric(),
-                Forms\Components\TextInput::make('consult_status_id')
+                TextInput::make('consult_status_id')
                     ->required()
                     ->maxLength(255),
             ]);
@@ -64,24 +70,24 @@ class CourseAppResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user_name')
+                TextColumn::make('user_name')
                     ->label('Имя клиента')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('user_mobile')
+                TextColumn::make('user_mobile')
                     ->label('Телефон')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('user_comment')
+                TextColumn::make('user_comment')
                     ->label('Комментарий')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('course.title')
+                TextColumn::make('course.title')
                     ->url(fn($record): string => CourseResource::getUrl('edit',['record'=>$record->id]), True)
                     ->sortable(),
-                Tables\Columns\TextColumn::make('consult_status_id')
+                TextColumn::make('consult_status_id')
                     ->searchable(),
                 SelectColumn::make('consult_status_id')
                     ->options(ConsultStatus::all()->pluck('title', 'id'))
                     ->label('Статус'),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->label('Создана')
                     ->dateTime('d.m H:i')
                     ->sortable(),
@@ -90,11 +96,11 @@ class CourseAppResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
+            ->recordActions([
 //                Tables\Actions\EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
+            ->toolbarActions([
+                BulkActionGroup::make([
 //                    Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
@@ -110,9 +116,9 @@ class CourseAppResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCourseApps::route('/'),
-            'create' => Pages\CreateCourseApp::route('/create'),
-            'edit' => Pages\EditCourseApp::route('/{record}/edit'),
+            'index' => ListCourseApps::route('/'),
+            'create' => CreateCourseApp::route('/create'),
+            'edit' => EditCourseApp::route('/{record}/edit'),
         ];
     }
 }

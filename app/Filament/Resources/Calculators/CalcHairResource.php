@@ -2,6 +2,15 @@
 
 namespace App\Filament\Resources\Calculators;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Grid;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Actions\EditAction;
+use Filament\Actions\BulkActionGroup;
+use App\Filament\Resources\Calculators\CalcHairResource\Pages\ManageCalcHairs;
 use App\Filament\Resources\Calculators\CalcHairResource\Pages;
 use App\Filament\Resources\Calculators\CalcHairResource\RelationManagers;
 use App\Models\Calculators\CalcCosmetic;
@@ -9,7 +18,6 @@ use App\Models\Calculators\CalcHair;
 use App\Models\Good\GoodCategory;
 use App\Models\Service\Service;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Enums\FiltersLayout;
@@ -21,32 +29,32 @@ class CalcHairResource extends Resource
 {
     protected static ?string $model = CalcHair::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationLabel = 'Окрашивание';
-    protected static ?string $navigationGroup = 'Калькуляторы';
+    protected static string | \UnitEnum | null $navigationGroup = 'Калькуляторы';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Grid::make()->schema([
-                    Forms\Components\TextInput::make('step_1')
+        return $schema
+            ->components([
+                Grid::make()->schema([
+                    TextInput::make('step_1')
                         ->label('Шаг 1')
                         ->disabled(),
-                    Forms\Components\TextInput::make('step_2')
+                    TextInput::make('step_2')
                         ->label('Шаг 2')
                         ->disabled(),
-                    Forms\Components\TextInput::make('step_3')
+                    TextInput::make('step_3')
                         ->label('Шаг 3')
                         ->disabled(),
                 ])->columns(3),
-                Forms\Components\Select::make('service_id')
+                Select::make('service_id')
                     ->options(Service::all()->pluck('name', 'id'))
                     ->searchable()
                     ->columnSpanFull()
                     ->label('Услуга для этого варианта'),
-                Forms\Components\TextInput::make('result_price')
+                TextInput::make('result_price')
                     ->required()
                     ->columnSpanFull()
                     ->maxLength(255),
@@ -57,37 +65,37 @@ class CalcHairResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('step_1')
+                TextColumn::make('step_1')
                     ->label('Шаг 1'),
-                Tables\Columns\TextColumn::make('step_2')
+                TextColumn::make('step_2')
                     ->label('Шаг 2'),
-                Tables\Columns\TextColumn::make('step_3')
+                TextColumn::make('step_3')
                     ->label('Шаг 3'),
-                Tables\Columns\TextColumn::make('result_price')
+                TextColumn::make('result_price')
                     ->label('Цена'),
-                Tables\Columns\TextColumn::make('service.name')
+                TextColumn::make('service.name')
                     ->label('Услуга')
                     ->sortable()
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('step_1')
+                SelectFilter::make('step_1')
                     ->options(CalcHair::all()->pluck('step_1', 'step_1')->unique())
                     ->searchable()
                     ->label('Шаг 1'),
-                Tables\Filters\SelectFilter::make('step_2')
+                SelectFilter::make('step_2')
                     ->options(CalcHair::all()->pluck('step_2', 'step_2')->unique())
                     ->searchable()
                     ->label('Шаг 2'),
-                Tables\Filters\SelectFilter::make('step_3')
+                SelectFilter::make('step_3')
                     ->options(CalcHair::all()->pluck('step_3', 'step_3')->unique())
                     ->searchable()
                     ->label('Шаг 3'),
             ], layout: FiltersLayout::AboveContent)
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
+            ->toolbarActions([
+                BulkActionGroup::make([
                 ]),
             ]);
     }
@@ -95,7 +103,7 @@ class CalcHairResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageCalcHairs::route('/'),
+            'index' => ManageCalcHairs::route('/'),
         ];
     }
 }

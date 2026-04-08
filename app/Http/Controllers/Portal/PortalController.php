@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Portal;
 
+use Illuminate\Support\Facades\Notification;
 use App\Http\Controllers\Controller;
 use App\Models\Course\Course;
 use App\Models\Good\Good;
@@ -457,7 +458,7 @@ class PortalController extends Controller
             $text = "Клиент оплатил покупку в магазине!.\n";
             $user = User::where('id', 1)->first();
             $user->notify(new MailNotification( $title, $text,"Подробнее", route('order.index')));
-            \Illuminate\Support\Facades\Notification::route('telegram', env('TELEGRAM_CHAT_ID'))
+            Notification::route('telegram', env('TELEGRAM_CHAT_ID'))
                 ->notify(new TelegramNotification($title, $text, null, null));
 
             foreach (json_decode($order['goods']) as $transaction) { // ИДЕМ ПО ВСЕМ ТОВАРАМ В ЗАКАЗЕ

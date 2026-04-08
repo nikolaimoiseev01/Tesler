@@ -2,6 +2,20 @@
 
 namespace App\Filament\Resources\Service;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Forms\Components\Textarea;
+use Filament\Schemas\Components\Section;
+use Filament\Actions\Action;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Actions\EditAction;
+use Filament\Actions\BulkActionGroup;
+use App\Filament\Resources\Service\CategoryResource\Pages\ListCategories;
+use App\Filament\Resources\Service\CategoryResource\Pages\CreateCategory;
+use App\Filament\Resources\Service\CategoryResource\Pages\EditCategory;
 use App\Filament\Resources\Service\CategoryResource\Pages;
 use App\Filament\Resources\Service\CategoryResource\RelationManagers;
 use App\Models\Promo;
@@ -10,14 +24,10 @@ use App\Models\Service\Scope;
 use App\Models\Staff;
 use App\Models\User;
 use Filament\Forms;
-use Filament\Forms\Components\Actions\Action;
-use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
@@ -30,22 +40,22 @@ class CategoryResource extends Resource
 {
     protected static ?string $model = Category::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $navigationLabel = 'Категории';
-    protected static ?string $navigationGroup = 'Модель услуг';
+    protected static string | \UnitEnum | null $navigationGroup = 'Модель услуг';
     protected static ?int $navigationSort = 2;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Grid::make('xl')->schema([
+        return $schema
+            ->components([
+                Grid::make('xl')->schema([
                     Tabs::make('Tabs')
                         ->tabs([
-                            Tabs\Tab::make('Общее')
+                            Tab::make('Общее')
                                 ->schema([
                                     Grid::make()->schema([
-                                        Forms\Components\SpatieMediaLibraryFileUpload::make('main_pic')
+                                        SpatieMediaLibraryFileUpload::make('main_pic')
                                             ->collection('main_pic')
                                             ->image()
                                             ->label('')
@@ -54,36 +64,36 @@ class CategoryResource extends Resource
                                             ->imageResizeMode('cover')
                                             ->imageCropAspectRatio('610:710')
                                             ->columnSpan(['lg' => 1]),
-                                        Forms\Components\Grid::make(1)->schema([
+                                        Grid::make(1)->schema([
                                             Placeholder::make('Сфера')
                                                 ->visible(fn($context) => $context === 'edit')
                                                 ->content(fn(Category $record): string => $record->scope['name']),
-                                            Forms\Components\Select::make('scope_id')
+                                            Select::make('scope_id')
                                                 ->relationship(name: 'scope', titleAttribute: 'name')
                                                 ->visible(fn($context) => $context === 'create')
                                                 ->label('Сфера'),
-                                            Forms\Components\TextInput::make('name')
+                                            TextInput::make('name')
                                                 ->required()
                                                 ->label('Название')
                                                 ->maxLength(255),
-                                            Forms\Components\TextInput::make('block_title')
+                                            TextInput::make('block_title')
                                                 ->required()
                                                 ->label('Заголовок блока')
                                                 ->maxLength(255),
-                                            Forms\Components\Select::make('promo_id')
+                                            Select::make('promo_id')
                                                 ->relationship(name: 'promo', titleAttribute: 'title')
                                                 ->options(Promo::all()->pluck('title', 'id'))
                                                 ->searchable()
                                                 ->label('Поп-ап'),
                                         ])->columnSpan(['lg' => 1]),
                                     ])->columns(2),
-                                    Forms\Components\Textarea::make('desc')
+                                    Textarea::make('desc')
                                         ->required()
                                         ->label('Описание категории')
                                         ->maxLength(255),
                                 ]),
-                            Tabs\Tab::make('Мастера в категории')->schema([
-                                Forms\Components\Card::make([
+                            Tab::make('Мастера в категории')->schema([
+                                Section::make([
                                     Repeater::make('staff_ids')
                                         ->simple(
                                             Select::make('staff_id')
@@ -99,8 +109,8 @@ class CategoryResource extends Resource
                                         ->grid(4)
                                 ])
                             ]),
-                            Tabs\Tab::make('Примеры в категории')->schema([
-                                Forms\Components\SpatieMediaLibraryFileUpload::make('category_examples')
+                            Tab::make('Примеры в категории')->schema([
+                                SpatieMediaLibraryFileUpload::make('category_examples')
                                     ->collection('category_examples')
                                     ->image()
                                     ->multiple()
@@ -135,17 +145,17 @@ class CategoryResource extends Resource
                 TextColumn::make('service_count')->counts('service')->label('Услуг в категории')
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('scope_id')
+                SelectFilter::make('scope_id')
                     ->label('Сфера')
                     ->relationship('scope', 'name'),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
             ->defaultSort(fn($query) => $query->orderBy('scope_id', 'asc')->orderBy('position', 'asc'))
             ->reorderable('position')
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
+            ->toolbarActions([
+                BulkActionGroup::make([
 //                    Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
@@ -168,9 +178,9 @@ class CategoryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCategories::route('/'),
-            'create' => Pages\CreateCategory::route('/create'),
-            'edit' => Pages\EditCategory::route('/{record}/edit'),
+            'index' => ListCategories::route('/'),
+            'create' => CreateCategory::route('/create'),
+            'edit' => EditCategory::route('/{record}/edit'),
         ];
     }
 }

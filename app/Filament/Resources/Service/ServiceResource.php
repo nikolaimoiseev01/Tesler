@@ -2,6 +2,22 @@
 
 namespace App\Filament\Resources\Service;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Actions\Action;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Actions\EditAction;
+use App\Filament\Resources\Service\ServiceResource\Pages\ListServices;
+use App\Filament\Resources\Service\ServiceResource\Pages\CreateService;
+use App\Filament\Resources\Service\ServiceResource\Pages\EditService;
 use App\Filament\Resources\Service\ServiceResource\Pages;
 use App\Filament\Resources\Service\ServiceResource\RelationManagers;
 use App\Models\Service\Category;
@@ -9,12 +25,9 @@ use App\Models\Service\Scope;
 use App\Models\Service\Service;
 use App\Models\Staff;
 use Filament\Forms;
-use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Tabs;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -26,80 +39,80 @@ class ServiceResource extends Resource
 {
     protected static ?string $model = Service::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-sparkles';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-sparkles';
 
     protected static ?string $navigationLabel = 'Услуги';
-    protected static ?string $navigationGroup = 'Популярное';
+    protected static string | \UnitEnum | null $navigationGroup = 'Популярное';
     protected static ?int $navigationSort = 1;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Grid::make('xl')->schema([
+        return $schema
+            ->components([
+                Grid::make('xl')->schema([
                     Tabs::make('Tabs')
                         ->tabs([
-                            Tabs\Tab::make('Общее')
+                            Tab::make('Общее')
                                 ->schema([
-                                    Forms\Components\Grid::make(3)->schema([
-                                        Forms\Components\TextInput::make('name')
+                                    Grid::make(3)->schema([
+                                        TextInput::make('name')
                                             ->required()
                                             ->label('Название на сайте')
                                             ->columnSpan(4)
                                             ->maxLength(255),
-                                        Forms\Components\Select::make('service_type_id')
+                                        Select::make('service_type_id')
                                             ->relationship(name: 'service_type', titleAttribute: 'name')
                                             ->columnSpan(2)
                                             ->label('Тип услуги')
                                             ->required(),
-                                        Forms\Components\Toggle::make('flg_active')
+                                        Toggle::make('flg_active')
                                             ->label('Есть на сайте')
                                             ->inline(false)
                                             ->columnSpan(1)
                                             ->required(),
                                     ])->columns(7),
-                                    Forms\Components\Grid::make(3)->schema([
-                                        Forms\Components\Select::make('scope_id')
+                                    Grid::make(3)->schema([
+                                        Select::make('scope_id')
                                             ->relationship(name: 'scope', titleAttribute: 'name')
                                             ->options(Scope::all()->pluck('name', 'id'))
                                             ->searchable()
                                             ->label('Сфера')
                                             ->required(),
-                                        Forms\Components\Select::make('category_id')
+                                        Select::make('category_id')
                                             ->relationship(name: 'category', titleAttribute: 'name')
                                             ->options(Category::all()->pluck('name', 'id'))
                                             ->searchable()
                                             ->label('Категория')
                                             ->getOptionLabelFromRecordUsing(fn (Model $record) => "Сфера: {$record->scope->name}, категория: {$record->name}")
                                             ->required(),
-                                        Forms\Components\Select::make('group_id')
+                                        Select::make('group_id')
                                             ->relationship(name: 'group', titleAttribute: 'name')
                                             ->label('Группа')
                                             ->getOptionLabelFromRecordUsing(fn (Model $record) => "Категория: {$record->category->name}, группа: {$record->name}")
                                             ->required(),
                                     ]),
-                                    Forms\Components\Grid::make(2)->schema([
-                                        Forms\Components\Textarea::make('desc_small')
+                                    Grid::make(2)->schema([
+                                        Textarea::make('desc_small')
                                             ->label('Описание маленькое')
                                             ->rows(6),
-                                        Forms\Components\Textarea::make('desc')
+                                        Textarea::make('desc')
                                             ->rows(6)
                                             ->label('Описание'),
                                     ]),
-                                    Forms\Components\Grid::make(2)->schema([
-                                        Forms\Components\Textarea::make('proccess')
+                                    Grid::make(2)->schema([
+                                        Textarea::make('proccess')
                                             ->label('Процесс')
                                             ->rows(6),
-                                        Forms\Components\Textarea::make('result')
+                                        Textarea::make('result')
                                             ->rows(6)
                                             ->label('Результат'),
                                     ]),
 
                                 ]),
-                            Tabs\Tab::make('Изображения')
+                            Tab::make('Изображения')
                                 ->schema([
-                                    Forms\Components\Grid::make(2)->schema([
-                                        Forms\Components\SpatieMediaLibraryFileUpload::make('pic_main')
+                                    Grid::make(2)->schema([
+                                        SpatieMediaLibraryFileUpload::make('pic_main')
                                             ->collection('pic_main')
                                             ->image()
                                             ->reorderable()
@@ -110,7 +123,7 @@ class ServiceResource extends Resource
                                             ->label('Основное изображение')
                                             ->columnSpan(1)
                                             ->imageCropAspectRatio('16:10'),
-                                        Forms\Components\SpatieMediaLibraryFileUpload::make('pic_proccess')
+                                        SpatieMediaLibraryFileUpload::make('pic_proccess')
                                             ->collection('pic_proccess')
                                             ->image()
                                             ->reorderable()
@@ -122,7 +135,7 @@ class ServiceResource extends Resource
                                             ->label('Изображение процесса')
                                             ->imageCropAspectRatio('9:16'),
                                     ])->columns(2),
-                                    Forms\Components\SpatieMediaLibraryFileUpload::make('service_examples')
+                                    SpatieMediaLibraryFileUpload::make('service_examples')
                                         ->collection('service_examples')
                                         ->image()
                                         ->multiple()
@@ -136,9 +149,9 @@ class ServiceResource extends Resource
                                         ->imageCropAspectRatio('11:16')
                                         ->columnSpan(['lg' => 1]),
                                 ]),
-                            Tabs\Tab::make('Получено от YClients')
+                            Tab::make('Получено от YClients')
                                 ->schema([
-                                    Forms\Components\Grid::make(2)->schema([
+                                    Grid::make(2)->schema([
                                         Placeholder::make('Название')
                                             ->content(fn(Service $record): string => $record['yc_title']),
                                         Placeholder::make('Категория')
@@ -146,7 +159,7 @@ class ServiceResource extends Resource
                                     ]),
                                     Placeholder::make('Коммент')
                                         ->content(fn(Service $record): string => $record['yc_comment']),
-                                    Forms\Components\Grid::make(5)->schema([
+                                    Grid::make(5)->schema([
                                         Placeholder::make("yc_id")
                                             ->content(fn(Service $record): string => $record['yc_id']),
                                         Placeholder::make('Цена_MIN')
@@ -163,7 +176,7 @@ class ServiceResource extends Resource
                                             ->content(fn(Service $record): string => $record['flg_comp_2'] ? 'да' : 'нет'),
                                     ]),
                                 ]),
-                            Tabs\Tab::make('Допы к этой услуге')
+                            Tab::make('Допы к этой услуге')
                                 ->schema([
                                     Repeater::make('service_adds')
                                         ->simple(
@@ -188,57 +201,57 @@ class ServiceResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')
+                TextColumn::make('id')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('yc_id')
+                TextColumn::make('yc_id')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\ToggleColumn::make('flg_active')
+                ToggleColumn::make('flg_active')
                     ->label('Активно?')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->label('Название для сайта')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('yc_category_name')
+                TextColumn::make('yc_category_name')
                     ->searchable()
                     ->label('YC Категория')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('scope.name')
+                TextColumn::make('scope.name')
                     ->searchable()
                     ->label('Сфера')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('category.name')
+                TextColumn::make('category.name')
                     ->searchable()
                     ->label('Категория')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('group.name')
+                TextColumn::make('group.name')
                     ->searchable()
                     ->label('Группа')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('service_type.name')
+                TextColumn::make('service_type.name')
                     ->label('Тип')
                     ->sortable(),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('scope_id')
+                SelectFilter::make('scope_id')
                     ->label('Сфера')
                     ->relationship('scope', 'name'),
-                Tables\Filters\SelectFilter::make('category_id')
+                SelectFilter::make('category_id')
                     ->label('Категория')
                     ->relationship('category', 'name'),
-                Tables\Filters\SelectFilter::make('group_id')
+                SelectFilter::make('group_id')
                     ->label('Группа')
                     ->relationship('group', 'name'),
-                Tables\Filters\SelectFilter::make('yc_category_name')
+                SelectFilter::make('yc_category_name')
                     ->attribute('yc_category_name')
                     ->options(Service::all()->whereNotNull('yc_category_name')->pluck('yc_category_name', 'yc_category_name')->unique())
                     ->label('YC Категория'),
             ])->filtersFormColumns(2)
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
-            ->bulkActions([
+            ->toolbarActions([
             ]);
     }
 
@@ -252,9 +265,9 @@ class ServiceResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListServices::route('/'),
-            'create' => Pages\CreateService::route('/create'),
-            'edit' => Pages\EditService::route('/{record}/edit'),
+            'index' => ListServices::route('/'),
+            'create' => CreateService::route('/create'),
+            'edit' => EditService::route('/{record}/edit'),
         ];
     }
 

@@ -2,6 +2,23 @@
 
 namespace App\Filament\Resources\Good;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Schemas\Components\Grid;
+use Filament\Forms\Components\Toggle;
+use Filament\Schemas\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Actions\Action;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Actions\EditAction;
+use Filament\Actions\BulkActionGroup;
+use App\Filament\Resources\Good\GoodResource\Pages\ListGoods;
+use App\Filament\Resources\Good\GoodResource\Pages\CreateGood;
+use App\Filament\Resources\Good\GoodResource\Pages\EditGood;
 use App\Filament\Resources\Good\GoodResource\Pages;
 use App\Filament\Resources\Good\GoodResource\RelationManagers;
 use App\Models\Good\Good;
@@ -10,13 +27,9 @@ use App\Models\Good\Good_skin_type;
 use App\Models\Good\GoodCategory;
 use App\Models\Good\GoodType;
 use Filament\Forms;
-use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -27,37 +40,37 @@ class GoodResource extends Resource
 {
     protected static ?string $model = Good::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-archive-box';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-archive-box';
 
     protected static ?string $navigationLabel = 'Товары';
-    protected static ?string $navigationGroup = 'Популярное';
+    protected static string | \UnitEnum | null $navigationGroup = 'Популярное';
 
     protected static ?int $navigationSort = 2;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Tabs::make('Tabs')
                     ->tabs([
-                        Tabs\Tab::make('Общее')
+                        Tab::make('Общее')
                             ->schema([
-                                Forms\Components\Grid::make()->schema([
-                                    Forms\Components\TextInput::make('name')
+                                Grid::make()->schema([
+                                    TextInput::make('name')
                                         ->required()
                                         ->label('Название')
                                         ->hintIcon('heroicon-o-question-mark-circle')
                                         ->hintIconTooltip('Название исключительно для сайта')
                                         ->columnSpan(5)
                                         ->maxLength(255),
-                                    Forms\Components\Toggle::make('flg_big_block')
+                                    Toggle::make('flg_big_block')
                                         ->label('Большой блок')
                                         ->inline(false)
                                         ->hintIcon('heroicon-o-question-mark-circle')
                                         ->hintIconTooltip('Если выбрано, то в сетке товаров этот товар будет большим блоком')
                                         ->columnSpan(2)
                                         ->required(),
-                                    Forms\Components\Toggle::make('flg_active')
+                                    Toggle::make('flg_active')
                                         ->label('Есть на сайте')
                                         ->inline(false)
                                         ->columnSpan(1)
@@ -67,7 +80,7 @@ class GoodResource extends Resource
                                 Section::make('Категории товара')->schema([
                                     Repeater::make('good_category_id')
                                         ->simple(
-                                            Forms\Components\Select::make('good_category_id')
+                                            Select::make('good_category_id')
                                                 ->options(GoodCategory::all()->pluck('title', 'id'))
                                                 ->searchable()
                                                 ->dehydrateStateUsing(fn(string $state): string => intval($state))
@@ -89,7 +102,7 @@ class GoodResource extends Resource
                                 Section::make('Типы кожи и волос')->schema([
                                     Repeater::make('skin_type')
                                         ->simple(
-                                            Forms\Components\Select::make('skin_type')
+                                            Select::make('skin_type')
                                                 ->options(Good_skin_type::all()->pluck('title', 'id'))
                                                 ->searchable()
                                                 ->label('Тип кожи'),
@@ -102,7 +115,7 @@ class GoodResource extends Resource
                                     Repeater::make('hair_type')
                                         ->label('Тип волос')
                                         ->simple(
-                                            Forms\Components\Select::make('hair_type')
+                                            Select::make('hair_type')
                                                 ->options(Good_hair_type::all()->pluck('title', 'id'))
                                                 ->searchable()
                                                 ->label('Тип волос'),
@@ -115,50 +128,50 @@ class GoodResource extends Resource
                                 ])->collapsed(),
 
                                 Section::make('Общие тексты')->schema([
-                                    Forms\Components\Grid::make(3)->schema([
-                                        Forms\Components\Select::make('good_type_id')
+                                    Grid::make(3)->schema([
+                                        Select::make('good_type_id')
                                             ->options(GoodType::all()->pluck('title', 'id'))
                                             ->searchable()
                                             ->label('Тип товара'),
-                                        Forms\Components\TextInput::make('promo_text')
+                                        TextInput::make('promo_text')
                                             ->label('Промо-текст')
                                             ->hintIcon('heroicon-o-question-mark-circle')
                                             ->hintIconTooltip('Если заполнен, то у карточки товара появляется бейджик с этим текстом')
                                             ->maxLength(255),
-                                        Forms\Components\TextInput::make('discount')
+                                        TextInput::make('discount')
                                             ->label('Скидка в процентах')
                                             ->numeric()
                                             ->default(0),
                                     ]),
 
-                                    Forms\Components\Grid::make(3)->schema([
-                                        Forms\Components\TextInput::make('brand')
+                                    Grid::make(3)->schema([
+                                        TextInput::make('brand')
                                             ->label('Бренд')
                                             ->maxLength(255),
-                                        Forms\Components\TextInput::make('capacity')
+                                        TextInput::make('capacity')
                                             ->label('Объем')
                                             ->numeric(),
-                                        Forms\Components\TextInput::make('capacity_type')
+                                        TextInput::make('capacity_type')
                                             ->label('Тип измерения объема')
                                             ->maxLength(255),
                                     ]),
 
-                                    Forms\Components\Grid::make(2)->schema([
-                                        Forms\Components\Textarea::make('desc_small')
+                                    Grid::make(2)->schema([
+                                        Textarea::make('desc_small')
                                             ->label('Описание маленькое')
                                             ->required()
                                             ->rows(4),
-                                        Forms\Components\Textarea::make('desc')
+                                        Textarea::make('desc')
                                             ->rows(4)
                                             ->required()
                                             ->label('Описание'),
                                     ]),
-                                    Forms\Components\Grid::make(2)->schema([
-                                        Forms\Components\Textarea::make('usage')
+                                    Grid::make(2)->schema([
+                                        Textarea::make('usage')
                                             ->label('Использование')
                                             ->required()
                                             ->rows(4),
-                                        Forms\Components\Textarea::make('compound')
+                                        Textarea::make('compound')
                                             ->rows(4)
                                             ->required()
                                             ->label('Состав'),
@@ -167,11 +180,11 @@ class GoodResource extends Resource
 
                                 Section::make('Связь с услугами')
                                     ->schema([
-                                        Forms\Components\Grid::make()->schema([
-                                            Forms\Components\Select::make('scope_id')
+                                        Grid::make()->schema([
+                                            Select::make('scope_id')
                                                 ->relationship(name: 'scope', titleAttribute: 'name')
                                                 ->label('Сфера от услуг'),
-                                            Forms\Components\Select::make('category_id')
+                                            Select::make('category_id')
                                                 ->relationship(name: 'category', titleAttribute: 'name')
                                                 ->label('Категория от услуг'),
                                         ])
@@ -192,10 +205,10 @@ class GoodResource extends Resource
                                 ])->collapsed(),
                             ]),
 
-                        Tabs\Tab::make('Yclients')
+                        Tab::make('Yclients')
                             ->label('Получено из YClients')
                             ->schema([
-                                Forms\Components\Grid::make()->schema([
+                                Grid::make()->schema([
                                     Placeholder::make('yc_ids')
                                         ->hintIcon('heroicon-o-question-mark-circle')
                                         ->hintIconTooltip('В каждом салоне свой ID')
@@ -224,9 +237,9 @@ class GoodResource extends Resource
                                 ])
                             ])
                         ,
-                        Tabs\Tab::make('Изображения')
+                        Tab::make('Изображения')
                             ->schema([
-                                Forms\Components\SpatieMediaLibraryFileUpload::make('good_examples')
+                                SpatieMediaLibraryFileUpload::make('good_examples')
                                     ->collection('good_examples')
                                     ->image()
                                     ->multiple()
@@ -248,21 +261,21 @@ class GoodResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')
+                TextColumn::make('id')
                     ->label('ID'),
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->label('Название')
                     ->limit(50)
                     ->tooltip(fn(Good $record): string => $record['name'])
                     ->searchable(),
-                Tables\Columns\TextColumn::make('yc_category')
+                TextColumn::make('yc_category')
                     ->label('Категория из YClients')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('yc_price')
+                TextColumn::make('yc_price')
                     ->numeric()
                     ->label('Цена')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('flg_active')
+                TextColumn::make('flg_active')
                     ->badge()
                     ->getStateUsing(function (Model $record) {
                         return $record['flg_active'] == 1 ? 'Да' : 'Нет';
@@ -273,33 +286,33 @@ class GoodResource extends Resource
                     })
                     ->label('Активно?')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('goodtype.title')
+                TextColumn::make('goodtype.title')
                     ->label('Тип товара')
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('yc_actual_amount_total')
+                TextColumn::make('yc_actual_amount_total')
                     ->tooltip('На всех складах')
                     ->label('Остаток из YClients')
                     ->numeric()
                     ->sortable(),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('yc_category')
+                SelectFilter::make('yc_category')
                     ->options(Good::all()->pluck('yc_category', 'yc_category')->unique())
                     ->multiple()
                     ->searchable()
                     ->label('YC Категория'),
-                Tables\Filters\SelectFilter::make('flg_active')
+                SelectFilter::make('flg_active')
                     ->options(Good::all()->pluck('flg_active', 'flg_active')->unique())
                     ->multiple()
                     ->label('Активно')
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
+            ->toolbarActions([
+                BulkActionGroup::make([
 //                    Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
@@ -315,9 +328,9 @@ class GoodResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListGoods::route('/'),
-            'create' => Pages\CreateGood::route('/create'),
-            'edit' => Pages\EditGood::route('/{record}/edit'),
+            'index' => ListGoods::route('/'),
+            'create' => CreateGood::route('/create'),
+            'edit' => EditGood::route('/{record}/edit'),
         ];
     }
 }

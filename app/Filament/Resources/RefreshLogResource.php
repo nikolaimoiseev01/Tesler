@@ -2,16 +2,20 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Section;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\ViewAction;
+use Filament\Actions\BulkActionGroup;
+use App\Filament\Resources\RefreshLogResource\Pages\ManageRefreshLogs;
 use App\Filament\Resources\RefreshLogResource\Pages;
 use App\Filament\Resources\RefreshLogResource\RelationManagers;
 use App\Models\RefreshLog;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Infolists\Components\Grid;
 use Filament\Infolists\Components\KeyValueEntry;
-use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
-use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -23,17 +27,17 @@ class RefreshLogResource extends Resource
 {
     protected static ?string $model = RefreshLog::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-arrow-path';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-arrow-path';
 
     protected static ?string $navigationLabel = 'История обновлений';
 
-    protected static ?string $navigationGroup = 'Настройки';
+    protected static string | \UnitEnum | null $navigationGroup = 'Настройки';
 
-    public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(Schema $schema): Schema
     {
 
-        return $infolist
-            ->schema([
+        return $schema
+            ->components([
                 Grid::make(3)->schema([
                     TextEntry::make('model')
                         ->label('Модель'),
@@ -91,13 +95,13 @@ class RefreshLogResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('model')
+                TextColumn::make('model')
                     ->label('Модель')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('type')
+                TextColumn::make('type')
                     ->label('Тип')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->label('Дата процесса')
                     ->dateTime()
                     ->sortable(),
@@ -105,12 +109,12 @@ class RefreshLogResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\ViewAction::make(),
+            ->recordActions([
+                ViewAction::make(),
             ])
             ->defaultSort('created_at', 'desc')
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
+            ->toolbarActions([
+                BulkActionGroup::make([
                 ]),
             ]);
     }
@@ -118,7 +122,7 @@ class RefreshLogResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageRefreshLogs::route('/'),
+            'index' => ManageRefreshLogs::route('/'),
         ];
     }
 }

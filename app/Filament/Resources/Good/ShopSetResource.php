@@ -2,6 +2,21 @@
 
 namespace App\Filament\Resources\Good;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Grid;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Actions\Action;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Actions\EditAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Resources\Good\ShopSetResource\Pages\ListShopSets;
+use App\Filament\Resources\Good\ShopSetResource\Pages\CreateShopSet;
+use App\Filament\Resources\Good\ShopSetResource\Pages\EditShopSet;
 use App\Filament\Resources\Good\ShopSetResource\Pages;
 use App\Filament\Resources\Good\ShopSetResource\RelationManagers;
 use App\Models\Good\Good;
@@ -10,9 +25,7 @@ use App\Models\Good\GoodCategory;
 use App\Models\Good\ShopSet;
 use App\Models\Staff;
 use Filament\Forms;
-use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Repeater;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
@@ -26,26 +39,26 @@ class ShopSetResource extends Resource
     protected static ?string $model = ShopSet::class;
 
     protected static ?string $navigationLabel = 'Шопсеты';
-    protected static ?string $navigationGroup = 'Модель товаров';
+    protected static string | \UnitEnum | null $navigationGroup = 'Модель товаров';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Card::make()->schema([
-                    Forms\Components\Grid::make(2)->schema([
-                        Forms\Components\TextInput::make('title')
+        return $schema
+            ->components([
+                Section::make()->schema([
+                    Grid::make(2)->schema([
+                        TextInput::make('title')
                             ->label('Название')
                             ->required()
                             ->maxLength(255),
-                        Forms\Components\Select::make('staff_id')
+                        Select::make('staff_id')
                             ->options(Staff::all()->pluck('yc_name', 'id'))
                             ->searchable()
                             ->label('Сотрудник'),
                     ]),
-                    Forms\Components\SpatieMediaLibraryFileUpload::make('pic_shopset')
+                    SpatieMediaLibraryFileUpload::make('pic_shopset')
                         ->collection('pic_shopset')
                         ->image()
                         ->label('')
@@ -58,10 +71,10 @@ class ShopSetResource extends Resource
                         ->imageResizeTargetWidth('1080')
                         ->imageResizeTargetHeight('1080')
                         ->columnSpan(['lg' => 1]),
-                    Forms\Components\Section::make('Товары в шопсете')->schema([
+                    Section::make('Товары в шопсете')->schema([
                         Repeater::make('goods')
                             ->simple(
-                                Forms\Components\Select::make('good_id')
+                                Select::make('good_id')
                                     ->options(Good::all()->pluck('name', 'id'))
                                     ->searchable()
                                     ->label('Товар'),
@@ -79,24 +92,24 @@ class ShopSetResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')
+                TextColumn::make('id')
                     ->label('ID')
                     ->searchable(),
-                Tables\Columns\ImageColumn::make('pic_shopset')
+                ImageColumn::make('pic_shopset')
                     ->label('Обложка')
                     ->getStateUsing(function (Model $record) {
                         return $record->getFirstMediaUrl('pic_shopset');
                     }),
-                Tables\Columns\TextColumn::make('title')
+                TextColumn::make('title')
                     ->label('Название')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('staff.yc_name')
+                TextColumn::make('staff.yc_name')
                     ->label('Сотрудник')
                     ->getStateUsing(function (Model $record) {
                         return $record->staff['yc_name'] ?? 'Не установлен';
                     })
                     ->sortable(),
-                Tables\Columns\TextColumn::make('goods')
+                TextColumn::make('goods')
                     ->label('Товаров в шопсете')
                     ->getStateUsing(function (Model $record) {
                         $goods_sum = Good::whereIn('id', $record['goods'] ?? [])->sum('yc_price');
@@ -108,12 +121,12 @@ class ShopSetResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -128,9 +141,9 @@ class ShopSetResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListShopSets::route('/'),
-            'create' => Pages\CreateShopSet::route('/create'),
-            'edit' => Pages\EditShopSet::route('/{record}/edit'),
+            'index' => ListShopSets::route('/'),
+            'create' => CreateShopSet::route('/create'),
+            'edit' => EditShopSet::route('/{record}/edit'),
         ];
     }
 }

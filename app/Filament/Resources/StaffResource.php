@@ -2,18 +2,34 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Schemas\Components\Grid;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Schemas\Components\Section;
+use Filament\Actions\Action;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Actions\EditAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Resources\StaffResource\Pages\ListStaff;
+use App\Filament\Resources\StaffResource\Pages\CreateStaff;
+use App\Filament\Resources\StaffResource\Pages\EditStaff;
 use App\Filament\Resources\StaffResource\Pages;
 use App\Filament\Resources\StaffResource\RelationManagers;
 use App\Models\Good\Good;
 use App\Models\Good\ShopSet;
 use App\Models\Staff;
 use Filament\Forms;
-use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Tabs;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\ImageColumn;
@@ -24,42 +40,42 @@ class StaffResource extends Resource
 {
     protected static ?string $model = Staff::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-user-group';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-user-group';
 
     protected static ?string $navigationLabel = 'Сотрудники';
 
-    protected static ?string $navigationGroup = 'Настройки';
+    protected static string | \UnitEnum | null $navigationGroup = 'Настройки';
 
     protected static ?int $navigationSort = 4;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Tabs::make('Tabs')
                     ->tabs([
-                        Tabs\Tab::make('Общее')
+                        Tab::make('Общее')
                             ->schema([
-                                Forms\Components\Grid::make(2)->schema([
-                                    Forms\Components\Textarea::make('desc_small')
+                                Grid::make(2)->schema([
+                                    Textarea::make('desc_small')
                                         ->label('Описание маленькое')
                                         ->required()
                                         ->hintIcon('heroicon-o-question-mark-circle')
                                         ->hintIconTooltip('Небольшое описание в шапке страницы сотрудника')
                                         ->rows(4)->columnSpan(1),
-                                    Forms\Components\Textarea::make('desc')
+                                    Textarea::make('desc')
                                         ->rows(4)
                                         ->required()
                                         ->hintIcon('heroicon-o-question-mark-circle')
                                         ->hintIconTooltip('Чуть более подробное описание в первом блоке сразу после шапки')
                                         ->label('Описание')->columnSpan(1),
-                                    Forms\Components\Grid::make(1)->schema([
-                                        Forms\Components\Toggle::make('flg_active')
+                                    Grid::make(1)->schema([
+                                        Toggle::make('flg_active')
                                             ->label('Есть на сайте')
                                             ->inline(false)
                                             ->columnSpan(1)
                                             ->required(),
-                                        Forms\Components\TextInput::make('experience')
+                                        TextInput::make('experience')
                                             ->required()
                                             ->label('Опыт')
                                             ->maxLength(255)
@@ -84,7 +100,7 @@ class StaffResource extends Resource
 //                                        ->required()
 //                                ]),
                             ]),
-                        Tabs\Tab::make('Получено от YClients')
+                        Tab::make('Получено от YClients')
                             ->schema([
                                 Placeholder::make('Название')
                                     ->label('YD ID')
@@ -98,9 +114,9 @@ class StaffResource extends Resource
                                 Placeholder::make('Название')
                                     ->content(fn(Staff $record): string => $record['yc_position']),
                             ]),
-                        Tabs\Tab::make('Примеры мастера')
+                        Tab::make('Примеры мастера')
                             ->schema([
-                                Forms\Components\SpatieMediaLibraryFileUpload::make('examples')
+                                SpatieMediaLibraryFileUpload::make('examples')
                                     ->collection('staff_examples')
                                     ->image()
                                     ->multiple()
@@ -113,8 +129,8 @@ class StaffResource extends Resource
                                     ->imageCropAspectRatio('11:16')
                                     ->columnSpan(['lg' => 1]),
                             ]),
-                        Tabs\Tab::make('Коллеги мастера')->schema([
-                            Forms\Components\Card::make([
+                        Tab::make('Коллеги мастера')->schema([
+                            Section::make([
                                 Repeater::make('collegues')
                                     ->simple(
                                         Select::make('staff_id')
@@ -138,56 +154,56 @@ class StaffResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('yc_id')
+                TextColumn::make('yc_id')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('id')
+                TextColumn::make('id')
                     ->label('ID')
                     ->sortable(),
                 ImageColumn::make('yc_avatar')
                     ->label('Аватар')
                     ->circular(),
-                Tables\Columns\TextColumn::make('yc_name')
+                TextColumn::make('yc_name')
                     ->label('Имя')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('yc_specialization')
+                TextColumn::make('yc_specialization')
                     ->label('Специализация YC')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('yc_position')
+                TextColumn::make('yc_position')
                     ->sortable()
                     ->label('Позиция YC')
                     ->searchable(),
-                Tables\Columns\ToggleColumn::make('flg_active')
+                ToggleColumn::make('flg_active')
                     ->sortable()
                     ->label('Есть на сайте?')
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('yc_name')
+                SelectFilter::make('yc_name')
                     ->options(Staff::all()->pluck('yc_name', 'id')->unique())
                     ->multiple()
                     ->searchable()
                     ->attribute('id')
                     ->label('Имя'),
 
-                Tables\Filters\SelectFilter::make('yc_specialization')
+                SelectFilter::make('yc_specialization')
                     ->options(Staff::all()->pluck('yc_specialization', 'id')->unique())
                     ->multiple()
                     ->searchable()
                     ->label('Специализация YC'),
-                Tables\Filters\SelectFilter::make('yc_position')
+                SelectFilter::make('yc_position')
                     ->options(Staff::all()->pluck('yc_position', 'id')->unique())
                     ->multiple()
                     ->searchable()
                     ->label('Позиция YC'),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -202,9 +218,9 @@ class StaffResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListStaff::route('/'),
-            'create' => Pages\CreateStaff::route('/create'),
-            'edit' => Pages\EditStaff::route('/{record}/edit'),
+            'index' => ListStaff::route('/'),
+            'create' => CreateStaff::route('/create'),
+            'edit' => EditStaff::route('/{record}/edit'),
         ];
     }
 }
